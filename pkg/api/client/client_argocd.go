@@ -28,6 +28,15 @@ func (c *argoCDV1Client) setGatewayClient(gwc gwclient.Client) {
 	c.gwc = gwc
 }
 
+func (c *argoCDV1Client) ListInstanceVersions(
+	ctx context.Context,
+	req *argocdv1.ListInstanceVersionsRequest,
+	_ ...grpc.CallOption,
+) (*argocdv1.ListInstanceVersionsResponse, error) {
+	gwReq := c.gwc.NewRequest(http.MethodGet, "/api/v1/argocd/versions")
+	return gwclient.DoRequest[argocdv1.ListInstanceVersionsResponse](ctx, gwReq)
+}
+
 func (c *argoCDV1Client) ListOrganizationInstances(
 	ctx context.Context,
 	req *argocdv1.ListOrganizationInstancesRequest,

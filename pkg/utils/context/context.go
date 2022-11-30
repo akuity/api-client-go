@@ -34,5 +34,6 @@ func Set[T any](ctx context.Context, k string, v T) context.Context {
 		gc.Set(k, v)
 		return ctx
 	}
+	//nolint:staticcheck
 	return context.WithValue(ctx, k, v)
 }

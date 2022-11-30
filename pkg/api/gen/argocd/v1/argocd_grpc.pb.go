@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ArgoCDServiceClient interface {
+	ListInstanceVersions(ctx context.Context, in *ListInstanceVersionsRequest, opts ...grpc.CallOption) (*ListInstanceVersionsResponse, error)
 	ListOrganizationInstances(ctx context.Context, in *ListOrganizationInstancesRequest, opts ...grpc.CallOption) (*ListOrganizationInstancesResponse, error)
 	CreateOrganizationInstance(ctx context.Context, in *CreateOrganizationInstanceRequest, opts ...grpc.CallOption) (*CreateOrganizationInstanceResponse, error)
 	GetOrganizationInstance(ctx context.Context, in *GetOrganizationInstanceRequest, opts ...grpc.CallOption) (*GetOrganizationInstanceResponse, error)
@@ -38,6 +39,15 @@ type argoCDServiceClient struct {
 
 func NewArgoCDServiceClient(cc grpc.ClientConnInterface) ArgoCDServiceClient {
 	return &argoCDServiceClient{cc}
+}
+
+func (c *argoCDServiceClient) ListInstanceVersions(ctx context.Context, in *ListInstanceVersionsRequest, opts ...grpc.CallOption) (*ListInstanceVersionsResponse, error) {
+	out := new(ListInstanceVersionsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ListInstanceVersions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *argoCDServiceClient) ListOrganizationInstances(ctx context.Context, in *ListOrganizationInstancesRequest, opts ...grpc.CallOption) (*ListOrganizationInstancesResponse, error) {
@@ -152,6 +162,7 @@ func (c *argoCDServiceClient) DeleteOrganizationInstanceCluster(ctx context.Cont
 // All implementations must embed UnimplementedArgoCDServiceServer
 // for forward compatibility
 type ArgoCDServiceServer interface {
+	ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error)
 	ListOrganizationInstances(context.Context, *ListOrganizationInstancesRequest) (*ListOrganizationInstancesResponse, error)
 	CreateOrganizationInstance(context.Context, *CreateOrganizationInstanceRequest) (*CreateOrganizationInstanceResponse, error)
 	GetOrganizationInstance(context.Context, *GetOrganizationInstanceRequest) (*GetOrganizationInstanceResponse, error)
@@ -171,6 +182,9 @@ type ArgoCDServiceServer interface {
 type UnimplementedArgoCDServiceServer struct {
 }
 
+func (UnimplementedArgoCDServiceServer) ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceVersions not implemented")
+}
 func (UnimplementedArgoCDServiceServer) ListOrganizationInstances(context.Context, *ListOrganizationInstancesRequest) (*ListOrganizationInstancesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationInstances not implemented")
 }
@@ -218,6 +232,24 @@ type UnsafeArgoCDServiceServer interface {
 
 func RegisterArgoCDServiceServer(s grpc.ServiceRegistrar, srv ArgoCDServiceServer) {
 	s.RegisterService(&ArgoCDService_ServiceDesc, srv)
+}
+
+func _ArgoCDService_ListInstanceVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstanceVersionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ListInstanceVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/ListInstanceVersions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ListInstanceVersions(ctx, req.(*ListInstanceVersionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ArgoCDService_ListOrganizationInstances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -443,6 +475,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "akuity.argocd.v1.ArgoCDService",
 	HandlerType: (*ArgoCDServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ListInstanceVersions",
+			Handler:    _ArgoCDService_ListInstanceVersions_Handler,
+		},
 		{
 			MethodName: "ListOrganizationInstances",
 			Handler:    _ArgoCDService_ListOrganizationInstances_Handler,
