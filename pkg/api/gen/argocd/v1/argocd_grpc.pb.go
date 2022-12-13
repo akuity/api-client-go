@@ -19,18 +19,25 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ArgoCDServiceClient interface {
 	ListInstanceVersions(ctx context.Context, in *ListInstanceVersionsRequest, opts ...grpc.CallOption) (*ListInstanceVersionsResponse, error)
-	ListOrganizationInstances(ctx context.Context, in *ListOrganizationInstancesRequest, opts ...grpc.CallOption) (*ListOrganizationInstancesResponse, error)
-	CreateOrganizationInstance(ctx context.Context, in *CreateOrganizationInstanceRequest, opts ...grpc.CallOption) (*CreateOrganizationInstanceResponse, error)
-	GetOrganizationInstance(ctx context.Context, in *GetOrganizationInstanceRequest, opts ...grpc.CallOption) (*GetOrganizationInstanceResponse, error)
-	PatchOrganizationInstance(ctx context.Context, in *PatchOrganizationInstanceRequest, opts ...grpc.CallOption) (*PatchOrganizationInstanceResponse, error)
-	UpdateOrganizationInstance(ctx context.Context, in *UpdateOrganizationInstanceRequest, opts ...grpc.CallOption) (*UpdateOrganizationInstanceResponse, error)
-	DeleteOrganizationInstance(ctx context.Context, in *DeleteOrganizationInstanceRequest, opts ...grpc.CallOption) (*DeleteOrganizationInstanceResponse, error)
-	ListOrganizationInstanceClusters(ctx context.Context, in *ListOrganizationInstanceClustersRequest, opts ...grpc.CallOption) (*ListOrganizationInstanceClustersResponse, error)
-	CreateOrganizationInstanceCluster(ctx context.Context, in *CreateOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*CreateOrganizationInstanceClusterResponse, error)
-	GetOrganizationInstanceCluster(ctx context.Context, in *GetOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*GetOrganizationInstanceClusterResponse, error)
-	GetOrganizationInstanceClusterManifests(ctx context.Context, in *GetOrganizationInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*GetOrganizationInstanceClusterManifestsResponse, error)
-	UpdateOrganizationInstanceCluster(ctx context.Context, in *UpdateOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateOrganizationInstanceClusterResponse, error)
-	DeleteOrganizationInstanceCluster(ctx context.Context, in *DeleteOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteOrganizationInstanceClusterResponse, error)
+	ListInstances(ctx context.Context, in *ListInstancesRequest, opts ...grpc.CallOption) (*ListInstancesResponse, error)
+	WatchInstances(ctx context.Context, in *WatchInstancesRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstancesClient, error)
+	CreateInstance(ctx context.Context, in *CreateInstanceRequest, opts ...grpc.CallOption) (*CreateInstanceResponse, error)
+	GetInstance(ctx context.Context, in *GetInstanceRequest, opts ...grpc.CallOption) (*GetInstanceResponse, error)
+	PatchInstance(ctx context.Context, in *PatchInstanceRequest, opts ...grpc.CallOption) (*PatchInstanceResponse, error)
+	UpdateInstance(ctx context.Context, in *UpdateInstanceRequest, opts ...grpc.CallOption) (*UpdateInstanceResponse, error)
+	DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error)
+	ListInstanceAccounts(ctx context.Context, in *ListInstanceAccountsRequest, opts ...grpc.CallOption) (*ListInstanceAccountsResponse, error)
+	UpsertInstanceAccount(ctx context.Context, in *UpsertInstanceAccountRequest, opts ...grpc.CallOption) (*UpsertInstanceAccountResponse, error)
+	UpdateInstanceAccountPassword(ctx context.Context, in *UpdateInstanceAccountPasswordRequest, opts ...grpc.CallOption) (*UpdateInstanceAccountPasswordResponse, error)
+	RegenerateInstanceAccountPassword(ctx context.Context, in *RegenerateInstanceAccountPasswordRequest, opts ...grpc.CallOption) (*RegenerateInstanceAccountPasswordResponse, error)
+	DeleteInstanceAccount(ctx context.Context, in *DeleteInstanceAccountRequest, opts ...grpc.CallOption) (*DeleteInstanceAccountResponse, error)
+	ListInstanceClusters(ctx context.Context, in *ListInstanceClustersRequest, opts ...grpc.CallOption) (*ListInstanceClustersResponse, error)
+	WatchInstanceClusters(ctx context.Context, in *WatchInstanceClustersRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceClustersClient, error)
+	CreateInstanceCluster(ctx context.Context, in *CreateInstanceClusterRequest, opts ...grpc.CallOption) (*CreateInstanceClusterResponse, error)
+	GetInstanceCluster(ctx context.Context, in *GetInstanceClusterRequest, opts ...grpc.CallOption) (*GetInstanceClusterResponse, error)
+	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*GetInstanceClusterManifestsResponse, error)
+	UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error)
+	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
 }
 
 type argoCDServiceClient struct {
@@ -50,108 +57,217 @@ func (c *argoCDServiceClient) ListInstanceVersions(ctx context.Context, in *List
 	return out, nil
 }
 
-func (c *argoCDServiceClient) ListOrganizationInstances(ctx context.Context, in *ListOrganizationInstancesRequest, opts ...grpc.CallOption) (*ListOrganizationInstancesResponse, error) {
-	out := new(ListOrganizationInstancesResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ListOrganizationInstances", in, out, opts...)
+func (c *argoCDServiceClient) ListInstances(ctx context.Context, in *ListInstancesRequest, opts ...grpc.CallOption) (*ListInstancesResponse, error) {
+	out := new(ListInstancesResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ListInstances", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) CreateOrganizationInstance(ctx context.Context, in *CreateOrganizationInstanceRequest, opts ...grpc.CallOption) (*CreateOrganizationInstanceResponse, error) {
-	out := new(CreateOrganizationInstanceResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/CreateOrganizationInstance", in, out, opts...)
+func (c *argoCDServiceClient) WatchInstances(ctx context.Context, in *WatchInstancesRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstancesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[0], "/akuity.argocd.v1.ArgoCDService/WatchInstances", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &argoCDServiceWatchInstancesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_WatchInstancesClient interface {
+	Recv() (*WatchInstancesResponse, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceWatchInstancesClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceWatchInstancesClient) Recv() (*WatchInstancesResponse, error) {
+	m := new(WatchInstancesResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *argoCDServiceClient) CreateInstance(ctx context.Context, in *CreateInstanceRequest, opts ...grpc.CallOption) (*CreateInstanceResponse, error) {
+	out := new(CreateInstanceResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/CreateInstance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) GetOrganizationInstance(ctx context.Context, in *GetOrganizationInstanceRequest, opts ...grpc.CallOption) (*GetOrganizationInstanceResponse, error) {
-	out := new(GetOrganizationInstanceResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetOrganizationInstance", in, out, opts...)
+func (c *argoCDServiceClient) GetInstance(ctx context.Context, in *GetInstanceRequest, opts ...grpc.CallOption) (*GetInstanceResponse, error) {
+	out := new(GetInstanceResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) PatchOrganizationInstance(ctx context.Context, in *PatchOrganizationInstanceRequest, opts ...grpc.CallOption) (*PatchOrganizationInstanceResponse, error) {
-	out := new(PatchOrganizationInstanceResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchOrganizationInstance", in, out, opts...)
+func (c *argoCDServiceClient) PatchInstance(ctx context.Context, in *PatchInstanceRequest, opts ...grpc.CallOption) (*PatchInstanceResponse, error) {
+	out := new(PatchInstanceResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchInstance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) UpdateOrganizationInstance(ctx context.Context, in *UpdateOrganizationInstanceRequest, opts ...grpc.CallOption) (*UpdateOrganizationInstanceResponse, error) {
-	out := new(UpdateOrganizationInstanceResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateOrganizationInstance", in, out, opts...)
+func (c *argoCDServiceClient) UpdateInstance(ctx context.Context, in *UpdateInstanceRequest, opts ...grpc.CallOption) (*UpdateInstanceResponse, error) {
+	out := new(UpdateInstanceResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) DeleteOrganizationInstance(ctx context.Context, in *DeleteOrganizationInstanceRequest, opts ...grpc.CallOption) (*DeleteOrganizationInstanceResponse, error) {
-	out := new(DeleteOrganizationInstanceResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/DeleteOrganizationInstance", in, out, opts...)
+func (c *argoCDServiceClient) DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error) {
+	out := new(DeleteInstanceResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/DeleteInstance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) ListOrganizationInstanceClusters(ctx context.Context, in *ListOrganizationInstanceClustersRequest, opts ...grpc.CallOption) (*ListOrganizationInstanceClustersResponse, error) {
-	out := new(ListOrganizationInstanceClustersResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ListOrganizationInstanceClusters", in, out, opts...)
+func (c *argoCDServiceClient) ListInstanceAccounts(ctx context.Context, in *ListInstanceAccountsRequest, opts ...grpc.CallOption) (*ListInstanceAccountsResponse, error) {
+	out := new(ListInstanceAccountsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ListInstanceAccounts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) CreateOrganizationInstanceCluster(ctx context.Context, in *CreateOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*CreateOrganizationInstanceClusterResponse, error) {
-	out := new(CreateOrganizationInstanceClusterResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/CreateOrganizationInstanceCluster", in, out, opts...)
+func (c *argoCDServiceClient) UpsertInstanceAccount(ctx context.Context, in *UpsertInstanceAccountRequest, opts ...grpc.CallOption) (*UpsertInstanceAccountResponse, error) {
+	out := new(UpsertInstanceAccountResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpsertInstanceAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) GetOrganizationInstanceCluster(ctx context.Context, in *GetOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*GetOrganizationInstanceClusterResponse, error) {
-	out := new(GetOrganizationInstanceClusterResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetOrganizationInstanceCluster", in, out, opts...)
+func (c *argoCDServiceClient) UpdateInstanceAccountPassword(ctx context.Context, in *UpdateInstanceAccountPasswordRequest, opts ...grpc.CallOption) (*UpdateInstanceAccountPasswordResponse, error) {
+	out := new(UpdateInstanceAccountPasswordResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceAccountPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) GetOrganizationInstanceClusterManifests(ctx context.Context, in *GetOrganizationInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*GetOrganizationInstanceClusterManifestsResponse, error) {
-	out := new(GetOrganizationInstanceClusterManifestsResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetOrganizationInstanceClusterManifests", in, out, opts...)
+func (c *argoCDServiceClient) RegenerateInstanceAccountPassword(ctx context.Context, in *RegenerateInstanceAccountPasswordRequest, opts ...grpc.CallOption) (*RegenerateInstanceAccountPasswordResponse, error) {
+	out := new(RegenerateInstanceAccountPasswordResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/RegenerateInstanceAccountPassword", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) UpdateOrganizationInstanceCluster(ctx context.Context, in *UpdateOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateOrganizationInstanceClusterResponse, error) {
-	out := new(UpdateOrganizationInstanceClusterResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateOrganizationInstanceCluster", in, out, opts...)
+func (c *argoCDServiceClient) DeleteInstanceAccount(ctx context.Context, in *DeleteInstanceAccountRequest, opts ...grpc.CallOption) (*DeleteInstanceAccountResponse, error) {
+	out := new(DeleteInstanceAccountResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/DeleteInstanceAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *argoCDServiceClient) DeleteOrganizationInstanceCluster(ctx context.Context, in *DeleteOrganizationInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteOrganizationInstanceClusterResponse, error) {
-	out := new(DeleteOrganizationInstanceClusterResponse)
-	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/DeleteOrganizationInstanceCluster", in, out, opts...)
+func (c *argoCDServiceClient) ListInstanceClusters(ctx context.Context, in *ListInstanceClustersRequest, opts ...grpc.CallOption) (*ListInstanceClustersResponse, error) {
+	out := new(ListInstanceClustersResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ListInstanceClusters", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) WatchInstanceClusters(ctx context.Context, in *WatchInstanceClustersRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceClustersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[1], "/akuity.argocd.v1.ArgoCDService/WatchInstanceClusters", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &argoCDServiceWatchInstanceClustersClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_WatchInstanceClustersClient interface {
+	Recv() (*WatchInstanceClustersResponse, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceWatchInstanceClustersClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceWatchInstanceClustersClient) Recv() (*WatchInstanceClustersResponse, error) {
+	m := new(WatchInstanceClustersResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *argoCDServiceClient) CreateInstanceCluster(ctx context.Context, in *CreateInstanceClusterRequest, opts ...grpc.CallOption) (*CreateInstanceClusterResponse, error) {
+	out := new(CreateInstanceClusterResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/CreateInstanceCluster", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceCluster(ctx context.Context, in *GetInstanceClusterRequest, opts ...grpc.CallOption) (*GetInstanceClusterResponse, error) {
+	out := new(GetInstanceClusterResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceCluster", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*GetInstanceClusterManifestsResponse, error) {
+	out := new(GetInstanceClusterManifestsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterManifests", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error) {
+	out := new(UpdateInstanceClusterResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCluster", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error) {
+	out := new(DeleteInstanceClusterResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/DeleteInstanceCluster", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -163,18 +279,25 @@ func (c *argoCDServiceClient) DeleteOrganizationInstanceCluster(ctx context.Cont
 // for forward compatibility
 type ArgoCDServiceServer interface {
 	ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error)
-	ListOrganizationInstances(context.Context, *ListOrganizationInstancesRequest) (*ListOrganizationInstancesResponse, error)
-	CreateOrganizationInstance(context.Context, *CreateOrganizationInstanceRequest) (*CreateOrganizationInstanceResponse, error)
-	GetOrganizationInstance(context.Context, *GetOrganizationInstanceRequest) (*GetOrganizationInstanceResponse, error)
-	PatchOrganizationInstance(context.Context, *PatchOrganizationInstanceRequest) (*PatchOrganizationInstanceResponse, error)
-	UpdateOrganizationInstance(context.Context, *UpdateOrganizationInstanceRequest) (*UpdateOrganizationInstanceResponse, error)
-	DeleteOrganizationInstance(context.Context, *DeleteOrganizationInstanceRequest) (*DeleteOrganizationInstanceResponse, error)
-	ListOrganizationInstanceClusters(context.Context, *ListOrganizationInstanceClustersRequest) (*ListOrganizationInstanceClustersResponse, error)
-	CreateOrganizationInstanceCluster(context.Context, *CreateOrganizationInstanceClusterRequest) (*CreateOrganizationInstanceClusterResponse, error)
-	GetOrganizationInstanceCluster(context.Context, *GetOrganizationInstanceClusterRequest) (*GetOrganizationInstanceClusterResponse, error)
-	GetOrganizationInstanceClusterManifests(context.Context, *GetOrganizationInstanceClusterManifestsRequest) (*GetOrganizationInstanceClusterManifestsResponse, error)
-	UpdateOrganizationInstanceCluster(context.Context, *UpdateOrganizationInstanceClusterRequest) (*UpdateOrganizationInstanceClusterResponse, error)
-	DeleteOrganizationInstanceCluster(context.Context, *DeleteOrganizationInstanceClusterRequest) (*DeleteOrganizationInstanceClusterResponse, error)
+	ListInstances(context.Context, *ListInstancesRequest) (*ListInstancesResponse, error)
+	WatchInstances(*WatchInstancesRequest, ArgoCDService_WatchInstancesServer) error
+	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
+	GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error)
+	PatchInstance(context.Context, *PatchInstanceRequest) (*PatchInstanceResponse, error)
+	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
+	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
+	ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error)
+	UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error)
+	UpdateInstanceAccountPassword(context.Context, *UpdateInstanceAccountPasswordRequest) (*UpdateInstanceAccountPasswordResponse, error)
+	RegenerateInstanceAccountPassword(context.Context, *RegenerateInstanceAccountPasswordRequest) (*RegenerateInstanceAccountPasswordResponse, error)
+	DeleteInstanceAccount(context.Context, *DeleteInstanceAccountRequest) (*DeleteInstanceAccountResponse, error)
+	ListInstanceClusters(context.Context, *ListInstanceClustersRequest) (*ListInstanceClustersResponse, error)
+	WatchInstanceClusters(*WatchInstanceClustersRequest, ArgoCDService_WatchInstanceClustersServer) error
+	CreateInstanceCluster(context.Context, *CreateInstanceClusterRequest) (*CreateInstanceClusterResponse, error)
+	GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error)
+	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*GetInstanceClusterManifestsResponse, error)
+	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
+	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
 
@@ -185,41 +308,62 @@ type UnimplementedArgoCDServiceServer struct {
 func (UnimplementedArgoCDServiceServer) ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceVersions not implemented")
 }
-func (UnimplementedArgoCDServiceServer) ListOrganizationInstances(context.Context, *ListOrganizationInstancesRequest) (*ListOrganizationInstancesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationInstances not implemented")
+func (UnimplementedArgoCDServiceServer) ListInstances(context.Context, *ListInstancesRequest) (*ListInstancesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstances not implemented")
 }
-func (UnimplementedArgoCDServiceServer) CreateOrganizationInstance(context.Context, *CreateOrganizationInstanceRequest) (*CreateOrganizationInstanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganizationInstance not implemented")
+func (UnimplementedArgoCDServiceServer) WatchInstances(*WatchInstancesRequest, ArgoCDService_WatchInstancesServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchInstances not implemented")
 }
-func (UnimplementedArgoCDServiceServer) GetOrganizationInstance(context.Context, *GetOrganizationInstanceRequest) (*GetOrganizationInstanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationInstance not implemented")
+func (UnimplementedArgoCDServiceServer) CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateInstance not implemented")
 }
-func (UnimplementedArgoCDServiceServer) PatchOrganizationInstance(context.Context, *PatchOrganizationInstanceRequest) (*PatchOrganizationInstanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PatchOrganizationInstance not implemented")
+func (UnimplementedArgoCDServiceServer) GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstance not implemented")
 }
-func (UnimplementedArgoCDServiceServer) UpdateOrganizationInstance(context.Context, *UpdateOrganizationInstanceRequest) (*UpdateOrganizationInstanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrganizationInstance not implemented")
+func (UnimplementedArgoCDServiceServer) PatchInstance(context.Context, *PatchInstanceRequest) (*PatchInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchInstance not implemented")
 }
-func (UnimplementedArgoCDServiceServer) DeleteOrganizationInstance(context.Context, *DeleteOrganizationInstanceRequest) (*DeleteOrganizationInstanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrganizationInstance not implemented")
+func (UnimplementedArgoCDServiceServer) UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstance not implemented")
 }
-func (UnimplementedArgoCDServiceServer) ListOrganizationInstanceClusters(context.Context, *ListOrganizationInstanceClustersRequest) (*ListOrganizationInstanceClustersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationInstanceClusters not implemented")
+func (UnimplementedArgoCDServiceServer) DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstance not implemented")
 }
-func (UnimplementedArgoCDServiceServer) CreateOrganizationInstanceCluster(context.Context, *CreateOrganizationInstanceClusterRequest) (*CreateOrganizationInstanceClusterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganizationInstanceCluster not implemented")
+func (UnimplementedArgoCDServiceServer) ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceAccounts not implemented")
 }
-func (UnimplementedArgoCDServiceServer) GetOrganizationInstanceCluster(context.Context, *GetOrganizationInstanceClusterRequest) (*GetOrganizationInstanceClusterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationInstanceCluster not implemented")
+func (UnimplementedArgoCDServiceServer) UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpsertInstanceAccount not implemented")
 }
-func (UnimplementedArgoCDServiceServer) GetOrganizationInstanceClusterManifests(context.Context, *GetOrganizationInstanceClusterManifestsRequest) (*GetOrganizationInstanceClusterManifestsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationInstanceClusterManifests not implemented")
+func (UnimplementedArgoCDServiceServer) UpdateInstanceAccountPassword(context.Context, *UpdateInstanceAccountPasswordRequest) (*UpdateInstanceAccountPasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceAccountPassword not implemented")
 }
-func (UnimplementedArgoCDServiceServer) UpdateOrganizationInstanceCluster(context.Context, *UpdateOrganizationInstanceClusterRequest) (*UpdateOrganizationInstanceClusterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrganizationInstanceCluster not implemented")
+func (UnimplementedArgoCDServiceServer) RegenerateInstanceAccountPassword(context.Context, *RegenerateInstanceAccountPasswordRequest) (*RegenerateInstanceAccountPasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegenerateInstanceAccountPassword not implemented")
 }
-func (UnimplementedArgoCDServiceServer) DeleteOrganizationInstanceCluster(context.Context, *DeleteOrganizationInstanceClusterRequest) (*DeleteOrganizationInstanceClusterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrganizationInstanceCluster not implemented")
+func (UnimplementedArgoCDServiceServer) DeleteInstanceAccount(context.Context, *DeleteInstanceAccountRequest) (*DeleteInstanceAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceAccount not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ListInstanceClusters(context.Context, *ListInstanceClustersRequest) (*ListInstanceClustersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceClusters not implemented")
+}
+func (UnimplementedArgoCDServiceServer) WatchInstanceClusters(*WatchInstanceClustersRequest, ArgoCDService_WatchInstanceClustersServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchInstanceClusters not implemented")
+}
+func (UnimplementedArgoCDServiceServer) CreateInstanceCluster(context.Context, *CreateInstanceClusterRequest) (*CreateInstanceClusterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*GetInstanceClusterManifestsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceClusterManifests not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceCluster not implemented")
 }
 func (UnimplementedArgoCDServiceServer) mustEmbedUnimplementedArgoCDServiceServer() {}
 
@@ -252,218 +396,350 @@ func _ArgoCDService_ListInstanceVersions_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_ListOrganizationInstances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListOrganizationInstancesRequest)
+func _ArgoCDService_ListInstances_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstancesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).ListOrganizationInstances(ctx, in)
+		return srv.(ArgoCDServiceServer).ListInstances(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/ListOrganizationInstances",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/ListInstances",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).ListOrganizationInstances(ctx, req.(*ListOrganizationInstancesRequest))
+		return srv.(ArgoCDServiceServer).ListInstances(ctx, req.(*ListInstancesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_CreateOrganizationInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateOrganizationInstanceRequest)
+func _ArgoCDService_WatchInstances_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchInstancesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArgoCDServiceServer).WatchInstances(m, &argoCDServiceWatchInstancesServer{stream})
+}
+
+type ArgoCDService_WatchInstancesServer interface {
+	Send(*WatchInstancesResponse) error
+	grpc.ServerStream
+}
+
+type argoCDServiceWatchInstancesServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceWatchInstancesServer) Send(m *WatchInstancesResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ArgoCDService_CreateInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateInstanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).CreateOrganizationInstance(ctx, in)
+		return srv.(ArgoCDServiceServer).CreateInstance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/CreateOrganizationInstance",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/CreateInstance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).CreateOrganizationInstance(ctx, req.(*CreateOrganizationInstanceRequest))
+		return srv.(ArgoCDServiceServer).CreateInstance(ctx, req.(*CreateInstanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_GetOrganizationInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetOrganizationInstanceRequest)
+func _ArgoCDService_GetInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).GetOrganizationInstance(ctx, in)
+		return srv.(ArgoCDServiceServer).GetInstance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetOrganizationInstance",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).GetOrganizationInstance(ctx, req.(*GetOrganizationInstanceRequest))
+		return srv.(ArgoCDServiceServer).GetInstance(ctx, req.(*GetInstanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_PatchOrganizationInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PatchOrganizationInstanceRequest)
+func _ArgoCDService_PatchInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchInstanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).PatchOrganizationInstance(ctx, in)
+		return srv.(ArgoCDServiceServer).PatchInstance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/PatchOrganizationInstance",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/PatchInstance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).PatchOrganizationInstance(ctx, req.(*PatchOrganizationInstanceRequest))
+		return srv.(ArgoCDServiceServer).PatchInstance(ctx, req.(*PatchInstanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_UpdateOrganizationInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateOrganizationInstanceRequest)
+func _ArgoCDService_UpdateInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).UpdateOrganizationInstance(ctx, in)
+		return srv.(ArgoCDServiceServer).UpdateInstance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateOrganizationInstance",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).UpdateOrganizationInstance(ctx, req.(*UpdateOrganizationInstanceRequest))
+		return srv.(ArgoCDServiceServer).UpdateInstance(ctx, req.(*UpdateInstanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_DeleteOrganizationInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteOrganizationInstanceRequest)
+func _ArgoCDService_DeleteInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteInstanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).DeleteOrganizationInstance(ctx, in)
+		return srv.(ArgoCDServiceServer).DeleteInstance(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/DeleteOrganizationInstance",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/DeleteInstance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).DeleteOrganizationInstance(ctx, req.(*DeleteOrganizationInstanceRequest))
+		return srv.(ArgoCDServiceServer).DeleteInstance(ctx, req.(*DeleteInstanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_ListOrganizationInstanceClusters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListOrganizationInstanceClustersRequest)
+func _ArgoCDService_ListInstanceAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstanceAccountsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).ListOrganizationInstanceClusters(ctx, in)
+		return srv.(ArgoCDServiceServer).ListInstanceAccounts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/ListOrganizationInstanceClusters",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/ListInstanceAccounts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).ListOrganizationInstanceClusters(ctx, req.(*ListOrganizationInstanceClustersRequest))
+		return srv.(ArgoCDServiceServer).ListInstanceAccounts(ctx, req.(*ListInstanceAccountsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_CreateOrganizationInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateOrganizationInstanceClusterRequest)
+func _ArgoCDService_UpsertInstanceAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpsertInstanceAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).CreateOrganizationInstanceCluster(ctx, in)
+		return srv.(ArgoCDServiceServer).UpsertInstanceAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/CreateOrganizationInstanceCluster",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpsertInstanceAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).CreateOrganizationInstanceCluster(ctx, req.(*CreateOrganizationInstanceClusterRequest))
+		return srv.(ArgoCDServiceServer).UpsertInstanceAccount(ctx, req.(*UpsertInstanceAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_GetOrganizationInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetOrganizationInstanceClusterRequest)
+func _ArgoCDService_UpdateInstanceAccountPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceAccountPasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).GetOrganizationInstanceCluster(ctx, in)
+		return srv.(ArgoCDServiceServer).UpdateInstanceAccountPassword(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetOrganizationInstanceCluster",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceAccountPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).GetOrganizationInstanceCluster(ctx, req.(*GetOrganizationInstanceClusterRequest))
+		return srv.(ArgoCDServiceServer).UpdateInstanceAccountPassword(ctx, req.(*UpdateInstanceAccountPasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_GetOrganizationInstanceClusterManifests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetOrganizationInstanceClusterManifestsRequest)
+func _ArgoCDService_RegenerateInstanceAccountPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegenerateInstanceAccountPasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).GetOrganizationInstanceClusterManifests(ctx, in)
+		return srv.(ArgoCDServiceServer).RegenerateInstanceAccountPassword(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetOrganizationInstanceClusterManifests",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/RegenerateInstanceAccountPassword",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).GetOrganizationInstanceClusterManifests(ctx, req.(*GetOrganizationInstanceClusterManifestsRequest))
+		return srv.(ArgoCDServiceServer).RegenerateInstanceAccountPassword(ctx, req.(*RegenerateInstanceAccountPasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_UpdateOrganizationInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateOrganizationInstanceClusterRequest)
+func _ArgoCDService_DeleteInstanceAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteInstanceAccountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).UpdateOrganizationInstanceCluster(ctx, in)
+		return srv.(ArgoCDServiceServer).DeleteInstanceAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateOrganizationInstanceCluster",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/DeleteInstanceAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).UpdateOrganizationInstanceCluster(ctx, req.(*UpdateOrganizationInstanceClusterRequest))
+		return srv.(ArgoCDServiceServer).DeleteInstanceAccount(ctx, req.(*DeleteInstanceAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_DeleteOrganizationInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteOrganizationInstanceClusterRequest)
+func _ArgoCDService_ListInstanceClusters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstanceClustersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).DeleteOrganizationInstanceCluster(ctx, in)
+		return srv.(ArgoCDServiceServer).ListInstanceClusters(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/akuity.argocd.v1.ArgoCDService/DeleteOrganizationInstanceCluster",
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/ListInstanceClusters",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).DeleteOrganizationInstanceCluster(ctx, req.(*DeleteOrganizationInstanceClusterRequest))
+		return srv.(ArgoCDServiceServer).ListInstanceClusters(ctx, req.(*ListInstanceClustersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_WatchInstanceClusters_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchInstanceClustersRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArgoCDServiceServer).WatchInstanceClusters(m, &argoCDServiceWatchInstanceClustersServer{stream})
+}
+
+type ArgoCDService_WatchInstanceClustersServer interface {
+	Send(*WatchInstanceClustersResponse) error
+	grpc.ServerStream
+}
+
+type argoCDServiceWatchInstanceClustersServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceWatchInstanceClustersServer) Send(m *WatchInstanceClustersResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ArgoCDService_CreateInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateInstanceClusterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).CreateInstanceCluster(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/CreateInstanceCluster",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).CreateInstanceCluster(ctx, req.(*CreateInstanceClusterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceClusterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceCluster(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceCluster",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceCluster(ctx, req.(*GetInstanceClusterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceClusterManifests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceClusterManifestsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceClusterManifests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterManifests",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceClusterManifests(ctx, req.(*GetInstanceClusterManifestsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceClusterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceCluster(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCluster",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceCluster(ctx, req.(*UpdateInstanceClusterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_DeleteInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteInstanceClusterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).DeleteInstanceCluster(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/DeleteInstanceCluster",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).DeleteInstanceCluster(ctx, req.(*DeleteInstanceClusterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -480,54 +756,85 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_ListInstanceVersions_Handler,
 		},
 		{
-			MethodName: "ListOrganizationInstances",
-			Handler:    _ArgoCDService_ListOrganizationInstances_Handler,
+			MethodName: "ListInstances",
+			Handler:    _ArgoCDService_ListInstances_Handler,
 		},
 		{
-			MethodName: "CreateOrganizationInstance",
-			Handler:    _ArgoCDService_CreateOrganizationInstance_Handler,
+			MethodName: "CreateInstance",
+			Handler:    _ArgoCDService_CreateInstance_Handler,
 		},
 		{
-			MethodName: "GetOrganizationInstance",
-			Handler:    _ArgoCDService_GetOrganizationInstance_Handler,
+			MethodName: "GetInstance",
+			Handler:    _ArgoCDService_GetInstance_Handler,
 		},
 		{
-			MethodName: "PatchOrganizationInstance",
-			Handler:    _ArgoCDService_PatchOrganizationInstance_Handler,
+			MethodName: "PatchInstance",
+			Handler:    _ArgoCDService_PatchInstance_Handler,
 		},
 		{
-			MethodName: "UpdateOrganizationInstance",
-			Handler:    _ArgoCDService_UpdateOrganizationInstance_Handler,
+			MethodName: "UpdateInstance",
+			Handler:    _ArgoCDService_UpdateInstance_Handler,
 		},
 		{
-			MethodName: "DeleteOrganizationInstance",
-			Handler:    _ArgoCDService_DeleteOrganizationInstance_Handler,
+			MethodName: "DeleteInstance",
+			Handler:    _ArgoCDService_DeleteInstance_Handler,
 		},
 		{
-			MethodName: "ListOrganizationInstanceClusters",
-			Handler:    _ArgoCDService_ListOrganizationInstanceClusters_Handler,
+			MethodName: "ListInstanceAccounts",
+			Handler:    _ArgoCDService_ListInstanceAccounts_Handler,
 		},
 		{
-			MethodName: "CreateOrganizationInstanceCluster",
-			Handler:    _ArgoCDService_CreateOrganizationInstanceCluster_Handler,
+			MethodName: "UpsertInstanceAccount",
+			Handler:    _ArgoCDService_UpsertInstanceAccount_Handler,
 		},
 		{
-			MethodName: "GetOrganizationInstanceCluster",
-			Handler:    _ArgoCDService_GetOrganizationInstanceCluster_Handler,
+			MethodName: "UpdateInstanceAccountPassword",
+			Handler:    _ArgoCDService_UpdateInstanceAccountPassword_Handler,
 		},
 		{
-			MethodName: "GetOrganizationInstanceClusterManifests",
-			Handler:    _ArgoCDService_GetOrganizationInstanceClusterManifests_Handler,
+			MethodName: "RegenerateInstanceAccountPassword",
+			Handler:    _ArgoCDService_RegenerateInstanceAccountPassword_Handler,
 		},
 		{
-			MethodName: "UpdateOrganizationInstanceCluster",
-			Handler:    _ArgoCDService_UpdateOrganizationInstanceCluster_Handler,
+			MethodName: "DeleteInstanceAccount",
+			Handler:    _ArgoCDService_DeleteInstanceAccount_Handler,
 		},
 		{
-			MethodName: "DeleteOrganizationInstanceCluster",
-			Handler:    _ArgoCDService_DeleteOrganizationInstanceCluster_Handler,
+			MethodName: "ListInstanceClusters",
+			Handler:    _ArgoCDService_ListInstanceClusters_Handler,
+		},
+		{
+			MethodName: "CreateInstanceCluster",
+			Handler:    _ArgoCDService_CreateInstanceCluster_Handler,
+		},
+		{
+			MethodName: "GetInstanceCluster",
+			Handler:    _ArgoCDService_GetInstanceCluster_Handler,
+		},
+		{
+			MethodName: "GetInstanceClusterManifests",
+			Handler:    _ArgoCDService_GetInstanceClusterManifests_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceCluster",
+			Handler:    _ArgoCDService_UpdateInstanceCluster_Handler,
+		},
+		{
+			MethodName: "DeleteInstanceCluster",
+			Handler:    _ArgoCDService_DeleteInstanceCluster_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchInstances",
+			Handler:       _ArgoCDService_WatchInstances_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchInstanceClusters",
+			Handler:       _ArgoCDService_WatchInstanceClusters_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "argocd/v1/argocd.proto",
 }
