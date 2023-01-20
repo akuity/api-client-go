@@ -4,6 +4,7 @@ package organizationv1
 
 import (
 	context "context"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,6 +21,28 @@ const _ = grpc.SupportPackageIsVersion7
 type OrganizationServiceClient interface {
 	ListAuthenticatedUserOrganizations(ctx context.Context, in *ListAuthenticatedUserOrganizationsRequest, opts ...grpc.CallOption) (*ListAuthenticatedUserOrganizationsResponse, error)
 	GetOrganization(ctx context.Context, in *GetOrganizationRequest, opts ...grpc.CallOption) (*GetOrganizationResponse, error)
+	CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*CreateOrganizationResponse, error)
+	UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*UpdateOrganizationResponse, error)
+	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*DeleteOrganizationResponse, error)
+	ListOrganizationMembers(ctx context.Context, in *ListOrganizationMembersRequest, opts ...grpc.CallOption) (*ListOrganizationMembersResponse, error)
+	ListOrganizationInvitees(ctx context.Context, in *ListOrganizationInviteesRequest, opts ...grpc.CallOption) (*ListOrganizationInviteesResponse, error)
+	GetUserRoleInOrganization(ctx context.Context, in *GetUserRoleInOrganizationRequest, opts ...grpc.CallOption) (*GetUserRoleInOrganizationResponse, error)
+	InviteMembers(ctx context.Context, in *InviteMembersRequest, opts ...grpc.CallOption) (*InviteMembersResponse, error)
+	UninviteOrganizationMember(ctx context.Context, in *UninviteOrganizationMemberRequest, opts ...grpc.CallOption) (*UninviteOrganizationMemberResponse, error)
+	RemoveOrganizationMember(ctx context.Context, in *RemoveOrganizationMemberRequest, opts ...grpc.CallOption) (*RemoveOrganizationMemberResponse, error)
+	UpdateOrganizationMemberRole(ctx context.Context, in *UpdateOrganizationMemberRoleRequest, opts ...grpc.CallOption) (*UpdateOrganizationMemberRoleResponse, error)
+	JoinOrganization(ctx context.Context, in *JoinOrganizationRequest, opts ...grpc.CallOption) (*JoinOrganizationResponse, error)
+	RejectOrganization(ctx context.Context, in *RejectOrganizationRequest, opts ...grpc.CallOption) (*RejectOrganizationResponse, error)
+	ListOrganizationAPIKeys(ctx context.Context, in *ListOrganizationAPIKeysRequest, opts ...grpc.CallOption) (*ListOrganizationAPIKeysResponse, error)
+	CreateOrganizationAPIKey(ctx context.Context, in *CreateOrganizationAPIKeyRequest, opts ...grpc.CallOption) (*CreateOrganizationAPIKeyResponse, error)
+	GetAuditLogs(ctx context.Context, in *GetAuditLogsRequest, opts ...grpc.CallOption) (*GetAuditLogsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetAuditLogsInCSV(ctx context.Context, in *GetAuditLogsInCSVRequest, opts ...grpc.CallOption) (OrganizationService_GetAuditLogsInCSVClient, error)
+	GetCustomerDetails(ctx context.Context, in *GetCustomerDetailsRequest, opts ...grpc.CallOption) (*GetCustomerDetailsResponse, error)
+	UpdateBillingDetails(ctx context.Context, in *UpdateBillingDetailsRequest, opts ...grpc.CallOption) (*UpdateBillingDetailsResponse, error)
+	DeleteBillingCustomer(ctx context.Context, in *DeleteBillingCustomerRequest, opts ...grpc.CallOption) (*DeleteBillingCustomerResponse, error)
+	BillingCheckout(ctx context.Context, in *BillingCheckoutRequest, opts ...grpc.CallOption) (*BillingCheckoutResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -48,12 +71,237 @@ func (c *organizationServiceClient) GetOrganization(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *organizationServiceClient) CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*CreateOrganizationResponse, error) {
+	out := new(CreateOrganizationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/CreateOrganization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*UpdateOrganizationResponse, error) {
+	out := new(UpdateOrganizationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/UpdateOrganization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*DeleteOrganizationResponse, error) {
+	out := new(DeleteOrganizationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/DeleteOrganization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListOrganizationMembers(ctx context.Context, in *ListOrganizationMembersRequest, opts ...grpc.CallOption) (*ListOrganizationMembersResponse, error) {
+	out := new(ListOrganizationMembersResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/ListOrganizationMembers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListOrganizationInvitees(ctx context.Context, in *ListOrganizationInviteesRequest, opts ...grpc.CallOption) (*ListOrganizationInviteesResponse, error) {
+	out := new(ListOrganizationInviteesResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetUserRoleInOrganization(ctx context.Context, in *GetUserRoleInOrganizationRequest, opts ...grpc.CallOption) (*GetUserRoleInOrganizationResponse, error) {
+	out := new(GetUserRoleInOrganizationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) InviteMembers(ctx context.Context, in *InviteMembersRequest, opts ...grpc.CallOption) (*InviteMembersResponse, error) {
+	out := new(InviteMembersResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/InviteMembers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UninviteOrganizationMember(ctx context.Context, in *UninviteOrganizationMemberRequest, opts ...grpc.CallOption) (*UninviteOrganizationMemberResponse, error) {
+	out := new(UninviteOrganizationMemberResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) RemoveOrganizationMember(ctx context.Context, in *RemoveOrganizationMemberRequest, opts ...grpc.CallOption) (*RemoveOrganizationMemberResponse, error) {
+	out := new(RemoveOrganizationMemberResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateOrganizationMemberRole(ctx context.Context, in *UpdateOrganizationMemberRoleRequest, opts ...grpc.CallOption) (*UpdateOrganizationMemberRoleResponse, error) {
+	out := new(UpdateOrganizationMemberRoleResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) JoinOrganization(ctx context.Context, in *JoinOrganizationRequest, opts ...grpc.CallOption) (*JoinOrganizationResponse, error) {
+	out := new(JoinOrganizationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/JoinOrganization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) RejectOrganization(ctx context.Context, in *RejectOrganizationRequest, opts ...grpc.CallOption) (*RejectOrganizationResponse, error) {
+	out := new(RejectOrganizationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/RejectOrganization", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListOrganizationAPIKeys(ctx context.Context, in *ListOrganizationAPIKeysRequest, opts ...grpc.CallOption) (*ListOrganizationAPIKeysResponse, error) {
+	out := new(ListOrganizationAPIKeysResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) CreateOrganizationAPIKey(ctx context.Context, in *CreateOrganizationAPIKeyRequest, opts ...grpc.CallOption) (*CreateOrganizationAPIKeyResponse, error) {
+	out := new(CreateOrganizationAPIKeyResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetAuditLogs(ctx context.Context, in *GetAuditLogsRequest, opts ...grpc.CallOption) (*GetAuditLogsResponse, error) {
+	out := new(GetAuditLogsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/GetAuditLogs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetAuditLogsInCSV(ctx context.Context, in *GetAuditLogsInCSVRequest, opts ...grpc.CallOption) (OrganizationService_GetAuditLogsInCSVClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[0], "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &organizationServiceGetAuditLogsInCSVClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_GetAuditLogsInCSVClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type organizationServiceGetAuditLogsInCSVClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceGetAuditLogsInCSVClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *organizationServiceClient) GetCustomerDetails(ctx context.Context, in *GetCustomerDetailsRequest, opts ...grpc.CallOption) (*GetCustomerDetailsResponse, error) {
+	out := new(GetCustomerDetailsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/GetCustomerDetails", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateBillingDetails(ctx context.Context, in *UpdateBillingDetailsRequest, opts ...grpc.CallOption) (*UpdateBillingDetailsResponse, error) {
+	out := new(UpdateBillingDetailsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/UpdateBillingDetails", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteBillingCustomer(ctx context.Context, in *DeleteBillingCustomerRequest, opts ...grpc.CallOption) (*DeleteBillingCustomerResponse, error) {
+	out := new(DeleteBillingCustomerResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/DeleteBillingCustomer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) BillingCheckout(ctx context.Context, in *BillingCheckoutRequest, opts ...grpc.CallOption) (*BillingCheckoutResponse, error) {
+	out := new(BillingCheckoutResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/BillingCheckout", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
 type OrganizationServiceServer interface {
 	ListAuthenticatedUserOrganizations(context.Context, *ListAuthenticatedUserOrganizationsRequest) (*ListAuthenticatedUserOrganizationsResponse, error)
 	GetOrganization(context.Context, *GetOrganizationRequest) (*GetOrganizationResponse, error)
+	CreateOrganization(context.Context, *CreateOrganizationRequest) (*CreateOrganizationResponse, error)
+	UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*UpdateOrganizationResponse, error)
+	DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*DeleteOrganizationResponse, error)
+	ListOrganizationMembers(context.Context, *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error)
+	ListOrganizationInvitees(context.Context, *ListOrganizationInviteesRequest) (*ListOrganizationInviteesResponse, error)
+	GetUserRoleInOrganization(context.Context, *GetUserRoleInOrganizationRequest) (*GetUserRoleInOrganizationResponse, error)
+	InviteMembers(context.Context, *InviteMembersRequest) (*InviteMembersResponse, error)
+	UninviteOrganizationMember(context.Context, *UninviteOrganizationMemberRequest) (*UninviteOrganizationMemberResponse, error)
+	RemoveOrganizationMember(context.Context, *RemoveOrganizationMemberRequest) (*RemoveOrganizationMemberResponse, error)
+	UpdateOrganizationMemberRole(context.Context, *UpdateOrganizationMemberRoleRequest) (*UpdateOrganizationMemberRoleResponse, error)
+	JoinOrganization(context.Context, *JoinOrganizationRequest) (*JoinOrganizationResponse, error)
+	RejectOrganization(context.Context, *RejectOrganizationRequest) (*RejectOrganizationResponse, error)
+	ListOrganizationAPIKeys(context.Context, *ListOrganizationAPIKeysRequest) (*ListOrganizationAPIKeysResponse, error)
+	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
+	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetAuditLogsInCSV(*GetAuditLogsInCSVRequest, OrganizationService_GetAuditLogsInCSVServer) error
+	GetCustomerDetails(context.Context, *GetCustomerDetailsRequest) (*GetCustomerDetailsResponse, error)
+	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
+	DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error)
+	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -66,6 +314,66 @@ func (UnimplementedOrganizationServiceServer) ListAuthenticatedUserOrganizations
 }
 func (UnimplementedOrganizationServiceServer) GetOrganization(context.Context, *GetOrganizationRequest) (*GetOrganizationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateOrganization(context.Context, *CreateOrganizationRequest) (*CreateOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*UpdateOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*DeleteOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListOrganizationMembers(context.Context, *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationMembers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListOrganizationInvitees(context.Context, *ListOrganizationInviteesRequest) (*ListOrganizationInviteesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationInvitees not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetUserRoleInOrganization(context.Context, *GetUserRoleInOrganizationRequest) (*GetUserRoleInOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoleInOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) InviteMembers(context.Context, *InviteMembersRequest) (*InviteMembersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InviteMembers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UninviteOrganizationMember(context.Context, *UninviteOrganizationMemberRequest) (*UninviteOrganizationMemberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UninviteOrganizationMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) RemoveOrganizationMember(context.Context, *RemoveOrganizationMemberRequest) (*RemoveOrganizationMemberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveOrganizationMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateOrganizationMemberRole(context.Context, *UpdateOrganizationMemberRoleRequest) (*UpdateOrganizationMemberRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrganizationMemberRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) JoinOrganization(context.Context, *JoinOrganizationRequest) (*JoinOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JoinOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) RejectOrganization(context.Context, *RejectOrganizationRequest) (*RejectOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RejectOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListOrganizationAPIKeys(context.Context, *ListOrganizationAPIKeysRequest) (*ListOrganizationAPIKeysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationAPIKeys not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganizationAPIKey not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuditLogs not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetAuditLogsInCSV(*GetAuditLogsInCSVRequest, OrganizationService_GetAuditLogsInCSVServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetAuditLogsInCSV not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetCustomerDetails(context.Context, *GetCustomerDetailsRequest) (*GetCustomerDetailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCustomerDetails not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBillingDetails not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBillingCustomer not implemented")
+}
+func (UnimplementedOrganizationServiceServer) BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BillingCheckout not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -116,6 +424,369 @@ func _OrganizationService_GetOrganization_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_CreateOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/CreateOrganization",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateOrganization(ctx, req.(*CreateOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/UpdateOrganization",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateOrganization(ctx, req.(*UpdateOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/DeleteOrganization",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteOrganization(ctx, req.(*DeleteOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListOrganizationMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrganizationMembersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListOrganizationMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/ListOrganizationMembers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListOrganizationMembers(ctx, req.(*ListOrganizationMembersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListOrganizationInvitees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrganizationInviteesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListOrganizationInvitees(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListOrganizationInvitees(ctx, req.(*ListOrganizationInviteesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetUserRoleInOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserRoleInOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetUserRoleInOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetUserRoleInOrganization(ctx, req.(*GetUserRoleInOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_InviteMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InviteMembersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).InviteMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/InviteMembers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).InviteMembers(ctx, req.(*InviteMembersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UninviteOrganizationMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UninviteOrganizationMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UninviteOrganizationMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UninviteOrganizationMember(ctx, req.(*UninviteOrganizationMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_RemoveOrganizationMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveOrganizationMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).RemoveOrganizationMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).RemoveOrganizationMember(ctx, req.(*RemoveOrganizationMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateOrganizationMemberRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOrganizationMemberRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateOrganizationMemberRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateOrganizationMemberRole(ctx, req.(*UpdateOrganizationMemberRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_JoinOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JoinOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).JoinOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/JoinOrganization",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).JoinOrganization(ctx, req.(*JoinOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_RejectOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RejectOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).RejectOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/RejectOrganization",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).RejectOrganization(ctx, req.(*RejectOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListOrganizationAPIKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrganizationAPIKeysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListOrganizationAPIKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListOrganizationAPIKeys(ctx, req.(*ListOrganizationAPIKeysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_CreateOrganizationAPIKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrganizationAPIKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateOrganizationAPIKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateOrganizationAPIKey(ctx, req.(*CreateOrganizationAPIKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetAuditLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAuditLogsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetAuditLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/GetAuditLogs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetAuditLogs(ctx, req.(*GetAuditLogsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetAuditLogsInCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetAuditLogsInCSVRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(OrganizationServiceServer).GetAuditLogsInCSV(m, &organizationServiceGetAuditLogsInCSVServer{stream})
+}
+
+type OrganizationService_GetAuditLogsInCSVServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type organizationServiceGetAuditLogsInCSVServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceGetAuditLogsInCSVServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _OrganizationService_GetCustomerDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCustomerDetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetCustomerDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/GetCustomerDetails",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetCustomerDetails(ctx, req.(*GetCustomerDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateBillingDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBillingDetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateBillingDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/UpdateBillingDetails",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateBillingDetails(ctx, req.(*UpdateBillingDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteBillingCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBillingCustomerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteBillingCustomer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/DeleteBillingCustomer",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteBillingCustomer(ctx, req.(*DeleteBillingCustomerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_BillingCheckout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BillingCheckoutRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).BillingCheckout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/BillingCheckout",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).BillingCheckout(ctx, req.(*BillingCheckoutRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -131,7 +802,89 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetOrganization",
 			Handler:    _OrganizationService_GetOrganization_Handler,
 		},
+		{
+			MethodName: "CreateOrganization",
+			Handler:    _OrganizationService_CreateOrganization_Handler,
+		},
+		{
+			MethodName: "UpdateOrganization",
+			Handler:    _OrganizationService_UpdateOrganization_Handler,
+		},
+		{
+			MethodName: "DeleteOrganization",
+			Handler:    _OrganizationService_DeleteOrganization_Handler,
+		},
+		{
+			MethodName: "ListOrganizationMembers",
+			Handler:    _OrganizationService_ListOrganizationMembers_Handler,
+		},
+		{
+			MethodName: "ListOrganizationInvitees",
+			Handler:    _OrganizationService_ListOrganizationInvitees_Handler,
+		},
+		{
+			MethodName: "GetUserRoleInOrganization",
+			Handler:    _OrganizationService_GetUserRoleInOrganization_Handler,
+		},
+		{
+			MethodName: "InviteMembers",
+			Handler:    _OrganizationService_InviteMembers_Handler,
+		},
+		{
+			MethodName: "UninviteOrganizationMember",
+			Handler:    _OrganizationService_UninviteOrganizationMember_Handler,
+		},
+		{
+			MethodName: "RemoveOrganizationMember",
+			Handler:    _OrganizationService_RemoveOrganizationMember_Handler,
+		},
+		{
+			MethodName: "UpdateOrganizationMemberRole",
+			Handler:    _OrganizationService_UpdateOrganizationMemberRole_Handler,
+		},
+		{
+			MethodName: "JoinOrganization",
+			Handler:    _OrganizationService_JoinOrganization_Handler,
+		},
+		{
+			MethodName: "RejectOrganization",
+			Handler:    _OrganizationService_RejectOrganization_Handler,
+		},
+		{
+			MethodName: "ListOrganizationAPIKeys",
+			Handler:    _OrganizationService_ListOrganizationAPIKeys_Handler,
+		},
+		{
+			MethodName: "CreateOrganizationAPIKey",
+			Handler:    _OrganizationService_CreateOrganizationAPIKey_Handler,
+		},
+		{
+			MethodName: "GetAuditLogs",
+			Handler:    _OrganizationService_GetAuditLogs_Handler,
+		},
+		{
+			MethodName: "GetCustomerDetails",
+			Handler:    _OrganizationService_GetCustomerDetails_Handler,
+		},
+		{
+			MethodName: "UpdateBillingDetails",
+			Handler:    _OrganizationService_UpdateBillingDetails_Handler,
+		},
+		{
+			MethodName: "DeleteBillingCustomer",
+			Handler:    _OrganizationService_DeleteBillingCustomer_Handler,
+		},
+		{
+			MethodName: "BillingCheckout",
+			Handler:    _OrganizationService_BillingCheckout_Handler,
+		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetAuditLogsInCSV",
+			Handler:       _OrganizationService_GetAuditLogsInCSV_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "organization/v1/organization.proto",
 }

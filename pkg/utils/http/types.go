@@ -2,6 +2,7 @@ package http
 
 const (
 	HeaderAuthorization = "Authorization"
+	HeaderContentType   = "Content-Type"
 	HeaderRequestID     = "X-Request-ID"
 )
 
@@ -12,6 +13,7 @@ const (
 
 const (
 	MIMEApplicationJSON = "application/json"
+	MIMETextEventStream = "text/event-stream"
 )
 
 const (

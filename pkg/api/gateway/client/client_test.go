@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/protobuf/proto"
 
-	apikeyv1 "github.com/akuity/api-client-go/pkg/api/gen/apikey/v1"
 	httputil "github.com/akuity/api-client-go/pkg/utils/http"
 )
 
@@ -24,7 +24,7 @@ func TestDoRequest(t *testing.T) {
 		res             string
 		expectedRes     *T
 	}
-	testSets := map[string]testSet[apikeyv1.GetAPIKeyResponse]{
+	testSets := map[string]testSet[grpc_health_v1.HealthCheckResponse]{
 		"use http": {
 			newServerFn: httptest.NewServer,
 			clientOptions: func(srv *httptest.Server) []Option {
@@ -32,18 +32,16 @@ func TestDoRequest(t *testing.T) {
 					WithHTTPClient(srv.Client()),
 				}
 			},
-			req: &apikeyv1.GetAPIKeyRequest{Id: "abcdef"},
+			req: &grpc_health_v1.HealthCheckRequest{Service: "test"},
 			expectedReq: `{
-  "id":"abcdef"
+  "service":"test"
 }`,
 			execErrExpected: false,
 			res: `{
-  "api_key": {
-    "id": "abcdef"
-  }
+  "status": "SERVING"
 }`,
-			expectedRes: &apikeyv1.GetAPIKeyResponse{
-				ApiKey: &apikeyv1.APIKey{Id: "abcdef"},
+			expectedRes: &grpc_health_v1.HealthCheckResponse{
+				Status: grpc_health_v1.HealthCheckResponse_SERVING,
 			},
 		},
 		"use https": {
@@ -53,18 +51,16 @@ func TestDoRequest(t *testing.T) {
 					WithHTTPClient(srv.Client()),
 				}
 			},
-			req: &apikeyv1.GetAPIKeyRequest{Id: "abcdef"},
+			req: &grpc_health_v1.HealthCheckRequest{Service: "test"},
 			expectedReq: `{
-  "id":"abcdef"
+  "service":"test"
 }`,
 			execErrExpected: false,
 			res: `{
-  "api_key": {
-    "id": "abcdef"
-  }
+  "status": "SERVING"
 }`,
-			expectedRes: &apikeyv1.GetAPIKeyResponse{
-				ApiKey: &apikeyv1.APIKey{Id: "abcdef"},
+			expectedRes: &grpc_health_v1.HealthCheckResponse{
+				Status: grpc_health_v1.HealthCheckResponse_SERVING,
 			},
 		},
 		"use https with skip-tls-verify": {
@@ -74,18 +70,16 @@ func TestDoRequest(t *testing.T) {
 					SkipTLSVerify(true),
 				}
 			},
-			req: &apikeyv1.GetAPIKeyRequest{Id: "abcdef"},
+			req: &grpc_health_v1.HealthCheckRequest{Service: "test"},
 			expectedReq: `{
-  "id":"abcdef"
+  "service":"test"
 }`,
 			execErrExpected: false,
 			res: `{
-  "api_key": {
-    "id": "abcdef"
-  }
+  "status": "SERVING"
 }`,
-			expectedRes: &apikeyv1.GetAPIKeyResponse{
-				ApiKey: &apikeyv1.APIKey{Id: "abcdef"},
+			expectedRes: &grpc_health_v1.HealthCheckResponse{
+				Status: grpc_health_v1.HealthCheckResponse_SERVING,
 			},
 		},
 	}
@@ -107,7 +101,7 @@ func TestDoRequest(t *testing.T) {
 
 			c := NewClient(srv.URL+"/api/v1", ts.clientOptions(srv)...)
 			req := c.NewRequest(http.MethodPost, "/some-endpoint").SetBody(ts.req)
-			res, err := DoRequest[apikeyv1.GetAPIKeyResponse](context.TODO(), req)
+			res, err := DoRequest[grpc_health_v1.HealthCheckResponse](context.TODO(), req)
 			if ts.execErrExpected {
 				require.Error(t, err)
 				return

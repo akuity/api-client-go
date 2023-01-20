@@ -7,6 +7,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,8 +20,18 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SystemServiceClient interface {
 	GetVersion(ctx context.Context, in *GetVersionRequest, opts ...grpc.CallOption) (*GetVersionResponse, error)
+	GetAgentVersion(ctx context.Context, in *GetAgentVersionRequest, opts ...grpc.CallOption) (*GetAgentVersionResponse, error)
 	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*GetSettingsResponse, error)
 	ListFeatures(ctx context.Context, in *ListFeaturesRequest, opts ...grpc.CallOption) (*ListFeaturesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetStatus(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetStatusResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListArgoCDVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListArgoCDExtensions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDExtensionsResponse, error)
 }
 
 type systemServiceClient struct {
@@ -34,6 +45,15 @@ func NewSystemServiceClient(cc grpc.ClientConnInterface) SystemServiceClient {
 func (c *systemServiceClient) GetVersion(ctx context.Context, in *GetVersionRequest, opts ...grpc.CallOption) (*GetVersionResponse, error) {
 	out := new(GetVersionResponse)
 	err := c.cc.Invoke(ctx, "/akuity.system.v1.SystemService/GetVersion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) GetAgentVersion(ctx context.Context, in *GetAgentVersionRequest, opts ...grpc.CallOption) (*GetAgentVersionResponse, error) {
+	out := new(GetAgentVersionResponse)
+	err := c.cc.Invoke(ctx, "/akuity.system.v1.SystemService/GetAgentVersion", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -58,13 +78,50 @@ func (c *systemServiceClient) ListFeatures(ctx context.Context, in *ListFeatures
 	return out, nil
 }
 
+func (c *systemServiceClient) GetStatus(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetStatusResponse, error) {
+	out := new(GetStatusResponse)
+	err := c.cc.Invoke(ctx, "/akuity.system.v1.SystemService/GetStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListArgoCDVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDVersionsResponse, error) {
+	out := new(ListArgoCDVersionsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.system.v1.SystemService/ListArgoCDVersions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListArgoCDExtensions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDExtensionsResponse, error) {
+	out := new(ListArgoCDExtensionsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.system.v1.SystemService/ListArgoCDExtensions", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemServiceServer is the server API for SystemService service.
 // All implementations must embed UnimplementedSystemServiceServer
 // for forward compatibility
 type SystemServiceServer interface {
 	GetVersion(context.Context, *GetVersionRequest) (*GetVersionResponse, error)
+	GetAgentVersion(context.Context, *GetAgentVersionRequest) (*GetAgentVersionResponse, error)
 	GetSettings(context.Context, *GetSettingsRequest) (*GetSettingsResponse, error)
 	ListFeatures(context.Context, *ListFeaturesRequest) (*ListFeaturesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetStatus(context.Context, *emptypb.Empty) (*GetStatusResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListArgoCDVersions(context.Context, *emptypb.Empty) (*ListArgoCDVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListArgoCDExtensions(context.Context, *emptypb.Empty) (*ListArgoCDExtensionsResponse, error)
 	mustEmbedUnimplementedSystemServiceServer()
 }
 
@@ -75,11 +132,23 @@ type UnimplementedSystemServiceServer struct {
 func (UnimplementedSystemServiceServer) GetVersion(context.Context, *GetVersionRequest) (*GetVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVersion not implemented")
 }
+func (UnimplementedSystemServiceServer) GetAgentVersion(context.Context, *GetAgentVersionRequest) (*GetAgentVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgentVersion not implemented")
+}
 func (UnimplementedSystemServiceServer) GetSettings(context.Context, *GetSettingsRequest) (*GetSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSettings not implemented")
 }
 func (UnimplementedSystemServiceServer) ListFeatures(context.Context, *ListFeaturesRequest) (*ListFeaturesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListFeatures not implemented")
+}
+func (UnimplementedSystemServiceServer) GetStatus(context.Context, *emptypb.Empty) (*GetStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStatus not implemented")
+}
+func (UnimplementedSystemServiceServer) ListArgoCDVersions(context.Context, *emptypb.Empty) (*ListArgoCDVersionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDVersions not implemented")
+}
+func (UnimplementedSystemServiceServer) ListArgoCDExtensions(context.Context, *emptypb.Empty) (*ListArgoCDExtensionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDExtensions not implemented")
 }
 func (UnimplementedSystemServiceServer) mustEmbedUnimplementedSystemServiceServer() {}
 
@@ -108,6 +177,24 @@ func _SystemService_GetVersion_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SystemServiceServer).GetVersion(ctx, req.(*GetVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_GetAgentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAgentVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetAgentVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.system.v1.SystemService/GetAgentVersion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetAgentVersion(ctx, req.(*GetAgentVersionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -148,6 +235,60 @@ func _SystemService_ListFeatures_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_GetStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.system.v1.SystemService/GetStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetStatus(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListArgoCDVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListArgoCDVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.system.v1.SystemService/ListArgoCDVersions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListArgoCDVersions(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListArgoCDExtensions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListArgoCDExtensions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.system.v1.SystemService/ListArgoCDExtensions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListArgoCDExtensions(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemService_ServiceDesc is the grpc.ServiceDesc for SystemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -160,12 +301,28 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemService_GetVersion_Handler,
 		},
 		{
+			MethodName: "GetAgentVersion",
+			Handler:    _SystemService_GetAgentVersion_Handler,
+		},
+		{
 			MethodName: "GetSettings",
 			Handler:    _SystemService_GetSettings_Handler,
 		},
 		{
 			MethodName: "ListFeatures",
 			Handler:    _SystemService_ListFeatures_Handler,
+		},
+		{
+			MethodName: "GetStatus",
+			Handler:    _SystemService_GetStatus_Handler,
+		},
+		{
+			MethodName: "ListArgoCDVersions",
+			Handler:    _SystemService_ListArgoCDVersions_Handler,
+		},
+		{
+			MethodName: "ListArgoCDExtensions",
+			Handler:    _SystemService_ListArgoCDExtensions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

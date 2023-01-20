@@ -4,6 +4,7 @@ package argocdv1
 
 import (
 	context "context"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,8 +24,21 @@ type ArgoCDServiceClient interface {
 	WatchInstances(ctx context.Context, in *WatchInstancesRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstancesClient, error)
 	CreateInstance(ctx context.Context, in *CreateInstanceRequest, opts ...grpc.CallOption) (*CreateInstanceResponse, error)
 	GetInstance(ctx context.Context, in *GetInstanceRequest, opts ...grpc.CallOption) (*GetInstanceResponse, error)
+	GetInstanceCSS(ctx context.Context, in *GetInstanceCSSRequest, opts ...grpc.CallOption) (*GetInstanceCSSResponse, error)
+	GetInstanceNotificationSettings(ctx context.Context, in *GetInstanceNotificationSettingsRequest, opts ...grpc.CallOption) (*GetInstanceNotificationSettingsResponse, error)
+	GetInstanceNotificationCatalog(ctx context.Context, in *GetInstanceNotificationCatalogRequest, opts ...grpc.CallOption) (*GetInstanceNotificationCatalogResponse, error)
+	GetInstanceImageUpdaterSettings(ctx context.Context, in *GetInstanceImageUpdaterSettingsRequest, opts ...grpc.CallOption) (*GetInstanceImageUpdaterSettingsResponse, error)
+	GetInstanceResourceCustomizations(ctx context.Context, in *GetInstanceResourceCustomizationsRequest, opts ...grpc.CallOption) (*GetInstanceResourceCustomizationsResponse, error)
 	PatchInstance(ctx context.Context, in *PatchInstanceRequest, opts ...grpc.CallOption) (*PatchInstanceResponse, error)
+	PatchInstanceSecret(ctx context.Context, in *PatchInstanceSecretRequest, opts ...grpc.CallOption) (*PatchInstanceSecretResponse, error)
+	PatchInstanceNotificationSecret(ctx context.Context, in *PatchInstanceNotificationSecretRequest, opts ...grpc.CallOption) (*PatchInstanceNotificationSecretResponse, error)
+	PatchInstanceImageUpdaterSecret(ctx context.Context, in *PatchInstanceImageUpdaterSecretRequest, opts ...grpc.CallOption) (*PatchInstanceImageUpdaterSecretResponse, error)
 	UpdateInstance(ctx context.Context, in *UpdateInstanceRequest, opts ...grpc.CallOption) (*UpdateInstanceResponse, error)
+	UpdateInstanceCSS(ctx context.Context, in *UpdateInstanceCSSRequest, opts ...grpc.CallOption) (*UpdateInstanceCSSResponse, error)
+	UpdateInstanceNotificationConfig(ctx context.Context, in *UpdateInstanceNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceNotificationConfigResponse, error)
+	UpdateInstanceImageUpdaterConfig(ctx context.Context, in *UpdateInstanceImageUpdaterConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceImageUpdaterConfigResponse, error)
+	UpdateInstanceImageUpdaterSSHConfig(ctx context.Context, in *UpdateInstanceImageUpdaterSSHConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceImageUpdaterSSHConfigResponse, error)
+	UpdateInstanceResourceCustomizations(ctx context.Context, in *UpdateInstanceResourceCustomizationsRequest, opts ...grpc.CallOption) (*UpdateInstanceResourceCustomizationsResponse, error)
 	DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error)
 	ListInstanceAccounts(ctx context.Context, in *ListInstanceAccountsRequest, opts ...grpc.CallOption) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(ctx context.Context, in *UpsertInstanceAccountRequest, opts ...grpc.CallOption) (*UpsertInstanceAccountResponse, error)
@@ -35,9 +49,13 @@ type ArgoCDServiceClient interface {
 	WatchInstanceClusters(ctx context.Context, in *WatchInstanceClustersRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceClustersClient, error)
 	CreateInstanceCluster(ctx context.Context, in *CreateInstanceClusterRequest, opts ...grpc.CallOption) (*CreateInstanceClusterResponse, error)
 	GetInstanceCluster(ctx context.Context, in *GetInstanceClusterRequest, opts ...grpc.CallOption) (*GetInstanceClusterResponse, error)
-	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*GetInstanceClusterManifestsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error)
 	UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error)
+	UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error)
 	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
+	GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error)
 }
 
 type argoCDServiceClient struct {
@@ -116,6 +134,51 @@ func (c *argoCDServiceClient) GetInstance(ctx context.Context, in *GetInstanceRe
 	return out, nil
 }
 
+func (c *argoCDServiceClient) GetInstanceCSS(ctx context.Context, in *GetInstanceCSSRequest, opts ...grpc.CallOption) (*GetInstanceCSSResponse, error) {
+	out := new(GetInstanceCSSResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceCSS", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceNotificationSettings(ctx context.Context, in *GetInstanceNotificationSettingsRequest, opts ...grpc.CallOption) (*GetInstanceNotificationSettingsResponse, error) {
+	out := new(GetInstanceNotificationSettingsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationSettings", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceNotificationCatalog(ctx context.Context, in *GetInstanceNotificationCatalogRequest, opts ...grpc.CallOption) (*GetInstanceNotificationCatalogResponse, error) {
+	out := new(GetInstanceNotificationCatalogResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationCatalog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceImageUpdaterSettings(ctx context.Context, in *GetInstanceImageUpdaterSettingsRequest, opts ...grpc.CallOption) (*GetInstanceImageUpdaterSettingsResponse, error) {
+	out := new(GetInstanceImageUpdaterSettingsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceImageUpdaterSettings", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceResourceCustomizations(ctx context.Context, in *GetInstanceResourceCustomizationsRequest, opts ...grpc.CallOption) (*GetInstanceResourceCustomizationsResponse, error) {
+	out := new(GetInstanceResourceCustomizationsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceResourceCustomizations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) PatchInstance(ctx context.Context, in *PatchInstanceRequest, opts ...grpc.CallOption) (*PatchInstanceResponse, error) {
 	out := new(PatchInstanceResponse)
 	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchInstance", in, out, opts...)
@@ -125,9 +188,81 @@ func (c *argoCDServiceClient) PatchInstance(ctx context.Context, in *PatchInstan
 	return out, nil
 }
 
+func (c *argoCDServiceClient) PatchInstanceSecret(ctx context.Context, in *PatchInstanceSecretRequest, opts ...grpc.CallOption) (*PatchInstanceSecretResponse, error) {
+	out := new(PatchInstanceSecretResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchInstanceSecret", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) PatchInstanceNotificationSecret(ctx context.Context, in *PatchInstanceNotificationSecretRequest, opts ...grpc.CallOption) (*PatchInstanceNotificationSecretResponse, error) {
+	out := new(PatchInstanceNotificationSecretResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchInstanceNotificationSecret", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) PatchInstanceImageUpdaterSecret(ctx context.Context, in *PatchInstanceImageUpdaterSecretRequest, opts ...grpc.CallOption) (*PatchInstanceImageUpdaterSecretResponse, error) {
+	out := new(PatchInstanceImageUpdaterSecretResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchInstanceImageUpdaterSecret", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) UpdateInstance(ctx context.Context, in *UpdateInstanceRequest, opts ...grpc.CallOption) (*UpdateInstanceResponse, error) {
 	out := new(UpdateInstanceResponse)
 	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceCSS(ctx context.Context, in *UpdateInstanceCSSRequest, opts ...grpc.CallOption) (*UpdateInstanceCSSResponse, error) {
+	out := new(UpdateInstanceCSSResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCSS", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceNotificationConfig(ctx context.Context, in *UpdateInstanceNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceNotificationConfigResponse, error) {
+	out := new(UpdateInstanceNotificationConfigResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceNotificationConfig", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceImageUpdaterConfig(ctx context.Context, in *UpdateInstanceImageUpdaterConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceImageUpdaterConfigResponse, error) {
+	out := new(UpdateInstanceImageUpdaterConfigResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceImageUpdaterConfig", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceImageUpdaterSSHConfig(ctx context.Context, in *UpdateInstanceImageUpdaterSSHConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceImageUpdaterSSHConfigResponse, error) {
+	out := new(UpdateInstanceImageUpdaterSSHConfigResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceImageUpdaterSSHConfig", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceResourceCustomizations(ctx context.Context, in *UpdateInstanceResourceCustomizationsRequest, opts ...grpc.CallOption) (*UpdateInstanceResourceCustomizationsResponse, error) {
+	out := new(UpdateInstanceResourceCustomizationsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceResourceCustomizations", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -247,8 +382,8 @@ func (c *argoCDServiceClient) GetInstanceCluster(ctx context.Context, in *GetIns
 	return out, nil
 }
 
-func (c *argoCDServiceClient) GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*GetInstanceClusterManifestsResponse, error) {
-	out := new(GetInstanceClusterManifestsResponse)
+func (c *argoCDServiceClient) GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error) {
+	out := new(httpbody.HttpBody)
 	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterManifests", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -265,9 +400,27 @@ func (c *argoCDServiceClient) UpdateInstanceCluster(ctx context.Context, in *Upd
 	return out, nil
 }
 
+func (c *argoCDServiceClient) UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error) {
+	out := new(UpdateInstanceClustersResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusters", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error) {
 	out := new(DeleteInstanceClusterResponse)
 	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/DeleteInstanceCluster", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error) {
+	out := new(GetSyncOperationsStatsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsStats", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -283,8 +436,21 @@ type ArgoCDServiceServer interface {
 	WatchInstances(*WatchInstancesRequest, ArgoCDService_WatchInstancesServer) error
 	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
 	GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error)
+	GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error)
+	GetInstanceNotificationSettings(context.Context, *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error)
+	GetInstanceNotificationCatalog(context.Context, *GetInstanceNotificationCatalogRequest) (*GetInstanceNotificationCatalogResponse, error)
+	GetInstanceImageUpdaterSettings(context.Context, *GetInstanceImageUpdaterSettingsRequest) (*GetInstanceImageUpdaterSettingsResponse, error)
+	GetInstanceResourceCustomizations(context.Context, *GetInstanceResourceCustomizationsRequest) (*GetInstanceResourceCustomizationsResponse, error)
 	PatchInstance(context.Context, *PatchInstanceRequest) (*PatchInstanceResponse, error)
+	PatchInstanceSecret(context.Context, *PatchInstanceSecretRequest) (*PatchInstanceSecretResponse, error)
+	PatchInstanceNotificationSecret(context.Context, *PatchInstanceNotificationSecretRequest) (*PatchInstanceNotificationSecretResponse, error)
+	PatchInstanceImageUpdaterSecret(context.Context, *PatchInstanceImageUpdaterSecretRequest) (*PatchInstanceImageUpdaterSecretResponse, error)
 	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
+	UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error)
+	UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error)
+	UpdateInstanceImageUpdaterConfig(context.Context, *UpdateInstanceImageUpdaterConfigRequest) (*UpdateInstanceImageUpdaterConfigResponse, error)
+	UpdateInstanceImageUpdaterSSHConfig(context.Context, *UpdateInstanceImageUpdaterSSHConfigRequest) (*UpdateInstanceImageUpdaterSSHConfigResponse, error)
+	UpdateInstanceResourceCustomizations(context.Context, *UpdateInstanceResourceCustomizationsRequest) (*UpdateInstanceResourceCustomizationsResponse, error)
 	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
 	ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error)
@@ -295,9 +461,13 @@ type ArgoCDServiceServer interface {
 	WatchInstanceClusters(*WatchInstanceClustersRequest, ArgoCDService_WatchInstanceClustersServer) error
 	CreateInstanceCluster(context.Context, *CreateInstanceClusterRequest) (*CreateInstanceClusterResponse, error)
 	GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error)
-	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*GetInstanceClusterManifestsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
+	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
+	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
 
@@ -320,11 +490,50 @@ func (UnimplementedArgoCDServiceServer) CreateInstance(context.Context, *CreateI
 func (UnimplementedArgoCDServiceServer) GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstance not implemented")
 }
+func (UnimplementedArgoCDServiceServer) GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceCSS not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceNotificationSettings(context.Context, *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceNotificationSettings not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceNotificationCatalog(context.Context, *GetInstanceNotificationCatalogRequest) (*GetInstanceNotificationCatalogResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceNotificationCatalog not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceImageUpdaterSettings(context.Context, *GetInstanceImageUpdaterSettingsRequest) (*GetInstanceImageUpdaterSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceImageUpdaterSettings not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceResourceCustomizations(context.Context, *GetInstanceResourceCustomizationsRequest) (*GetInstanceResourceCustomizationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceResourceCustomizations not implemented")
+}
 func (UnimplementedArgoCDServiceServer) PatchInstance(context.Context, *PatchInstanceRequest) (*PatchInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchInstance not implemented")
 }
+func (UnimplementedArgoCDServiceServer) PatchInstanceSecret(context.Context, *PatchInstanceSecretRequest) (*PatchInstanceSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceSecret not implemented")
+}
+func (UnimplementedArgoCDServiceServer) PatchInstanceNotificationSecret(context.Context, *PatchInstanceNotificationSecretRequest) (*PatchInstanceNotificationSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceNotificationSecret not implemented")
+}
+func (UnimplementedArgoCDServiceServer) PatchInstanceImageUpdaterSecret(context.Context, *PatchInstanceImageUpdaterSecretRequest) (*PatchInstanceImageUpdaterSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceImageUpdaterSecret not implemented")
+}
 func (UnimplementedArgoCDServiceServer) UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstance not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCSS not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceNotificationConfig not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceImageUpdaterConfig(context.Context, *UpdateInstanceImageUpdaterConfigRequest) (*UpdateInstanceImageUpdaterConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceImageUpdaterConfig not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceImageUpdaterSSHConfig(context.Context, *UpdateInstanceImageUpdaterSSHConfigRequest) (*UpdateInstanceImageUpdaterSSHConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceImageUpdaterSSHConfig not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceResourceCustomizations(context.Context, *UpdateInstanceResourceCustomizationsRequest) (*UpdateInstanceResourceCustomizationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceResourceCustomizations not implemented")
 }
 func (UnimplementedArgoCDServiceServer) DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstance not implemented")
@@ -356,14 +565,20 @@ func (UnimplementedArgoCDServiceServer) CreateInstanceCluster(context.Context, *
 func (UnimplementedArgoCDServiceServer) GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceCluster not implemented")
 }
-func (UnimplementedArgoCDServiceServer) GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*GetInstanceClusterManifestsResponse, error) {
+func (UnimplementedArgoCDServiceServer) GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceClusterManifests not implemented")
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCluster not implemented")
 }
+func (UnimplementedArgoCDServiceServer) UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClusters not implemented")
+}
 func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsStats not implemented")
 }
 func (UnimplementedArgoCDServiceServer) mustEmbedUnimplementedArgoCDServiceServer() {}
 
@@ -471,6 +686,96 @@ func _ArgoCDService_GetInstance_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_GetInstanceCSS_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceCSSRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceCSS(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceCSS",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceCSS(ctx, req.(*GetInstanceCSSRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceNotificationSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceNotificationSettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceNotificationSettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationSettings",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceNotificationSettings(ctx, req.(*GetInstanceNotificationSettingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceNotificationCatalog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceNotificationCatalogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceNotificationCatalog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationCatalog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceNotificationCatalog(ctx, req.(*GetInstanceNotificationCatalogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceImageUpdaterSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceImageUpdaterSettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceImageUpdaterSettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceImageUpdaterSettings",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceImageUpdaterSettings(ctx, req.(*GetInstanceImageUpdaterSettingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceResourceCustomizations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceResourceCustomizationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceResourceCustomizations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceResourceCustomizations",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceResourceCustomizations(ctx, req.(*GetInstanceResourceCustomizationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_PatchInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PatchInstanceRequest)
 	if err := dec(in); err != nil {
@@ -489,6 +794,60 @@ func _ArgoCDService_PatchInstance_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_PatchInstanceSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchInstanceSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).PatchInstanceSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/PatchInstanceSecret",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).PatchInstanceSecret(ctx, req.(*PatchInstanceSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_PatchInstanceNotificationSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchInstanceNotificationSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).PatchInstanceNotificationSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/PatchInstanceNotificationSecret",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).PatchInstanceNotificationSecret(ctx, req.(*PatchInstanceNotificationSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_PatchInstanceImageUpdaterSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchInstanceImageUpdaterSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).PatchInstanceImageUpdaterSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/PatchInstanceImageUpdaterSecret",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).PatchInstanceImageUpdaterSecret(ctx, req.(*PatchInstanceImageUpdaterSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_UpdateInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateInstanceRequest)
 	if err := dec(in); err != nil {
@@ -503,6 +862,96 @@ func _ArgoCDService_UpdateInstance_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).UpdateInstance(ctx, req.(*UpdateInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceCSS_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceCSSRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceCSS(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCSS",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceCSS(ctx, req.(*UpdateInstanceCSSRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceNotificationConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceNotificationConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceNotificationConfig",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceNotificationConfig(ctx, req.(*UpdateInstanceNotificationConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceImageUpdaterConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceImageUpdaterConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceImageUpdaterConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceImageUpdaterConfig",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceImageUpdaterConfig(ctx, req.(*UpdateInstanceImageUpdaterConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceImageUpdaterSSHConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceImageUpdaterSSHConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceImageUpdaterSSHConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceImageUpdaterSSHConfig",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceImageUpdaterSSHConfig(ctx, req.(*UpdateInstanceImageUpdaterSSHConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceResourceCustomizations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceResourceCustomizationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceResourceCustomizations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceResourceCustomizations",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceResourceCustomizations(ctx, req.(*UpdateInstanceResourceCustomizationsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -726,6 +1175,24 @@ func _ArgoCDService_UpdateInstanceCluster_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_UpdateInstanceClusters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceClustersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceClusters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusters",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceClusters(ctx, req.(*UpdateInstanceClustersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_DeleteInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteInstanceClusterRequest)
 	if err := dec(in); err != nil {
@@ -740,6 +1207,24 @@ func _ArgoCDService_DeleteInstanceCluster_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).DeleteInstanceCluster(ctx, req.(*DeleteInstanceClusterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetSyncOperationsStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSyncOperationsStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetSyncOperationsStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsStats",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetSyncOperationsStats(ctx, req.(*GetSyncOperationsStatsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -768,12 +1253,64 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_GetInstance_Handler,
 		},
 		{
+			MethodName: "GetInstanceCSS",
+			Handler:    _ArgoCDService_GetInstanceCSS_Handler,
+		},
+		{
+			MethodName: "GetInstanceNotificationSettings",
+			Handler:    _ArgoCDService_GetInstanceNotificationSettings_Handler,
+		},
+		{
+			MethodName: "GetInstanceNotificationCatalog",
+			Handler:    _ArgoCDService_GetInstanceNotificationCatalog_Handler,
+		},
+		{
+			MethodName: "GetInstanceImageUpdaterSettings",
+			Handler:    _ArgoCDService_GetInstanceImageUpdaterSettings_Handler,
+		},
+		{
+			MethodName: "GetInstanceResourceCustomizations",
+			Handler:    _ArgoCDService_GetInstanceResourceCustomizations_Handler,
+		},
+		{
 			MethodName: "PatchInstance",
 			Handler:    _ArgoCDService_PatchInstance_Handler,
 		},
 		{
+			MethodName: "PatchInstanceSecret",
+			Handler:    _ArgoCDService_PatchInstanceSecret_Handler,
+		},
+		{
+			MethodName: "PatchInstanceNotificationSecret",
+			Handler:    _ArgoCDService_PatchInstanceNotificationSecret_Handler,
+		},
+		{
+			MethodName: "PatchInstanceImageUpdaterSecret",
+			Handler:    _ArgoCDService_PatchInstanceImageUpdaterSecret_Handler,
+		},
+		{
 			MethodName: "UpdateInstance",
 			Handler:    _ArgoCDService_UpdateInstance_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceCSS",
+			Handler:    _ArgoCDService_UpdateInstanceCSS_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceNotificationConfig",
+			Handler:    _ArgoCDService_UpdateInstanceNotificationConfig_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceImageUpdaterConfig",
+			Handler:    _ArgoCDService_UpdateInstanceImageUpdaterConfig_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceImageUpdaterSSHConfig",
+			Handler:    _ArgoCDService_UpdateInstanceImageUpdaterSSHConfig_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceResourceCustomizations",
+			Handler:    _ArgoCDService_UpdateInstanceResourceCustomizations_Handler,
 		},
 		{
 			MethodName: "DeleteInstance",
@@ -820,8 +1357,16 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_UpdateInstanceCluster_Handler,
 		},
 		{
+			MethodName: "UpdateInstanceClusters",
+			Handler:    _ArgoCDService_UpdateInstanceClusters_Handler,
+		},
+		{
 			MethodName: "DeleteInstanceCluster",
 			Handler:    _ArgoCDService_DeleteInstanceCluster_Handler,
+		},
+		{
+			MethodName: "GetSyncOperationsStats",
+			Handler:    _ArgoCDService_GetSyncOperationsStats_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

@@ -3,6 +3,7 @@ module github.com/akuity/api-client-go
 go 1.18
 
 require (
+	github.com/alevinval/sse v1.0.1
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.2
