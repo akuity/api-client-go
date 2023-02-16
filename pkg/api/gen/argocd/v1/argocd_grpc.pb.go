@@ -8,6 +8,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,6 +55,9 @@ type ArgoCDServiceClient interface {
 	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error)
 	UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	UpdateInstanceClustersAgentVersion(ctx context.Context, in *UpdateInstanceClustersAgentVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error)
 }
@@ -409,6 +413,15 @@ func (c *argoCDServiceClient) UpdateInstanceClusters(ctx context.Context, in *Up
 	return out, nil
 }
 
+func (c *argoCDServiceClient) UpdateInstanceClustersAgentVersion(ctx context.Context, in *UpdateInstanceClustersAgentVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClustersAgentVersion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error) {
 	out := new(DeleteInstanceClusterResponse)
 	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/DeleteInstanceCluster", in, out, opts...)
@@ -466,6 +479,9 @@ type ArgoCDServiceServer interface {
 	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
@@ -573,6 +589,9 @@ func (UnimplementedArgoCDServiceServer) UpdateInstanceCluster(context.Context, *
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClusters not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClustersAgentVersion not implemented")
 }
 func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceCluster not implemented")
@@ -1193,6 +1212,24 @@ func _ArgoCDService_UpdateInstanceClusters_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_UpdateInstanceClustersAgentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceClustersAgentVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceClustersAgentVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClustersAgentVersion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceClustersAgentVersion(ctx, req.(*UpdateInstanceClustersAgentVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_DeleteInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteInstanceClusterRequest)
 	if err := dec(in); err != nil {
@@ -1359,6 +1396,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateInstanceClusters",
 			Handler:    _ArgoCDService_UpdateInstanceClusters_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceClustersAgentVersion",
+			Handler:    _ArgoCDService_UpdateInstanceClustersAgentVersion_Handler,
 		},
 		{
 			MethodName: "DeleteInstanceCluster",

@@ -43,6 +43,10 @@ type OrganizationServiceClient interface {
 	UpdateBillingDetails(ctx context.Context, in *UpdateBillingDetailsRequest, opts ...grpc.CallOption) (*UpdateBillingDetailsResponse, error)
 	DeleteBillingCustomer(ctx context.Context, in *DeleteBillingCustomerRequest, opts ...grpc.CallOption) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(ctx context.Context, in *BillingCheckoutRequest, opts ...grpc.CallOption) (*BillingCheckoutResponse, error)
+	GetSSOConfiguration(ctx context.Context, in *GetSSOConfigurationRequest, opts ...grpc.CallOption) (*GetSSOConfigurationResponse, error)
+	EnsureSSOConfiguration(ctx context.Context, in *EnsureSSOConfigurationRequest, opts ...grpc.CallOption) (*EnsureSSOConfigurationResponse, error)
+	DeleteSSOConfiguration(ctx context.Context, in *DeleteSSOConfigurationRequest, opts ...grpc.CallOption) (*DeleteSSOConfigurationResponse, error)
+	GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -274,6 +278,42 @@ func (c *organizationServiceClient) BillingCheckout(ctx context.Context, in *Bil
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetSSOConfiguration(ctx context.Context, in *GetSSOConfigurationRequest, opts ...grpc.CallOption) (*GetSSOConfigurationResponse, error) {
+	out := new(GetSSOConfigurationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/GetSSOConfiguration", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) EnsureSSOConfiguration(ctx context.Context, in *EnsureSSOConfigurationRequest, opts ...grpc.CallOption) (*EnsureSSOConfigurationResponse, error) {
+	out := new(EnsureSSOConfigurationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteSSOConfiguration(ctx context.Context, in *DeleteSSOConfigurationRequest, opts ...grpc.CallOption) (*DeleteSSOConfigurationResponse, error) {
+	out := new(DeleteSSOConfigurationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error) {
+	out := new(GetFeatureGatesResponse)
+	err := c.cc.Invoke(ctx, "/akuity.organization.v1.OrganizationService/GetFeatureGates", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -302,6 +342,10 @@ type OrganizationServiceServer interface {
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
 	DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
+	GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error)
+	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
+	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
+	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -374,6 +418,18 @@ func (UnimplementedOrganizationServiceServer) DeleteBillingCustomer(context.Cont
 }
 func (UnimplementedOrganizationServiceServer) BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BillingCheckout not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSSOConfiguration not implemented")
+}
+func (UnimplementedOrganizationServiceServer) EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EnsureSSOConfiguration not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSSOConfiguration not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFeatureGates not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -787,6 +843,78 @@ func _OrganizationService_BillingCheckout_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetSSOConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSSOConfigurationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetSSOConfiguration(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/GetSSOConfiguration",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetSSOConfiguration(ctx, req.(*GetSSOConfigurationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_EnsureSSOConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EnsureSSOConfigurationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).EnsureSSOConfiguration(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).EnsureSSOConfiguration(ctx, req.(*EnsureSSOConfigurationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteSSOConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSSOConfigurationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteSSOConfiguration(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteSSOConfiguration(ctx, req.(*DeleteSSOConfigurationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetFeatureGates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFeatureGatesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetFeatureGates(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.organization.v1.OrganizationService/GetFeatureGates",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetFeatureGates(ctx, req.(*GetFeatureGatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -877,6 +1005,22 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BillingCheckout",
 			Handler:    _OrganizationService_BillingCheckout_Handler,
+		},
+		{
+			MethodName: "GetSSOConfiguration",
+			Handler:    _OrganizationService_GetSSOConfiguration_Handler,
+		},
+		{
+			MethodName: "EnsureSSOConfiguration",
+			Handler:    _OrganizationService_EnsureSSOConfiguration_Handler,
+		},
+		{
+			MethodName: "DeleteSSOConfiguration",
+			Handler:    _OrganizationService_DeleteSSOConfiguration_Handler,
+		},
+		{
+			MethodName: "GetFeatureGates",
+			Handler:    _OrganizationService_GetFeatureGates_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

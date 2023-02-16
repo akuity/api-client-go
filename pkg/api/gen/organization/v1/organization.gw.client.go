@@ -37,6 +37,10 @@ type OrganizationServiceGatewayClient interface {
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
 	DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
+	GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error)
+	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
+	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
+	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c client.Client) OrganizationServiceGatewayClient {
@@ -159,12 +163,88 @@ func (c *organizationServiceGatewayClient) CreateOrganizationAPIKey(ctx context.
 func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req *GetAuditLogsRequest) (*GetAuditLogsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/audit-logs")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	for _, v := range req.Filters.ActorId {
+		q.Add("filters.actorId", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectName {
+		q.Add("filters.objectName", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectKind {
+		q.Add("filters.objectKind", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectGroup {
+		q.Add("filters.objectGroup", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectParentName {
+		q.Add("filters.objectParentName", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.Action {
+		q.Add("filters.action", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ActorType {
+		q.Add("filters.actorType", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectType {
+		q.Add("filters.objectType", fmt.Sprintf("%v", v))
+	}
+	if req.Filters.StartTime != nil {
+		q.Add("filters.startTime", fmt.Sprintf("%v", *req.Filters.StartTime))
+	}
+	if req.Filters.EndTime != nil {
+		q.Add("filters.endTime", fmt.Sprintf("%v", *req.Filters.EndTime))
+	}
+	if req.Filters.Limit != nil {
+		q.Add("filters.limit", fmt.Sprintf("%v", *req.Filters.Limit))
+	}
+	if req.Filters.Offset != nil {
+		q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return client.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context, req *GetAuditLogsInCSVRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/csv-audit-logs")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	for _, v := range req.Filters.ActorId {
+		q.Add("filters.actorId", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectName {
+		q.Add("filters.objectName", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectKind {
+		q.Add("filters.objectKind", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectGroup {
+		q.Add("filters.objectGroup", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectParentName {
+		q.Add("filters.objectParentName", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.Action {
+		q.Add("filters.action", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ActorType {
+		q.Add("filters.actorType", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectType {
+		q.Add("filters.objectType", fmt.Sprintf("%v", v))
+	}
+	if req.Filters.StartTime != nil {
+		q.Add("filters.startTime", fmt.Sprintf("%v", *req.Filters.StartTime))
+	}
+	if req.Filters.EndTime != nil {
+		q.Add("filters.endTime", fmt.Sprintf("%v", *req.Filters.EndTime))
+	}
+	if req.Filters.Limit != nil {
+		q.Add("filters.limit", fmt.Sprintf("%v", *req.Filters.Limit))
+	}
+	if req.Filters.Offset != nil {
+		q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return client.DoStreamingRequest[httpbody.HttpBody](ctx, gwReq)
 }
 
@@ -195,4 +275,29 @@ func (c *organizationServiceGatewayClient) BillingCheckout(ctx context.Context, 
 	q.Add("billingEmail", fmt.Sprintf("%v", req.BillingEmail))
 	gwReq.SetQueryParamsFromValues(q)
 	return client.DoRequest[BillingCheckoutResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetSSOConfiguration(ctx context.Context, req *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/sso/configuration")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return client.DoRequest[GetSSOConfigurationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) EnsureSSOConfiguration(ctx context.Context, req *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/organizations/{id}/sso/configuration")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return client.DoRequest[EnsureSSOConfigurationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteSSOConfiguration(ctx context.Context, req *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/organizations/{id}/sso/configuration")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return client.DoRequest[DeleteSSOConfigurationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetFeatureGates(ctx context.Context, req *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/feature-gates")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return client.DoRequest[GetFeatureGatesResponse](ctx, gwReq)
 }

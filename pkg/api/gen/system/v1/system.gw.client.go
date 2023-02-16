@@ -17,6 +17,10 @@ type SystemServiceGatewayClient interface {
 	GetAgentVersion(context.Context, *GetAgentVersionRequest) (*GetAgentVersionResponse, error)
 	GetSettings(context.Context, *GetSettingsRequest) (*GetSettingsResponse, error)
 	ListFeatures(context.Context, *ListFeaturesRequest) (*ListFeaturesResponse, error)
+	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListAgentVersions(context.Context, *emptypb.Empty) (*ListAgentVersionsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetStatus(context.Context, *emptypb.Empty) (*GetStatusResponse, error)
@@ -61,6 +65,16 @@ func (c *systemServiceGatewayClient) ListFeatures(ctx context.Context, req *List
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return client.DoRequest[ListFeaturesResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) GetFeatureGates(ctx context.Context, req *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/feature-gates")
+	return client.DoRequest[GetFeatureGatesResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) ListAgentVersions(ctx context.Context, req *emptypb.Empty) (*ListAgentVersionsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/agent/versions")
+	return client.DoRequest[ListAgentVersionsResponse](ctx, gwReq)
 }
 
 func (c *systemServiceGatewayClient) GetStatus(ctx context.Context, req *emptypb.Empty) (*GetStatusResponse, error) {

@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	client "github.com/akuity/api-client-go/pkg/api/gateway/client"
 	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	url "net/url"
 )
 
@@ -48,6 +49,9 @@ type ArgoCDServiceGatewayClient interface {
 	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 }
@@ -269,6 +273,40 @@ func (c *argoCDServiceGatewayClient) ListInstanceClusters(ctx context.Context, r
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	q := url.Values{}
+	if req.Filter != nil {
+		if req.Filter.NameLike != nil {
+			q.Add("filter.nameLike", fmt.Sprintf("%v", *req.Filter.NameLike))
+		}
+		for _, v := range req.Filter.AgentStatus {
+			q.Add("filter.agentStatus", v.String())
+		}
+		for _, v := range req.Filter.AgentVersion {
+			q.Add("filter.agentVersion", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filter.ArgocdVersion {
+			q.Add("filter.argocdVersion", fmt.Sprintf("%v", v))
+		}
+		if req.Filter.Limit != nil {
+			q.Add("filter.limit", fmt.Sprintf("%v", *req.Filter.Limit))
+		}
+		if req.Filter.Offset != nil {
+			q.Add("filter.offset", fmt.Sprintf("%v", *req.Filter.Offset))
+		}
+		if req.Filter.ExcludeAgentVersion != nil {
+			q.Add("filter.excludeAgentVersion", fmt.Sprintf("%v", *req.Filter.ExcludeAgentVersion))
+		}
+		if req.Filter.OutdatedManifest != nil {
+			q.Add("filter.outdatedManifest", fmt.Sprintf("%v", *req.Filter.OutdatedManifest))
+		}
+		for _, v := range req.Filter.Namespace {
+			q.Add("filter.namespace", fmt.Sprintf("%v", v))
+		}
+		if req.Filter.NamespaceScoped != nil {
+			q.Add("filter.namespaceScoped", fmt.Sprintf("%v", *req.Filter.NamespaceScoped))
+		}
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return client.DoRequest[ListInstanceClustersResponse](ctx, gwReq)
 }
 
@@ -279,6 +317,44 @@ func (c *argoCDServiceGatewayClient) WatchInstanceClusters(ctx context.Context, 
 	q := url.Values{}
 	if req.ClusterId != nil {
 		q.Add("clusterId", fmt.Sprintf("%v", *req.ClusterId))
+	}
+	if req.MinClusterName != nil {
+		q.Add("minClusterName", fmt.Sprintf("%v", *req.MinClusterName))
+	}
+	if req.MaxClusterName != nil {
+		q.Add("maxClusterName", fmt.Sprintf("%v", *req.MaxClusterName))
+	}
+	if req.Filter != nil {
+		if req.Filter.NameLike != nil {
+			q.Add("filter.nameLike", fmt.Sprintf("%v", *req.Filter.NameLike))
+		}
+		for _, v := range req.Filter.AgentStatus {
+			q.Add("filter.agentStatus", v.String())
+		}
+		for _, v := range req.Filter.AgentVersion {
+			q.Add("filter.agentVersion", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filter.ArgocdVersion {
+			q.Add("filter.argocdVersion", fmt.Sprintf("%v", v))
+		}
+		if req.Filter.Limit != nil {
+			q.Add("filter.limit", fmt.Sprintf("%v", *req.Filter.Limit))
+		}
+		if req.Filter.Offset != nil {
+			q.Add("filter.offset", fmt.Sprintf("%v", *req.Filter.Offset))
+		}
+		if req.Filter.ExcludeAgentVersion != nil {
+			q.Add("filter.excludeAgentVersion", fmt.Sprintf("%v", *req.Filter.ExcludeAgentVersion))
+		}
+		if req.Filter.OutdatedManifest != nil {
+			q.Add("filter.outdatedManifest", fmt.Sprintf("%v", *req.Filter.OutdatedManifest))
+		}
+		for _, v := range req.Filter.Namespace {
+			q.Add("filter.namespace", fmt.Sprintf("%v", v))
+		}
+		if req.Filter.NamespaceScoped != nil {
+			q.Add("filter.namespaceScoped", fmt.Sprintf("%v", *req.Filter.NamespaceScoped))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return client.DoStreamingRequest[WatchInstanceClustersResponse](ctx, gwReq)
@@ -326,6 +402,14 @@ func (c *argoCDServiceGatewayClient) UpdateInstanceClusters(ctx context.Context,
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return client.DoRequest[UpdateInstanceClustersResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstanceClustersAgentVersion(ctx context.Context, req *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/agent-version")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return client.DoRequest[emptypb.Empty](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) DeleteInstanceCluster(ctx context.Context, req *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {

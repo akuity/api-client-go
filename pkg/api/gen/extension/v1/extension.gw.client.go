@@ -28,9 +28,42 @@ type extensionServiceGatewayClient struct {
 func (c *extensionServiceGatewayClient) ListAuditRecordForApplication(ctx context.Context, req *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/argocd/extensions/audit-records")
 	q := url.Values{}
-	q.Add("applicationName", fmt.Sprintf("%v", req.ApplicationName))
-	q.Add("limit", fmt.Sprintf("%v", req.Limit))
-	q.Add("offset", fmt.Sprintf("%v", req.Offset))
+	for _, v := range req.Filters.ActorId {
+		q.Add("filters.actorId", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectName {
+		q.Add("filters.objectName", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectKind {
+		q.Add("filters.objectKind", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectGroup {
+		q.Add("filters.objectGroup", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectParentName {
+		q.Add("filters.objectParentName", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.Action {
+		q.Add("filters.action", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ActorType {
+		q.Add("filters.actorType", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Filters.ObjectType {
+		q.Add("filters.objectType", fmt.Sprintf("%v", v))
+	}
+	if req.Filters.StartTime != nil {
+		q.Add("filters.startTime", fmt.Sprintf("%v", *req.Filters.StartTime))
+	}
+	if req.Filters.EndTime != nil {
+		q.Add("filters.endTime", fmt.Sprintf("%v", *req.Filters.EndTime))
+	}
+	if req.Filters.Limit != nil {
+		q.Add("filters.limit", fmt.Sprintf("%v", *req.Filters.Limit))
+	}
+	if req.Filters.Offset != nil {
+		q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return client.DoRequest[ListAuditRecordForApplicationResponse](ctx, gwReq)
 }
