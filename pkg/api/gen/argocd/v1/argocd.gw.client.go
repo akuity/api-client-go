@@ -28,6 +28,8 @@ type ArgoCDServiceGatewayClient interface {
 	PatchInstanceSecret(context.Context, *PatchInstanceSecretRequest) (*PatchInstanceSecretResponse, error)
 	PatchInstanceNotificationSecret(context.Context, *PatchInstanceNotificationSecretRequest) (*PatchInstanceNotificationSecretResponse, error)
 	PatchInstanceImageUpdaterSecret(context.Context, *PatchInstanceImageUpdaterSecretRequest) (*PatchInstanceImageUpdaterSecretResponse, error)
+	GetInstanceAppsetSecret(context.Context, *GetInstanceAppsetSecretRequest) (*GetInstanceAppsetSecretResponse, error)
+	PatchInstanceAppsetSecret(context.Context, *PatchInstanceAppsetSecretRequest) (*PatchInstanceAppsetSecretResponse, error)
 	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
 	UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error)
 	UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error)
@@ -54,6 +56,7 @@ type ArgoCDServiceGatewayClient interface {
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
+	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 }
 
 func NewArgoCDServiceGatewayClient(c client.Client) ArgoCDServiceGatewayClient {
@@ -170,6 +173,21 @@ func (c *argoCDServiceGatewayClient) PatchInstanceImageUpdaterSecret(ctx context
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return client.DoRequest[PatchInstanceImageUpdaterSecretResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceAppsetSecret(ctx context.Context, req *GetInstanceAppsetSecretRequest) (*GetInstanceAppsetSecretResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/appset/secret")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return client.DoRequest[GetInstanceAppsetSecretResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) PatchInstanceAppsetSecret(ctx context.Context, req *PatchInstanceAppsetSecretRequest) (*PatchInstanceAppsetSecretResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/appset/secret")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return client.DoRequest[PatchInstanceAppsetSecretResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) UpdateInstance(ctx context.Context, req *UpdateInstanceRequest) (*UpdateInstanceResponse, error) {
@@ -430,4 +448,12 @@ func (c *argoCDServiceGatewayClient) GetSyncOperationsStats(ctx context.Context,
 	q.Add("interval", req.Interval.String())
 	gwReq.SetQueryParamsFromValues(q)
 	return client.DoRequest[GetSyncOperationsStatsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ApplyInstance(ctx context.Context, req *ApplyInstanceRequest) (*ApplyInstanceResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/apply")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return client.DoRequest[ApplyInstanceResponse](ctx, gwReq)
 }

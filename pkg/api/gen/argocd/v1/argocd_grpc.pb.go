@@ -34,6 +34,8 @@ type ArgoCDServiceClient interface {
 	PatchInstanceSecret(ctx context.Context, in *PatchInstanceSecretRequest, opts ...grpc.CallOption) (*PatchInstanceSecretResponse, error)
 	PatchInstanceNotificationSecret(ctx context.Context, in *PatchInstanceNotificationSecretRequest, opts ...grpc.CallOption) (*PatchInstanceNotificationSecretResponse, error)
 	PatchInstanceImageUpdaterSecret(ctx context.Context, in *PatchInstanceImageUpdaterSecretRequest, opts ...grpc.CallOption) (*PatchInstanceImageUpdaterSecretResponse, error)
+	GetInstanceAppsetSecret(ctx context.Context, in *GetInstanceAppsetSecretRequest, opts ...grpc.CallOption) (*GetInstanceAppsetSecretResponse, error)
+	PatchInstanceAppsetSecret(ctx context.Context, in *PatchInstanceAppsetSecretRequest, opts ...grpc.CallOption) (*PatchInstanceAppsetSecretResponse, error)
 	UpdateInstance(ctx context.Context, in *UpdateInstanceRequest, opts ...grpc.CallOption) (*UpdateInstanceResponse, error)
 	UpdateInstanceCSS(ctx context.Context, in *UpdateInstanceCSSRequest, opts ...grpc.CallOption) (*UpdateInstanceCSSResponse, error)
 	UpdateInstanceNotificationConfig(ctx context.Context, in *UpdateInstanceNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceNotificationConfigResponse, error)
@@ -60,6 +62,7 @@ type ArgoCDServiceClient interface {
 	UpdateInstanceClustersAgentVersion(ctx context.Context, in *UpdateInstanceClustersAgentVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error)
+	ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error)
 }
 
 type argoCDServiceClient struct {
@@ -213,6 +216,24 @@ func (c *argoCDServiceClient) PatchInstanceNotificationSecret(ctx context.Contex
 func (c *argoCDServiceClient) PatchInstanceImageUpdaterSecret(ctx context.Context, in *PatchInstanceImageUpdaterSecretRequest, opts ...grpc.CallOption) (*PatchInstanceImageUpdaterSecretResponse, error) {
 	out := new(PatchInstanceImageUpdaterSecretResponse)
 	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchInstanceImageUpdaterSecret", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceAppsetSecret(ctx context.Context, in *GetInstanceAppsetSecretRequest, opts ...grpc.CallOption) (*GetInstanceAppsetSecretResponse, error) {
+	out := new(GetInstanceAppsetSecretResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetInstanceAppsetSecret", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) PatchInstanceAppsetSecret(ctx context.Context, in *PatchInstanceAppsetSecretRequest, opts ...grpc.CallOption) (*PatchInstanceAppsetSecretResponse, error) {
+	out := new(PatchInstanceAppsetSecretResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/PatchInstanceAppsetSecret", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -440,6 +461,15 @@ func (c *argoCDServiceClient) GetSyncOperationsStats(ctx context.Context, in *Ge
 	return out, nil
 }
 
+func (c *argoCDServiceClient) ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error) {
+	out := new(ApplyInstanceResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ApplyInstance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArgoCDServiceServer is the server API for ArgoCDService service.
 // All implementations must embed UnimplementedArgoCDServiceServer
 // for forward compatibility
@@ -458,6 +488,8 @@ type ArgoCDServiceServer interface {
 	PatchInstanceSecret(context.Context, *PatchInstanceSecretRequest) (*PatchInstanceSecretResponse, error)
 	PatchInstanceNotificationSecret(context.Context, *PatchInstanceNotificationSecretRequest) (*PatchInstanceNotificationSecretResponse, error)
 	PatchInstanceImageUpdaterSecret(context.Context, *PatchInstanceImageUpdaterSecretRequest) (*PatchInstanceImageUpdaterSecretResponse, error)
+	GetInstanceAppsetSecret(context.Context, *GetInstanceAppsetSecretRequest) (*GetInstanceAppsetSecretResponse, error)
+	PatchInstanceAppsetSecret(context.Context, *PatchInstanceAppsetSecretRequest) (*PatchInstanceAppsetSecretResponse, error)
 	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
 	UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error)
 	UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error)
@@ -484,6 +516,7 @@ type ArgoCDServiceServer interface {
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
+	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
 
@@ -532,6 +565,12 @@ func (UnimplementedArgoCDServiceServer) PatchInstanceNotificationSecret(context.
 }
 func (UnimplementedArgoCDServiceServer) PatchInstanceImageUpdaterSecret(context.Context, *PatchInstanceImageUpdaterSecretRequest) (*PatchInstanceImageUpdaterSecretResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceImageUpdaterSecret not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceAppsetSecret(context.Context, *GetInstanceAppsetSecretRequest) (*GetInstanceAppsetSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceAppsetSecret not implemented")
+}
+func (UnimplementedArgoCDServiceServer) PatchInstanceAppsetSecret(context.Context, *PatchInstanceAppsetSecretRequest) (*PatchInstanceAppsetSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceAppsetSecret not implemented")
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstance not implemented")
@@ -598,6 +637,9 @@ func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *
 }
 func (UnimplementedArgoCDServiceServer) GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsStats not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyInstance not implemented")
 }
 func (UnimplementedArgoCDServiceServer) mustEmbedUnimplementedArgoCDServiceServer() {}
 
@@ -863,6 +905,42 @@ func _ArgoCDService_PatchInstanceImageUpdaterSecret_Handler(srv interface{}, ctx
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).PatchInstanceImageUpdaterSecret(ctx, req.(*PatchInstanceImageUpdaterSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceAppsetSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceAppsetSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceAppsetSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetInstanceAppsetSecret",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceAppsetSecret(ctx, req.(*GetInstanceAppsetSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_PatchInstanceAppsetSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchInstanceAppsetSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).PatchInstanceAppsetSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/PatchInstanceAppsetSecret",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).PatchInstanceAppsetSecret(ctx, req.(*PatchInstanceAppsetSecretRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1266,6 +1344,24 @@ func _ArgoCDService_GetSyncOperationsStats_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_ApplyInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyInstanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ApplyInstance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/ApplyInstance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ApplyInstance(ctx, req.(*ApplyInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArgoCDService_ServiceDesc is the grpc.ServiceDesc for ArgoCDService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1324,6 +1420,14 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PatchInstanceImageUpdaterSecret",
 			Handler:    _ArgoCDService_PatchInstanceImageUpdaterSecret_Handler,
+		},
+		{
+			MethodName: "GetInstanceAppsetSecret",
+			Handler:    _ArgoCDService_GetInstanceAppsetSecret_Handler,
+		},
+		{
+			MethodName: "PatchInstanceAppsetSecret",
+			Handler:    _ArgoCDService_PatchInstanceAppsetSecret_Handler,
 		},
 		{
 			MethodName: "UpdateInstance",
@@ -1408,6 +1512,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSyncOperationsStats",
 			Handler:    _ArgoCDService_GetSyncOperationsStats_Handler,
+		},
+		{
+			MethodName: "ApplyInstance",
+			Handler:    _ArgoCDService_ApplyInstance_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
