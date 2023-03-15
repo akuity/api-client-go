@@ -39,7 +39,11 @@ func newGatewayHTTPClient(baseClient *http.Client, skipTLSVerify bool) *http.Cli
 	}
 	if ht, ok := rt.(*http.Transport); ok {
 		if ht.TLSClientConfig == nil {
-			ht.TLSClientConfig = &tls.Config{}
+			config := &tls.Config{
+				MinVersion: tls.VersionTLS12,
+				MaxVersion: 0, // GOOD: Setting MaxVersion to 0 means that the highest version available in the package will be used.
+			}
+			ht.TLSClientConfig = config
 		}
 		ht.TLSClientConfig.InsecureSkipVerify = skipTLSVerify
 	}
