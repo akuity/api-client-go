@@ -62,6 +62,7 @@ type ArgoCDServiceClient interface {
 	UpdateInstanceClustersAgentVersion(ctx context.Context, in *UpdateInstanceClustersAgentVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error)
+	GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error)
 }
 
@@ -461,6 +462,15 @@ func (c *argoCDServiceClient) GetSyncOperationsStats(ctx context.Context, in *Ge
 	return out, nil
 }
 
+func (c *argoCDServiceClient) GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error) {
+	out := new(GetSyncOperationsEventsResponse)
+	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsEvents", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error) {
 	out := new(ApplyInstanceResponse)
 	err := c.cc.Invoke(ctx, "/akuity.argocd.v1.ArgoCDService/ApplyInstance", in, out, opts...)
@@ -516,6 +526,7 @@ type ArgoCDServiceServer interface {
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
+	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
@@ -637,6 +648,9 @@ func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *
 }
 func (UnimplementedArgoCDServiceServer) GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsStats not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsEvents not implemented")
 }
 func (UnimplementedArgoCDServiceServer) ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ApplyInstance not implemented")
@@ -1344,6 +1358,24 @@ func _ArgoCDService_GetSyncOperationsStats_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_GetSyncOperationsEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSyncOperationsEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetSyncOperationsEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsEvents",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetSyncOperationsEvents(ctx, req.(*GetSyncOperationsEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_ApplyInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ApplyInstanceRequest)
 	if err := dec(in); err != nil {
@@ -1512,6 +1544,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSyncOperationsStats",
 			Handler:    _ArgoCDService_GetSyncOperationsStats_Handler,
+		},
+		{
+			MethodName: "GetSyncOperationsEvents",
+			Handler:    _ArgoCDService_GetSyncOperationsEvents_Handler,
 		},
 		{
 			MethodName: "ApplyInstance",

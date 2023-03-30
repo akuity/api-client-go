@@ -1,4 +1,4 @@
-package proto
+package option
 
 import (
 	"google.golang.org/protobuf/encoding/protojson"
