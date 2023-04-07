@@ -13,6 +13,8 @@ import (
 // ExtensionServiceGatewayClient is the interface for ExtensionService service client.
 type ExtensionServiceGatewayClient interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
+	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
+	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
 }
 
 func NewExtensionServiceGatewayClient(c gateway.Client) ExtensionServiceGatewayClient {
@@ -66,4 +68,16 @@ func (c *extensionServiceGatewayClient) ListAuditRecordForApplication(ctx contex
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAuditRecordForApplicationResponse](ctx, gwReq)
+}
+
+func (c *extensionServiceGatewayClient) GetSyncOperationsStatsForApplication(ctx context.Context, req *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/sync-operations-stats")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetSyncOperationsStatsForApplicationResponse](ctx, gwReq)
+}
+
+func (c *extensionServiceGatewayClient) GetSyncOperationsEventsForApplication(ctx context.Context, req *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/sync-operations-events")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetSyncOperationsEventsForApplicationResponse](ctx, gwReq)
 }

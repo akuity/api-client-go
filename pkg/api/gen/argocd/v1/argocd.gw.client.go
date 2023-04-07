@@ -45,7 +45,11 @@ type ArgoCDServiceGatewayClient interface {
 	ListInstanceClusters(context.Context, *ListInstanceClustersRequest) (*ListInstanceClustersResponse, error)
 	WatchInstanceClusters(context.Context, *WatchInstanceClustersRequest) (<-chan *WatchInstanceClustersResponse, <-chan error, error)
 	CreateInstanceCluster(context.Context, *CreateInstanceClusterRequest) (*CreateInstanceClusterResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error)
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	GetInstanceClusterInfo(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterInfoResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
@@ -398,6 +402,17 @@ func (c *argoCDServiceGatewayClient) GetInstanceCluster(ctx context.Context, req
 	q.Add("idType", req.IdType.String())
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceClusterResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceClusterInfo(ctx context.Context, req *GetInstanceClusterRequest) (*GetInstanceClusterInfoResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/{id}/info")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("idType", req.IdType.String())
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetInstanceClusterInfoResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) GetInstanceClusterManifests(ctx context.Context, req *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error) {

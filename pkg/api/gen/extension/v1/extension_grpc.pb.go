@@ -19,6 +19,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ExtensionServiceClient interface {
 	ListAuditRecordForApplication(ctx context.Context, in *ListAuditRecordForApplicationRequest, opts ...grpc.CallOption) (*ListAuditRecordForApplicationResponse, error)
+	GetSyncOperationsStatsForApplication(ctx context.Context, in *GetSyncOperationsStatsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsForApplicationResponse, error)
+	GetSyncOperationsEventsForApplication(ctx context.Context, in *GetSyncOperationsEventsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsForApplicationResponse, error)
 }
 
 type extensionServiceClient struct {
@@ -38,11 +40,31 @@ func (c *extensionServiceClient) ListAuditRecordForApplication(ctx context.Conte
 	return out, nil
 }
 
+func (c *extensionServiceClient) GetSyncOperationsStatsForApplication(ctx context.Context, in *GetSyncOperationsStatsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsForApplicationResponse, error) {
+	out := new(GetSyncOperationsStatsForApplicationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.extension.v1.ExtensionService/GetSyncOperationsStatsForApplication", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *extensionServiceClient) GetSyncOperationsEventsForApplication(ctx context.Context, in *GetSyncOperationsEventsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsForApplicationResponse, error) {
+	out := new(GetSyncOperationsEventsForApplicationResponse)
+	err := c.cc.Invoke(ctx, "/akuity.extension.v1.ExtensionService/GetSyncOperationsEventsForApplication", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExtensionServiceServer is the server API for ExtensionService service.
 // All implementations must embed UnimplementedExtensionServiceServer
 // for forward compatibility
 type ExtensionServiceServer interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
+	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
+	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
 	mustEmbedUnimplementedExtensionServiceServer()
 }
 
@@ -52,6 +74,12 @@ type UnimplementedExtensionServiceServer struct {
 
 func (UnimplementedExtensionServiceServer) ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAuditRecordForApplication not implemented")
+}
+func (UnimplementedExtensionServiceServer) GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsStatsForApplication not implemented")
+}
+func (UnimplementedExtensionServiceServer) GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsEventsForApplication not implemented")
 }
 func (UnimplementedExtensionServiceServer) mustEmbedUnimplementedExtensionServiceServer() {}
 
@@ -84,6 +112,42 @@ func _ExtensionService_ListAuditRecordForApplication_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExtensionService_GetSyncOperationsStatsForApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSyncOperationsStatsForApplicationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExtensionServiceServer).GetSyncOperationsStatsForApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.extension.v1.ExtensionService/GetSyncOperationsStatsForApplication",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExtensionServiceServer).GetSyncOperationsStatsForApplication(ctx, req.(*GetSyncOperationsStatsForApplicationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExtensionService_GetSyncOperationsEventsForApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSyncOperationsEventsForApplicationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExtensionServiceServer).GetSyncOperationsEventsForApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akuity.extension.v1.ExtensionService/GetSyncOperationsEventsForApplication",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExtensionServiceServer).GetSyncOperationsEventsForApplication(ctx, req.(*GetSyncOperationsEventsForApplicationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExtensionService_ServiceDesc is the grpc.ServiceDesc for ExtensionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +158,14 @@ var ExtensionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAuditRecordForApplication",
 			Handler:    _ExtensionService_ListAuditRecordForApplication_Handler,
+		},
+		{
+			MethodName: "GetSyncOperationsStatsForApplication",
+			Handler:    _ExtensionService_GetSyncOperationsStatsForApplication_Handler,
+		},
+		{
+			MethodName: "GetSyncOperationsEventsForApplication",
+			Handler:    _ExtensionService_GetSyncOperationsEventsForApplication_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
