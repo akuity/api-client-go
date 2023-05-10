@@ -17,5 +17,6 @@ const (
 )
 
 const (
-	TokenCookieName = "token"
+	TokenCookieName        = "token"
+	RefreshTokenCookieName = "akuity.refresh-token"
 )

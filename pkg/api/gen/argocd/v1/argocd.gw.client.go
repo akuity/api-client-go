@@ -24,6 +24,7 @@ type ArgoCDServiceGatewayClient interface {
 	GetInstanceNotificationCatalog(context.Context, *GetInstanceNotificationCatalogRequest) (*GetInstanceNotificationCatalogResponse, error)
 	GetInstanceImageUpdaterSettings(context.Context, *GetInstanceImageUpdaterSettingsRequest) (*GetInstanceImageUpdaterSettingsResponse, error)
 	GetInstanceResourceCustomizations(context.Context, *GetInstanceResourceCustomizationsRequest) (*GetInstanceResourceCustomizationsResponse, error)
+	GetInstanceConfigManagementPlugins(context.Context, *GetInstanceConfigManagementPluginsRequest) (*GetInstanceConfigManagementPluginsResponse, error)
 	PatchInstance(context.Context, *PatchInstanceRequest) (*PatchInstanceResponse, error)
 	PatchInstanceSecret(context.Context, *PatchInstanceSecretRequest) (*PatchInstanceSecretResponse, error)
 	PatchInstanceNotificationSecret(context.Context, *PatchInstanceNotificationSecretRequest) (*PatchInstanceNotificationSecretResponse, error)
@@ -36,6 +37,7 @@ type ArgoCDServiceGatewayClient interface {
 	UpdateInstanceImageUpdaterConfig(context.Context, *UpdateInstanceImageUpdaterConfigRequest) (*UpdateInstanceImageUpdaterConfigResponse, error)
 	UpdateInstanceImageUpdaterSSHConfig(context.Context, *UpdateInstanceImageUpdaterSSHConfigRequest) (*UpdateInstanceImageUpdaterSSHConfigResponse, error)
 	UpdateInstanceResourceCustomizations(context.Context, *UpdateInstanceResourceCustomizationsRequest) (*UpdateInstanceResourceCustomizationsResponse, error)
+	UpdateInstanceConfigManagementPlugins(context.Context, *UpdateInstanceConfigManagementPluginsRequest) (*UpdateInstanceConfigManagementPluginsResponse, error)
 	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
 	ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error)
@@ -58,10 +60,14 @@ type ArgoCDServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	RotateInstanceClusterCredentials(context.Context, *RotateInstanceClusterCredentialsRequest) (*RotateInstanceClusterCredentialsResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
+	ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error)
 }
 
 func NewArgoCDServiceGatewayClient(c gateway.Client) ArgoCDServiceGatewayClient {
@@ -146,6 +152,13 @@ func (c *argoCDServiceGatewayClient) GetInstanceResourceCustomizations(ctx conte
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	return gateway.DoRequest[GetInstanceResourceCustomizationsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceConfigManagementPlugins(ctx context.Context, req *GetInstanceConfigManagementPluginsRequest) (*GetInstanceConfigManagementPluginsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/config-management-plugins")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetInstanceConfigManagementPluginsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) PatchInstance(ctx context.Context, req *PatchInstanceRequest) (*PatchInstanceResponse, error) {
@@ -241,6 +254,14 @@ func (c *argoCDServiceGatewayClient) UpdateInstanceResourceCustomizations(ctx co
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateInstanceResourceCustomizationsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstanceConfigManagementPlugins(ctx context.Context, req *UpdateInstanceConfigManagementPluginsRequest) (*UpdateInstanceConfigManagementPluginsResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/config-management-plugins")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstanceConfigManagementPluginsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) DeleteInstance(ctx context.Context, req *DeleteInstanceRequest) (*DeleteInstanceResponse, error) {
@@ -448,6 +469,14 @@ func (c *argoCDServiceGatewayClient) UpdateInstanceClustersAgentVersion(ctx cont
 	return gateway.DoRequest[emptypb.Empty](ctx, gwReq)
 }
 
+func (c *argoCDServiceGatewayClient) RotateInstanceClusterCredentials(ctx context.Context, req *RotateInstanceClusterCredentialsRequest) (*RotateInstanceClusterCredentialsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/rotate-credentials")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RotateInstanceClusterCredentialsResponse](ctx, gwReq)
+}
+
 func (c *argoCDServiceGatewayClient) DeleteInstanceCluster(ctx context.Context, req *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {
 	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/{id}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -477,4 +506,14 @@ func (c *argoCDServiceGatewayClient) ApplyInstance(ctx context.Context, req *App
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[ApplyInstanceResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ExportInstance(ctx context.Context, req *ExportInstanceRequest) (*ExportInstanceResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/export")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("idType", req.IdType.String())
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ExportInstanceResponse](ctx, gwReq)
 }

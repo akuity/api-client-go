@@ -12,6 +12,7 @@ import (
 type AuthServiceGatewayClient interface {
 	GetDeviceCode(context.Context, *GetDeviceCodeRequest) (*GetDeviceCodeResponse, error)
 	GetDeviceToken(context.Context, *GetDeviceTokenRequest) (*GetDeviceTokenResponse, error)
+	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
 }
 
 func NewAuthServiceGatewayClient(c gateway.Client) AuthServiceGatewayClient {
@@ -33,4 +34,10 @@ func (c *authServiceGatewayClient) GetDeviceToken(ctx context.Context, req *GetD
 	gwReq := c.gwc.NewRequest("POST", "/api/v1/auth/device-token")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetDeviceTokenResponse](ctx, gwReq)
+}
+
+func (c *authServiceGatewayClient) RefreshAccessToken(ctx context.Context, req *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/auth/refresh-token")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RefreshAccessTokenResponse](ctx, gwReq)
 }

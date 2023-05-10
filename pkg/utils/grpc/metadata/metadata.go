@@ -11,6 +11,7 @@ const (
 	apiKeySecretMetadataKey = "x-akuity-api-key-secret"
 	userTokenMetadataKey    = "x-akuity-user-token"
 	requestIDMetadataKey    = "x-request-id"
+	refreshTokenMetadataKey = "x-refresh-token"
 )
 
 var allowedHeaders = map[string]bool{
@@ -40,6 +41,18 @@ func GetAPIKey(md metadata.MD) (id, secret string, ok bool) {
 func SetAPIKey(md metadata.MD, id, secret string) {
 	md.Set(apiKeyIDMetadataKey, id)
 	md.Set(apiKeySecretMetadataKey, secret)
+}
+
+func GetRefreshToken(md metadata.MD) (string, bool) {
+	v := md.Get(refreshTokenMetadataKey)
+	if len(v) == 0 {
+		return "", false
+	}
+	return v[0], true
+}
+
+func SetRefreshToken(md metadata.MD, token string) {
+	md.Set(refreshTokenMetadataKey, token)
 }
 
 func GetUserToken(md metadata.MD) (string, bool) {
