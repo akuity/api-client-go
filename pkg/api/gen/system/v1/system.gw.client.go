@@ -30,6 +30,9 @@ type SystemServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDExtensions(context.Context, *emptypb.Empty) (*ListArgoCDExtensionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
 }
 
 func NewSystemServiceGatewayClient(c gateway.Client) SystemServiceGatewayClient {
@@ -90,4 +93,9 @@ func (c *systemServiceGatewayClient) ListArgoCDVersions(ctx context.Context, req
 func (c *systemServiceGatewayClient) ListArgoCDExtensions(ctx context.Context, req *emptypb.Empty) (*ListArgoCDExtensionsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/cd/extensions")
 	return gateway.DoRequest[ListArgoCDExtensionsResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) GetAnnouncement(ctx context.Context, req *emptypb.Empty) (*GetAnnouncementResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/announcement")
+	return gateway.DoRequest[GetAnnouncementResponse](ctx, gwReq)
 }

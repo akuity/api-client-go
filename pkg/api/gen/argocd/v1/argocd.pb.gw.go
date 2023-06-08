@@ -102,7 +102,7 @@ func local_request_ArgoCDService_ListInstances_0(ctx context.Context, marshaler 
 }
 
 var (
-	filter_ArgoCDService_WatchInstances_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_ArgoCDService_WatchInstances_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_ArgoCDService_WatchInstances_0(ctx context.Context, marshaler runtime.Marshaler, client ArgoCDServiceClient, req *http.Request, pathParams map[string]string) (ArgoCDService_WatchInstancesClient, runtime.ServerMetadata, error) {
@@ -215,7 +215,7 @@ func local_request_ArgoCDService_CreateInstance_0(ctx context.Context, marshaler
 }
 
 var (
-	filter_ArgoCDService_GetInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_ArgoCDService_GetInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "id": 2}, Base: []int{1, 1, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4, 4}}
 )
 
 func request_ArgoCDService_GetInstance_0(ctx context.Context, marshaler runtime.Marshaler, client ArgoCDServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2425,7 +2425,7 @@ func local_request_ArgoCDService_DeleteInstanceAccount_0(ctx context.Context, ma
 }
 
 var (
-	filter_ArgoCDService_ListInstanceClusters_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_ArgoCDService_ListInstanceClusters_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
 )
 
 func request_ArgoCDService_ListInstanceClusters_0(ctx context.Context, marshaler runtime.Marshaler, client ArgoCDServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2515,7 +2515,7 @@ func local_request_ArgoCDService_ListInstanceClusters_0(ctx context.Context, mar
 }
 
 var (
-	filter_ArgoCDService_WatchInstanceClusters_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_ArgoCDService_WatchInstanceClusters_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
 )
 
 func request_ArgoCDService_WatchInstanceClusters_0(ctx context.Context, marshaler runtime.Marshaler, client ArgoCDServiceClient, req *http.Request, pathParams map[string]string) (ArgoCDService_WatchInstanceClustersClient, runtime.ServerMetadata, error) {
@@ -2658,7 +2658,7 @@ func local_request_ArgoCDService_CreateInstanceCluster_0(ctx context.Context, ma
 }
 
 var (
-	filter_ArgoCDService_GetInstanceCluster_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
+	filter_ArgoCDService_GetInstanceCluster_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3, "id": 4}, Base: []int{1, 1, 2, 3, 4, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 6}}
 )
 
 func request_ArgoCDService_GetInstanceCluster_0(ctx context.Context, marshaler runtime.Marshaler, client ArgoCDServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2768,7 +2768,7 @@ func local_request_ArgoCDService_GetInstanceCluster_0(ctx context.Context, marsh
 }
 
 var (
-	filter_ArgoCDService_GetInstanceClusterInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
+	filter_ArgoCDService_GetInstanceClusterInfo_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3, "id": 4}, Base: []int{1, 1, 2, 3, 4, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 6}}
 )
 
 func request_ArgoCDService_GetInstanceClusterInfo_0(ctx context.Context, marshaler runtime.Marshaler, client ArgoCDServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -3658,7 +3658,7 @@ func local_request_ArgoCDService_ApplyInstance_0(ctx context.Context, marshaler 
 }
 
 var (
-	filter_ArgoCDService_ExportInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_ArgoCDService_ExportInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "id": 2}, Base: []int{1, 1, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4, 4}}
 )
 
 func request_ArgoCDService_ExportInstance_0(ctx context.Context, marshaler runtime.Marshaler, client ArgoCDServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -4848,7 +4848,7 @@ func RegisterArgoCDServiceHandlerServer(ctx context.Context, mux *runtime.ServeM
 // RegisterArgoCDServiceHandlerFromEndpoint is same as RegisterArgoCDServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterArgoCDServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
 	}

@@ -50,7 +50,7 @@ func local_request_OrganizationService_ListAuthenticatedUserOrganizations_0(ctx 
 }
 
 var (
-	filter_OrganizationService_GetOrganization_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_OrganizationService_GetOrganization_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
 )
 
 func request_OrganizationService_GetOrganization_0(ctx context.Context, marshaler runtime.Marshaler, client OrganizationServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -950,7 +950,7 @@ func local_request_OrganizationService_CreateOrganizationAPIKey_0(ctx context.Co
 }
 
 var (
-	filter_OrganizationService_GetAuditLogs_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_OrganizationService_GetAuditLogs_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
 )
 
 func request_OrganizationService_GetAuditLogs_0(ctx context.Context, marshaler runtime.Marshaler, client OrganizationServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1020,7 +1020,7 @@ func local_request_OrganizationService_GetAuditLogs_0(ctx context.Context, marsh
 }
 
 var (
-	filter_OrganizationService_GetAuditLogsInCSV_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_OrganizationService_GetAuditLogsInCSV_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
 )
 
 func request_OrganizationService_GetAuditLogsInCSV_0(ctx context.Context, marshaler runtime.Marshaler, client OrganizationServiceClient, req *http.Request, pathParams map[string]string) (OrganizationService_GetAuditLogsInCSVClient, runtime.ServerMetadata, error) {
@@ -1237,7 +1237,7 @@ func local_request_OrganizationService_DeleteBillingCustomer_0(ctx context.Conte
 }
 
 var (
-	filter_OrganizationService_BillingCheckout_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_OrganizationService_BillingCheckout_0 = &utilities.DoubleArray{Encoding: map[string]int{"id": 0}, Base: []int{1, 2, 0, 0}, Check: []int{0, 1, 2, 2}}
 )
 
 func request_OrganizationService_BillingCheckout_0(ctx context.Context, marshaler runtime.Marshaler, client OrganizationServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2174,7 +2174,7 @@ func RegisterOrganizationServiceHandlerServer(ctx context.Context, mux *runtime.
 // RegisterOrganizationServiceHandlerFromEndpoint is same as RegisterOrganizationServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterOrganizationServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.Dial(endpoint, opts...)
+	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
 	}
