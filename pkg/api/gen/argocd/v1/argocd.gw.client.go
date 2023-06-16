@@ -441,6 +441,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterManifests(ctx context.Con
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("offlineInstallation", fmt.Sprintf("%v", req.OfflineInstallation))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[httpbody.HttpBody](ctx, gwReq)
 }
 
