@@ -8,6 +8,7 @@ package kargov1
 
 import (
 	context "context"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,16 +20,17 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	KargoService_ListKargoInstances_FullMethodName         = "/akuity.kargo.v1.KargoService/ListKargoInstances"
-	KargoService_WatchKargoInstances_FullMethodName        = "/akuity.kargo.v1.KargoService/WatchKargoInstances"
-	KargoService_CreateKargoInstance_FullMethodName        = "/akuity.kargo.v1.KargoService/CreateKargoInstance"
-	KargoService_PatchKargoInstance_FullMethodName         = "/akuity.kargo.v1.KargoService/PatchKargoInstance"
-	KargoService_GetKargoInstance_FullMethodName           = "/akuity.kargo.v1.KargoService/GetKargoInstance"
-	KargoService_ListKargoInstanceClusters_FullMethodName  = "/akuity.kargo.v1.KargoService/ListKargoInstanceClusters"
-	KargoService_WatchKargoInstanceClusters_FullMethodName = "/akuity.kargo.v1.KargoService/WatchKargoInstanceClusters"
-	KargoService_CreateKargoInstanceCluster_FullMethodName = "/akuity.kargo.v1.KargoService/CreateKargoInstanceCluster"
-	KargoService_UpdateKargoInstanceCluster_FullMethodName = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceCluster"
-	KargoService_GetKargoInstanceCluster_FullMethodName    = "/akuity.kargo.v1.KargoService/GetKargoInstanceCluster"
+	KargoService_ListKargoInstances_FullMethodName               = "/akuity.kargo.v1.KargoService/ListKargoInstances"
+	KargoService_WatchKargoInstances_FullMethodName              = "/akuity.kargo.v1.KargoService/WatchKargoInstances"
+	KargoService_CreateKargoInstance_FullMethodName              = "/akuity.kargo.v1.KargoService/CreateKargoInstance"
+	KargoService_PatchKargoInstance_FullMethodName               = "/akuity.kargo.v1.KargoService/PatchKargoInstance"
+	KargoService_GetKargoInstance_FullMethodName                 = "/akuity.kargo.v1.KargoService/GetKargoInstance"
+	KargoService_ListKargoInstanceClusters_FullMethodName        = "/akuity.kargo.v1.KargoService/ListKargoInstanceClusters"
+	KargoService_WatchKargoInstanceClusters_FullMethodName       = "/akuity.kargo.v1.KargoService/WatchKargoInstanceClusters"
+	KargoService_CreateKargoInstanceCluster_FullMethodName       = "/akuity.kargo.v1.KargoService/CreateKargoInstanceCluster"
+	KargoService_UpdateKargoInstanceCluster_FullMethodName       = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceCluster"
+	KargoService_GetKargoInstanceCluster_FullMethodName          = "/akuity.kargo.v1.KargoService/GetKargoInstanceCluster"
+	KargoService_GetKargoInstanceClusterManifests_FullMethodName = "/akuity.kargo.v1.KargoService/GetKargoInstanceClusterManifests"
 )
 
 // KargoServiceClient is the client API for KargoService service.
@@ -45,6 +47,9 @@ type KargoServiceClient interface {
 	CreateKargoInstanceCluster(ctx context.Context, in *CreateKargoInstanceClusterRequest, opts ...grpc.CallOption) (*CreateKargoInstanceClusterResponse, error)
 	UpdateKargoInstanceCluster(ctx context.Context, in *UpdateKargoInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceClusterResponse, error)
 	GetKargoInstanceCluster(ctx context.Context, in *GetKargoInstanceClusterRequest, opts ...grpc.CallOption) (*GetKargoInstanceClusterResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoInstanceClusterManifests(ctx context.Context, in *GetKargoInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error)
 }
 
 type kargoServiceClient struct {
@@ -191,6 +196,15 @@ func (c *kargoServiceClient) GetKargoInstanceCluster(ctx context.Context, in *Ge
 	return out, nil
 }
 
+func (c *kargoServiceClient) GetKargoInstanceClusterManifests(ctx context.Context, in *GetKargoInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error) {
+	out := new(httpbody.HttpBody)
+	err := c.cc.Invoke(ctx, KargoService_GetKargoInstanceClusterManifests_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KargoServiceServer is the server API for KargoService service.
 // All implementations must embed UnimplementedKargoServiceServer
 // for forward compatibility
@@ -205,6 +219,9 @@ type KargoServiceServer interface {
 	CreateKargoInstanceCluster(context.Context, *CreateKargoInstanceClusterRequest) (*CreateKargoInstanceClusterResponse, error)
 	UpdateKargoInstanceCluster(context.Context, *UpdateKargoInstanceClusterRequest) (*UpdateKargoInstanceClusterResponse, error)
 	GetKargoInstanceCluster(context.Context, *GetKargoInstanceClusterRequest) (*GetKargoInstanceClusterResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoInstanceClusterManifests(context.Context, *GetKargoInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
 	mustEmbedUnimplementedKargoServiceServer()
 }
 
@@ -241,6 +258,9 @@ func (UnimplementedKargoServiceServer) UpdateKargoInstanceCluster(context.Contex
 }
 func (UnimplementedKargoServiceServer) GetKargoInstanceCluster(context.Context, *GetKargoInstanceClusterRequest) (*GetKargoInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKargoInstanceCluster not implemented")
+}
+func (UnimplementedKargoServiceServer) GetKargoInstanceClusterManifests(context.Context, *GetKargoInstanceClusterManifestsRequest) (*httpbody.HttpBody, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKargoInstanceClusterManifests not implemented")
 }
 func (UnimplementedKargoServiceServer) mustEmbedUnimplementedKargoServiceServer() {}
 
@@ -441,6 +461,24 @@ func _KargoService_GetKargoInstanceCluster_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KargoService_GetKargoInstanceClusterManifests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKargoInstanceClusterManifestsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetKargoInstanceClusterManifests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetKargoInstanceClusterManifests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetKargoInstanceClusterManifests(ctx, req.(*GetKargoInstanceClusterManifestsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KargoService_ServiceDesc is the grpc.ServiceDesc for KargoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -479,6 +517,10 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetKargoInstanceCluster",
 			Handler:    _KargoService_GetKargoInstanceCluster_Handler,
+		},
+		{
+			MethodName: "GetKargoInstanceClusterManifests",
+			Handler:    _KargoService_GetKargoInstanceClusterManifests_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

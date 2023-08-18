@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	url "net/url"
 )
 
@@ -22,6 +23,9 @@ type KargoServiceGatewayClient interface {
 	CreateKargoInstanceCluster(context.Context, *CreateKargoInstanceClusterRequest) (*CreateKargoInstanceClusterResponse, error)
 	UpdateKargoInstanceCluster(context.Context, *UpdateKargoInstanceClusterRequest) (*UpdateKargoInstanceClusterResponse, error)
 	GetKargoInstanceCluster(context.Context, *GetKargoInstanceClusterRequest) (*GetKargoInstanceClusterResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoInstanceClusterManifests(context.Context, *GetKargoInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
 }
 
 func NewKargoServiceGatewayClient(c gateway.Client) KargoServiceGatewayClient {
@@ -145,4 +149,12 @@ func (c *kargoServiceGatewayClient) GetKargoInstanceCluster(ctx context.Context,
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	return gateway.DoRequest[GetKargoInstanceClusterResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetKargoInstanceClusterManifests(ctx context.Context, req *GetKargoInstanceClusterManifestsRequest) (*httpbody.HttpBody, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}/manifests")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[httpbody.HttpBody](ctx, gwReq)
 }
