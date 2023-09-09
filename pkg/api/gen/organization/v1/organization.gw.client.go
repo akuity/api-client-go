@@ -41,6 +41,8 @@ type OrganizationServiceGatewayClient interface {
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
+	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
+	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -304,4 +306,17 @@ func (c *organizationServiceGatewayClient) GetFeatureGates(ctx context.Context, 
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/feature-gates")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	return gateway.DoRequest[GetFeatureGatesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetOIDCMap(ctx context.Context, req *GetOIDCMapRequest) (*GetOIDCMapResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/oidc-map")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetOIDCMapResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateOIDCMap(ctx context.Context, req *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/organizations/{id}/oidc-map")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateOIDCMapResponse](ctx, gwReq)
 }

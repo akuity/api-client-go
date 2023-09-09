@@ -46,6 +46,8 @@ const (
 	OrganizationService_EnsureSSOConfiguration_FullMethodName             = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
 	OrganizationService_DeleteSSOConfiguration_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
 	OrganizationService_GetFeatureGates_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
+	OrganizationService_GetOIDCMap_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
+	OrganizationService_UpdateOIDCMap_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -80,6 +82,8 @@ type OrganizationServiceClient interface {
 	EnsureSSOConfiguration(ctx context.Context, in *EnsureSSOConfigurationRequest, opts ...grpc.CallOption) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(ctx context.Context, in *DeleteSSOConfigurationRequest, opts ...grpc.CallOption) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error)
+	GetOIDCMap(ctx context.Context, in *GetOIDCMapRequest, opts ...grpc.CallOption) (*GetOIDCMapResponse, error)
+	UpdateOIDCMap(ctx context.Context, in *UpdateOIDCMapRequest, opts ...grpc.CallOption) (*UpdateOIDCMapResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -347,6 +351,24 @@ func (c *organizationServiceClient) GetFeatureGates(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetOIDCMap(ctx context.Context, in *GetOIDCMapRequest, opts ...grpc.CallOption) (*GetOIDCMapResponse, error) {
+	out := new(GetOIDCMapResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetOIDCMap_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateOIDCMap(ctx context.Context, in *UpdateOIDCMapRequest, opts ...grpc.CallOption) (*UpdateOIDCMapResponse, error) {
+	out := new(UpdateOIDCMapResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateOIDCMap_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -379,6 +401,8 @@ type OrganizationServiceServer interface {
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
+	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
+	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -463,6 +487,12 @@ func (UnimplementedOrganizationServiceServer) DeleteSSOConfiguration(context.Con
 }
 func (UnimplementedOrganizationServiceServer) GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFeatureGates not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOIDCMap not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOIDCMap not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -948,6 +978,42 @@ func _OrganizationService_GetFeatureGates_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetOIDCMap_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOIDCMapRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetOIDCMap(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetOIDCMap_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetOIDCMap(ctx, req.(*GetOIDCMapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateOIDCMap_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOIDCMapRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateOIDCMap(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateOIDCMap_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateOIDCMap(ctx, req.(*UpdateOIDCMapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1054,6 +1120,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetFeatureGates",
 			Handler:    _OrganizationService_GetFeatureGates_Handler,
+		},
+		{
+			MethodName: "GetOIDCMap",
+			Handler:    _OrganizationService_GetOIDCMap_Handler,
+		},
+		{
+			MethodName: "UpdateOIDCMap",
+			Handler:    _OrganizationService_UpdateOIDCMap_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
