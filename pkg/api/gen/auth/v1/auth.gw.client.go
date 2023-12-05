@@ -5,7 +5,9 @@ package authv1
 
 import (
 	context "context"
+	fmt "fmt"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
+	url "net/url"
 )
 
 // AuthServiceGatewayClient is the interface for AuthService service client.
@@ -13,6 +15,7 @@ type AuthServiceGatewayClient interface {
 	GetDeviceCode(context.Context, *GetDeviceCodeRequest) (*GetDeviceCodeResponse, error)
 	GetDeviceToken(context.Context, *GetDeviceTokenRequest) (*GetDeviceTokenResponse, error)
 	RefreshAccessToken(context.Context, *RefreshAccessTokenRequest) (*RefreshAccessTokenResponse, error)
+	GetOIDCProviderDetails(context.Context, *GetOIDCProviderDetailsRequest) (*GetOIDCProviderDetailsResponse, error)
 }
 
 func NewAuthServiceGatewayClient(c gateway.Client) AuthServiceGatewayClient {
@@ -40,4 +43,12 @@ func (c *authServiceGatewayClient) RefreshAccessToken(ctx context.Context, req *
 	gwReq := c.gwc.NewRequest("POST", "/api/v1/auth/refresh-token")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RefreshAccessTokenResponse](ctx, gwReq)
+}
+
+func (c *authServiceGatewayClient) GetOIDCProviderDetails(ctx context.Context, req *GetOIDCProviderDetailsRequest) (*GetOIDCProviderDetailsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/oidc/provider-details")
+	q := url.Values{}
+	q.Add("discoveryUrl", fmt.Sprintf("%v", req.DiscoveryUrl))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetOIDCProviderDetailsResponse](ctx, gwReq)
 }

@@ -37,6 +37,7 @@ const (
 	OrganizationService_ListOrganizationAPIKeys_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
 	OrganizationService_CreateOrganizationAPIKey_FullMethodName           = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
 	OrganizationService_GetAuditLogs_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
+	OrganizationService_ListAuditLogsArchives_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
 	OrganizationService_GetAuditLogsInCSV_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
 	OrganizationService_GetCustomerDetails_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
 	OrganizationService_UpdateBillingDetails_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
@@ -71,6 +72,7 @@ type OrganizationServiceClient interface {
 	ListOrganizationAPIKeys(ctx context.Context, in *ListOrganizationAPIKeysRequest, opts ...grpc.CallOption) (*ListOrganizationAPIKeysResponse, error)
 	CreateOrganizationAPIKey(ctx context.Context, in *CreateOrganizationAPIKeyRequest, opts ...grpc.CallOption) (*CreateOrganizationAPIKeyResponse, error)
 	GetAuditLogs(ctx context.Context, in *GetAuditLogsRequest, opts ...grpc.CallOption) (*GetAuditLogsResponse, error)
+	ListAuditLogsArchives(ctx context.Context, in *ListAuditLogsArchivesRequest, opts ...grpc.CallOption) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetAuditLogsInCSV(ctx context.Context, in *GetAuditLogsInCSVRequest, opts ...grpc.CallOption) (OrganizationService_GetAuditLogsInCSVClient, error)
@@ -247,6 +249,15 @@ func (c *organizationServiceClient) GetAuditLogs(ctx context.Context, in *GetAud
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListAuditLogsArchives(ctx context.Context, in *ListAuditLogsArchivesRequest, opts ...grpc.CallOption) (*ListAuditLogsArchivesResponse, error) {
+	out := new(ListAuditLogsArchivesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListAuditLogsArchives_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetAuditLogsInCSV(ctx context.Context, in *GetAuditLogsInCSVRequest, opts ...grpc.CallOption) (OrganizationService_GetAuditLogsInCSVClient, error) {
 	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[0], OrganizationService_GetAuditLogsInCSV_FullMethodName, opts...)
 	if err != nil {
@@ -390,6 +401,7 @@ type OrganizationServiceServer interface {
 	ListOrganizationAPIKeys(context.Context, *ListOrganizationAPIKeysRequest) (*ListOrganizationAPIKeysResponse, error)
 	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
 	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
+	ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetAuditLogsInCSV(*GetAuditLogsInCSVRequest, OrganizationService_GetAuditLogsInCSVServer) error
@@ -460,6 +472,9 @@ func (UnimplementedOrganizationServiceServer) CreateOrganizationAPIKey(context.C
 }
 func (UnimplementedOrganizationServiceServer) GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuditLogs not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAuditLogsArchives not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetAuditLogsInCSV(*GetAuditLogsInCSVRequest, OrganizationService_GetAuditLogsInCSVServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetAuditLogsInCSV not implemented")
@@ -813,6 +828,24 @@ func _OrganizationService_GetAuditLogs_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListAuditLogsArchives_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAuditLogsArchivesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListAuditLogsArchives(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListAuditLogsArchives_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListAuditLogsArchives(ctx, req.(*ListAuditLogsArchivesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetAuditLogsInCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetAuditLogsInCSVRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -1088,6 +1121,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAuditLogs",
 			Handler:    _OrganizationService_GetAuditLogs_Handler,
+		},
+		{
+			MethodName: "ListAuditLogsArchives",
+			Handler:    _OrganizationService_ListAuditLogsArchives_Handler,
 		},
 		{
 			MethodName: "GetCustomerDetails",

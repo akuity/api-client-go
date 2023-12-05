@@ -54,7 +54,7 @@ type ArgoCDServiceGatewayClient interface {
 	GetInstanceClusterInfo(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterInfoResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
+	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -64,6 +64,8 @@ type ArgoCDServiceGatewayClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceClusterCredentials(context.Context, *RotateInstanceClusterCredentialsRequest) (*RotateInstanceClusterCredentialsResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
+	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
+	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
@@ -351,6 +353,10 @@ func (c *argoCDServiceGatewayClient) ListInstanceClusters(ctx context.Context, r
 		if req.Filter.NamespaceScoped != nil {
 			q.Add("filter.namespaceScoped", fmt.Sprintf("%v", *req.Filter.NamespaceScoped))
 		}
+		for k, v := range req.Filter.Labels {
+			key := fmt.Sprintf("filter.labels[%v]", k)
+			q.Add(key, fmt.Sprintf("%v", v))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstanceClustersResponse](ctx, gwReq)
@@ -401,6 +407,10 @@ func (c *argoCDServiceGatewayClient) WatchInstanceClusters(ctx context.Context, 
 		if req.Filter.NamespaceScoped != nil {
 			q.Add("filter.namespaceScoped", fmt.Sprintf("%v", *req.Filter.NamespaceScoped))
 		}
+		for k, v := range req.Filter.Labels {
+			key := fmt.Sprintf("filter.labels[%v]", k)
+			q.Add(key, fmt.Sprintf("%v", v))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchInstanceClustersResponse](ctx, c.gwc, gwReq)
@@ -436,7 +446,7 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterInfo(ctx context.Context,
 	return gateway.DoRequest[GetInstanceClusterInfoResponse](ctx, gwReq)
 }
 
-func (c *argoCDServiceGatewayClient) GetInstanceClusterManifests(ctx context.Context, req *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error) {
+func (c *argoCDServiceGatewayClient) GetInstanceClusterManifests(ctx context.Context, req *GetInstanceClusterManifestsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/{id}/manifests")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
@@ -444,7 +454,7 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterManifests(ctx context.Con
 	q := url.Values{}
 	q.Add("offlineInstallation", fmt.Sprintf("%v", req.OfflineInstallation))
 	gwReq.SetQueryParamsFromValues(q)
-	return gateway.DoRequest[httpbody.HttpBody](ctx, gwReq)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) UpdateInstanceCluster(ctx context.Context, req *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error) {
@@ -487,6 +497,26 @@ func (c *argoCDServiceGatewayClient) DeleteInstanceCluster(ctx context.Context, 
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[DeleteInstanceClusterResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceClusterCommand(ctx context.Context, req *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/{id}/command")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("locationOrigin", fmt.Sprintf("%v", req.LocationOrigin))
+	q.Add("offline", fmt.Sprintf("%v", req.Offline))
+	q.Add("type", fmt.Sprintf("%v", req.Type))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetInstanceClusterCommandResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetAIAssistantUsageStats(ctx context.Context, req *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/ai-assistant-usage-stats")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetAIAssistantUsageStatsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) GetSyncOperationsStats(ctx context.Context, req *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {

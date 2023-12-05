@@ -28,6 +28,7 @@ const (
 	SystemService_ListAgentVersions_FullMethodName    = "/akuity.system.v1.SystemService/ListAgentVersions"
 	SystemService_GetStatus_FullMethodName            = "/akuity.system.v1.SystemService/GetStatus"
 	SystemService_ListArgoCDVersions_FullMethodName   = "/akuity.system.v1.SystemService/ListArgoCDVersions"
+	SystemService_ListKargoVersions_FullMethodName    = "/akuity.system.v1.SystemService/ListKargoVersions"
 	SystemService_ListArgoCDExtensions_FullMethodName = "/akuity.system.v1.SystemService/ListArgoCDExtensions"
 	SystemService_GetAnnouncement_FullMethodName      = "/akuity.system.v1.SystemService/GetAnnouncement"
 )
@@ -51,6 +52,9 @@ type SystemServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListKargoVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListKargoVersionsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDExtensions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDExtensionsResponse, error)
@@ -140,6 +144,15 @@ func (c *systemServiceClient) ListArgoCDVersions(ctx context.Context, in *emptyp
 	return out, nil
 }
 
+func (c *systemServiceClient) ListKargoVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListKargoVersionsResponse, error) {
+	out := new(ListKargoVersionsResponse)
+	err := c.cc.Invoke(ctx, SystemService_ListKargoVersions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemServiceClient) ListArgoCDExtensions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDExtensionsResponse, error) {
 	out := new(ListArgoCDExtensionsResponse)
 	err := c.cc.Invoke(ctx, SystemService_ListArgoCDExtensions_FullMethodName, in, out, opts...)
@@ -179,6 +192,9 @@ type SystemServiceServer interface {
 	ListArgoCDVersions(context.Context, *emptypb.Empty) (*ListArgoCDVersionsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListKargoVersions(context.Context, *emptypb.Empty) (*ListKargoVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDExtensions(context.Context, *emptypb.Empty) (*ListArgoCDExtensionsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
@@ -213,6 +229,9 @@ func (UnimplementedSystemServiceServer) GetStatus(context.Context, *emptypb.Empt
 }
 func (UnimplementedSystemServiceServer) ListArgoCDVersions(context.Context, *emptypb.Empty) (*ListArgoCDVersionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDVersions not implemented")
+}
+func (UnimplementedSystemServiceServer) ListKargoVersions(context.Context, *emptypb.Empty) (*ListKargoVersionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKargoVersions not implemented")
 }
 func (UnimplementedSystemServiceServer) ListArgoCDExtensions(context.Context, *emptypb.Empty) (*ListArgoCDExtensionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDExtensions not implemented")
@@ -377,6 +396,24 @@ func _SystemService_ListArgoCDVersions_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_ListKargoVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListKargoVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListKargoVersions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListKargoVersions(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemService_ListArgoCDExtensions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
@@ -451,6 +488,10 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListArgoCDVersions",
 			Handler:    _SystemService_ListArgoCDVersions_Handler,
+		},
+		{
+			MethodName: "ListKargoVersions",
+			Handler:    _SystemService_ListKargoVersions_Handler,
 		},
 		{
 			MethodName: "ListArgoCDExtensions",

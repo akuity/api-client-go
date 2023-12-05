@@ -357,11 +357,11 @@ func local_request_KargoService_GetKargoInstance_0(ctx context.Context, marshale
 }
 
 var (
-	filter_KargoService_ListKargoInstanceClusters_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
+	filter_KargoService_ListKargoInstanceAgents_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
 )
 
-func request_KargoService_ListKargoInstanceClusters_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListKargoInstanceClustersRequest
+func request_KargoService_ListKargoInstanceAgents_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListKargoInstanceAgentsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -394,17 +394,17 @@ func request_KargoService_ListKargoInstanceClusters_0(ctx context.Context, marsh
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_ListKargoInstanceClusters_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_ListKargoInstanceAgents_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.ListKargoInstanceClusters(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ListKargoInstanceAgents(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_KargoService_ListKargoInstanceClusters_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq ListKargoInstanceClustersRequest
+func local_request_KargoService_ListKargoInstanceAgents_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListKargoInstanceAgentsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -437,21 +437,21 @@ func local_request_KargoService_ListKargoInstanceClusters_0(ctx context.Context,
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_ListKargoInstanceClusters_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_ListKargoInstanceAgents_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.ListKargoInstanceClusters(ctx, &protoReq)
+	msg, err := server.ListKargoInstanceAgents(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_KargoService_WatchKargoInstanceClusters_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
+	filter_KargoService_WatchKargoInstanceAgents_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
 )
 
-func request_KargoService_WatchKargoInstanceClusters_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_WatchKargoInstanceClustersClient, runtime.ServerMetadata, error) {
-	var protoReq WatchKargoInstanceClustersRequest
+func request_KargoService_WatchKargoInstanceAgents_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_WatchKargoInstanceAgentsClient, runtime.ServerMetadata, error) {
+	var protoReq WatchKargoInstanceAgentsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -484,11 +484,11 @@ func request_KargoService_WatchKargoInstanceClusters_0(ctx context.Context, mars
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_WatchKargoInstanceClusters_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_WatchKargoInstanceAgents_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	stream, err := client.WatchKargoInstanceClusters(ctx, &protoReq)
+	stream, err := client.WatchKargoInstanceAgents(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
 	}
@@ -501,8 +501,8 @@ func request_KargoService_WatchKargoInstanceClusters_0(ctx context.Context, mars
 
 }
 
-func request_KargoService_CreateKargoInstanceCluster_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateKargoInstanceClusterRequest
+func request_KargoService_CreateKargoInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -540,13 +540,13 @@ func request_KargoService_CreateKargoInstanceCluster_0(ctx context.Context, mars
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "instance_id", err)
 	}
 
-	msg, err := client.CreateKargoInstanceCluster(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CreateKargoInstanceAgent(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_KargoService_CreateKargoInstanceCluster_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateKargoInstanceClusterRequest
+func local_request_KargoService_CreateKargoInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -584,67 +584,13 @@ func local_request_KargoService_CreateKargoInstanceCluster_0(ctx context.Context
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "instance_id", err)
 	}
 
-	msg, err := server.CreateKargoInstanceCluster(ctx, &protoReq)
+	msg, err := server.CreateKargoInstanceAgent(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-func request_KargoService_UpdateKargoInstanceCluster_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateKargoInstanceClusterRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["organization_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "organization_id")
-	}
-
-	protoReq.OrganizationId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "organization_id", err)
-	}
-
-	val, ok = pathParams["instance_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "instance_id")
-	}
-
-	protoReq.InstanceId, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "instance_id", err)
-	}
-
-	val, ok = pathParams["id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
-	}
-
-	protoReq.Id, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
-	}
-
-	msg, err := client.UpdateKargoInstanceCluster(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-
-}
-
-func local_request_KargoService_UpdateKargoInstanceCluster_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq UpdateKargoInstanceClusterRequest
+func request_KargoService_UpdateKargoInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UpdateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -692,13 +638,67 @@ func local_request_KargoService_UpdateKargoInstanceCluster_0(ctx context.Context
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
-	msg, err := server.UpdateKargoInstanceCluster(ctx, &protoReq)
+	msg, err := client.UpdateKargoInstanceAgent(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func request_KargoService_GetKargoInstanceCluster_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetKargoInstanceClusterRequest
+func local_request_KargoService_UpdateKargoInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UpdateKargoInstanceAgentRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["organization_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "organization_id")
+	}
+
+	protoReq.OrganizationId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "organization_id", err)
+	}
+
+	val, ok = pathParams["instance_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "instance_id")
+	}
+
+	protoReq.InstanceId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "instance_id", err)
+	}
+
+	val, ok = pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+
+	msg, err := server.UpdateKargoInstanceAgent(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+func request_KargoService_GetKargoInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -738,13 +738,13 @@ func request_KargoService_GetKargoInstanceCluster_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
-	msg, err := client.GetKargoInstanceCluster(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetKargoInstanceAgent(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_KargoService_GetKargoInstanceCluster_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetKargoInstanceClusterRequest
+func local_request_KargoService_GetKargoInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -784,13 +784,13 @@ func local_request_KargoService_GetKargoInstanceCluster_0(ctx context.Context, m
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
-	msg, err := server.GetKargoInstanceCluster(ctx, &protoReq)
+	msg, err := server.GetKargoInstanceAgent(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
-func request_KargoService_GetKargoInstanceClusterManifests_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetKargoInstanceClusterManifestsRequest
+func request_KargoService_GetKargoInstanceAgentManifests_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_GetKargoInstanceAgentManifestsClient, runtime.ServerMetadata, error) {
+	var protoReq GetKargoInstanceAgentManifestsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -830,54 +830,16 @@ func request_KargoService_GetKargoInstanceClusterManifests_0(ctx context.Context
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
-	msg, err := client.GetKargoInstanceClusterManifests(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-
-}
-
-func local_request_KargoService_GetKargoInstanceClusterManifests_0(ctx context.Context, marshaler runtime.Marshaler, server KargoServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetKargoInstanceClusterManifestsRequest
-	var metadata runtime.ServerMetadata
-
-	var (
-		val string
-		ok  bool
-		err error
-		_   = err
-	)
-
-	val, ok = pathParams["organization_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "organization_id")
-	}
-
-	protoReq.OrganizationId, err = runtime.String(val)
+	stream, err := client.GetKargoInstanceAgentManifests(ctx, &protoReq)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "organization_id", err)
+		return nil, metadata, err
 	}
-
-	val, ok = pathParams["instance_id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "instance_id")
-	}
-
-	protoReq.InstanceId, err = runtime.String(val)
+	header, err := stream.Header()
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "instance_id", err)
+		return nil, metadata, err
 	}
-
-	val, ok = pathParams["id"]
-	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
-	}
-
-	protoReq.Id, err = runtime.String(val)
-	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
-	}
-
-	msg, err := server.GetKargoInstanceClusterManifests(ctx, &protoReq)
-	return msg, metadata, err
+	metadata.HeaderMD = header
+	return stream, metadata, nil
 
 }
 
@@ -994,7 +956,7 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_ListKargoInstanceClusters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_KargoService_ListKargoInstanceAgents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -1002,12 +964,12 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/ListKargoInstanceClusters", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/ListKargoInstanceAgents", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_KargoService_ListKargoInstanceClusters_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_KargoService_ListKargoInstanceAgents_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -1015,18 +977,18 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_KargoService_ListKargoInstanceClusters_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_ListKargoInstanceAgents_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_WatchKargoInstanceClusters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_KargoService_WatchKargoInstanceAgents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
 	})
 
-	mux.Handle("POST", pattern_KargoService_CreateKargoInstanceCluster_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_KargoService_CreateKargoInstanceAgent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -1034,12 +996,12 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/CreateKargoInstanceCluster", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/CreateKargoInstanceAgent", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_KargoService_CreateKargoInstanceCluster_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_KargoService_CreateKargoInstanceAgent_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -1047,11 +1009,11 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_KargoService_CreateKargoInstanceCluster_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_CreateKargoInstanceAgent_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PUT", pattern_KargoService_UpdateKargoInstanceCluster_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_KargoService_UpdateKargoInstanceAgent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -1059,12 +1021,12 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/UpdateKargoInstanceCluster", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgent", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_KargoService_UpdateKargoInstanceCluster_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_KargoService_UpdateKargoInstanceAgent_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -1072,11 +1034,11 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_KargoService_UpdateKargoInstanceCluster_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_UpdateKargoInstanceAgent_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_GetKargoInstanceCluster_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_KargoService_GetKargoInstanceAgent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -1084,12 +1046,12 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/GetKargoInstanceCluster", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/GetKargoInstanceAgent", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_KargoService_GetKargoInstanceCluster_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_KargoService_GetKargoInstanceAgent_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -1097,33 +1059,15 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_KargoService_GetKargoInstanceCluster_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_GetKargoInstanceAgent_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_GetKargoInstanceClusterManifests_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/GetKargoInstanceClusterManifests", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}/manifests"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_KargoService_GetKargoInstanceClusterManifests_0(annotatedContext, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
-		if err != nil {
-			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_KargoService_GetKargoInstanceClusterManifests_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
+	mux.Handle("GET", pattern_KargoService_GetKargoInstanceAgentManifests_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
+		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+		return
 	})
 
 	return nil
@@ -1277,135 +1221,135 @@ func RegisterKargoServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_ListKargoInstanceClusters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_KargoService_ListKargoInstanceAgents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/ListKargoInstanceClusters", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/ListKargoInstanceAgents", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_KargoService_ListKargoInstanceClusters_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_KargoService_ListKargoInstanceAgents_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_KargoService_ListKargoInstanceClusters_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_ListKargoInstanceAgents_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_WatchKargoInstanceClusters_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_KargoService_WatchKargoInstanceAgents_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/WatchKargoInstanceClusters", runtime.WithHTTPPathPattern("/api/v1/stream/orgs/{organization_id}/kargo/instances/{instance_id}/clusters"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/WatchKargoInstanceAgents", runtime.WithHTTPPathPattern("/api/v1/stream/orgs/{organization_id}/kargo/instances/{instance_id}/agents"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_KargoService_WatchKargoInstanceClusters_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_KargoService_WatchKargoInstanceAgents_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_KargoService_WatchKargoInstanceClusters_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_KargoService_WatchKargoInstanceAgents_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("POST", pattern_KargoService_CreateKargoInstanceCluster_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_KargoService_CreateKargoInstanceAgent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/CreateKargoInstanceCluster", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/CreateKargoInstanceAgent", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_KargoService_CreateKargoInstanceCluster_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_KargoService_CreateKargoInstanceAgent_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_KargoService_CreateKargoInstanceCluster_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_CreateKargoInstanceAgent_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("PUT", pattern_KargoService_UpdateKargoInstanceCluster_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_KargoService_UpdateKargoInstanceAgent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/UpdateKargoInstanceCluster", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgent", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_KargoService_UpdateKargoInstanceCluster_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_KargoService_UpdateKargoInstanceAgent_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_KargoService_UpdateKargoInstanceCluster_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_UpdateKargoInstanceAgent_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_GetKargoInstanceCluster_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_KargoService_GetKargoInstanceAgent_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/GetKargoInstanceCluster", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/GetKargoInstanceAgent", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_KargoService_GetKargoInstanceCluster_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_KargoService_GetKargoInstanceAgent_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_KargoService_GetKargoInstanceCluster_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_GetKargoInstanceAgent_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_KargoService_GetKargoInstanceClusterManifests_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_KargoService_GetKargoInstanceAgentManifests_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/GetKargoInstanceClusterManifests", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}/manifests"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.kargo.v1.KargoService/GetKargoInstanceAgentManifests", runtime.WithHTTPPathPattern("/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}/manifests"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_KargoService_GetKargoInstanceClusterManifests_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_KargoService_GetKargoInstanceAgentManifests_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_KargoService_GetKargoInstanceClusterManifests_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_KargoService_GetKargoInstanceAgentManifests_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1423,17 +1367,17 @@ var (
 
 	pattern_KargoService_GetKargoInstance_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "name"}, ""))
 
-	pattern_KargoService_ListKargoInstanceClusters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "clusters"}, ""))
+	pattern_KargoService_ListKargoInstanceAgents_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "agents"}, ""))
 
-	pattern_KargoService_WatchKargoInstanceClusters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 2, 6, 1, 0, 4, 1, 5, 7, 2, 8}, []string{"api", "v1", "stream", "orgs", "organization_id", "kargo", "instances", "instance_id", "clusters"}, ""))
+	pattern_KargoService_WatchKargoInstanceAgents_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 2, 6, 1, 0, 4, 1, 5, 7, 2, 8}, []string{"api", "v1", "stream", "orgs", "organization_id", "kargo", "instances", "instance_id", "agents"}, ""))
 
-	pattern_KargoService_CreateKargoInstanceCluster_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "clusters"}, ""))
+	pattern_KargoService_CreateKargoInstanceAgent_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "agents"}, ""))
 
-	pattern_KargoService_UpdateKargoInstanceCluster_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "clusters", "id"}, ""))
+	pattern_KargoService_UpdateKargoInstanceAgent_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "agents", "id"}, ""))
 
-	pattern_KargoService_GetKargoInstanceCluster_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "clusters", "id"}, ""))
+	pattern_KargoService_GetKargoInstanceAgent_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "agents", "id"}, ""))
 
-	pattern_KargoService_GetKargoInstanceClusterManifests_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8, 2, 9}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "clusters", "id", "manifests"}, ""))
+	pattern_KargoService_GetKargoInstanceAgentManifests_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7, 1, 0, 4, 1, 5, 8, 2, 9}, []string{"api", "v1", "orgs", "organization_id", "kargo", "instances", "instance_id", "agents", "id", "manifests"}, ""))
 )
 
 var (
@@ -1447,15 +1391,15 @@ var (
 
 	forward_KargoService_GetKargoInstance_0 = runtime.ForwardResponseMessage
 
-	forward_KargoService_ListKargoInstanceClusters_0 = runtime.ForwardResponseMessage
+	forward_KargoService_ListKargoInstanceAgents_0 = runtime.ForwardResponseMessage
 
-	forward_KargoService_WatchKargoInstanceClusters_0 = runtime.ForwardResponseStream
+	forward_KargoService_WatchKargoInstanceAgents_0 = runtime.ForwardResponseStream
 
-	forward_KargoService_CreateKargoInstanceCluster_0 = runtime.ForwardResponseMessage
+	forward_KargoService_CreateKargoInstanceAgent_0 = runtime.ForwardResponseMessage
 
-	forward_KargoService_UpdateKargoInstanceCluster_0 = runtime.ForwardResponseMessage
+	forward_KargoService_UpdateKargoInstanceAgent_0 = runtime.ForwardResponseMessage
 
-	forward_KargoService_GetKargoInstanceCluster_0 = runtime.ForwardResponseMessage
+	forward_KargoService_GetKargoInstanceAgent_0 = runtime.ForwardResponseMessage
 
-	forward_KargoService_GetKargoInstanceClusterManifests_0 = runtime.ForwardResponseMessage
+	forward_KargoService_GetKargoInstanceAgentManifests_0 = runtime.ForwardResponseStream
 )

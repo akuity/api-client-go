@@ -29,6 +29,9 @@ type SystemServiceGatewayClient interface {
 	ListArgoCDVersions(context.Context, *emptypb.Empty) (*ListArgoCDVersionsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListKargoVersions(context.Context, *emptypb.Empty) (*ListKargoVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDExtensions(context.Context, *emptypb.Empty) (*ListArgoCDExtensionsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
@@ -88,6 +91,11 @@ func (c *systemServiceGatewayClient) GetStatus(ctx context.Context, req *emptypb
 func (c *systemServiceGatewayClient) ListArgoCDVersions(ctx context.Context, req *emptypb.Empty) (*ListArgoCDVersionsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/cd/versions")
 	return gateway.DoRequest[ListArgoCDVersionsResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) ListKargoVersions(ctx context.Context, req *emptypb.Empty) (*ListKargoVersionsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/kargo/versions")
+	return gateway.DoRequest[ListKargoVersionsResponse](ctx, gwReq)
 }
 
 func (c *systemServiceGatewayClient) ListArgoCDExtensions(ctx context.Context, req *emptypb.Empty) (*ListArgoCDExtensionsResponse, error) {

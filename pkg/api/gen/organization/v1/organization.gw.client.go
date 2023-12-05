@@ -30,6 +30,7 @@ type OrganizationServiceGatewayClient interface {
 	ListOrganizationAPIKeys(context.Context, *ListOrganizationAPIKeysRequest) (*ListOrganizationAPIKeysResponse, error)
 	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
 	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
+	ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetAuditLogsInCSV(context.Context, *GetAuditLogsInCSVRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
@@ -171,26 +172,172 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 	for _, v := range req.Filters.ActorId {
 		q.Add("filters.actorId", fmt.Sprintf("%v", v))
 	}
-	for _, v := range req.Filters.ObjectName {
-		q.Add("filters.objectName", fmt.Sprintf("%v", v))
+	if req.Filters.K8SResource != nil {
+		for _, v := range req.Filters.K8SResource.ObjectName {
+			q.Add("filters.k8sResource.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectKind {
+			q.Add("filters.k8sResource.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectGroup {
+			q.Add("filters.k8sResource.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectParentName {
+			q.Add("filters.k8sResource.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectParentParentName {
+			q.Add("filters.k8sResource.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectParentApplicationName {
+			q.Add("filters.k8sResource.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.K8SResource.Enabled != nil {
+			q.Add("filters.k8sResource.enabled", fmt.Sprintf("%v", *req.Filters.K8SResource.Enabled))
+		}
 	}
-	for _, v := range req.Filters.ObjectKind {
-		q.Add("filters.objectKind", fmt.Sprintf("%v", v))
+	if req.Filters.ArgocdApplication != nil {
+		for _, v := range req.Filters.ArgocdApplication.ObjectName {
+			q.Add("filters.argocdApplication.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectKind {
+			q.Add("filters.argocdApplication.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectGroup {
+			q.Add("filters.argocdApplication.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectParentName {
+			q.Add("filters.argocdApplication.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectParentParentName {
+			q.Add("filters.argocdApplication.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectParentApplicationName {
+			q.Add("filters.argocdApplication.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdApplication.Enabled != nil {
+			q.Add("filters.argocdApplication.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdApplication.Enabled))
+		}
 	}
-	for _, v := range req.Filters.ObjectGroup {
-		q.Add("filters.objectGroup", fmt.Sprintf("%v", v))
+	if req.Filters.ArgocdCluster != nil {
+		for _, v := range req.Filters.ArgocdCluster.ObjectName {
+			q.Add("filters.argocdCluster.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectKind {
+			q.Add("filters.argocdCluster.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectGroup {
+			q.Add("filters.argocdCluster.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectParentName {
+			q.Add("filters.argocdCluster.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectParentParentName {
+			q.Add("filters.argocdCluster.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectParentApplicationName {
+			q.Add("filters.argocdCluster.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdCluster.Enabled != nil {
+			q.Add("filters.argocdCluster.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdCluster.Enabled))
+		}
 	}
-	for _, v := range req.Filters.ObjectParentName {
-		q.Add("filters.objectParentName", fmt.Sprintf("%v", v))
+	if req.Filters.ArgocdInstance != nil {
+		for _, v := range req.Filters.ArgocdInstance.ObjectName {
+			q.Add("filters.argocdInstance.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectKind {
+			q.Add("filters.argocdInstance.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectGroup {
+			q.Add("filters.argocdInstance.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectParentName {
+			q.Add("filters.argocdInstance.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectParentParentName {
+			q.Add("filters.argocdInstance.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectParentApplicationName {
+			q.Add("filters.argocdInstance.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdInstance.Enabled != nil {
+			q.Add("filters.argocdInstance.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdInstance.Enabled))
+		}
+	}
+	if req.Filters.ArgocdProject != nil {
+		for _, v := range req.Filters.ArgocdProject.ObjectName {
+			q.Add("filters.argocdProject.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectKind {
+			q.Add("filters.argocdProject.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectGroup {
+			q.Add("filters.argocdProject.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectParentName {
+			q.Add("filters.argocdProject.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectParentParentName {
+			q.Add("filters.argocdProject.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectParentApplicationName {
+			q.Add("filters.argocdProject.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdProject.Enabled != nil {
+			q.Add("filters.argocdProject.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdProject.Enabled))
+		}
+	}
+	if req.Filters.Member != nil {
+		for _, v := range req.Filters.Member.ObjectName {
+			q.Add("filters.member.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectKind {
+			q.Add("filters.member.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectGroup {
+			q.Add("filters.member.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectParentName {
+			q.Add("filters.member.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectParentParentName {
+			q.Add("filters.member.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectParentApplicationName {
+			q.Add("filters.member.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Member.Enabled != nil {
+			q.Add("filters.member.enabled", fmt.Sprintf("%v", *req.Filters.Member.Enabled))
+		}
+	}
+	if req.Filters.OrganizationInvite != nil {
+		for _, v := range req.Filters.OrganizationInvite.ObjectName {
+			q.Add("filters.organizationInvite.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectKind {
+			q.Add("filters.organizationInvite.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectGroup {
+			q.Add("filters.organizationInvite.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectParentName {
+			q.Add("filters.organizationInvite.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectParentParentName {
+			q.Add("filters.organizationInvite.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectParentApplicationName {
+			q.Add("filters.organizationInvite.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OrganizationInvite.Enabled != nil {
+			q.Add("filters.organizationInvite.enabled", fmt.Sprintf("%v", *req.Filters.OrganizationInvite.Enabled))
+		}
 	}
 	for _, v := range req.Filters.Action {
 		q.Add("filters.action", fmt.Sprintf("%v", v))
 	}
 	for _, v := range req.Filters.ActorType {
 		q.Add("filters.actorType", fmt.Sprintf("%v", v))
-	}
-	for _, v := range req.Filters.ObjectType {
-		q.Add("filters.objectType", fmt.Sprintf("%v", v))
 	}
 	if req.Filters.StartTime != nil {
 		q.Add("filters.startTime", fmt.Sprintf("%v", *req.Filters.StartTime))
@@ -208,6 +355,26 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) ListAuditLogsArchives(ctx context.Context, req *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/audit-logs-archives")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	if req.Filters.StartDate != nil {
+		q.Add("filters.startDate", fmt.Sprintf("%v", *req.Filters.StartDate))
+	}
+	if req.Filters.EndDate != nil {
+		q.Add("filters.endDate", fmt.Sprintf("%v", *req.Filters.EndDate))
+	}
+	if req.Filters.Limit != nil {
+		q.Add("filters.limit", fmt.Sprintf("%v", *req.Filters.Limit))
+	}
+	if req.Filters.Offset != nil {
+		q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListAuditLogsArchivesResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context, req *GetAuditLogsInCSVRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/csv-audit-logs")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
@@ -215,26 +382,172 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 	for _, v := range req.Filters.ActorId {
 		q.Add("filters.actorId", fmt.Sprintf("%v", v))
 	}
-	for _, v := range req.Filters.ObjectName {
-		q.Add("filters.objectName", fmt.Sprintf("%v", v))
+	if req.Filters.K8SResource != nil {
+		for _, v := range req.Filters.K8SResource.ObjectName {
+			q.Add("filters.k8sResource.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectKind {
+			q.Add("filters.k8sResource.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectGroup {
+			q.Add("filters.k8sResource.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectParentName {
+			q.Add("filters.k8sResource.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectParentParentName {
+			q.Add("filters.k8sResource.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.K8SResource.ObjectParentApplicationName {
+			q.Add("filters.k8sResource.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.K8SResource.Enabled != nil {
+			q.Add("filters.k8sResource.enabled", fmt.Sprintf("%v", *req.Filters.K8SResource.Enabled))
+		}
 	}
-	for _, v := range req.Filters.ObjectKind {
-		q.Add("filters.objectKind", fmt.Sprintf("%v", v))
+	if req.Filters.ArgocdApplication != nil {
+		for _, v := range req.Filters.ArgocdApplication.ObjectName {
+			q.Add("filters.argocdApplication.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectKind {
+			q.Add("filters.argocdApplication.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectGroup {
+			q.Add("filters.argocdApplication.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectParentName {
+			q.Add("filters.argocdApplication.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectParentParentName {
+			q.Add("filters.argocdApplication.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdApplication.ObjectParentApplicationName {
+			q.Add("filters.argocdApplication.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdApplication.Enabled != nil {
+			q.Add("filters.argocdApplication.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdApplication.Enabled))
+		}
 	}
-	for _, v := range req.Filters.ObjectGroup {
-		q.Add("filters.objectGroup", fmt.Sprintf("%v", v))
+	if req.Filters.ArgocdCluster != nil {
+		for _, v := range req.Filters.ArgocdCluster.ObjectName {
+			q.Add("filters.argocdCluster.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectKind {
+			q.Add("filters.argocdCluster.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectGroup {
+			q.Add("filters.argocdCluster.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectParentName {
+			q.Add("filters.argocdCluster.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectParentParentName {
+			q.Add("filters.argocdCluster.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdCluster.ObjectParentApplicationName {
+			q.Add("filters.argocdCluster.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdCluster.Enabled != nil {
+			q.Add("filters.argocdCluster.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdCluster.Enabled))
+		}
 	}
-	for _, v := range req.Filters.ObjectParentName {
-		q.Add("filters.objectParentName", fmt.Sprintf("%v", v))
+	if req.Filters.ArgocdInstance != nil {
+		for _, v := range req.Filters.ArgocdInstance.ObjectName {
+			q.Add("filters.argocdInstance.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectKind {
+			q.Add("filters.argocdInstance.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectGroup {
+			q.Add("filters.argocdInstance.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectParentName {
+			q.Add("filters.argocdInstance.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectParentParentName {
+			q.Add("filters.argocdInstance.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdInstance.ObjectParentApplicationName {
+			q.Add("filters.argocdInstance.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdInstance.Enabled != nil {
+			q.Add("filters.argocdInstance.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdInstance.Enabled))
+		}
+	}
+	if req.Filters.ArgocdProject != nil {
+		for _, v := range req.Filters.ArgocdProject.ObjectName {
+			q.Add("filters.argocdProject.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectKind {
+			q.Add("filters.argocdProject.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectGroup {
+			q.Add("filters.argocdProject.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectParentName {
+			q.Add("filters.argocdProject.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectParentParentName {
+			q.Add("filters.argocdProject.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdProject.ObjectParentApplicationName {
+			q.Add("filters.argocdProject.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdProject.Enabled != nil {
+			q.Add("filters.argocdProject.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdProject.Enabled))
+		}
+	}
+	if req.Filters.Member != nil {
+		for _, v := range req.Filters.Member.ObjectName {
+			q.Add("filters.member.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectKind {
+			q.Add("filters.member.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectGroup {
+			q.Add("filters.member.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectParentName {
+			q.Add("filters.member.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectParentParentName {
+			q.Add("filters.member.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Member.ObjectParentApplicationName {
+			q.Add("filters.member.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Member.Enabled != nil {
+			q.Add("filters.member.enabled", fmt.Sprintf("%v", *req.Filters.Member.Enabled))
+		}
+	}
+	if req.Filters.OrganizationInvite != nil {
+		for _, v := range req.Filters.OrganizationInvite.ObjectName {
+			q.Add("filters.organizationInvite.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectKind {
+			q.Add("filters.organizationInvite.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectGroup {
+			q.Add("filters.organizationInvite.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectParentName {
+			q.Add("filters.organizationInvite.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectParentParentName {
+			q.Add("filters.organizationInvite.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OrganizationInvite.ObjectParentApplicationName {
+			q.Add("filters.organizationInvite.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OrganizationInvite.Enabled != nil {
+			q.Add("filters.organizationInvite.enabled", fmt.Sprintf("%v", *req.Filters.OrganizationInvite.Enabled))
+		}
 	}
 	for _, v := range req.Filters.Action {
 		q.Add("filters.action", fmt.Sprintf("%v", v))
 	}
 	for _, v := range req.Filters.ActorType {
 		q.Add("filters.actorType", fmt.Sprintf("%v", v))
-	}
-	for _, v := range req.Filters.ObjectType {
-		q.Add("filters.objectType", fmt.Sprintf("%v", v))
 	}
 	if req.Filters.StartTime != nil {
 		q.Add("filters.startTime", fmt.Sprintf("%v", *req.Filters.StartTime))

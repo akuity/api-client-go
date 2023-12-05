@@ -18,14 +18,14 @@ type KargoServiceGatewayClient interface {
 	CreateKargoInstance(context.Context, *CreateKargoInstanceRequest) (*CreateKargoInstanceResponse, error)
 	PatchKargoInstance(context.Context, *PatchKargoInstanceRequest) (*PatchKargoInstanceResponse, error)
 	GetKargoInstance(context.Context, *GetKargoInstanceRequest) (*GetKargoInstanceResponse, error)
-	ListKargoInstanceClusters(context.Context, *ListKargoInstanceClustersRequest) (*ListKargoInstanceClustersResponse, error)
-	WatchKargoInstanceClusters(context.Context, *WatchKargoInstanceClustersRequest) (<-chan *WatchKargoInstanceClustersResponse, <-chan error, error)
-	CreateKargoInstanceCluster(context.Context, *CreateKargoInstanceClusterRequest) (*CreateKargoInstanceClusterResponse, error)
-	UpdateKargoInstanceCluster(context.Context, *UpdateKargoInstanceClusterRequest) (*UpdateKargoInstanceClusterResponse, error)
-	GetKargoInstanceCluster(context.Context, *GetKargoInstanceClusterRequest) (*GetKargoInstanceClusterResponse, error)
+	ListKargoInstanceAgents(context.Context, *ListKargoInstanceAgentsRequest) (*ListKargoInstanceAgentsResponse, error)
+	WatchKargoInstanceAgents(context.Context, *WatchKargoInstanceAgentsRequest) (<-chan *WatchKargoInstanceAgentsResponse, <-chan error, error)
+	CreateKargoInstanceAgent(context.Context, *CreateKargoInstanceAgentRequest) (*CreateKargoInstanceAgentResponse, error)
+	UpdateKargoInstanceAgent(context.Context, *UpdateKargoInstanceAgentRequest) (*UpdateKargoInstanceAgentResponse, error)
+	GetKargoInstanceAgent(context.Context, *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	GetKargoInstanceClusterManifests(context.Context, *GetKargoInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
+	GetKargoInstanceAgentManifests(context.Context, *GetKargoInstanceAgentManifestsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 }
 
 func NewKargoServiceGatewayClient(c gateway.Client) KargoServiceGatewayClient {
@@ -77,8 +77,8 @@ func (c *kargoServiceGatewayClient) GetKargoInstance(ctx context.Context, req *G
 	return gateway.DoRequest[GetKargoInstanceResponse](ctx, gwReq)
 }
 
-func (c *kargoServiceGatewayClient) ListKargoInstanceClusters(ctx context.Context, req *ListKargoInstanceClustersRequest) (*ListKargoInstanceClustersResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters")
+func (c *kargoServiceGatewayClient) ListKargoInstanceAgents(ctx context.Context, req *ListKargoInstanceAgentsRequest) (*ListKargoInstanceAgentsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	q := url.Values{}
@@ -94,22 +94,22 @@ func (c *kargoServiceGatewayClient) ListKargoInstanceClusters(ctx context.Contex
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
-	return gateway.DoRequest[ListKargoInstanceClustersResponse](ctx, gwReq)
+	return gateway.DoRequest[ListKargoInstanceAgentsResponse](ctx, gwReq)
 }
 
-func (c *kargoServiceGatewayClient) WatchKargoInstanceClusters(ctx context.Context, req *WatchKargoInstanceClustersRequest) (<-chan *WatchKargoInstanceClustersResponse, <-chan error, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/kargo/instances/{instance_id}/clusters")
+func (c *kargoServiceGatewayClient) WatchKargoInstanceAgents(ctx context.Context, req *WatchKargoInstanceAgentsRequest) (<-chan *WatchKargoInstanceAgentsResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/kargo/instances/{instance_id}/agents")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	q := url.Values{}
-	if req.ClusterId != nil {
-		q.Add("clusterId", fmt.Sprintf("%v", *req.ClusterId))
+	if req.AgentId != nil {
+		q.Add("agentId", fmt.Sprintf("%v", *req.AgentId))
 	}
-	if req.MinClusterName != nil {
-		q.Add("minClusterName", fmt.Sprintf("%v", *req.MinClusterName))
+	if req.MinAgentName != nil {
+		q.Add("minAgentName", fmt.Sprintf("%v", *req.MinAgentName))
 	}
-	if req.MaxClusterName != nil {
-		q.Add("maxClusterName", fmt.Sprintf("%v", *req.MaxClusterName))
+	if req.MaxAgentName != nil {
+		q.Add("maxAgentName", fmt.Sprintf("%v", *req.MaxAgentName))
 	}
 	if req.Filter != nil {
 		if req.Filter.NameLike != nil {
@@ -123,38 +123,38 @@ func (c *kargoServiceGatewayClient) WatchKargoInstanceClusters(ctx context.Conte
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
-	return gateway.DoStreamingRequest[WatchKargoInstanceClustersResponse](ctx, c.gwc, gwReq)
+	return gateway.DoStreamingRequest[WatchKargoInstanceAgentsResponse](ctx, c.gwc, gwReq)
 }
 
-func (c *kargoServiceGatewayClient) CreateKargoInstanceCluster(ctx context.Context, req *CreateKargoInstanceClusterRequest) (*CreateKargoInstanceClusterResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters")
+func (c *kargoServiceGatewayClient) CreateKargoInstanceAgent(ctx context.Context, req *CreateKargoInstanceAgentRequest) (*CreateKargoInstanceAgentResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req)
-	return gateway.DoRequest[CreateKargoInstanceClusterResponse](ctx, gwReq)
+	return gateway.DoRequest[CreateKargoInstanceAgentResponse](ctx, gwReq)
 }
 
-func (c *kargoServiceGatewayClient) UpdateKargoInstanceCluster(ctx context.Context, req *UpdateKargoInstanceClusterRequest) (*UpdateKargoInstanceClusterResponse, error) {
-	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}")
+func (c *kargoServiceGatewayClient) UpdateKargoInstanceAgent(ctx context.Context, req *UpdateKargoInstanceAgentRequest) (*UpdateKargoInstanceAgentResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
-	return gateway.DoRequest[UpdateKargoInstanceClusterResponse](ctx, gwReq)
+	return gateway.DoRequest[UpdateKargoInstanceAgentResponse](ctx, gwReq)
 }
 
-func (c *kargoServiceGatewayClient) GetKargoInstanceCluster(ctx context.Context, req *GetKargoInstanceClusterRequest) (*GetKargoInstanceClusterResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}")
+func (c *kargoServiceGatewayClient) GetKargoInstanceAgent(ctx context.Context, req *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
-	return gateway.DoRequest[GetKargoInstanceClusterResponse](ctx, gwReq)
+	return gateway.DoRequest[GetKargoInstanceAgentResponse](ctx, gwReq)
 }
 
-func (c *kargoServiceGatewayClient) GetKargoInstanceClusterManifests(ctx context.Context, req *GetKargoInstanceClusterManifestsRequest) (*httpbody.HttpBody, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/clusters/{id}/manifests")
+func (c *kargoServiceGatewayClient) GetKargoInstanceAgentManifests(ctx context.Context, req *GetKargoInstanceAgentManifestsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}/manifests")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
-	return gateway.DoRequest[httpbody.HttpBody](ctx, gwReq)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }

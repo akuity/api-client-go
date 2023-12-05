@@ -62,6 +62,8 @@ const (
 	ArgoCDService_UpdateInstanceClustersAgentVersion_FullMethodName    = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClustersAgentVersion"
 	ArgoCDService_RotateInstanceClusterCredentials_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/RotateInstanceClusterCredentials"
 	ArgoCDService_DeleteInstanceCluster_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/DeleteInstanceCluster"
+	ArgoCDService_GetInstanceClusterCommand_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterCommand"
+	ArgoCDService_GetAIAssistantUsageStats_FullMethodName              = "/akuity.argocd.v1.ArgoCDService/GetAIAssistantUsageStats"
 	ArgoCDService_GetSyncOperationsStats_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsStats"
 	ArgoCDService_GetSyncOperationsEvents_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsEvents"
 	ArgoCDService_ApplyInstance_FullMethodName                         = "/akuity.argocd.v1.ArgoCDService/ApplyInstance"
@@ -112,7 +114,7 @@ type ArgoCDServiceClient interface {
 	GetInstanceClusterInfo(ctx context.Context, in *GetInstanceClusterRequest, opts ...grpc.CallOption) (*GetInstanceClusterInfoResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error)
+	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (ArgoCDService_GetInstanceClusterManifestsClient, error)
 	UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -122,6 +124,8 @@ type ArgoCDServiceClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceClusterCredentials(ctx context.Context, in *RotateInstanceClusterCredentialsRequest, opts ...grpc.CallOption) (*RotateInstanceClusterCredentialsResponse, error)
 	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
+	GetInstanceClusterCommand(ctx context.Context, in *GetInstanceClusterCommandRequest, opts ...grpc.CallOption) (*GetInstanceClusterCommandResponse, error)
+	GetAIAssistantUsageStats(ctx context.Context, in *GetAIAssistantUsageStatsRequest, opts ...grpc.CallOption) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error)
 	GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error)
@@ -497,13 +501,36 @@ func (c *argoCDServiceClient) GetInstanceClusterInfo(ctx context.Context, in *Ge
 	return out, nil
 }
 
-func (c *argoCDServiceClient) GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error) {
-	out := new(httpbody.HttpBody)
-	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceClusterManifests_FullMethodName, in, out, opts...)
+func (c *argoCDServiceClient) GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (ArgoCDService_GetInstanceClusterManifestsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[2], ArgoCDService_GetInstanceClusterManifests_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &argoCDServiceGetInstanceClusterManifestsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_GetInstanceClusterManifestsClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceGetInstanceClusterManifestsClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceGetInstanceClusterManifestsClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *argoCDServiceClient) UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error) {
@@ -545,6 +572,24 @@ func (c *argoCDServiceClient) RotateInstanceClusterCredentials(ctx context.Conte
 func (c *argoCDServiceClient) DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error) {
 	out := new(DeleteInstanceClusterResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_DeleteInstanceCluster_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceClusterCommand(ctx context.Context, in *GetInstanceClusterCommandRequest, opts ...grpc.CallOption) (*GetInstanceClusterCommandResponse, error) {
+	out := new(GetInstanceClusterCommandResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceClusterCommand_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetAIAssistantUsageStats(ctx context.Context, in *GetAIAssistantUsageStatsRequest, opts ...grpc.CallOption) (*GetAIAssistantUsageStatsResponse, error) {
+	out := new(GetAIAssistantUsageStatsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetAIAssistantUsageStats_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -631,7 +676,7 @@ type ArgoCDServiceServer interface {
 	GetInstanceClusterInfo(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterInfoResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error)
+	GetInstanceClusterManifests(*GetInstanceClusterManifestsRequest, ArgoCDService_GetInstanceClusterManifestsServer) error
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -641,6 +686,8 @@ type ArgoCDServiceServer interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceClusterCredentials(context.Context, *RotateInstanceClusterCredentialsRequest) (*RotateInstanceClusterCredentialsResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
+	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
+	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
@@ -757,8 +804,8 @@ func (UnimplementedArgoCDServiceServer) GetInstanceCluster(context.Context, *Get
 func (UnimplementedArgoCDServiceServer) GetInstanceClusterInfo(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceClusterInfo not implemented")
 }
-func (UnimplementedArgoCDServiceServer) GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (*httpbody.HttpBody, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceClusterManifests not implemented")
+func (UnimplementedArgoCDServiceServer) GetInstanceClusterManifests(*GetInstanceClusterManifestsRequest, ArgoCDService_GetInstanceClusterManifestsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetInstanceClusterManifests not implemented")
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCluster not implemented")
@@ -774,6 +821,12 @@ func (UnimplementedArgoCDServiceServer) RotateInstanceClusterCredentials(context
 }
 func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceClusterCommand not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAIAssistantUsageStats not implemented")
 }
 func (UnimplementedArgoCDServiceServer) GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsStats not implemented")
@@ -1436,22 +1489,25 @@ func _ArgoCDService_GetInstanceClusterInfo_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_GetInstanceClusterManifests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetInstanceClusterManifestsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _ArgoCDService_GetInstanceClusterManifests_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetInstanceClusterManifestsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).GetInstanceClusterManifests(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArgoCDService_GetInstanceClusterManifests_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).GetInstanceClusterManifests(ctx, req.(*GetInstanceClusterManifestsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(ArgoCDServiceServer).GetInstanceClusterManifests(m, &argoCDServiceGetInstanceClusterManifestsServer{stream})
+}
+
+type ArgoCDService_GetInstanceClusterManifestsServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type argoCDServiceGetInstanceClusterManifestsServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceGetInstanceClusterManifestsServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _ArgoCDService_UpdateInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1540,6 +1596,42 @@ func _ArgoCDService_DeleteInstanceCluster_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).DeleteInstanceCluster(ctx, req.(*DeleteInstanceClusterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceClusterCommand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceClusterCommandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceClusterCommand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetInstanceClusterCommand_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceClusterCommand(ctx, req.(*GetInstanceClusterCommandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetAIAssistantUsageStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAIAssistantUsageStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetAIAssistantUsageStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetAIAssistantUsageStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetAIAssistantUsageStats(ctx, req.(*GetAIAssistantUsageStatsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1756,10 +1848,6 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_GetInstanceClusterInfo_Handler,
 		},
 		{
-			MethodName: "GetInstanceClusterManifests",
-			Handler:    _ArgoCDService_GetInstanceClusterManifests_Handler,
-		},
-		{
 			MethodName: "UpdateInstanceCluster",
 			Handler:    _ArgoCDService_UpdateInstanceCluster_Handler,
 		},
@@ -1778,6 +1866,14 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteInstanceCluster",
 			Handler:    _ArgoCDService_DeleteInstanceCluster_Handler,
+		},
+		{
+			MethodName: "GetInstanceClusterCommand",
+			Handler:    _ArgoCDService_GetInstanceClusterCommand_Handler,
+		},
+		{
+			MethodName: "GetAIAssistantUsageStats",
+			Handler:    _ArgoCDService_GetAIAssistantUsageStats_Handler,
 		},
 		{
 			MethodName: "GetSyncOperationsStats",
@@ -1805,6 +1901,11 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchInstanceClusters",
 			Handler:       _ArgoCDService_WatchInstanceClusters_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetInstanceClusterManifests",
+			Handler:       _ArgoCDService_GetInstanceClusterManifests_Handler,
 			ServerStreams: true,
 		},
 	},
