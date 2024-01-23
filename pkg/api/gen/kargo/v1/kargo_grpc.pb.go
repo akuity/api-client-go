@@ -31,6 +31,11 @@ const (
 	KargoService_UpdateKargoInstanceAgent_FullMethodName       = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgent"
 	KargoService_GetKargoInstanceAgent_FullMethodName          = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgent"
 	KargoService_GetKargoInstanceAgentManifests_FullMethodName = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgentManifests"
+	KargoService_GetInstanceAgentCommand_FullMethodName        = "/akuity.kargo.v1.KargoService/GetInstanceAgentCommand"
+	KargoService_DeleteInstance_FullMethodName                 = "/akuity.kargo.v1.KargoService/DeleteInstance"
+	KargoService_DeleteInstanceAgent_FullMethodName            = "/akuity.kargo.v1.KargoService/DeleteInstanceAgent"
+	KargoService_RotateInstanceAgentCredentials_FullMethodName = "/akuity.kargo.v1.KargoService/RotateInstanceAgentCredentials"
+	KargoService_UpdateInstanceAgentVersion_FullMethodName     = "/akuity.kargo.v1.KargoService/UpdateInstanceAgentVersion"
 )
 
 // KargoServiceClient is the client API for KargoService service.
@@ -50,6 +55,15 @@ type KargoServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetKargoInstanceAgentManifests(ctx context.Context, in *GetKargoInstanceAgentManifestsRequest, opts ...grpc.CallOption) (KargoService_GetKargoInstanceAgentManifestsClient, error)
+	GetInstanceAgentCommand(ctx context.Context, in *GetInstanceAgentCommandRequest, opts ...grpc.CallOption) (*GetInstanceAgentCommandResponse, error)
+	DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error)
+	DeleteInstanceAgent(ctx context.Context, in *DeleteInstanceAgentRequest, opts ...grpc.CallOption) (*DeleteInstanceAgentResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	RotateInstanceAgentCredentials(ctx context.Context, in *RotateInstanceAgentCredentialsRequest, opts ...grpc.CallOption) (*RotateInstanceAgentCredentialsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	UpdateInstanceAgentVersion(ctx context.Context, in *UpdateInstanceAgentVersionRequest, opts ...grpc.CallOption) (*UpdateInstanceAgentVersionResponse, error)
 }
 
 type kargoServiceClient struct {
@@ -228,6 +242,51 @@ func (x *kargoServiceGetKargoInstanceAgentManifestsClient) Recv() (*httpbody.Htt
 	return m, nil
 }
 
+func (c *kargoServiceClient) GetInstanceAgentCommand(ctx context.Context, in *GetInstanceAgentCommandRequest, opts ...grpc.CallOption) (*GetInstanceAgentCommandResponse, error) {
+	out := new(GetInstanceAgentCommandResponse)
+	err := c.cc.Invoke(ctx, KargoService_GetInstanceAgentCommand_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error) {
+	out := new(DeleteInstanceResponse)
+	err := c.cc.Invoke(ctx, KargoService_DeleteInstance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) DeleteInstanceAgent(ctx context.Context, in *DeleteInstanceAgentRequest, opts ...grpc.CallOption) (*DeleteInstanceAgentResponse, error) {
+	out := new(DeleteInstanceAgentResponse)
+	err := c.cc.Invoke(ctx, KargoService_DeleteInstanceAgent_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) RotateInstanceAgentCredentials(ctx context.Context, in *RotateInstanceAgentCredentialsRequest, opts ...grpc.CallOption) (*RotateInstanceAgentCredentialsResponse, error) {
+	out := new(RotateInstanceAgentCredentialsResponse)
+	err := c.cc.Invoke(ctx, KargoService_RotateInstanceAgentCredentials_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) UpdateInstanceAgentVersion(ctx context.Context, in *UpdateInstanceAgentVersionRequest, opts ...grpc.CallOption) (*UpdateInstanceAgentVersionResponse, error) {
+	out := new(UpdateInstanceAgentVersionResponse)
+	err := c.cc.Invoke(ctx, KargoService_UpdateInstanceAgentVersion_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KargoServiceServer is the server API for KargoService service.
 // All implementations must embed UnimplementedKargoServiceServer
 // for forward compatibility
@@ -245,6 +304,15 @@ type KargoServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetKargoInstanceAgentManifests(*GetKargoInstanceAgentManifestsRequest, KargoService_GetKargoInstanceAgentManifestsServer) error
+	GetInstanceAgentCommand(context.Context, *GetInstanceAgentCommandRequest) (*GetInstanceAgentCommandResponse, error)
+	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
+	DeleteInstanceAgent(context.Context, *DeleteInstanceAgentRequest) (*DeleteInstanceAgentResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	RotateInstanceAgentCredentials(context.Context, *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error)
 	mustEmbedUnimplementedKargoServiceServer()
 }
 
@@ -284,6 +352,21 @@ func (UnimplementedKargoServiceServer) GetKargoInstanceAgent(context.Context, *G
 }
 func (UnimplementedKargoServiceServer) GetKargoInstanceAgentManifests(*GetKargoInstanceAgentManifestsRequest, KargoService_GetKargoInstanceAgentManifestsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetKargoInstanceAgentManifests not implemented")
+}
+func (UnimplementedKargoServiceServer) GetInstanceAgentCommand(context.Context, *GetInstanceAgentCommandRequest) (*GetInstanceAgentCommandResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceAgentCommand not implemented")
+}
+func (UnimplementedKargoServiceServer) DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstance not implemented")
+}
+func (UnimplementedKargoServiceServer) DeleteInstanceAgent(context.Context, *DeleteInstanceAgentRequest) (*DeleteInstanceAgentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceAgent not implemented")
+}
+func (UnimplementedKargoServiceServer) RotateInstanceAgentCredentials(context.Context, *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RotateInstanceAgentCredentials not implemented")
+}
+func (UnimplementedKargoServiceServer) UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceAgentVersion not implemented")
 }
 func (UnimplementedKargoServiceServer) mustEmbedUnimplementedKargoServiceServer() {}
 
@@ -505,6 +588,96 @@ func (x *kargoServiceGetKargoInstanceAgentManifestsServer) Send(m *httpbody.Http
 	return x.ServerStream.SendMsg(m)
 }
 
+func _KargoService_GetInstanceAgentCommand_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceAgentCommandRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetInstanceAgentCommand(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetInstanceAgentCommand_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetInstanceAgentCommand(ctx, req.(*GetInstanceAgentCommandRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_DeleteInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteInstanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).DeleteInstance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_DeleteInstance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).DeleteInstance(ctx, req.(*DeleteInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_DeleteInstanceAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteInstanceAgentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).DeleteInstanceAgent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_DeleteInstanceAgent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).DeleteInstanceAgent(ctx, req.(*DeleteInstanceAgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_RotateInstanceAgentCredentials_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RotateInstanceAgentCredentialsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).RotateInstanceAgentCredentials(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_RotateInstanceAgentCredentials_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).RotateInstanceAgentCredentials(ctx, req.(*RotateInstanceAgentCredentialsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_UpdateInstanceAgentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceAgentVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).UpdateInstanceAgentVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_UpdateInstanceAgentVersion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).UpdateInstanceAgentVersion(ctx, req.(*UpdateInstanceAgentVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KargoService_ServiceDesc is the grpc.ServiceDesc for KargoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -543,6 +716,26 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetKargoInstanceAgent",
 			Handler:    _KargoService_GetKargoInstanceAgent_Handler,
+		},
+		{
+			MethodName: "GetInstanceAgentCommand",
+			Handler:    _KargoService_GetInstanceAgentCommand_Handler,
+		},
+		{
+			MethodName: "DeleteInstance",
+			Handler:    _KargoService_DeleteInstance_Handler,
+		},
+		{
+			MethodName: "DeleteInstanceAgent",
+			Handler:    _KargoService_DeleteInstanceAgent_Handler,
+		},
+		{
+			MethodName: "RotateInstanceAgentCredentials",
+			Handler:    _KargoService_RotateInstanceAgentCredentials_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceAgentVersion",
+			Handler:    _KargoService_UpdateInstanceAgentVersion_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

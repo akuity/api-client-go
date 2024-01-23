@@ -26,6 +26,15 @@ type KargoServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetKargoInstanceAgentManifests(context.Context, *GetKargoInstanceAgentManifestsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
+	GetInstanceAgentCommand(context.Context, *GetInstanceAgentCommandRequest) (*GetInstanceAgentCommandResponse, error)
+	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
+	DeleteInstanceAgent(context.Context, *DeleteInstanceAgentRequest) (*DeleteInstanceAgentResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	RotateInstanceAgentCredentials(context.Context, *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error)
 }
 
 func NewKargoServiceGatewayClient(c gateway.Client) KargoServiceGatewayClient {
@@ -86,11 +95,39 @@ func (c *kargoServiceGatewayClient) ListKargoInstanceAgents(ctx context.Context,
 		if req.Filter.NameLike != nil {
 			q.Add("filter.nameLike", fmt.Sprintf("%v", *req.Filter.NameLike))
 		}
+		for _, v := range req.Filter.AgentStatus {
+			q.Add("filter.agentStatus", v.String())
+		}
+		for _, v := range req.Filter.AgentVersion {
+			q.Add("filter.agentVersion", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filter.KargoVersion {
+			q.Add("filter.kargoVersion", fmt.Sprintf("%v", v))
+		}
 		if req.Filter.Limit != nil {
 			q.Add("filter.limit", fmt.Sprintf("%v", *req.Filter.Limit))
 		}
 		if req.Filter.Offset != nil {
 			q.Add("filter.offset", fmt.Sprintf("%v", *req.Filter.Offset))
+		}
+		if req.Filter.ExcludeAgentVersion != nil {
+			q.Add("filter.excludeAgentVersion", fmt.Sprintf("%v", *req.Filter.ExcludeAgentVersion))
+		}
+		if req.Filter.OutdatedManifest != nil {
+			q.Add("filter.outdatedManifest", fmt.Sprintf("%v", *req.Filter.OutdatedManifest))
+		}
+		for _, v := range req.Filter.Namespace {
+			q.Add("filter.namespace", fmt.Sprintf("%v", v))
+		}
+		for k, v := range req.Filter.Labels {
+			key := fmt.Sprintf("filter.labels[%v]", k)
+			q.Add(key, fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filter.RemoteArgocdIds {
+			q.Add("filter.remoteArgocdIds", fmt.Sprintf("%v", v))
+		}
+		if req.Filter.SelfManaged != nil {
+			q.Add("filter.selfManaged", fmt.Sprintf("%v", *req.Filter.SelfManaged))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -115,11 +152,39 @@ func (c *kargoServiceGatewayClient) WatchKargoInstanceAgents(ctx context.Context
 		if req.Filter.NameLike != nil {
 			q.Add("filter.nameLike", fmt.Sprintf("%v", *req.Filter.NameLike))
 		}
+		for _, v := range req.Filter.AgentStatus {
+			q.Add("filter.agentStatus", v.String())
+		}
+		for _, v := range req.Filter.AgentVersion {
+			q.Add("filter.agentVersion", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filter.KargoVersion {
+			q.Add("filter.kargoVersion", fmt.Sprintf("%v", v))
+		}
 		if req.Filter.Limit != nil {
 			q.Add("filter.limit", fmt.Sprintf("%v", *req.Filter.Limit))
 		}
 		if req.Filter.Offset != nil {
 			q.Add("filter.offset", fmt.Sprintf("%v", *req.Filter.Offset))
+		}
+		if req.Filter.ExcludeAgentVersion != nil {
+			q.Add("filter.excludeAgentVersion", fmt.Sprintf("%v", *req.Filter.ExcludeAgentVersion))
+		}
+		if req.Filter.OutdatedManifest != nil {
+			q.Add("filter.outdatedManifest", fmt.Sprintf("%v", *req.Filter.OutdatedManifest))
+		}
+		for _, v := range req.Filter.Namespace {
+			q.Add("filter.namespace", fmt.Sprintf("%v", v))
+		}
+		for k, v := range req.Filter.Labels {
+			key := fmt.Sprintf("filter.labels[%v]", k)
+			q.Add(key, fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filter.RemoteArgocdIds {
+			q.Add("filter.remoteArgocdIds", fmt.Sprintf("%v", v))
+		}
+		if req.Filter.SelfManaged != nil {
+			q.Add("filter.selfManaged", fmt.Sprintf("%v", *req.Filter.SelfManaged))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -157,4 +222,49 @@ func (c *kargoServiceGatewayClient) GetKargoInstanceAgentManifests(ctx context.C
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetInstanceAgentCommand(ctx context.Context, req *GetInstanceAgentCommandRequest) (*GetInstanceAgentCommandResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}/command")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("locationOrigin", fmt.Sprintf("%v", req.LocationOrigin))
+	q.Add("type", fmt.Sprintf("%v", req.Type))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetInstanceAgentCommandResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) DeleteInstance(ctx context.Context, req *DeleteInstanceRequest) (*DeleteInstanceResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/kargo/instances/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteInstanceResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) DeleteInstanceAgent(ctx context.Context, req *DeleteInstanceAgentRequest) (*DeleteInstanceAgentResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteInstanceAgentResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) RotateInstanceAgentCredentials(ctx context.Context, req *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/rotate-credentials")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RotateInstanceAgentCredentialsResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) UpdateInstanceAgentVersion(ctx context.Context, req *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/version")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstanceAgentVersionResponse](ctx, gwReq)
 }
