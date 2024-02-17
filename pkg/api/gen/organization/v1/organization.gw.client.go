@@ -44,6 +44,15 @@ type OrganizationServiceGatewayClient interface {
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
+	CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error)
+	UpdateTeam(context.Context, *UpdateTeamRequest) (*UpdateTeamResponse, error)
+	GetTeam(context.Context, *GetTeamRequest) (*GetTeamResponse, error)
+	ListTeams(context.Context, *ListTeamsRequest) (*ListTeamsResponse, error)
+	DeleteTeam(context.Context, *DeleteTeamRequest) (*DeleteTeamResponse, error)
+	AddTeamMember(context.Context, *AddTeamMemberRequest) (*AddTeamMemberResponse, error)
+	GetTeamMember(context.Context, *GetTeamMemberRequest) (*GetTeamMemberResponse, error)
+	ListTeamMembers(context.Context, *ListTeamMembersRequest) (*ListTeamMembersResponse, error)
+	RemoveTeamMember(context.Context, *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -632,4 +641,88 @@ func (c *organizationServiceGatewayClient) UpdateOIDCMap(ctx context.Context, re
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateOIDCMapResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CreateTeam(ctx context.Context, req *CreateTeamRequest) (*CreateTeamResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/teams")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateTeamResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateTeam(ctx context.Context, req *UpdateTeamRequest) (*UpdateTeamResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/teams/{name}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("name", fmt.Sprintf("%v", req.Name))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateTeamResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetTeam(ctx context.Context, req *GetTeamRequest) (*GetTeamResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/teams/{name}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("name", fmt.Sprintf("%v", req.Name))
+	return gateway.DoRequest[GetTeamResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListTeams(ctx context.Context, req *ListTeamsRequest) (*ListTeamsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/teams")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListTeamsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteTeam(ctx context.Context, req *DeleteTeamRequest) (*DeleteTeamResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/teams/{name}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("name", fmt.Sprintf("%v", req.Name))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteTeamResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) AddTeamMember(ctx context.Context, req *AddTeamMemberRequest) (*AddTeamMemberResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/teams/{team_name}/members")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("team_name", fmt.Sprintf("%v", req.TeamName))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[AddTeamMemberResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetTeamMember(ctx context.Context, req *GetTeamMemberRequest) (*GetTeamMemberResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/teams/{team_name}/members/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("team_name", fmt.Sprintf("%v", req.TeamName))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetTeamMemberResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListTeamMembers(ctx context.Context, req *ListTeamMembersRequest) (*ListTeamMembersResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/teams/{team_name}/members")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("team_name", fmt.Sprintf("%v", req.TeamName))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListTeamMembersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) RemoveTeamMember(ctx context.Context, req *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/teams/{team_name}/members/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("team_name", fmt.Sprintf("%v", req.TeamName))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RemoveTeamMemberResponse](ctx, gwReq)
 }
