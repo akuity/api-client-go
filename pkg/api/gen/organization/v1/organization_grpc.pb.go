@@ -43,12 +43,19 @@ const (
 	OrganizationService_UpdateBillingDetails_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
 	OrganizationService_DeleteBillingCustomer_FullMethodName              = "/akuity.organization.v1.OrganizationService/DeleteBillingCustomer"
 	OrganizationService_BillingCheckout_FullMethodName                    = "/akuity.organization.v1.OrganizationService/BillingCheckout"
+	OrganizationService_UpdateSubscription_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
+	OrganizationService_GetAvailableAddons_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
 	OrganizationService_GetSSOConfiguration_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
 	OrganizationService_EnsureSSOConfiguration_FullMethodName             = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
 	OrganizationService_DeleteSSOConfiguration_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
 	OrganizationService_GetFeatureGates_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
 	OrganizationService_GetOIDCMap_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
 	OrganizationService_UpdateOIDCMap_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
+	OrganizationService_CreateCustomRole_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
+	OrganizationService_UpdateCustomRole_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
+	OrganizationService_GetCustomRole_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetCustomRole"
+	OrganizationService_ListCustomRoles_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
+	OrganizationService_DeleteCustomRole_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
 	OrganizationService_CreateTeam_FullMethodName                         = "/akuity.organization.v1.OrganizationService/CreateTeam"
 	OrganizationService_UpdateTeam_FullMethodName                         = "/akuity.organization.v1.OrganizationService/UpdateTeam"
 	OrganizationService_GetTeam_FullMethodName                            = "/akuity.organization.v1.OrganizationService/GetTeam"
@@ -58,6 +65,17 @@ const (
 	OrganizationService_GetTeamMember_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetTeamMember"
 	OrganizationService_ListTeamMembers_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
 	OrganizationService_RemoveTeamMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
+	OrganizationService_CreateWorkspace_FullMethodName                    = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
+	OrganizationService_ListWorkspaces_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
+	OrganizationService_GetWorkspace_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetWorkspace"
+	OrganizationService_UpdateWorkspace_FullMethodName                    = "/akuity.organization.v1.OrganizationService/UpdateWorkspace"
+	OrganizationService_DeleteWorkspace_FullMethodName                    = "/akuity.organization.v1.OrganizationService/DeleteWorkspace"
+	OrganizationService_AddWorkspaceMember_FullMethodName                 = "/akuity.organization.v1.OrganizationService/AddWorkspaceMember"
+	OrganizationService_ListWorkspaceMembers_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListWorkspaceMembers"
+	OrganizationService_UpdateWorkspaceMembers_FullMethodName             = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMembers"
+	OrganizationService_GetWorkspaceMember_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
+	OrganizationService_UpdateWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
+	OrganizationService_RemoveWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -89,12 +107,19 @@ type OrganizationServiceClient interface {
 	UpdateBillingDetails(ctx context.Context, in *UpdateBillingDetailsRequest, opts ...grpc.CallOption) (*UpdateBillingDetailsResponse, error)
 	DeleteBillingCustomer(ctx context.Context, in *DeleteBillingCustomerRequest, opts ...grpc.CallOption) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(ctx context.Context, in *BillingCheckoutRequest, opts ...grpc.CallOption) (*BillingCheckoutResponse, error)
+	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionRequest, opts ...grpc.CallOption) (*UpdateSubscriptionResponse, error)
+	GetAvailableAddons(ctx context.Context, in *GetAvailableAddonsRequest, opts ...grpc.CallOption) (*GetAvailableAddonsResponse, error)
 	GetSSOConfiguration(ctx context.Context, in *GetSSOConfigurationRequest, opts ...grpc.CallOption) (*GetSSOConfigurationResponse, error)
 	EnsureSSOConfiguration(ctx context.Context, in *EnsureSSOConfigurationRequest, opts ...grpc.CallOption) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(ctx context.Context, in *DeleteSSOConfigurationRequest, opts ...grpc.CallOption) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error)
 	GetOIDCMap(ctx context.Context, in *GetOIDCMapRequest, opts ...grpc.CallOption) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(ctx context.Context, in *UpdateOIDCMapRequest, opts ...grpc.CallOption) (*UpdateOIDCMapResponse, error)
+	CreateCustomRole(ctx context.Context, in *CreateCustomRoleRequest, opts ...grpc.CallOption) (*CreateCustomRoleResponse, error)
+	UpdateCustomRole(ctx context.Context, in *UpdateCustomRoleRequest, opts ...grpc.CallOption) (*UpdateCustomRoleResponse, error)
+	GetCustomRole(ctx context.Context, in *GetCustomRoleRequest, opts ...grpc.CallOption) (*GetCustomRoleResponse, error)
+	ListCustomRoles(ctx context.Context, in *ListCustomRolesRequest, opts ...grpc.CallOption) (*ListCustomRolesResponse, error)
+	DeleteCustomRole(ctx context.Context, in *DeleteCustomRoleRequest, opts ...grpc.CallOption) (*DeleteCustomRoleResponse, error)
 	CreateTeam(ctx context.Context, in *CreateTeamRequest, opts ...grpc.CallOption) (*CreateTeamResponse, error)
 	UpdateTeam(ctx context.Context, in *UpdateTeamRequest, opts ...grpc.CallOption) (*UpdateTeamResponse, error)
 	GetTeam(ctx context.Context, in *GetTeamRequest, opts ...grpc.CallOption) (*GetTeamResponse, error)
@@ -104,6 +129,17 @@ type OrganizationServiceClient interface {
 	GetTeamMember(ctx context.Context, in *GetTeamMemberRequest, opts ...grpc.CallOption) (*GetTeamMemberResponse, error)
 	ListTeamMembers(ctx context.Context, in *ListTeamMembersRequest, opts ...grpc.CallOption) (*ListTeamMembersResponse, error)
 	RemoveTeamMember(ctx context.Context, in *RemoveTeamMemberRequest, opts ...grpc.CallOption) (*RemoveTeamMemberResponse, error)
+	CreateWorkspace(ctx context.Context, in *CreateWorkspaceRequest, opts ...grpc.CallOption) (*CreateWorkspaceResponse, error)
+	ListWorkspaces(ctx context.Context, in *ListWorkspacesRequest, opts ...grpc.CallOption) (*ListWorkspacesResponse, error)
+	GetWorkspace(ctx context.Context, in *GetWorkspaceRequest, opts ...grpc.CallOption) (*GetWorkspaceResponse, error)
+	UpdateWorkspace(ctx context.Context, in *UpdateWorkspaceRequest, opts ...grpc.CallOption) (*UpdateWorkspaceResponse, error)
+	DeleteWorkspace(ctx context.Context, in *DeleteWorkspaceRequest, opts ...grpc.CallOption) (*DeleteWorkspaceResponse, error)
+	AddWorkspaceMember(ctx context.Context, in *AddWorkspaceMemberRequest, opts ...grpc.CallOption) (*AddWorkspaceMemberResponse, error)
+	ListWorkspaceMembers(ctx context.Context, in *ListWorkspaceMembersRequest, opts ...grpc.CallOption) (*ListWorkspaceMembersResponse, error)
+	UpdateWorkspaceMembers(ctx context.Context, in *UpdateWorkspaceMembersRequest, opts ...grpc.CallOption) (*UpdateWorkspaceMembersResponse, error)
+	GetWorkspaceMember(ctx context.Context, in *GetWorkspaceMemberRequest, opts ...grpc.CallOption) (*GetWorkspaceMemberResponse, error)
+	UpdateWorkspaceMember(ctx context.Context, in *UpdateWorkspaceMemberRequest, opts ...grpc.CallOption) (*UpdateWorkspaceMemberResponse, error)
+	RemoveWorkspaceMember(ctx context.Context, in *RemoveWorkspaceMemberRequest, opts ...grpc.CallOption) (*RemoveWorkspaceMemberResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -344,6 +380,24 @@ func (c *organizationServiceClient) BillingCheckout(ctx context.Context, in *Bil
 	return out, nil
 }
 
+func (c *organizationServiceClient) UpdateSubscription(ctx context.Context, in *UpdateSubscriptionRequest, opts ...grpc.CallOption) (*UpdateSubscriptionResponse, error) {
+	out := new(UpdateSubscriptionResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateSubscription_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetAvailableAddons(ctx context.Context, in *GetAvailableAddonsRequest, opts ...grpc.CallOption) (*GetAvailableAddonsResponse, error) {
+	out := new(GetAvailableAddonsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetAvailableAddons_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetSSOConfiguration(ctx context.Context, in *GetSSOConfigurationRequest, opts ...grpc.CallOption) (*GetSSOConfigurationResponse, error) {
 	out := new(GetSSOConfigurationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetSSOConfiguration_FullMethodName, in, out, opts...)
@@ -392,6 +446,51 @@ func (c *organizationServiceClient) GetOIDCMap(ctx context.Context, in *GetOIDCM
 func (c *organizationServiceClient) UpdateOIDCMap(ctx context.Context, in *UpdateOIDCMapRequest, opts ...grpc.CallOption) (*UpdateOIDCMapResponse, error) {
 	out := new(UpdateOIDCMapResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateOIDCMap_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) CreateCustomRole(ctx context.Context, in *CreateCustomRoleRequest, opts ...grpc.CallOption) (*CreateCustomRoleResponse, error) {
+	out := new(CreateCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateCustomRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateCustomRole(ctx context.Context, in *UpdateCustomRoleRequest, opts ...grpc.CallOption) (*UpdateCustomRoleResponse, error) {
+	out := new(UpdateCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateCustomRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetCustomRole(ctx context.Context, in *GetCustomRoleRequest, opts ...grpc.CallOption) (*GetCustomRoleResponse, error) {
+	out := new(GetCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetCustomRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListCustomRoles(ctx context.Context, in *ListCustomRolesRequest, opts ...grpc.CallOption) (*ListCustomRolesResponse, error) {
+	out := new(ListCustomRolesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListCustomRoles_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteCustomRole(ctx context.Context, in *DeleteCustomRoleRequest, opts ...grpc.CallOption) (*DeleteCustomRoleResponse, error) {
+	out := new(DeleteCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteCustomRole_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -479,6 +578,105 @@ func (c *organizationServiceClient) RemoveTeamMember(ctx context.Context, in *Re
 	return out, nil
 }
 
+func (c *organizationServiceClient) CreateWorkspace(ctx context.Context, in *CreateWorkspaceRequest, opts ...grpc.CallOption) (*CreateWorkspaceResponse, error) {
+	out := new(CreateWorkspaceResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateWorkspace_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListWorkspaces(ctx context.Context, in *ListWorkspacesRequest, opts ...grpc.CallOption) (*ListWorkspacesResponse, error) {
+	out := new(ListWorkspacesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListWorkspaces_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetWorkspace(ctx context.Context, in *GetWorkspaceRequest, opts ...grpc.CallOption) (*GetWorkspaceResponse, error) {
+	out := new(GetWorkspaceResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetWorkspace_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateWorkspace(ctx context.Context, in *UpdateWorkspaceRequest, opts ...grpc.CallOption) (*UpdateWorkspaceResponse, error) {
+	out := new(UpdateWorkspaceResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateWorkspace_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteWorkspace(ctx context.Context, in *DeleteWorkspaceRequest, opts ...grpc.CallOption) (*DeleteWorkspaceResponse, error) {
+	out := new(DeleteWorkspaceResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteWorkspace_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) AddWorkspaceMember(ctx context.Context, in *AddWorkspaceMemberRequest, opts ...grpc.CallOption) (*AddWorkspaceMemberResponse, error) {
+	out := new(AddWorkspaceMemberResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_AddWorkspaceMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListWorkspaceMembers(ctx context.Context, in *ListWorkspaceMembersRequest, opts ...grpc.CallOption) (*ListWorkspaceMembersResponse, error) {
+	out := new(ListWorkspaceMembersResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListWorkspaceMembers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateWorkspaceMembers(ctx context.Context, in *UpdateWorkspaceMembersRequest, opts ...grpc.CallOption) (*UpdateWorkspaceMembersResponse, error) {
+	out := new(UpdateWorkspaceMembersResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateWorkspaceMembers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetWorkspaceMember(ctx context.Context, in *GetWorkspaceMemberRequest, opts ...grpc.CallOption) (*GetWorkspaceMemberResponse, error) {
+	out := new(GetWorkspaceMemberResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetWorkspaceMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateWorkspaceMember(ctx context.Context, in *UpdateWorkspaceMemberRequest, opts ...grpc.CallOption) (*UpdateWorkspaceMemberResponse, error) {
+	out := new(UpdateWorkspaceMemberResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateWorkspaceMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) RemoveWorkspaceMember(ctx context.Context, in *RemoveWorkspaceMemberRequest, opts ...grpc.CallOption) (*RemoveWorkspaceMemberResponse, error) {
+	out := new(RemoveWorkspaceMemberResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_RemoveWorkspaceMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -508,12 +706,19 @@ type OrganizationServiceServer interface {
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
 	DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
+	UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error)
+	GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error)
 	GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error)
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
+	CreateCustomRole(context.Context, *CreateCustomRoleRequest) (*CreateCustomRoleResponse, error)
+	UpdateCustomRole(context.Context, *UpdateCustomRoleRequest) (*UpdateCustomRoleResponse, error)
+	GetCustomRole(context.Context, *GetCustomRoleRequest) (*GetCustomRoleResponse, error)
+	ListCustomRoles(context.Context, *ListCustomRolesRequest) (*ListCustomRolesResponse, error)
+	DeleteCustomRole(context.Context, *DeleteCustomRoleRequest) (*DeleteCustomRoleResponse, error)
 	CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error)
 	UpdateTeam(context.Context, *UpdateTeamRequest) (*UpdateTeamResponse, error)
 	GetTeam(context.Context, *GetTeamRequest) (*GetTeamResponse, error)
@@ -523,6 +728,17 @@ type OrganizationServiceServer interface {
 	GetTeamMember(context.Context, *GetTeamMemberRequest) (*GetTeamMemberResponse, error)
 	ListTeamMembers(context.Context, *ListTeamMembersRequest) (*ListTeamMembersResponse, error)
 	RemoveTeamMember(context.Context, *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error)
+	CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error)
+	ListWorkspaces(context.Context, *ListWorkspacesRequest) (*ListWorkspacesResponse, error)
+	GetWorkspace(context.Context, *GetWorkspaceRequest) (*GetWorkspaceResponse, error)
+	UpdateWorkspace(context.Context, *UpdateWorkspaceRequest) (*UpdateWorkspaceResponse, error)
+	DeleteWorkspace(context.Context, *DeleteWorkspaceRequest) (*DeleteWorkspaceResponse, error)
+	AddWorkspaceMember(context.Context, *AddWorkspaceMemberRequest) (*AddWorkspaceMemberResponse, error)
+	ListWorkspaceMembers(context.Context, *ListWorkspaceMembersRequest) (*ListWorkspaceMembersResponse, error)
+	UpdateWorkspaceMembers(context.Context, *UpdateWorkspaceMembersRequest) (*UpdateWorkspaceMembersResponse, error)
+	GetWorkspaceMember(context.Context, *GetWorkspaceMemberRequest) (*GetWorkspaceMemberResponse, error)
+	UpdateWorkspaceMember(context.Context, *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error)
+	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -599,6 +815,12 @@ func (UnimplementedOrganizationServiceServer) DeleteBillingCustomer(context.Cont
 func (UnimplementedOrganizationServiceServer) BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BillingCheckout not implemented")
 }
+func (UnimplementedOrganizationServiceServer) UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubscription not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAvailableAddons not implemented")
+}
 func (UnimplementedOrganizationServiceServer) GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSSOConfiguration not implemented")
 }
@@ -616,6 +838,21 @@ func (UnimplementedOrganizationServiceServer) GetOIDCMap(context.Context, *GetOI
 }
 func (UnimplementedOrganizationServiceServer) UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOIDCMap not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateCustomRole(context.Context, *CreateCustomRoleRequest) (*CreateCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateCustomRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateCustomRole(context.Context, *UpdateCustomRoleRequest) (*UpdateCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCustomRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetCustomRole(context.Context, *GetCustomRoleRequest) (*GetCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCustomRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListCustomRoles(context.Context, *ListCustomRolesRequest) (*ListCustomRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListCustomRoles not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteCustomRole(context.Context, *DeleteCustomRoleRequest) (*DeleteCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCustomRole not implemented")
 }
 func (UnimplementedOrganizationServiceServer) CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTeam not implemented")
@@ -643,6 +880,39 @@ func (UnimplementedOrganizationServiceServer) ListTeamMembers(context.Context, *
 }
 func (UnimplementedOrganizationServiceServer) RemoveTeamMember(context.Context, *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveTeamMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkspace not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListWorkspaces(context.Context, *ListWorkspacesRequest) (*ListWorkspacesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkspaces not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetWorkspace(context.Context, *GetWorkspaceRequest) (*GetWorkspaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkspace not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateWorkspace(context.Context, *UpdateWorkspaceRequest) (*UpdateWorkspaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkspace not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteWorkspace(context.Context, *DeleteWorkspaceRequest) (*DeleteWorkspaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkspace not implemented")
+}
+func (UnimplementedOrganizationServiceServer) AddWorkspaceMember(context.Context, *AddWorkspaceMemberRequest) (*AddWorkspaceMemberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddWorkspaceMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListWorkspaceMembers(context.Context, *ListWorkspaceMembersRequest) (*ListWorkspaceMembersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkspaceMembers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateWorkspaceMembers(context.Context, *UpdateWorkspaceMembersRequest) (*UpdateWorkspaceMembersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkspaceMembers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetWorkspaceMember(context.Context, *GetWorkspaceMemberRequest) (*GetWorkspaceMemberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkspaceMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateWorkspaceMember(context.Context, *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkspaceMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveWorkspaceMember not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -1074,6 +1344,42 @@ func _OrganizationService_BillingCheckout_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_UpdateSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSubscriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateSubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateSubscription(ctx, req.(*UpdateSubscriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetAvailableAddons_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAvailableAddonsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetAvailableAddons(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetAvailableAddons_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetAvailableAddons(ctx, req.(*GetAvailableAddonsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetSSOConfiguration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSSOConfigurationRequest)
 	if err := dec(in); err != nil {
@@ -1178,6 +1484,96 @@ func _OrganizationService_UpdateOIDCMap_Handler(srv interface{}, ctx context.Con
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).UpdateOIDCMap(ctx, req.(*UpdateOIDCMapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_CreateCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateCustomRole(ctx, req.(*CreateCustomRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateCustomRole(ctx, req.(*UpdateCustomRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetCustomRole(ctx, req.(*GetCustomRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListCustomRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListCustomRolesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListCustomRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListCustomRoles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListCustomRoles(ctx, req.(*ListCustomRolesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteCustomRole(ctx, req.(*DeleteCustomRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1344,6 +1740,204 @@ func _OrganizationService_RemoveTeamMember_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_CreateWorkspace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWorkspaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateWorkspace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateWorkspace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateWorkspace(ctx, req.(*CreateWorkspaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListWorkspaces_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkspacesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListWorkspaces(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListWorkspaces_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListWorkspaces(ctx, req.(*ListWorkspacesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetWorkspace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkspaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetWorkspace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetWorkspace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetWorkspace(ctx, req.(*GetWorkspaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateWorkspace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkspaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateWorkspace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateWorkspace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateWorkspace(ctx, req.(*UpdateWorkspaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteWorkspace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteWorkspaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteWorkspace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteWorkspace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteWorkspace(ctx, req.(*DeleteWorkspaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_AddWorkspaceMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddWorkspaceMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).AddWorkspaceMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_AddWorkspaceMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).AddWorkspaceMember(ctx, req.(*AddWorkspaceMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListWorkspaceMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkspaceMembersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListWorkspaceMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListWorkspaceMembers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListWorkspaceMembers(ctx, req.(*ListWorkspaceMembersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateWorkspaceMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkspaceMembersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateWorkspaceMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateWorkspaceMembers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateWorkspaceMembers(ctx, req.(*UpdateWorkspaceMembersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetWorkspaceMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkspaceMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetWorkspaceMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetWorkspaceMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetWorkspaceMember(ctx, req.(*GetWorkspaceMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateWorkspaceMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkspaceMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateWorkspaceMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateWorkspaceMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateWorkspaceMember(ctx, req.(*UpdateWorkspaceMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_RemoveWorkspaceMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveWorkspaceMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).RemoveWorkspaceMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_RemoveWorkspaceMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).RemoveWorkspaceMember(ctx, req.(*RemoveWorkspaceMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1440,6 +2034,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_BillingCheckout_Handler,
 		},
 		{
+			MethodName: "UpdateSubscription",
+			Handler:    _OrganizationService_UpdateSubscription_Handler,
+		},
+		{
+			MethodName: "GetAvailableAddons",
+			Handler:    _OrganizationService_GetAvailableAddons_Handler,
+		},
+		{
 			MethodName: "GetSSOConfiguration",
 			Handler:    _OrganizationService_GetSSOConfiguration_Handler,
 		},
@@ -1462,6 +2064,26 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateOIDCMap",
 			Handler:    _OrganizationService_UpdateOIDCMap_Handler,
+		},
+		{
+			MethodName: "CreateCustomRole",
+			Handler:    _OrganizationService_CreateCustomRole_Handler,
+		},
+		{
+			MethodName: "UpdateCustomRole",
+			Handler:    _OrganizationService_UpdateCustomRole_Handler,
+		},
+		{
+			MethodName: "GetCustomRole",
+			Handler:    _OrganizationService_GetCustomRole_Handler,
+		},
+		{
+			MethodName: "ListCustomRoles",
+			Handler:    _OrganizationService_ListCustomRoles_Handler,
+		},
+		{
+			MethodName: "DeleteCustomRole",
+			Handler:    _OrganizationService_DeleteCustomRole_Handler,
 		},
 		{
 			MethodName: "CreateTeam",
@@ -1498,6 +2120,50 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveTeamMember",
 			Handler:    _OrganizationService_RemoveTeamMember_Handler,
+		},
+		{
+			MethodName: "CreateWorkspace",
+			Handler:    _OrganizationService_CreateWorkspace_Handler,
+		},
+		{
+			MethodName: "ListWorkspaces",
+			Handler:    _OrganizationService_ListWorkspaces_Handler,
+		},
+		{
+			MethodName: "GetWorkspace",
+			Handler:    _OrganizationService_GetWorkspace_Handler,
+		},
+		{
+			MethodName: "UpdateWorkspace",
+			Handler:    _OrganizationService_UpdateWorkspace_Handler,
+		},
+		{
+			MethodName: "DeleteWorkspace",
+			Handler:    _OrganizationService_DeleteWorkspace_Handler,
+		},
+		{
+			MethodName: "AddWorkspaceMember",
+			Handler:    _OrganizationService_AddWorkspaceMember_Handler,
+		},
+		{
+			MethodName: "ListWorkspaceMembers",
+			Handler:    _OrganizationService_ListWorkspaceMembers_Handler,
+		},
+		{
+			MethodName: "UpdateWorkspaceMembers",
+			Handler:    _OrganizationService_UpdateWorkspaceMembers_Handler,
+		},
+		{
+			MethodName: "GetWorkspaceMember",
+			Handler:    _OrganizationService_GetWorkspaceMember_Handler,
+		},
+		{
+			MethodName: "UpdateWorkspaceMember",
+			Handler:    _OrganizationService_UpdateWorkspaceMember_Handler,
+		},
+		{
+			MethodName: "RemoveWorkspaceMember",
+			Handler:    _OrganizationService_RemoveWorkspaceMember_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

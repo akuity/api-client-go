@@ -90,6 +90,11 @@ func (c *argoCDServiceGatewayClient) ListInstanceVersions(ctx context.Context, r
 func (c *argoCDServiceGatewayClient) ListInstances(ctx context.Context, req *ListInstancesRequest) (*ListInstancesResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.WorkspaceId != nil {
+		q.Add("workspaceId", fmt.Sprintf("%v", *req.WorkspaceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstancesResponse](ctx, gwReq)
 }
 
@@ -99,6 +104,9 @@ func (c *argoCDServiceGatewayClient) WatchInstances(ctx context.Context, req *Wa
 	q := url.Values{}
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	if req.WorkspaceId != nil {
+		q.Add("workspaceId", fmt.Sprintf("%v", *req.WorkspaceId))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchInstancesResponse](ctx, c.gwc, gwReq)
@@ -357,6 +365,9 @@ func (c *argoCDServiceGatewayClient) ListInstanceClusters(ctx context.Context, r
 			key := fmt.Sprintf("filter.labels[%v]", k)
 			q.Add(key, fmt.Sprintf("%v", v))
 		}
+		if req.Filter.NeedReapply != nil {
+			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstanceClustersResponse](ctx, gwReq)
@@ -411,6 +422,9 @@ func (c *argoCDServiceGatewayClient) WatchInstanceClusters(ctx context.Context, 
 			key := fmt.Sprintf("filter.labels[%v]", k)
 			q.Add(key, fmt.Sprintf("%v", v))
 		}
+		if req.Filter.NeedReapply != nil {
+			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchInstanceClustersResponse](ctx, c.gwc, gwReq)
@@ -453,6 +467,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterManifests(ctx context.Con
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	q := url.Values{}
 	q.Add("offlineInstallation", fmt.Sprintf("%v", req.OfflineInstallation))
+	if req.SkipNamespace != nil {
+		q.Add("skipNamespace", fmt.Sprintf("%v", *req.SkipNamespace))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
@@ -508,6 +525,12 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterCommand(ctx context.Conte
 	q.Add("locationOrigin", fmt.Sprintf("%v", req.LocationOrigin))
 	q.Add("offline", fmt.Sprintf("%v", req.Offline))
 	q.Add("type", fmt.Sprintf("%v", req.Type))
+	if req.SkipNamespace != nil {
+		q.Add("skipNamespace", fmt.Sprintf("%v", *req.SkipNamespace))
+	}
+	if req.CommandFor != nil {
+		q.Add("commandFor", req.CommandFor.String())
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceClusterCommandResponse](ctx, gwReq)
 }

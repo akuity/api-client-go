@@ -38,12 +38,19 @@ type OrganizationServiceGatewayClient interface {
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
 	DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
+	UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error)
+	GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error)
 	GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error)
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
+	CreateCustomRole(context.Context, *CreateCustomRoleRequest) (*CreateCustomRoleResponse, error)
+	UpdateCustomRole(context.Context, *UpdateCustomRoleRequest) (*UpdateCustomRoleResponse, error)
+	GetCustomRole(context.Context, *GetCustomRoleRequest) (*GetCustomRoleResponse, error)
+	ListCustomRoles(context.Context, *ListCustomRolesRequest) (*ListCustomRolesResponse, error)
+	DeleteCustomRole(context.Context, *DeleteCustomRoleRequest) (*DeleteCustomRoleResponse, error)
 	CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error)
 	UpdateTeam(context.Context, *UpdateTeamRequest) (*UpdateTeamResponse, error)
 	GetTeam(context.Context, *GetTeamRequest) (*GetTeamResponse, error)
@@ -53,6 +60,17 @@ type OrganizationServiceGatewayClient interface {
 	GetTeamMember(context.Context, *GetTeamMemberRequest) (*GetTeamMemberResponse, error)
 	ListTeamMembers(context.Context, *ListTeamMembersRequest) (*ListTeamMembersResponse, error)
 	RemoveTeamMember(context.Context, *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error)
+	CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error)
+	ListWorkspaces(context.Context, *ListWorkspacesRequest) (*ListWorkspacesResponse, error)
+	GetWorkspace(context.Context, *GetWorkspaceRequest) (*GetWorkspaceResponse, error)
+	UpdateWorkspace(context.Context, *UpdateWorkspaceRequest) (*UpdateWorkspaceResponse, error)
+	DeleteWorkspace(context.Context, *DeleteWorkspaceRequest) (*DeleteWorkspaceResponse, error)
+	AddWorkspaceMember(context.Context, *AddWorkspaceMemberRequest) (*AddWorkspaceMemberResponse, error)
+	ListWorkspaceMembers(context.Context, *ListWorkspaceMembersRequest) (*ListWorkspaceMembersResponse, error)
+	UpdateWorkspaceMembers(context.Context, *UpdateWorkspaceMembersRequest) (*UpdateWorkspaceMembersResponse, error)
+	GetWorkspaceMember(context.Context, *GetWorkspaceMemberRequest) (*GetWorkspaceMemberResponse, error)
+	UpdateWorkspaceMember(context.Context, *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error)
+	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -595,13 +613,24 @@ func (c *organizationServiceGatewayClient) DeleteBillingCustomer(ctx context.Con
 }
 
 func (c *organizationServiceGatewayClient) BillingCheckout(ctx context.Context, req *BillingCheckoutRequest) (*BillingCheckoutResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/checkout")
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/organizations/{id}/checkout")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
-	q := url.Values{}
-	q.Add("billingName", fmt.Sprintf("%v", req.BillingName))
-	q.Add("billingEmail", fmt.Sprintf("%v", req.BillingEmail))
-	gwReq.SetQueryParamsFromValues(q)
+	gwReq.SetBody(req)
 	return gateway.DoRequest[BillingCheckoutResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateSubscription(ctx context.Context, req *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/organizations/{id}/billing/subscription")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateSubscriptionResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetAvailableAddons(ctx context.Context, req *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/billing/{plan}/addons")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("plan", fmt.Sprintf("%v", req.Plan))
+	return gateway.DoRequest[GetAvailableAddonsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetSSOConfiguration(ctx context.Context, req *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error) {
@@ -641,6 +670,50 @@ func (c *organizationServiceGatewayClient) UpdateOIDCMap(ctx context.Context, re
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateOIDCMapResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CreateCustomRole(ctx context.Context, req *CreateCustomRoleRequest) (*CreateCustomRoleResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/organizations/{organization_id}/custom-roles")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateCustomRoleResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateCustomRole(ctx context.Context, req *UpdateCustomRoleRequest) (*UpdateCustomRoleResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/organizations/{organization_id}/custom-roles/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateCustomRoleResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetCustomRole(ctx context.Context, req *GetCustomRoleRequest) (*GetCustomRoleResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{organization_id}/custom-roles/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetCustomRoleResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListCustomRoles(ctx context.Context, req *ListCustomRolesRequest) (*ListCustomRolesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{organization_id}/custom-roles")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListCustomRolesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteCustomRole(ctx context.Context, req *DeleteCustomRoleRequest) (*DeleteCustomRoleResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/organizations/{organization_id}/custom-roles/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteCustomRoleResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) CreateTeam(ctx context.Context, req *CreateTeamRequest) (*CreateTeamResponse, error) {
@@ -725,4 +798,105 @@ func (c *organizationServiceGatewayClient) RemoveTeamMember(ctx context.Context,
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RemoveTeamMemberResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CreateWorkspace(ctx context.Context, req *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateWorkspaceResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListWorkspaces(ctx context.Context, req *ListWorkspacesRequest) (*ListWorkspacesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListWorkspacesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetWorkspace(ctx context.Context, req *GetWorkspaceRequest) (*GetWorkspaceResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetWorkspaceResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateWorkspace(ctx context.Context, req *UpdateWorkspaceRequest) (*UpdateWorkspaceResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/workspaces/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateWorkspaceResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteWorkspace(ctx context.Context, req *DeleteWorkspaceRequest) (*DeleteWorkspaceResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/workspaces/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteWorkspaceResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) AddWorkspaceMember(ctx context.Context, req *AddWorkspaceMemberRequest) (*AddWorkspaceMemberResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/member")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[AddWorkspaceMemberResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListWorkspaceMembers(ctx context.Context, req *ListWorkspaceMembersRequest) (*ListWorkspaceMembersResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/members")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListWorkspaceMembersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateWorkspaceMembers(ctx context.Context, req *UpdateWorkspaceMembersRequest) (*UpdateWorkspaceMembersResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/members")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateWorkspaceMembersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetWorkspaceMember(ctx context.Context, req *GetWorkspaceMemberRequest) (*GetWorkspaceMemberResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/members/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetWorkspaceMemberResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateWorkspaceMember(ctx context.Context, req *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/members/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateWorkspaceMemberResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) RemoveWorkspaceMember(ctx context.Context, req *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/members/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RemoveWorkspaceMemberResponse](ctx, gwReq)
 }

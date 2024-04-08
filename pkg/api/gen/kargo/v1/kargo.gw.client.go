@@ -22,6 +22,7 @@ type KargoServiceGatewayClient interface {
 	WatchKargoInstanceAgents(context.Context, *WatchKargoInstanceAgentsRequest) (<-chan *WatchKargoInstanceAgentsResponse, <-chan error, error)
 	CreateKargoInstanceAgent(context.Context, *CreateKargoInstanceAgentRequest) (*CreateKargoInstanceAgentResponse, error)
 	UpdateKargoInstanceAgent(context.Context, *UpdateKargoInstanceAgentRequest) (*UpdateKargoInstanceAgentResponse, error)
+	UpdateKargoInstanceAgents(context.Context, *UpdateKargoInstanceAgentsRequest) (*UpdateKargoInstanceAgentsResponse, error)
 	GetKargoInstanceAgent(context.Context, *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -50,6 +51,11 @@ type kargoServiceGatewayClient struct {
 func (c *kargoServiceGatewayClient) ListKargoInstances(ctx context.Context, req *ListKargoInstancesRequest) (*ListKargoInstancesResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.WorkspaceId != nil {
+		q.Add("workspaceId", fmt.Sprintf("%v", *req.WorkspaceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKargoInstancesResponse](ctx, gwReq)
 }
 
@@ -59,6 +65,9 @@ func (c *kargoServiceGatewayClient) WatchKargoInstances(ctx context.Context, req
 	q := url.Values{}
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	if req.WorkspaceId != nil {
+		q.Add("workspaceId", fmt.Sprintf("%v", *req.WorkspaceId))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchKargoInstancesResponse](ctx, c.gwc, gwReq)
@@ -129,6 +138,9 @@ func (c *kargoServiceGatewayClient) ListKargoInstanceAgents(ctx context.Context,
 		if req.Filter.SelfManaged != nil {
 			q.Add("filter.selfManaged", fmt.Sprintf("%v", *req.Filter.SelfManaged))
 		}
+		if req.Filter.NeedReapply != nil {
+			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKargoInstanceAgentsResponse](ctx, gwReq)
@@ -186,6 +198,9 @@ func (c *kargoServiceGatewayClient) WatchKargoInstanceAgents(ctx context.Context
 		if req.Filter.SelfManaged != nil {
 			q.Add("filter.selfManaged", fmt.Sprintf("%v", *req.Filter.SelfManaged))
 		}
+		if req.Filter.NeedReapply != nil {
+			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchKargoInstanceAgentsResponse](ctx, c.gwc, gwReq)
@@ -208,6 +223,14 @@ func (c *kargoServiceGatewayClient) UpdateKargoInstanceAgent(ctx context.Context
 	return gateway.DoRequest[UpdateKargoInstanceAgentResponse](ctx, gwReq)
 }
 
+func (c *kargoServiceGatewayClient) UpdateKargoInstanceAgents(ctx context.Context, req *UpdateKargoInstanceAgentsRequest) (*UpdateKargoInstanceAgentsResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateKargoInstanceAgentsResponse](ctx, gwReq)
+}
+
 func (c *kargoServiceGatewayClient) GetKargoInstanceAgent(ctx context.Context, req *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -221,6 +244,11 @@ func (c *kargoServiceGatewayClient) GetKargoInstanceAgentManifests(ctx context.C
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	if req.SkipNamespace != nil {
+		q.Add("skipNamespace", fmt.Sprintf("%v", *req.SkipNamespace))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
@@ -232,6 +260,9 @@ func (c *kargoServiceGatewayClient) GetInstanceAgentCommand(ctx context.Context,
 	q := url.Values{}
 	q.Add("locationOrigin", fmt.Sprintf("%v", req.LocationOrigin))
 	q.Add("type", fmt.Sprintf("%v", req.Type))
+	if req.SkipNamespace != nil {
+		q.Add("skipNamespace", fmt.Sprintf("%v", *req.SkipNamespace))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceAgentCommandResponse](ctx, gwReq)
 }
