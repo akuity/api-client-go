@@ -41,7 +41,6 @@ const (
 	OrganizationService_GetAuditLogsInCSV_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
 	OrganizationService_GetCustomerDetails_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
 	OrganizationService_UpdateBillingDetails_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
-	OrganizationService_DeleteBillingCustomer_FullMethodName              = "/akuity.organization.v1.OrganizationService/DeleteBillingCustomer"
 	OrganizationService_BillingCheckout_FullMethodName                    = "/akuity.organization.v1.OrganizationService/BillingCheckout"
 	OrganizationService_UpdateSubscription_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
 	OrganizationService_GetAvailableAddons_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
@@ -76,6 +75,7 @@ const (
 	OrganizationService_GetWorkspaceMember_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
 	OrganizationService_UpdateWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
 	OrganizationService_RemoveWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
+	OrganizationService_CancelSubscription_FullMethodName                 = "/akuity.organization.v1.OrganizationService/CancelSubscription"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -105,7 +105,6 @@ type OrganizationServiceClient interface {
 	GetAuditLogsInCSV(ctx context.Context, in *GetAuditLogsInCSVRequest, opts ...grpc.CallOption) (OrganizationService_GetAuditLogsInCSVClient, error)
 	GetCustomerDetails(ctx context.Context, in *GetCustomerDetailsRequest, opts ...grpc.CallOption) (*GetCustomerDetailsResponse, error)
 	UpdateBillingDetails(ctx context.Context, in *UpdateBillingDetailsRequest, opts ...grpc.CallOption) (*UpdateBillingDetailsResponse, error)
-	DeleteBillingCustomer(ctx context.Context, in *DeleteBillingCustomerRequest, opts ...grpc.CallOption) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(ctx context.Context, in *BillingCheckoutRequest, opts ...grpc.CallOption) (*BillingCheckoutResponse, error)
 	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionRequest, opts ...grpc.CallOption) (*UpdateSubscriptionResponse, error)
 	GetAvailableAddons(ctx context.Context, in *GetAvailableAddonsRequest, opts ...grpc.CallOption) (*GetAvailableAddonsResponse, error)
@@ -140,6 +139,7 @@ type OrganizationServiceClient interface {
 	GetWorkspaceMember(ctx context.Context, in *GetWorkspaceMemberRequest, opts ...grpc.CallOption) (*GetWorkspaceMemberResponse, error)
 	UpdateWorkspaceMember(ctx context.Context, in *UpdateWorkspaceMemberRequest, opts ...grpc.CallOption) (*UpdateWorkspaceMemberResponse, error)
 	RemoveWorkspaceMember(ctx context.Context, in *RemoveWorkspaceMemberRequest, opts ...grpc.CallOption) (*RemoveWorkspaceMemberResponse, error)
+	CancelSubscription(ctx context.Context, in *CancelSubscriptionRequest, opts ...grpc.CallOption) (*CancelSubscriptionResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -356,15 +356,6 @@ func (c *organizationServiceClient) GetCustomerDetails(ctx context.Context, in *
 func (c *organizationServiceClient) UpdateBillingDetails(ctx context.Context, in *UpdateBillingDetailsRequest, opts ...grpc.CallOption) (*UpdateBillingDetailsResponse, error) {
 	out := new(UpdateBillingDetailsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateBillingDetails_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *organizationServiceClient) DeleteBillingCustomer(ctx context.Context, in *DeleteBillingCustomerRequest, opts ...grpc.CallOption) (*DeleteBillingCustomerResponse, error) {
-	out := new(DeleteBillingCustomerResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_DeleteBillingCustomer_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -677,6 +668,15 @@ func (c *organizationServiceClient) RemoveWorkspaceMember(ctx context.Context, i
 	return out, nil
 }
 
+func (c *organizationServiceClient) CancelSubscription(ctx context.Context, in *CancelSubscriptionRequest, opts ...grpc.CallOption) (*CancelSubscriptionResponse, error) {
+	out := new(CancelSubscriptionResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CancelSubscription_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -704,7 +704,6 @@ type OrganizationServiceServer interface {
 	GetAuditLogsInCSV(*GetAuditLogsInCSVRequest, OrganizationService_GetAuditLogsInCSVServer) error
 	GetCustomerDetails(context.Context, *GetCustomerDetailsRequest) (*GetCustomerDetailsResponse, error)
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
-	DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error)
 	GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error)
@@ -739,6 +738,7 @@ type OrganizationServiceServer interface {
 	GetWorkspaceMember(context.Context, *GetWorkspaceMemberRequest) (*GetWorkspaceMemberResponse, error)
 	UpdateWorkspaceMember(context.Context, *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error)
 	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
+	CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -808,9 +808,6 @@ func (UnimplementedOrganizationServiceServer) GetCustomerDetails(context.Context
 }
 func (UnimplementedOrganizationServiceServer) UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBillingDetails not implemented")
-}
-func (UnimplementedOrganizationServiceServer) DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteBillingCustomer not implemented")
 }
 func (UnimplementedOrganizationServiceServer) BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BillingCheckout not implemented")
@@ -913,6 +910,9 @@ func (UnimplementedOrganizationServiceServer) UpdateWorkspaceMember(context.Cont
 }
 func (UnimplementedOrganizationServiceServer) RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveWorkspaceMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelSubscription not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -1304,24 +1304,6 @@ func _OrganizationService_UpdateBillingDetails_Handler(srv interface{}, ctx cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).UpdateBillingDetails(ctx, req.(*UpdateBillingDetailsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrganizationService_DeleteBillingCustomer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteBillingCustomerRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).DeleteBillingCustomer(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_DeleteBillingCustomer_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).DeleteBillingCustomer(ctx, req.(*DeleteBillingCustomerRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1938,6 +1920,24 @@ func _OrganizationService_RemoveWorkspaceMember_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_CancelSubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelSubscriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CancelSubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CancelSubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CancelSubscription(ctx, req.(*CancelSubscriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2024,10 +2024,6 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateBillingDetails",
 			Handler:    _OrganizationService_UpdateBillingDetails_Handler,
-		},
-		{
-			MethodName: "DeleteBillingCustomer",
-			Handler:    _OrganizationService_DeleteBillingCustomer_Handler,
 		},
 		{
 			MethodName: "BillingCheckout",
@@ -2164,6 +2160,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveWorkspaceMember",
 			Handler:    _OrganizationService_RemoveWorkspaceMember_Handler,
+		},
+		{
+			MethodName: "CancelSubscription",
+			Handler:    _OrganizationService_CancelSubscription_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

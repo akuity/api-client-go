@@ -36,6 +36,9 @@ type KargoServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error)
+	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
+	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
+	GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error)
 }
 
 func NewKargoServiceGatewayClient(c gateway.Client) KargoServiceGatewayClient {
@@ -298,4 +301,25 @@ func (c *kargoServiceGatewayClient) UpdateInstanceAgentVersion(ctx context.Conte
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateInstanceAgentVersionResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetPromotionStats(ctx context.Context, req *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/promotions-stats")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetPromotionStatsResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetPromotionEvents(ctx context.Context, req *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/promotions-events")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetPromotionEventsResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetStageSpecificStats(ctx context.Context, req *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/stage-specific-stats")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetStageSpecificStatsResponse](ctx, gwReq)
 }

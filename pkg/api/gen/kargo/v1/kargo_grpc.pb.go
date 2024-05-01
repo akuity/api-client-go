@@ -37,6 +37,9 @@ const (
 	KargoService_DeleteInstanceAgent_FullMethodName            = "/akuity.kargo.v1.KargoService/DeleteInstanceAgent"
 	KargoService_RotateInstanceAgentCredentials_FullMethodName = "/akuity.kargo.v1.KargoService/RotateInstanceAgentCredentials"
 	KargoService_UpdateInstanceAgentVersion_FullMethodName     = "/akuity.kargo.v1.KargoService/UpdateInstanceAgentVersion"
+	KargoService_GetPromotionStats_FullMethodName              = "/akuity.kargo.v1.KargoService/GetPromotionStats"
+	KargoService_GetPromotionEvents_FullMethodName             = "/akuity.kargo.v1.KargoService/GetPromotionEvents"
+	KargoService_GetStageSpecificStats_FullMethodName          = "/akuity.kargo.v1.KargoService/GetStageSpecificStats"
 )
 
 // KargoServiceClient is the client API for KargoService service.
@@ -66,6 +69,9 @@ type KargoServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceAgentVersion(ctx context.Context, in *UpdateInstanceAgentVersionRequest, opts ...grpc.CallOption) (*UpdateInstanceAgentVersionResponse, error)
+	GetPromotionStats(ctx context.Context, in *GetPromotionStatsRequest, opts ...grpc.CallOption) (*GetPromotionStatsResponse, error)
+	GetPromotionEvents(ctx context.Context, in *GetPromotionEventsRequest, opts ...grpc.CallOption) (*GetPromotionEventsResponse, error)
+	GetStageSpecificStats(ctx context.Context, in *GetStageSpecificStatsRequest, opts ...grpc.CallOption) (*GetStageSpecificStatsResponse, error)
 }
 
 type kargoServiceClient struct {
@@ -298,6 +304,33 @@ func (c *kargoServiceClient) UpdateInstanceAgentVersion(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *kargoServiceClient) GetPromotionStats(ctx context.Context, in *GetPromotionStatsRequest, opts ...grpc.CallOption) (*GetPromotionStatsResponse, error) {
+	out := new(GetPromotionStatsResponse)
+	err := c.cc.Invoke(ctx, KargoService_GetPromotionStats_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) GetPromotionEvents(ctx context.Context, in *GetPromotionEventsRequest, opts ...grpc.CallOption) (*GetPromotionEventsResponse, error) {
+	out := new(GetPromotionEventsResponse)
+	err := c.cc.Invoke(ctx, KargoService_GetPromotionEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) GetStageSpecificStats(ctx context.Context, in *GetStageSpecificStatsRequest, opts ...grpc.CallOption) (*GetStageSpecificStatsResponse, error) {
+	out := new(GetStageSpecificStatsResponse)
+	err := c.cc.Invoke(ctx, KargoService_GetStageSpecificStats_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KargoServiceServer is the server API for KargoService service.
 // All implementations must embed UnimplementedKargoServiceServer
 // for forward compatibility
@@ -325,6 +358,9 @@ type KargoServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error)
+	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
+	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
+	GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error)
 	mustEmbedUnimplementedKargoServiceServer()
 }
 
@@ -382,6 +418,15 @@ func (UnimplementedKargoServiceServer) RotateInstanceAgentCredentials(context.Co
 }
 func (UnimplementedKargoServiceServer) UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceAgentVersion not implemented")
+}
+func (UnimplementedKargoServiceServer) GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPromotionStats not implemented")
+}
+func (UnimplementedKargoServiceServer) GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPromotionEvents not implemented")
+}
+func (UnimplementedKargoServiceServer) GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStageSpecificStats not implemented")
 }
 func (UnimplementedKargoServiceServer) mustEmbedUnimplementedKargoServiceServer() {}
 
@@ -711,6 +756,60 @@ func _KargoService_UpdateInstanceAgentVersion_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KargoService_GetPromotionStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPromotionStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetPromotionStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetPromotionStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetPromotionStats(ctx, req.(*GetPromotionStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_GetPromotionEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPromotionEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetPromotionEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetPromotionEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetPromotionEvents(ctx, req.(*GetPromotionEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_GetStageSpecificStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStageSpecificStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetStageSpecificStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetStageSpecificStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetStageSpecificStats(ctx, req.(*GetStageSpecificStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KargoService_ServiceDesc is the grpc.ServiceDesc for KargoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -773,6 +872,18 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateInstanceAgentVersion",
 			Handler:    _KargoService_UpdateInstanceAgentVersion_Handler,
+		},
+		{
+			MethodName: "GetPromotionStats",
+			Handler:    _KargoService_GetPromotionStats_Handler,
+		},
+		{
+			MethodName: "GetPromotionEvents",
+			Handler:    _KargoService_GetPromotionEvents_Handler,
+		},
+		{
+			MethodName: "GetStageSpecificStats",
+			Handler:    _KargoService_GetStageSpecificStats_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

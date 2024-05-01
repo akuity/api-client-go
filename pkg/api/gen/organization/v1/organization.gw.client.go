@@ -36,7 +36,6 @@ type OrganizationServiceGatewayClient interface {
 	GetAuditLogsInCSV(context.Context, *GetAuditLogsInCSVRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	GetCustomerDetails(context.Context, *GetCustomerDetailsRequest) (*GetCustomerDetailsResponse, error)
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
-	DeleteBillingCustomer(context.Context, *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error)
 	GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error)
@@ -71,6 +70,7 @@ type OrganizationServiceGatewayClient interface {
 	GetWorkspaceMember(context.Context, *GetWorkspaceMemberRequest) (*GetWorkspaceMemberResponse, error)
 	UpdateWorkspaceMember(context.Context, *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error)
 	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
+	CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -378,6 +378,98 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 	if req.Filters.Offset != nil {
 		q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
 	}
+	if req.Filters.KargoInstance != nil {
+		for _, v := range req.Filters.KargoInstance.ObjectName {
+			q.Add("filters.kargoInstance.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectKind {
+			q.Add("filters.kargoInstance.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectGroup {
+			q.Add("filters.kargoInstance.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectParentName {
+			q.Add("filters.kargoInstance.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectParentParentName {
+			q.Add("filters.kargoInstance.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectParentApplicationName {
+			q.Add("filters.kargoInstance.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoInstance.Enabled != nil {
+			q.Add("filters.kargoInstance.enabled", fmt.Sprintf("%v", *req.Filters.KargoInstance.Enabled))
+		}
+	}
+	if req.Filters.KargoAgent != nil {
+		for _, v := range req.Filters.KargoAgent.ObjectName {
+			q.Add("filters.kargoAgent.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectKind {
+			q.Add("filters.kargoAgent.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectGroup {
+			q.Add("filters.kargoAgent.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectParentName {
+			q.Add("filters.kargoAgent.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectParentParentName {
+			q.Add("filters.kargoAgent.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectParentApplicationName {
+			q.Add("filters.kargoAgent.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoAgent.Enabled != nil {
+			q.Add("filters.kargoAgent.enabled", fmt.Sprintf("%v", *req.Filters.KargoAgent.Enabled))
+		}
+	}
+	if req.Filters.KargoPromotion != nil {
+		for _, v := range req.Filters.KargoPromotion.ObjectName {
+			q.Add("filters.kargoPromotion.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectKind {
+			q.Add("filters.kargoPromotion.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectGroup {
+			q.Add("filters.kargoPromotion.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectParentName {
+			q.Add("filters.kargoPromotion.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectParentParentName {
+			q.Add("filters.kargoPromotion.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectParentApplicationName {
+			q.Add("filters.kargoPromotion.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoPromotion.Enabled != nil {
+			q.Add("filters.kargoPromotion.enabled", fmt.Sprintf("%v", *req.Filters.KargoPromotion.Enabled))
+		}
+	}
+	if req.Filters.KargoFreight != nil {
+		for _, v := range req.Filters.KargoFreight.ObjectName {
+			q.Add("filters.kargoFreight.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectKind {
+			q.Add("filters.kargoFreight.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectGroup {
+			q.Add("filters.kargoFreight.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectParentName {
+			q.Add("filters.kargoFreight.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectParentParentName {
+			q.Add("filters.kargoFreight.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectParentApplicationName {
+			q.Add("filters.kargoFreight.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoFreight.Enabled != nil {
+			q.Add("filters.kargoFreight.enabled", fmt.Sprintf("%v", *req.Filters.KargoFreight.Enabled))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
@@ -588,6 +680,98 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 	if req.Filters.Offset != nil {
 		q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
 	}
+	if req.Filters.KargoInstance != nil {
+		for _, v := range req.Filters.KargoInstance.ObjectName {
+			q.Add("filters.kargoInstance.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectKind {
+			q.Add("filters.kargoInstance.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectGroup {
+			q.Add("filters.kargoInstance.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectParentName {
+			q.Add("filters.kargoInstance.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectParentParentName {
+			q.Add("filters.kargoInstance.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoInstance.ObjectParentApplicationName {
+			q.Add("filters.kargoInstance.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoInstance.Enabled != nil {
+			q.Add("filters.kargoInstance.enabled", fmt.Sprintf("%v", *req.Filters.KargoInstance.Enabled))
+		}
+	}
+	if req.Filters.KargoAgent != nil {
+		for _, v := range req.Filters.KargoAgent.ObjectName {
+			q.Add("filters.kargoAgent.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectKind {
+			q.Add("filters.kargoAgent.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectGroup {
+			q.Add("filters.kargoAgent.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectParentName {
+			q.Add("filters.kargoAgent.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectParentParentName {
+			q.Add("filters.kargoAgent.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoAgent.ObjectParentApplicationName {
+			q.Add("filters.kargoAgent.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoAgent.Enabled != nil {
+			q.Add("filters.kargoAgent.enabled", fmt.Sprintf("%v", *req.Filters.KargoAgent.Enabled))
+		}
+	}
+	if req.Filters.KargoPromotion != nil {
+		for _, v := range req.Filters.KargoPromotion.ObjectName {
+			q.Add("filters.kargoPromotion.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectKind {
+			q.Add("filters.kargoPromotion.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectGroup {
+			q.Add("filters.kargoPromotion.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectParentName {
+			q.Add("filters.kargoPromotion.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectParentParentName {
+			q.Add("filters.kargoPromotion.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoPromotion.ObjectParentApplicationName {
+			q.Add("filters.kargoPromotion.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoPromotion.Enabled != nil {
+			q.Add("filters.kargoPromotion.enabled", fmt.Sprintf("%v", *req.Filters.KargoPromotion.Enabled))
+		}
+	}
+	if req.Filters.KargoFreight != nil {
+		for _, v := range req.Filters.KargoFreight.ObjectName {
+			q.Add("filters.kargoFreight.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectKind {
+			q.Add("filters.kargoFreight.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectGroup {
+			q.Add("filters.kargoFreight.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectParentName {
+			q.Add("filters.kargoFreight.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectParentParentName {
+			q.Add("filters.kargoFreight.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoFreight.ObjectParentApplicationName {
+			q.Add("filters.kargoFreight.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoFreight.Enabled != nil {
+			q.Add("filters.kargoFreight.enabled", fmt.Sprintf("%v", *req.Filters.KargoFreight.Enabled))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
@@ -603,13 +787,6 @@ func (c *organizationServiceGatewayClient) UpdateBillingDetails(ctx context.Cont
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateBillingDetailsResponse](ctx, gwReq)
-}
-
-func (c *organizationServiceGatewayClient) DeleteBillingCustomer(ctx context.Context, req *DeleteBillingCustomerRequest) (*DeleteBillingCustomerResponse, error) {
-	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/organizations/{id}/billing/customer")
-	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
-	gwReq.SetBody(req)
-	return gateway.DoRequest[DeleteBillingCustomerResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) BillingCheckout(ctx context.Context, req *BillingCheckoutRequest) (*BillingCheckoutResponse, error) {
@@ -899,4 +1076,11 @@ func (c *organizationServiceGatewayClient) RemoveWorkspaceMember(ctx context.Con
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RemoveWorkspaceMemberResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CancelSubscription(ctx context.Context, req *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/organizations/{organization_id}/billing/subscription/cancel")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CancelSubscriptionResponse](ctx, gwReq)
 }
