@@ -9,6 +9,8 @@ var (
 		EmitUnpopulated: true,
 	}
 	UnmarshalOptions = protojson.UnmarshalOptions{
-		DiscardUnknown: true,
+		// Set DiscardUnknown as false to return error
+		// if the request contains unknown fields.
+		DiscardUnknown: false,
 	}
 )

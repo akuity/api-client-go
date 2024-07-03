@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	OrganizationService_ListAuthenticatedUserOrganizations_FullMethodName = "/akuity.organization.v1.OrganizationService/ListAuthenticatedUserOrganizations"
 	OrganizationService_GetOrganization_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetOrganization"
+	OrganizationService_GetOrganizationPermissions_FullMethodName         = "/akuity.organization.v1.OrganizationService/GetOrganizationPermissions"
 	OrganizationService_CreateOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/CreateOrganization"
 	OrganizationService_UpdateOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
 	OrganizationService_DeleteOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
@@ -36,6 +37,8 @@ const (
 	OrganizationService_RejectOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/RejectOrganization"
 	OrganizationService_ListOrganizationAPIKeys_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
 	OrganizationService_CreateOrganizationAPIKey_FullMethodName           = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
+	OrganizationService_ListWorkspaceAPIKeys_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListWorkspaceAPIKeys"
+	OrganizationService_CreateWorkspaceAPIKey_FullMethodName              = "/akuity.organization.v1.OrganizationService/CreateWorkspaceAPIKey"
 	OrganizationService_GetAuditLogs_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
 	OrganizationService_ListAuditLogsArchives_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
 	OrganizationService_GetAuditLogsInCSV_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
@@ -76,6 +79,14 @@ const (
 	OrganizationService_UpdateWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
 	OrganizationService_RemoveWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
 	OrganizationService_CancelSubscription_FullMethodName                 = "/akuity.organization.v1.OrganizationService/CancelSubscription"
+	OrganizationService_ListKubernetesResourceTypes_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
+	OrganizationService_ListKubernetesResources_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
+	OrganizationService_ListNotificationConfigs_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
+	OrganizationService_GetNotificationConfig_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
+	OrganizationService_CreateNotificationConfig_FullMethodName           = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
+	OrganizationService_UpdateNotificationConfig_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateNotificationConfig"
+	OrganizationService_DeleteNotificationConfig_FullMethodName           = "/akuity.organization.v1.OrganizationService/DeleteNotificationConfig"
+	OrganizationService_PingNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -84,6 +95,7 @@ const (
 type OrganizationServiceClient interface {
 	ListAuthenticatedUserOrganizations(ctx context.Context, in *ListAuthenticatedUserOrganizationsRequest, opts ...grpc.CallOption) (*ListAuthenticatedUserOrganizationsResponse, error)
 	GetOrganization(ctx context.Context, in *GetOrganizationRequest, opts ...grpc.CallOption) (*GetOrganizationResponse, error)
+	GetOrganizationPermissions(ctx context.Context, in *GetOrganizationPermissionsRequest, opts ...grpc.CallOption) (*GetOrganizationPermissionsResponse, error)
 	CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*CreateOrganizationResponse, error)
 	UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*UpdateOrganizationResponse, error)
 	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*DeleteOrganizationResponse, error)
@@ -98,6 +110,8 @@ type OrganizationServiceClient interface {
 	RejectOrganization(ctx context.Context, in *RejectOrganizationRequest, opts ...grpc.CallOption) (*RejectOrganizationResponse, error)
 	ListOrganizationAPIKeys(ctx context.Context, in *ListOrganizationAPIKeysRequest, opts ...grpc.CallOption) (*ListOrganizationAPIKeysResponse, error)
 	CreateOrganizationAPIKey(ctx context.Context, in *CreateOrganizationAPIKeyRequest, opts ...grpc.CallOption) (*CreateOrganizationAPIKeyResponse, error)
+	ListWorkspaceAPIKeys(ctx context.Context, in *ListWorkspaceAPIKeysRequest, opts ...grpc.CallOption) (*ListWorkspaceAPIKeysResponse, error)
+	CreateWorkspaceAPIKey(ctx context.Context, in *CreateWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*CreateWorkspaceAPIKeyResponse, error)
 	GetAuditLogs(ctx context.Context, in *GetAuditLogsRequest, opts ...grpc.CallOption) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(ctx context.Context, in *ListAuditLogsArchivesRequest, opts ...grpc.CallOption) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -140,6 +154,15 @@ type OrganizationServiceClient interface {
 	UpdateWorkspaceMember(ctx context.Context, in *UpdateWorkspaceMemberRequest, opts ...grpc.CallOption) (*UpdateWorkspaceMemberResponse, error)
 	RemoveWorkspaceMember(ctx context.Context, in *RemoveWorkspaceMemberRequest, opts ...grpc.CallOption) (*RemoveWorkspaceMemberResponse, error)
 	CancelSubscription(ctx context.Context, in *CancelSubscriptionRequest, opts ...grpc.CallOption) (*CancelSubscriptionResponse, error)
+	ListKubernetesResourceTypes(ctx context.Context, in *ListKubernetesResourceTypesRequest, opts ...grpc.CallOption) (*ListKubernetesResourceTypesResponse, error)
+	ListKubernetesResources(ctx context.Context, in *ListKubernetesResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesResourcesResponse, error)
+	// Notification Configs
+	ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error)
+	GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error)
+	CreateNotificationConfig(ctx context.Context, in *CreateNotificationConfigRequest, opts ...grpc.CallOption) (*CreateNotificationConfigResponse, error)
+	UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateNotificationConfigResponse, error)
+	DeleteNotificationConfig(ctx context.Context, in *DeleteNotificationConfigRequest, opts ...grpc.CallOption) (*DeleteNotificationConfigResponse, error)
+	PingNotificationConfig(ctx context.Context, in *PingNotificationConfigRequest, opts ...grpc.CallOption) (*PingNotificationConfigResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -162,6 +185,15 @@ func (c *organizationServiceClient) ListAuthenticatedUserOrganizations(ctx conte
 func (c *organizationServiceClient) GetOrganization(ctx context.Context, in *GetOrganizationRequest, opts ...grpc.CallOption) (*GetOrganizationResponse, error) {
 	out := new(GetOrganizationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetOrganization_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetOrganizationPermissions(ctx context.Context, in *GetOrganizationPermissionsRequest, opts ...grpc.CallOption) (*GetOrganizationPermissionsResponse, error) {
+	out := new(GetOrganizationPermissionsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetOrganizationPermissions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -288,6 +320,24 @@ func (c *organizationServiceClient) ListOrganizationAPIKeys(ctx context.Context,
 func (c *organizationServiceClient) CreateOrganizationAPIKey(ctx context.Context, in *CreateOrganizationAPIKeyRequest, opts ...grpc.CallOption) (*CreateOrganizationAPIKeyResponse, error) {
 	out := new(CreateOrganizationAPIKeyResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_CreateOrganizationAPIKey_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListWorkspaceAPIKeys(ctx context.Context, in *ListWorkspaceAPIKeysRequest, opts ...grpc.CallOption) (*ListWorkspaceAPIKeysResponse, error) {
+	out := new(ListWorkspaceAPIKeysResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListWorkspaceAPIKeys_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) CreateWorkspaceAPIKey(ctx context.Context, in *CreateWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*CreateWorkspaceAPIKeyResponse, error) {
+	out := new(CreateWorkspaceAPIKeyResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateWorkspaceAPIKey_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -677,12 +727,85 @@ func (c *organizationServiceClient) CancelSubscription(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListKubernetesResourceTypes(ctx context.Context, in *ListKubernetesResourceTypesRequest, opts ...grpc.CallOption) (*ListKubernetesResourceTypesResponse, error) {
+	out := new(ListKubernetesResourceTypesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesResourceTypes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesResources(ctx context.Context, in *ListKubernetesResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesResourcesResponse, error) {
+	out := new(ListKubernetesResourcesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesResources_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error) {
+	out := new(ListNotificationConfigsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListNotificationConfigs_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error) {
+	out := new(GetNotificationConfigResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetNotificationConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) CreateNotificationConfig(ctx context.Context, in *CreateNotificationConfigRequest, opts ...grpc.CallOption) (*CreateNotificationConfigResponse, error) {
+	out := new(CreateNotificationConfigResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateNotificationConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateNotificationConfigResponse, error) {
+	out := new(UpdateNotificationConfigResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateNotificationConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteNotificationConfig(ctx context.Context, in *DeleteNotificationConfigRequest, opts ...grpc.CallOption) (*DeleteNotificationConfigResponse, error) {
+	out := new(DeleteNotificationConfigResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteNotificationConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) PingNotificationConfig(ctx context.Context, in *PingNotificationConfigRequest, opts ...grpc.CallOption) (*PingNotificationConfigResponse, error) {
+	out := new(PingNotificationConfigResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_PingNotificationConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
 type OrganizationServiceServer interface {
 	ListAuthenticatedUserOrganizations(context.Context, *ListAuthenticatedUserOrganizationsRequest) (*ListAuthenticatedUserOrganizationsResponse, error)
 	GetOrganization(context.Context, *GetOrganizationRequest) (*GetOrganizationResponse, error)
+	GetOrganizationPermissions(context.Context, *GetOrganizationPermissionsRequest) (*GetOrganizationPermissionsResponse, error)
 	CreateOrganization(context.Context, *CreateOrganizationRequest) (*CreateOrganizationResponse, error)
 	UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*UpdateOrganizationResponse, error)
 	DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*DeleteOrganizationResponse, error)
@@ -697,6 +820,8 @@ type OrganizationServiceServer interface {
 	RejectOrganization(context.Context, *RejectOrganizationRequest) (*RejectOrganizationResponse, error)
 	ListOrganizationAPIKeys(context.Context, *ListOrganizationAPIKeysRequest) (*ListOrganizationAPIKeysResponse, error)
 	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
+	ListWorkspaceAPIKeys(context.Context, *ListWorkspaceAPIKeysRequest) (*ListWorkspaceAPIKeysResponse, error)
+	CreateWorkspaceAPIKey(context.Context, *CreateWorkspaceAPIKeyRequest) (*CreateWorkspaceAPIKeyResponse, error)
 	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -739,6 +864,15 @@ type OrganizationServiceServer interface {
 	UpdateWorkspaceMember(context.Context, *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error)
 	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
 	CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error)
+	ListKubernetesResourceTypes(context.Context, *ListKubernetesResourceTypesRequest) (*ListKubernetesResourceTypesResponse, error)
+	ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error)
+	// Notification Configs
+	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
+	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
+	CreateNotificationConfig(context.Context, *CreateNotificationConfigRequest) (*CreateNotificationConfigResponse, error)
+	UpdateNotificationConfig(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error)
+	DeleteNotificationConfig(context.Context, *DeleteNotificationConfigRequest) (*DeleteNotificationConfigResponse, error)
+	PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -751,6 +885,9 @@ func (UnimplementedOrganizationServiceServer) ListAuthenticatedUserOrganizations
 }
 func (UnimplementedOrganizationServiceServer) GetOrganization(context.Context, *GetOrganizationRequest) (*GetOrganizationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrganization not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetOrganizationPermissions(context.Context, *GetOrganizationPermissionsRequest) (*GetOrganizationPermissionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationPermissions not implemented")
 }
 func (UnimplementedOrganizationServiceServer) CreateOrganization(context.Context, *CreateOrganizationRequest) (*CreateOrganizationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganization not implemented")
@@ -793,6 +930,12 @@ func (UnimplementedOrganizationServiceServer) ListOrganizationAPIKeys(context.Co
 }
 func (UnimplementedOrganizationServiceServer) CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganizationAPIKey not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListWorkspaceAPIKeys(context.Context, *ListWorkspaceAPIKeysRequest) (*ListWorkspaceAPIKeysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkspaceAPIKeys not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateWorkspaceAPIKey(context.Context, *CreateWorkspaceAPIKeyRequest) (*CreateWorkspaceAPIKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkspaceAPIKey not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuditLogs not implemented")
@@ -914,6 +1057,30 @@ func (UnimplementedOrganizationServiceServer) RemoveWorkspaceMember(context.Cont
 func (UnimplementedOrganizationServiceServer) CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelSubscription not implemented")
 }
+func (UnimplementedOrganizationServiceServer) ListKubernetesResourceTypes(context.Context, *ListKubernetesResourceTypesRequest) (*ListKubernetesResourceTypesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesResourceTypes not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesResources not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationConfigs not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationConfig not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateNotificationConfig(context.Context, *CreateNotificationConfigRequest) (*CreateNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNotificationConfig not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateNotificationConfig(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationConfig not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteNotificationConfig(context.Context, *DeleteNotificationConfigRequest) (*DeleteNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotificationConfig not implemented")
+}
+func (UnimplementedOrganizationServiceServer) PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PingNotificationConfig not implemented")
+}
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
 // UnsafeOrganizationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -959,6 +1126,24 @@ func _OrganizationService_GetOrganization_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).GetOrganization(ctx, req.(*GetOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetOrganizationPermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrganizationPermissionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetOrganizationPermissions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetOrganizationPermissions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetOrganizationPermissions(ctx, req.(*GetOrganizationPermissionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1211,6 +1396,42 @@ func _OrganizationService_CreateOrganizationAPIKey_Handler(srv interface{}, ctx 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).CreateOrganizationAPIKey(ctx, req.(*CreateOrganizationAPIKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListWorkspaceAPIKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkspaceAPIKeysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListWorkspaceAPIKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListWorkspaceAPIKeys_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListWorkspaceAPIKeys(ctx, req.(*ListWorkspaceAPIKeysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_CreateWorkspaceAPIKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWorkspaceAPIKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateWorkspaceAPIKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateWorkspaceAPIKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateWorkspaceAPIKey(ctx, req.(*CreateWorkspaceAPIKeyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1938,6 +2159,150 @@ func _OrganizationService_CancelSubscription_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListKubernetesResourceTypes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesResourceTypesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesResourceTypes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesResourceTypes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesResourceTypes(ctx, req.(*ListKubernetesResourceTypesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesResources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesResourcesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesResources(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesResources_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesResources(ctx, req.(*ListKubernetesResourcesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListNotificationConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNotificationConfigsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListNotificationConfigs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListNotificationConfigs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListNotificationConfigs(ctx, req.(*ListNotificationConfigsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNotificationConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetNotificationConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetNotificationConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetNotificationConfig(ctx, req.(*GetNotificationConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_CreateNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNotificationConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateNotificationConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateNotificationConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateNotificationConfig(ctx, req.(*CreateNotificationConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNotificationConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateNotificationConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateNotificationConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateNotificationConfig(ctx, req.(*UpdateNotificationConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteNotificationConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteNotificationConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteNotificationConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteNotificationConfig(ctx, req.(*DeleteNotificationConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_PingNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingNotificationConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).PingNotificationConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_PingNotificationConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).PingNotificationConfig(ctx, req.(*PingNotificationConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1952,6 +2317,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOrganization",
 			Handler:    _OrganizationService_GetOrganization_Handler,
+		},
+		{
+			MethodName: "GetOrganizationPermissions",
+			Handler:    _OrganizationService_GetOrganizationPermissions_Handler,
 		},
 		{
 			MethodName: "CreateOrganization",
@@ -2008,6 +2377,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateOrganizationAPIKey",
 			Handler:    _OrganizationService_CreateOrganizationAPIKey_Handler,
+		},
+		{
+			MethodName: "ListWorkspaceAPIKeys",
+			Handler:    _OrganizationService_ListWorkspaceAPIKeys_Handler,
+		},
+		{
+			MethodName: "CreateWorkspaceAPIKey",
+			Handler:    _OrganizationService_CreateWorkspaceAPIKey_Handler,
 		},
 		{
 			MethodName: "GetAuditLogs",
@@ -2164,6 +2541,38 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CancelSubscription",
 			Handler:    _OrganizationService_CancelSubscription_Handler,
+		},
+		{
+			MethodName: "ListKubernetesResourceTypes",
+			Handler:    _OrganizationService_ListKubernetesResourceTypes_Handler,
+		},
+		{
+			MethodName: "ListKubernetesResources",
+			Handler:    _OrganizationService_ListKubernetesResources_Handler,
+		},
+		{
+			MethodName: "ListNotificationConfigs",
+			Handler:    _OrganizationService_ListNotificationConfigs_Handler,
+		},
+		{
+			MethodName: "GetNotificationConfig",
+			Handler:    _OrganizationService_GetNotificationConfig_Handler,
+		},
+		{
+			MethodName: "CreateNotificationConfig",
+			Handler:    _OrganizationService_CreateNotificationConfig_Handler,
+		},
+		{
+			MethodName: "UpdateNotificationConfig",
+			Handler:    _OrganizationService_UpdateNotificationConfig_Handler,
+		},
+		{
+			MethodName: "DeleteNotificationConfig",
+			Handler:    _OrganizationService_DeleteNotificationConfig_Handler,
+		},
+		{
+			MethodName: "PingNotificationConfig",
+			Handler:    _OrganizationService_PingNotificationConfig_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

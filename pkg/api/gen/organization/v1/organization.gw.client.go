@@ -15,6 +15,7 @@ import (
 type OrganizationServiceGatewayClient interface {
 	ListAuthenticatedUserOrganizations(context.Context, *ListAuthenticatedUserOrganizationsRequest) (*ListAuthenticatedUserOrganizationsResponse, error)
 	GetOrganization(context.Context, *GetOrganizationRequest) (*GetOrganizationResponse, error)
+	GetOrganizationPermissions(context.Context, *GetOrganizationPermissionsRequest) (*GetOrganizationPermissionsResponse, error)
 	CreateOrganization(context.Context, *CreateOrganizationRequest) (*CreateOrganizationResponse, error)
 	UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*UpdateOrganizationResponse, error)
 	DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*DeleteOrganizationResponse, error)
@@ -29,6 +30,8 @@ type OrganizationServiceGatewayClient interface {
 	RejectOrganization(context.Context, *RejectOrganizationRequest) (*RejectOrganizationResponse, error)
 	ListOrganizationAPIKeys(context.Context, *ListOrganizationAPIKeysRequest) (*ListOrganizationAPIKeysResponse, error)
 	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
+	ListWorkspaceAPIKeys(context.Context, *ListWorkspaceAPIKeysRequest) (*ListWorkspaceAPIKeysResponse, error)
+	CreateWorkspaceAPIKey(context.Context, *CreateWorkspaceAPIKeyRequest) (*CreateWorkspaceAPIKeyResponse, error)
 	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -71,6 +74,15 @@ type OrganizationServiceGatewayClient interface {
 	UpdateWorkspaceMember(context.Context, *UpdateWorkspaceMemberRequest) (*UpdateWorkspaceMemberResponse, error)
 	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
 	CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error)
+	ListKubernetesResourceTypes(context.Context, *ListKubernetesResourceTypesRequest) (*ListKubernetesResourceTypesResponse, error)
+	ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error)
+	// Notification Configs
+	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
+	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
+	CreateNotificationConfig(context.Context, *CreateNotificationConfigRequest) (*CreateNotificationConfigResponse, error)
+	UpdateNotificationConfig(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error)
+	DeleteNotificationConfig(context.Context, *DeleteNotificationConfigRequest) (*DeleteNotificationConfigResponse, error)
+	PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -95,6 +107,12 @@ func (c *organizationServiceGatewayClient) GetOrganization(ctx context.Context, 
 	q.Add("idType", req.IdType.String())
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetOrganizationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetOrganizationPermissions(ctx context.Context, req *GetOrganizationPermissionsRequest) (*GetOrganizationPermissionsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/permissions")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetOrganizationPermissionsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) CreateOrganization(ctx context.Context, req *CreateOrganizationRequest) (*CreateOrganizationResponse, error) {
@@ -190,6 +208,21 @@ func (c *organizationServiceGatewayClient) CreateOrganizationAPIKey(ctx context.
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[CreateOrganizationAPIKeyResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListWorkspaceAPIKeys(ctx context.Context, req *ListWorkspaceAPIKeysRequest) (*ListWorkspaceAPIKeysResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/workspaces/{workspace_id}/apikeys")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	return gateway.DoRequest[ListWorkspaceAPIKeysResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CreateWorkspaceAPIKey(ctx context.Context, req *CreateWorkspaceAPIKeyRequest) (*CreateWorkspaceAPIKeyResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/organizations/{id}/workspaces/{workspace_id}/apikeys")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateWorkspaceAPIKeyResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req *GetAuditLogsRequest) (*GetAuditLogsResponse, error) {
@@ -468,6 +501,29 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		if req.Filters.KargoFreight.Enabled != nil {
 			q.Add("filters.kargoFreight.enabled", fmt.Sprintf("%v", *req.Filters.KargoFreight.Enabled))
+		}
+	}
+	if req.Filters.CustomRoles != nil {
+		for _, v := range req.Filters.CustomRoles.ObjectName {
+			q.Add("filters.customRoles.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectKind {
+			q.Add("filters.customRoles.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectGroup {
+			q.Add("filters.customRoles.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectParentName {
+			q.Add("filters.customRoles.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectParentParentName {
+			q.Add("filters.customRoles.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectParentApplicationName {
+			q.Add("filters.customRoles.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.CustomRoles.Enabled != nil {
+			q.Add("filters.customRoles.enabled", fmt.Sprintf("%v", *req.Filters.CustomRoles.Enabled))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -770,6 +826,29 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		if req.Filters.KargoFreight.Enabled != nil {
 			q.Add("filters.kargoFreight.enabled", fmt.Sprintf("%v", *req.Filters.KargoFreight.Enabled))
+		}
+	}
+	if req.Filters.CustomRoles != nil {
+		for _, v := range req.Filters.CustomRoles.ObjectName {
+			q.Add("filters.customRoles.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectKind {
+			q.Add("filters.customRoles.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectGroup {
+			q.Add("filters.customRoles.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectParentName {
+			q.Add("filters.customRoles.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectParentParentName {
+			q.Add("filters.customRoles.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.CustomRoles.ObjectParentApplicationName {
+			q.Add("filters.customRoles.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.CustomRoles.Enabled != nil {
+			q.Add("filters.customRoles.enabled", fmt.Sprintf("%v", *req.Filters.CustomRoles.Enabled))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -1083,4 +1162,101 @@ func (c *organizationServiceGatewayClient) CancelSubscription(ctx context.Contex
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[CancelSubscriptionResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesResourceTypes(ctx context.Context, req *ListKubernetesResourceTypesRequest) (*ListKubernetesResourceTypesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resource-types")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesResourceTypesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesResources(ctx context.Context, req *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resources")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Namespaces {
+		q.Add("namespaces", fmt.Sprintf("%v", v))
+	}
+	q.Add("kind", fmt.Sprintf("%v", req.Kind))
+	q.Add("group", fmt.Sprintf("%v", req.Group))
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.OwnerId != nil {
+		q.Add("ownerId", fmt.Sprintf("%v", *req.OwnerId))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesResourcesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListNotificationConfigs(ctx context.Context, req *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/notification-configs")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	for _, v := range req.DeliveryMethods {
+		q.Add("deliveryMethods", v.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListNotificationConfigsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetNotificationConfig(ctx context.Context, req *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/notification-config/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetNotificationConfigResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CreateNotificationConfig(ctx context.Context, req *CreateNotificationConfigRequest) (*CreateNotificationConfigResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/notification-config")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateNotificationConfigResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateNotificationConfig(ctx context.Context, req *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/notification-config/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateNotificationConfigResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteNotificationConfig(ctx context.Context, req *DeleteNotificationConfigRequest) (*DeleteNotificationConfigResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/notification-config/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteNotificationConfigResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) PingNotificationConfig(ctx context.Context, req *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/notification-config/{id}/ping")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[PingNotificationConfigResponse](ctx, gwReq)
 }

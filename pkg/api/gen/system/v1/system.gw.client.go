@@ -36,6 +36,7 @@ type SystemServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
+	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
 }
 
 func NewSystemServiceGatewayClient(c gateway.Client) SystemServiceGatewayClient {
@@ -106,4 +107,9 @@ func (c *systemServiceGatewayClient) ListArgoCDExtensions(ctx context.Context, r
 func (c *systemServiceGatewayClient) GetAnnouncement(ctx context.Context, req *emptypb.Empty) (*GetAnnouncementResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/announcement")
 	return gateway.DoRequest[GetAnnouncementResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) ListValidWebhookEvents(ctx context.Context, req *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/webhook/valid-events")
+	return gateway.DoRequest[ListValidWebhookEventsResponse](ctx, gwReq)
 }

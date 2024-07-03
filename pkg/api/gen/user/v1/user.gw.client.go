@@ -5,7 +5,9 @@ package userv1
 
 import (
 	context "context"
+	fmt "fmt"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
+	url "net/url"
 )
 
 // UserServiceGatewayClient is the interface for UserService service client.
@@ -13,6 +15,12 @@ type UserServiceGatewayClient interface {
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	UpdateUserUIPreferences(context.Context, *UpdateUserUIPreferencesRequest) (*UpdateUserUIPreferencesResponse, error)
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
+	ListNotifications(context.Context, *ListNotificationsRequest) (*ListNotificationsResponse, error)
+	WatchNotifications(context.Context, *WatchNotificationsRequest) (<-chan *WatchNotificationsResponse, <-chan error, error)
+	ReadNotifications(context.Context, *ReadNotificationsRequest) (*ReadNotificationsResponse, error)
+	UnreadNotifications(context.Context, *UnreadNotificationsRequest) (*UnreadNotificationsResponse, error)
+	GetNotificationSettings(context.Context, *GetNotificationSettingsRequest) (*GetNotificationSettingsResponse, error)
+	UpdateNotificationSettings(context.Context, *UpdateNotificationSettingsRequest) (*UpdateNotificationSettingsResponse, error)
 }
 
 func NewUserServiceGatewayClient(c gateway.Client) UserServiceGatewayClient {
@@ -40,4 +48,45 @@ func (c *userServiceGatewayClient) DeleteUser(ctx context.Context, req *DeleteUs
 	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/users/me")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[DeleteUserResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) ListNotifications(ctx context.Context, req *ListNotificationsRequest) (*ListNotificationsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/users/me/notifications")
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListNotificationsResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) WatchNotifications(ctx context.Context, req *WatchNotificationsRequest) (<-chan *WatchNotificationsResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/users/me/notifications")
+	return gateway.DoStreamingRequest[WatchNotificationsResponse](ctx, c.gwc, gwReq)
+}
+
+func (c *userServiceGatewayClient) ReadNotifications(ctx context.Context, req *ReadNotificationsRequest) (*ReadNotificationsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/users/me/notifications/read")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ReadNotificationsResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) UnreadNotifications(ctx context.Context, req *UnreadNotificationsRequest) (*UnreadNotificationsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/users/me/notifications/unread")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UnreadNotificationsResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) GetNotificationSettings(ctx context.Context, req *GetNotificationSettingsRequest) (*GetNotificationSettingsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/users/me/notification-settings")
+	return gateway.DoRequest[GetNotificationSettingsResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) UpdateNotificationSettings(ctx context.Context, req *UpdateNotificationSettingsRequest) (*UpdateNotificationSettingsResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/users/me/notification-settings")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateNotificationSettingsResponse](ctx, gwReq)
 }

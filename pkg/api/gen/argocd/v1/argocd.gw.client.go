@@ -32,6 +32,7 @@ type ArgoCDServiceGatewayClient interface {
 	GetInstanceAppsetSecret(context.Context, *GetInstanceAppsetSecretRequest) (*GetInstanceAppsetSecretResponse, error)
 	PatchInstanceAppsetSecret(context.Context, *PatchInstanceAppsetSecretRequest) (*PatchInstanceAppsetSecretResponse, error)
 	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
+	UpdateInstanceWorkspace(context.Context, *UpdateInstanceWorkspaceRequest) (*UpdateInstanceWorkspaceResponse, error)
 	UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error)
 	UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error)
 	UpdateInstanceImageUpdaterConfig(context.Context, *UpdateInstanceImageUpdaterConfigRequest) (*UpdateInstanceImageUpdaterConfigResponse, error)
@@ -47,6 +48,7 @@ type ArgoCDServiceGatewayClient interface {
 	ListInstanceClusters(context.Context, *ListInstanceClustersRequest) (*ListInstanceClustersResponse, error)
 	WatchInstanceClusters(context.Context, *WatchInstanceClustersRequest) (<-chan *WatchInstanceClustersResponse, <-chan error, error)
 	CreateInstanceCluster(context.Context, *CreateInstanceClusterRequest) (*CreateInstanceClusterResponse, error)
+	GetClusterAPIServerCAData(context.Context, *GetClusterAPIServerCADataRequest) (*GetClusterAPIServerCADataResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error)
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
@@ -91,9 +93,7 @@ func (c *argoCDServiceGatewayClient) ListInstances(ctx context.Context, req *Lis
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	q := url.Values{}
-	if req.WorkspaceId != nil {
-		q.Add("workspaceId", fmt.Sprintf("%v", *req.WorkspaceId))
-	}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstancesResponse](ctx, gwReq)
 }
@@ -105,9 +105,7 @@ func (c *argoCDServiceGatewayClient) WatchInstances(ctx context.Context, req *Wa
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
 	}
-	if req.WorkspaceId != nil {
-		q.Add("workspaceId", fmt.Sprintf("%v", *req.WorkspaceId))
-	}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchInstancesResponse](ctx, c.gwc, gwReq)
 }
@@ -125,6 +123,7 @@ func (c *argoCDServiceGatewayClient) GetInstance(ctx context.Context, req *GetIn
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	q := url.Values{}
 	q.Add("idType", req.IdType.String())
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceResponse](ctx, gwReq)
 }
@@ -133,6 +132,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceCSS(ctx context.Context, req *Ge
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/css")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceCSSResponse](ctx, gwReq)
 }
 
@@ -140,6 +142,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceNotificationSettings(ctx context
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/notifications")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceNotificationSettingsResponse](ctx, gwReq)
 }
 
@@ -147,6 +152,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceNotificationCatalog(ctx context.
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/notifications/catalog")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceNotificationCatalogResponse](ctx, gwReq)
 }
 
@@ -154,6 +162,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceImageUpdaterSettings(ctx context
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/image-updater")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceImageUpdaterSettingsResponse](ctx, gwReq)
 }
 
@@ -161,6 +172,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceResourceCustomizations(ctx conte
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/resource-customizations")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceResourceCustomizationsResponse](ctx, gwReq)
 }
 
@@ -168,6 +182,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceConfigManagementPlugins(ctx cont
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/config-management-plugins")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceConfigManagementPluginsResponse](ctx, gwReq)
 }
 
@@ -207,6 +224,9 @@ func (c *argoCDServiceGatewayClient) GetInstanceAppsetSecret(ctx context.Context
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/appset/secret")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceAppsetSecretResponse](ctx, gwReq)
 }
 
@@ -224,6 +244,14 @@ func (c *argoCDServiceGatewayClient) UpdateInstance(ctx context.Context, req *Up
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateInstanceResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstanceWorkspace(ctx context.Context, req *UpdateInstanceWorkspaceRequest) (*UpdateInstanceWorkspaceResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/transfer")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstanceWorkspaceResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) UpdateInstanceCSS(ctx context.Context, req *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error) {
@@ -286,6 +314,9 @@ func (c *argoCDServiceGatewayClient) ListInstanceAccounts(ctx context.Context, r
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/accounts")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstanceAccountsResponse](ctx, gwReq)
 }
 
@@ -369,6 +400,7 @@ func (c *argoCDServiceGatewayClient) ListInstanceClusters(ctx context.Context, r
 			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
 		}
 	}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstanceClustersResponse](ctx, gwReq)
 }
@@ -426,6 +458,7 @@ func (c *argoCDServiceGatewayClient) WatchInstanceClusters(ctx context.Context, 
 			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
 		}
 	}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchInstanceClustersResponse](ctx, c.gwc, gwReq)
 }
@@ -438,6 +471,18 @@ func (c *argoCDServiceGatewayClient) CreateInstanceCluster(ctx context.Context, 
 	return gateway.DoRequest[CreateInstanceClusterResponse](ctx, gwReq)
 }
 
+func (c *argoCDServiceGatewayClient) GetClusterAPIServerCAData(ctx context.Context, req *GetClusterAPIServerCADataRequest) (*GetClusterAPIServerCADataResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/utils/cluster-ca-data")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterName", fmt.Sprintf("%v", req.ClusterName))
+	q.Add("server", fmt.Sprintf("%v", req.Server))
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetClusterAPIServerCADataResponse](ctx, gwReq)
+}
+
 func (c *argoCDServiceGatewayClient) GetInstanceCluster(ctx context.Context, req *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/{id}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -445,6 +490,7 @@ func (c *argoCDServiceGatewayClient) GetInstanceCluster(ctx context.Context, req
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	q := url.Values{}
 	q.Add("idType", req.IdType.String())
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceClusterResponse](ctx, gwReq)
 }
@@ -456,6 +502,7 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterInfo(ctx context.Context,
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	q := url.Values{}
 	q.Add("idType", req.IdType.String())
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceClusterInfoResponse](ctx, gwReq)
 }
@@ -470,6 +517,7 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterManifests(ctx context.Con
 	if req.SkipNamespace != nil {
 		q.Add("skipNamespace", fmt.Sprintf("%v", *req.SkipNamespace))
 	}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
@@ -531,6 +579,7 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterCommand(ctx context.Conte
 	if req.CommandFor != nil {
 		q.Add("commandFor", req.CommandFor.String())
 	}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceClusterCommandResponse](ctx, gwReq)
 }
@@ -570,6 +619,7 @@ func (c *argoCDServiceGatewayClient) ExportInstance(ctx context.Context, req *Ex
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	q := url.Values{}
 	q.Add("idType", req.IdType.String())
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ExportInstanceResponse](ctx, gwReq)
 }

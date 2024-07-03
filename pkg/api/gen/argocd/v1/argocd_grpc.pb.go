@@ -39,6 +39,7 @@ const (
 	ArgoCDService_GetInstanceAppsetSecret_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetInstanceAppsetSecret"
 	ArgoCDService_PatchInstanceAppsetSecret_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/PatchInstanceAppsetSecret"
 	ArgoCDService_UpdateInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/UpdateInstance"
+	ArgoCDService_UpdateInstanceWorkspace_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceWorkspace"
 	ArgoCDService_UpdateInstanceCSS_FullMethodName                     = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCSS"
 	ArgoCDService_UpdateInstanceNotificationConfig_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceNotificationConfig"
 	ArgoCDService_UpdateInstanceImageUpdaterConfig_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceImageUpdaterConfig"
@@ -54,6 +55,7 @@ const (
 	ArgoCDService_ListInstanceClusters_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/ListInstanceClusters"
 	ArgoCDService_WatchInstanceClusters_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/WatchInstanceClusters"
 	ArgoCDService_CreateInstanceCluster_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/CreateInstanceCluster"
+	ArgoCDService_GetClusterAPIServerCAData_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/GetClusterAPIServerCAData"
 	ArgoCDService_GetInstanceCluster_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/GetInstanceCluster"
 	ArgoCDService_GetInstanceClusterInfo_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterInfo"
 	ArgoCDService_GetInstanceClusterManifests_FullMethodName           = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterManifests"
@@ -92,6 +94,7 @@ type ArgoCDServiceClient interface {
 	GetInstanceAppsetSecret(ctx context.Context, in *GetInstanceAppsetSecretRequest, opts ...grpc.CallOption) (*GetInstanceAppsetSecretResponse, error)
 	PatchInstanceAppsetSecret(ctx context.Context, in *PatchInstanceAppsetSecretRequest, opts ...grpc.CallOption) (*PatchInstanceAppsetSecretResponse, error)
 	UpdateInstance(ctx context.Context, in *UpdateInstanceRequest, opts ...grpc.CallOption) (*UpdateInstanceResponse, error)
+	UpdateInstanceWorkspace(ctx context.Context, in *UpdateInstanceWorkspaceRequest, opts ...grpc.CallOption) (*UpdateInstanceWorkspaceResponse, error)
 	UpdateInstanceCSS(ctx context.Context, in *UpdateInstanceCSSRequest, opts ...grpc.CallOption) (*UpdateInstanceCSSResponse, error)
 	UpdateInstanceNotificationConfig(ctx context.Context, in *UpdateInstanceNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceNotificationConfigResponse, error)
 	UpdateInstanceImageUpdaterConfig(ctx context.Context, in *UpdateInstanceImageUpdaterConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceImageUpdaterConfigResponse, error)
@@ -107,6 +110,7 @@ type ArgoCDServiceClient interface {
 	ListInstanceClusters(ctx context.Context, in *ListInstanceClustersRequest, opts ...grpc.CallOption) (*ListInstanceClustersResponse, error)
 	WatchInstanceClusters(ctx context.Context, in *WatchInstanceClustersRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceClustersClient, error)
 	CreateInstanceCluster(ctx context.Context, in *CreateInstanceClusterRequest, opts ...grpc.CallOption) (*CreateInstanceClusterResponse, error)
+	GetClusterAPIServerCAData(ctx context.Context, in *GetClusterAPIServerCADataRequest, opts ...grpc.CallOption) (*GetClusterAPIServerCADataResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	GetInstanceCluster(ctx context.Context, in *GetInstanceClusterRequest, opts ...grpc.CallOption) (*GetInstanceClusterResponse, error)
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
@@ -325,6 +329,15 @@ func (c *argoCDServiceClient) UpdateInstance(ctx context.Context, in *UpdateInst
 	return out, nil
 }
 
+func (c *argoCDServiceClient) UpdateInstanceWorkspace(ctx context.Context, in *UpdateInstanceWorkspaceRequest, opts ...grpc.CallOption) (*UpdateInstanceWorkspaceResponse, error) {
+	out := new(UpdateInstanceWorkspaceResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceWorkspace_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) UpdateInstanceCSS(ctx context.Context, in *UpdateInstanceCSSRequest, opts ...grpc.CallOption) (*UpdateInstanceCSSResponse, error) {
 	out := new(UpdateInstanceCSSResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceCSS_FullMethodName, in, out, opts...)
@@ -477,6 +490,15 @@ func (x *argoCDServiceWatchInstanceClustersClient) Recv() (*WatchInstanceCluster
 func (c *argoCDServiceClient) CreateInstanceCluster(ctx context.Context, in *CreateInstanceClusterRequest, opts ...grpc.CallOption) (*CreateInstanceClusterResponse, error) {
 	out := new(CreateInstanceClusterResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_CreateInstanceCluster_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetClusterAPIServerCAData(ctx context.Context, in *GetClusterAPIServerCADataRequest, opts ...grpc.CallOption) (*GetClusterAPIServerCADataResponse, error) {
+	out := new(GetClusterAPIServerCADataResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetClusterAPIServerCAData_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -654,6 +676,7 @@ type ArgoCDServiceServer interface {
 	GetInstanceAppsetSecret(context.Context, *GetInstanceAppsetSecretRequest) (*GetInstanceAppsetSecretResponse, error)
 	PatchInstanceAppsetSecret(context.Context, *PatchInstanceAppsetSecretRequest) (*PatchInstanceAppsetSecretResponse, error)
 	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
+	UpdateInstanceWorkspace(context.Context, *UpdateInstanceWorkspaceRequest) (*UpdateInstanceWorkspaceResponse, error)
 	UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error)
 	UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error)
 	UpdateInstanceImageUpdaterConfig(context.Context, *UpdateInstanceImageUpdaterConfigRequest) (*UpdateInstanceImageUpdaterConfigResponse, error)
@@ -669,6 +692,7 @@ type ArgoCDServiceServer interface {
 	ListInstanceClusters(context.Context, *ListInstanceClustersRequest) (*ListInstanceClustersResponse, error)
 	WatchInstanceClusters(*WatchInstanceClustersRequest, ArgoCDService_WatchInstanceClustersServer) error
 	CreateInstanceCluster(context.Context, *CreateInstanceClusterRequest) (*CreateInstanceClusterResponse, error)
+	GetClusterAPIServerCAData(context.Context, *GetClusterAPIServerCADataRequest) (*GetClusterAPIServerCADataResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error)
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
@@ -753,6 +777,9 @@ func (UnimplementedArgoCDServiceServer) PatchInstanceAppsetSecret(context.Contex
 func (UnimplementedArgoCDServiceServer) UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstance not implemented")
 }
+func (UnimplementedArgoCDServiceServer) UpdateInstanceWorkspace(context.Context, *UpdateInstanceWorkspaceRequest) (*UpdateInstanceWorkspaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceWorkspace not implemented")
+}
 func (UnimplementedArgoCDServiceServer) UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCSS not implemented")
 }
@@ -797,6 +824,9 @@ func (UnimplementedArgoCDServiceServer) WatchInstanceClusters(*WatchInstanceClus
 }
 func (UnimplementedArgoCDServiceServer) CreateInstanceCluster(context.Context, *CreateInstanceClusterRequest) (*CreateInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetClusterAPIServerCAData(context.Context, *GetClusterAPIServerCADataRequest) (*GetClusterAPIServerCADataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClusterAPIServerCAData not implemented")
 }
 func (UnimplementedArgoCDServiceServer) GetInstanceCluster(context.Context, *GetInstanceClusterRequest) (*GetInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceCluster not implemented")
@@ -1180,6 +1210,24 @@ func _ArgoCDService_UpdateInstance_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_UpdateInstanceWorkspace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceWorkspaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceWorkspace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateInstanceWorkspace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceWorkspace(ctx, req.(*UpdateInstanceWorkspaceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_UpdateInstanceCSS_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateInstanceCSSRequest)
 	if err := dec(in); err != nil {
@@ -1449,6 +1497,24 @@ func _ArgoCDService_CreateInstanceCluster_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).CreateInstanceCluster(ctx, req.(*CreateInstanceClusterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetClusterAPIServerCAData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetClusterAPIServerCADataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetClusterAPIServerCAData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetClusterAPIServerCAData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetClusterAPIServerCAData(ctx, req.(*GetClusterAPIServerCADataRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1784,6 +1850,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_UpdateInstance_Handler,
 		},
 		{
+			MethodName: "UpdateInstanceWorkspace",
+			Handler:    _ArgoCDService_UpdateInstanceWorkspace_Handler,
+		},
+		{
 			MethodName: "UpdateInstanceCSS",
 			Handler:    _ArgoCDService_UpdateInstanceCSS_Handler,
 		},
@@ -1838,6 +1908,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateInstanceCluster",
 			Handler:    _ArgoCDService_CreateInstanceCluster_Handler,
+		},
+		{
+			MethodName: "GetClusterAPIServerCAData",
+			Handler:    _ArgoCDService_GetClusterAPIServerCAData_Handler,
 		},
 		{
 			MethodName: "GetInstanceCluster",

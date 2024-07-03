@@ -24,6 +24,7 @@ const (
 	KargoService_WatchKargoInstances_FullMethodName            = "/akuity.kargo.v1.KargoService/WatchKargoInstances"
 	KargoService_CreateKargoInstance_FullMethodName            = "/akuity.kargo.v1.KargoService/CreateKargoInstance"
 	KargoService_PatchKargoInstance_FullMethodName             = "/akuity.kargo.v1.KargoService/PatchKargoInstance"
+	KargoService_UpdateKargoInstanceWorkspace_FullMethodName   = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceWorkspace"
 	KargoService_GetKargoInstance_FullMethodName               = "/akuity.kargo.v1.KargoService/GetKargoInstance"
 	KargoService_ListKargoInstanceAgents_FullMethodName        = "/akuity.kargo.v1.KargoService/ListKargoInstanceAgents"
 	KargoService_WatchKargoInstanceAgents_FullMethodName       = "/akuity.kargo.v1.KargoService/WatchKargoInstanceAgents"
@@ -50,6 +51,7 @@ type KargoServiceClient interface {
 	WatchKargoInstances(ctx context.Context, in *WatchKargoInstancesRequest, opts ...grpc.CallOption) (KargoService_WatchKargoInstancesClient, error)
 	CreateKargoInstance(ctx context.Context, in *CreateKargoInstanceRequest, opts ...grpc.CallOption) (*CreateKargoInstanceResponse, error)
 	PatchKargoInstance(ctx context.Context, in *PatchKargoInstanceRequest, opts ...grpc.CallOption) (*PatchKargoInstanceResponse, error)
+	UpdateKargoInstanceWorkspace(ctx context.Context, in *UpdateKargoInstanceWorkspaceRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceWorkspaceResponse, error)
 	GetKargoInstance(ctx context.Context, in *GetKargoInstanceRequest, opts ...grpc.CallOption) (*GetKargoInstanceResponse, error)
 	ListKargoInstanceAgents(ctx context.Context, in *ListKargoInstanceAgentsRequest, opts ...grpc.CallOption) (*ListKargoInstanceAgentsResponse, error)
 	WatchKargoInstanceAgents(ctx context.Context, in *WatchKargoInstanceAgentsRequest, opts ...grpc.CallOption) (KargoService_WatchKargoInstanceAgentsClient, error)
@@ -135,6 +137,15 @@ func (c *kargoServiceClient) CreateKargoInstance(ctx context.Context, in *Create
 func (c *kargoServiceClient) PatchKargoInstance(ctx context.Context, in *PatchKargoInstanceRequest, opts ...grpc.CallOption) (*PatchKargoInstanceResponse, error) {
 	out := new(PatchKargoInstanceResponse)
 	err := c.cc.Invoke(ctx, KargoService_PatchKargoInstance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) UpdateKargoInstanceWorkspace(ctx context.Context, in *UpdateKargoInstanceWorkspaceRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceWorkspaceResponse, error) {
+	out := new(UpdateKargoInstanceWorkspaceResponse)
+	err := c.cc.Invoke(ctx, KargoService_UpdateKargoInstanceWorkspace_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -339,6 +350,7 @@ type KargoServiceServer interface {
 	WatchKargoInstances(*WatchKargoInstancesRequest, KargoService_WatchKargoInstancesServer) error
 	CreateKargoInstance(context.Context, *CreateKargoInstanceRequest) (*CreateKargoInstanceResponse, error)
 	PatchKargoInstance(context.Context, *PatchKargoInstanceRequest) (*PatchKargoInstanceResponse, error)
+	UpdateKargoInstanceWorkspace(context.Context, *UpdateKargoInstanceWorkspaceRequest) (*UpdateKargoInstanceWorkspaceResponse, error)
 	GetKargoInstance(context.Context, *GetKargoInstanceRequest) (*GetKargoInstanceResponse, error)
 	ListKargoInstanceAgents(context.Context, *ListKargoInstanceAgentsRequest) (*ListKargoInstanceAgentsResponse, error)
 	WatchKargoInstanceAgents(*WatchKargoInstanceAgentsRequest, KargoService_WatchKargoInstanceAgentsServer) error
@@ -379,6 +391,9 @@ func (UnimplementedKargoServiceServer) CreateKargoInstance(context.Context, *Cre
 }
 func (UnimplementedKargoServiceServer) PatchKargoInstance(context.Context, *PatchKargoInstanceRequest) (*PatchKargoInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchKargoInstance not implemented")
+}
+func (UnimplementedKargoServiceServer) UpdateKargoInstanceWorkspace(context.Context, *UpdateKargoInstanceWorkspaceRequest) (*UpdateKargoInstanceWorkspaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateKargoInstanceWorkspace not implemented")
 }
 func (UnimplementedKargoServiceServer) GetKargoInstance(context.Context, *GetKargoInstanceRequest) (*GetKargoInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKargoInstance not implemented")
@@ -512,6 +527,24 @@ func _KargoService_PatchKargoInstance_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KargoServiceServer).PatchKargoInstance(ctx, req.(*PatchKargoInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_UpdateKargoInstanceWorkspace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateKargoInstanceWorkspaceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).UpdateKargoInstanceWorkspace(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_UpdateKargoInstanceWorkspace_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).UpdateKargoInstanceWorkspace(ctx, req.(*UpdateKargoInstanceWorkspaceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -828,6 +861,10 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PatchKargoInstance",
 			Handler:    _KargoService_PatchKargoInstance_Handler,
+		},
+		{
+			MethodName: "UpdateKargoInstanceWorkspace",
+			Handler:    _KargoService_UpdateKargoInstanceWorkspace_Handler,
 		},
 		{
 			MethodName: "GetKargoInstance",

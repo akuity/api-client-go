@@ -19,9 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_GetUser_FullMethodName                 = "/akuity.user.v1.UserService/GetUser"
-	UserService_UpdateUserUIPreferences_FullMethodName = "/akuity.user.v1.UserService/UpdateUserUIPreferences"
-	UserService_DeleteUser_FullMethodName              = "/akuity.user.v1.UserService/DeleteUser"
+	UserService_GetUser_FullMethodName                    = "/akuity.user.v1.UserService/GetUser"
+	UserService_UpdateUserUIPreferences_FullMethodName    = "/akuity.user.v1.UserService/UpdateUserUIPreferences"
+	UserService_DeleteUser_FullMethodName                 = "/akuity.user.v1.UserService/DeleteUser"
+	UserService_ListNotifications_FullMethodName          = "/akuity.user.v1.UserService/ListNotifications"
+	UserService_WatchNotifications_FullMethodName         = "/akuity.user.v1.UserService/WatchNotifications"
+	UserService_ReadNotifications_FullMethodName          = "/akuity.user.v1.UserService/ReadNotifications"
+	UserService_UnreadNotifications_FullMethodName        = "/akuity.user.v1.UserService/UnreadNotifications"
+	UserService_GetNotificationSettings_FullMethodName    = "/akuity.user.v1.UserService/GetNotificationSettings"
+	UserService_UpdateNotificationSettings_FullMethodName = "/akuity.user.v1.UserService/UpdateNotificationSettings"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -31,6 +37,12 @@ type UserServiceClient interface {
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	UpdateUserUIPreferences(ctx context.Context, in *UpdateUserUIPreferencesRequest, opts ...grpc.CallOption) (*UpdateUserUIPreferencesResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
+	ListNotifications(ctx context.Context, in *ListNotificationsRequest, opts ...grpc.CallOption) (*ListNotificationsResponse, error)
+	WatchNotifications(ctx context.Context, in *WatchNotificationsRequest, opts ...grpc.CallOption) (UserService_WatchNotificationsClient, error)
+	ReadNotifications(ctx context.Context, in *ReadNotificationsRequest, opts ...grpc.CallOption) (*ReadNotificationsResponse, error)
+	UnreadNotifications(ctx context.Context, in *UnreadNotificationsRequest, opts ...grpc.CallOption) (*UnreadNotificationsResponse, error)
+	GetNotificationSettings(ctx context.Context, in *GetNotificationSettingsRequest, opts ...grpc.CallOption) (*GetNotificationSettingsResponse, error)
+	UpdateNotificationSettings(ctx context.Context, in *UpdateNotificationSettingsRequest, opts ...grpc.CallOption) (*UpdateNotificationSettingsResponse, error)
 }
 
 type userServiceClient struct {
@@ -68,6 +80,83 @@ func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserReques
 	return out, nil
 }
 
+func (c *userServiceClient) ListNotifications(ctx context.Context, in *ListNotificationsRequest, opts ...grpc.CallOption) (*ListNotificationsResponse, error) {
+	out := new(ListNotificationsResponse)
+	err := c.cc.Invoke(ctx, UserService_ListNotifications_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) WatchNotifications(ctx context.Context, in *WatchNotificationsRequest, opts ...grpc.CallOption) (UserService_WatchNotificationsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[0], UserService_WatchNotifications_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &userServiceWatchNotificationsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UserService_WatchNotificationsClient interface {
+	Recv() (*WatchNotificationsResponse, error)
+	grpc.ClientStream
+}
+
+type userServiceWatchNotificationsClient struct {
+	grpc.ClientStream
+}
+
+func (x *userServiceWatchNotificationsClient) Recv() (*WatchNotificationsResponse, error) {
+	m := new(WatchNotificationsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *userServiceClient) ReadNotifications(ctx context.Context, in *ReadNotificationsRequest, opts ...grpc.CallOption) (*ReadNotificationsResponse, error) {
+	out := new(ReadNotificationsResponse)
+	err := c.cc.Invoke(ctx, UserService_ReadNotifications_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UnreadNotifications(ctx context.Context, in *UnreadNotificationsRequest, opts ...grpc.CallOption) (*UnreadNotificationsResponse, error) {
+	out := new(UnreadNotificationsResponse)
+	err := c.cc.Invoke(ctx, UserService_UnreadNotifications_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetNotificationSettings(ctx context.Context, in *GetNotificationSettingsRequest, opts ...grpc.CallOption) (*GetNotificationSettingsResponse, error) {
+	out := new(GetNotificationSettingsResponse)
+	err := c.cc.Invoke(ctx, UserService_GetNotificationSettings_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateNotificationSettings(ctx context.Context, in *UpdateNotificationSettingsRequest, opts ...grpc.CallOption) (*UpdateNotificationSettingsResponse, error) {
+	out := new(UpdateNotificationSettingsResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateNotificationSettings_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -75,6 +164,12 @@ type UserServiceServer interface {
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	UpdateUserUIPreferences(context.Context, *UpdateUserUIPreferencesRequest) (*UpdateUserUIPreferencesResponse, error)
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
+	ListNotifications(context.Context, *ListNotificationsRequest) (*ListNotificationsResponse, error)
+	WatchNotifications(*WatchNotificationsRequest, UserService_WatchNotificationsServer) error
+	ReadNotifications(context.Context, *ReadNotificationsRequest) (*ReadNotificationsResponse, error)
+	UnreadNotifications(context.Context, *UnreadNotificationsRequest) (*UnreadNotificationsResponse, error)
+	GetNotificationSettings(context.Context, *GetNotificationSettingsRequest) (*GetNotificationSettingsResponse, error)
+	UpdateNotificationSettings(context.Context, *UpdateNotificationSettingsRequest) (*UpdateNotificationSettingsResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -90,6 +185,24 @@ func (UnimplementedUserServiceServer) UpdateUserUIPreferences(context.Context, *
 }
 func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedUserServiceServer) ListNotifications(context.Context, *ListNotificationsRequest) (*ListNotificationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNotifications not implemented")
+}
+func (UnimplementedUserServiceServer) WatchNotifications(*WatchNotificationsRequest, UserService_WatchNotificationsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchNotifications not implemented")
+}
+func (UnimplementedUserServiceServer) ReadNotifications(context.Context, *ReadNotificationsRequest) (*ReadNotificationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadNotifications not implemented")
+}
+func (UnimplementedUserServiceServer) UnreadNotifications(context.Context, *UnreadNotificationsRequest) (*UnreadNotificationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnreadNotifications not implemented")
+}
+func (UnimplementedUserServiceServer) GetNotificationSettings(context.Context, *GetNotificationSettingsRequest) (*GetNotificationSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationSettings not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateNotificationSettings(context.Context, *UpdateNotificationSettingsRequest) (*UpdateNotificationSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationSettings not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -158,6 +271,117 @@ func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_ListNotifications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNotificationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ListNotifications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_ListNotifications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ListNotifications(ctx, req.(*ListNotificationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_WatchNotifications_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchNotificationsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UserServiceServer).WatchNotifications(m, &userServiceWatchNotificationsServer{stream})
+}
+
+type UserService_WatchNotificationsServer interface {
+	Send(*WatchNotificationsResponse) error
+	grpc.ServerStream
+}
+
+type userServiceWatchNotificationsServer struct {
+	grpc.ServerStream
+}
+
+func (x *userServiceWatchNotificationsServer) Send(m *WatchNotificationsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _UserService_ReadNotifications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReadNotificationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ReadNotifications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_ReadNotifications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ReadNotifications(ctx, req.(*ReadNotificationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UnreadNotifications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnreadNotificationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UnreadNotifications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UnreadNotifications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UnreadNotifications(ctx, req.(*UnreadNotificationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetNotificationSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNotificationSettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetNotificationSettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetNotificationSettings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetNotificationSettings(ctx, req.(*GetNotificationSettingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateNotificationSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNotificationSettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateNotificationSettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateNotificationSettings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateNotificationSettings(ctx, req.(*UpdateNotificationSettingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -177,7 +401,33 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "DeleteUser",
 			Handler:    _UserService_DeleteUser_Handler,
 		},
+		{
+			MethodName: "ListNotifications",
+			Handler:    _UserService_ListNotifications_Handler,
+		},
+		{
+			MethodName: "ReadNotifications",
+			Handler:    _UserService_ReadNotifications_Handler,
+		},
+		{
+			MethodName: "UnreadNotifications",
+			Handler:    _UserService_UnreadNotifications_Handler,
+		},
+		{
+			MethodName: "GetNotificationSettings",
+			Handler:    _UserService_GetNotificationSettings_Handler,
+		},
+		{
+			MethodName: "UpdateNotificationSettings",
+			Handler:    _UserService_UpdateNotificationSettings_Handler,
+		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "WatchNotifications",
+			Handler:       _UserService_WatchNotifications_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "user/v1/user.proto",
 }

@@ -20,17 +20,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SystemService_GetVersion_FullMethodName           = "/akuity.system.v1.SystemService/GetVersion"
-	SystemService_GetAgentVersion_FullMethodName      = "/akuity.system.v1.SystemService/GetAgentVersion"
-	SystemService_GetSettings_FullMethodName          = "/akuity.system.v1.SystemService/GetSettings"
-	SystemService_ListFeatures_FullMethodName         = "/akuity.system.v1.SystemService/ListFeatures"
-	SystemService_GetFeatureGates_FullMethodName      = "/akuity.system.v1.SystemService/GetFeatureGates"
-	SystemService_ListAgentVersions_FullMethodName    = "/akuity.system.v1.SystemService/ListAgentVersions"
-	SystemService_GetStatus_FullMethodName            = "/akuity.system.v1.SystemService/GetStatus"
-	SystemService_ListArgoCDVersions_FullMethodName   = "/akuity.system.v1.SystemService/ListArgoCDVersions"
-	SystemService_ListKargoVersions_FullMethodName    = "/akuity.system.v1.SystemService/ListKargoVersions"
-	SystemService_ListArgoCDExtensions_FullMethodName = "/akuity.system.v1.SystemService/ListArgoCDExtensions"
-	SystemService_GetAnnouncement_FullMethodName      = "/akuity.system.v1.SystemService/GetAnnouncement"
+	SystemService_GetVersion_FullMethodName             = "/akuity.system.v1.SystemService/GetVersion"
+	SystemService_GetAgentVersion_FullMethodName        = "/akuity.system.v1.SystemService/GetAgentVersion"
+	SystemService_GetSettings_FullMethodName            = "/akuity.system.v1.SystemService/GetSettings"
+	SystemService_ListFeatures_FullMethodName           = "/akuity.system.v1.SystemService/ListFeatures"
+	SystemService_GetFeatureGates_FullMethodName        = "/akuity.system.v1.SystemService/GetFeatureGates"
+	SystemService_ListAgentVersions_FullMethodName      = "/akuity.system.v1.SystemService/ListAgentVersions"
+	SystemService_GetStatus_FullMethodName              = "/akuity.system.v1.SystemService/GetStatus"
+	SystemService_ListArgoCDVersions_FullMethodName     = "/akuity.system.v1.SystemService/ListArgoCDVersions"
+	SystemService_ListKargoVersions_FullMethodName      = "/akuity.system.v1.SystemService/ListKargoVersions"
+	SystemService_ListArgoCDExtensions_FullMethodName   = "/akuity.system.v1.SystemService/ListArgoCDExtensions"
+	SystemService_GetAnnouncement_FullMethodName        = "/akuity.system.v1.SystemService/GetAnnouncement"
+	SystemService_ListValidWebhookEvents_FullMethodName = "/akuity.system.v1.SystemService/ListValidWebhookEvents"
 )
 
 // SystemServiceClient is the client API for SystemService service.
@@ -61,6 +62,7 @@ type SystemServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAnnouncementResponse, error)
+	ListValidWebhookEvents(ctx context.Context, in *ListValidWebhookEventsRequest, opts ...grpc.CallOption) (*ListValidWebhookEventsResponse, error)
 }
 
 type systemServiceClient struct {
@@ -171,6 +173,15 @@ func (c *systemServiceClient) GetAnnouncement(ctx context.Context, in *emptypb.E
 	return out, nil
 }
 
+func (c *systemServiceClient) ListValidWebhookEvents(ctx context.Context, in *ListValidWebhookEventsRequest, opts ...grpc.CallOption) (*ListValidWebhookEventsResponse, error) {
+	out := new(ListValidWebhookEventsResponse)
+	err := c.cc.Invoke(ctx, SystemService_ListValidWebhookEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemServiceServer is the server API for SystemService service.
 // All implementations must embed UnimplementedSystemServiceServer
 // for forward compatibility
@@ -199,6 +210,7 @@ type SystemServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
+	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
 	mustEmbedUnimplementedSystemServiceServer()
 }
 
@@ -238,6 +250,9 @@ func (UnimplementedSystemServiceServer) ListArgoCDExtensions(context.Context, *e
 }
 func (UnimplementedSystemServiceServer) GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAnnouncement not implemented")
+}
+func (UnimplementedSystemServiceServer) ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListValidWebhookEvents not implemented")
 }
 func (UnimplementedSystemServiceServer) mustEmbedUnimplementedSystemServiceServer() {}
 
@@ -450,6 +465,24 @@ func _SystemService_GetAnnouncement_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_ListValidWebhookEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListValidWebhookEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListValidWebhookEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListValidWebhookEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListValidWebhookEvents(ctx, req.(*ListValidWebhookEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemService_ServiceDesc is the grpc.ServiceDesc for SystemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -500,6 +533,10 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAnnouncement",
 			Handler:    _SystemService_GetAnnouncement_Handler,
+		},
+		{
+			MethodName: "ListValidWebhookEvents",
+			Handler:    _SystemService_ListValidWebhookEvents_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
