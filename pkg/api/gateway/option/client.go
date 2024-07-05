@@ -12,7 +12,7 @@ func NewClient(baseURL string, skipTLSVerify bool) gateway.Client {
 	roundtripper.ApplyAuthorizationHeaderInjector(hc)
 	return gateway.NewClient(baseURL,
 		gateway.WithHTTPClient(hc),
-		gateway.WithMarshaller(Marshaller),
+		gateway.WithMarshaller(ClientMarshaller),
 		gateway.SkipTLSVerify(skipTLSVerify),
 	)
 }

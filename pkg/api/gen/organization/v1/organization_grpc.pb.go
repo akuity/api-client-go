@@ -20,73 +20,75 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	OrganizationService_ListAuthenticatedUserOrganizations_FullMethodName = "/akuity.organization.v1.OrganizationService/ListAuthenticatedUserOrganizations"
-	OrganizationService_GetOrganization_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetOrganization"
-	OrganizationService_GetOrganizationPermissions_FullMethodName         = "/akuity.organization.v1.OrganizationService/GetOrganizationPermissions"
-	OrganizationService_CreateOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/CreateOrganization"
-	OrganizationService_UpdateOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
-	OrganizationService_DeleteOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
-	OrganizationService_ListOrganizationMembers_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListOrganizationMembers"
-	OrganizationService_ListOrganizationInvitees_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees"
-	OrganizationService_GetUserRoleInOrganization_FullMethodName          = "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization"
-	OrganizationService_InviteMembers_FullMethodName                      = "/akuity.organization.v1.OrganizationService/InviteMembers"
-	OrganizationService_UninviteOrganizationMember_FullMethodName         = "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember"
-	OrganizationService_RemoveOrganizationMember_FullMethodName           = "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember"
-	OrganizationService_UpdateOrganizationMemberRole_FullMethodName       = "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole"
-	OrganizationService_JoinOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/JoinOrganization"
-	OrganizationService_RejectOrganization_FullMethodName                 = "/akuity.organization.v1.OrganizationService/RejectOrganization"
-	OrganizationService_ListOrganizationAPIKeys_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
-	OrganizationService_CreateOrganizationAPIKey_FullMethodName           = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
-	OrganizationService_ListWorkspaceAPIKeys_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListWorkspaceAPIKeys"
-	OrganizationService_CreateWorkspaceAPIKey_FullMethodName              = "/akuity.organization.v1.OrganizationService/CreateWorkspaceAPIKey"
-	OrganizationService_GetAuditLogs_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
-	OrganizationService_ListAuditLogsArchives_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
-	OrganizationService_GetAuditLogsInCSV_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
-	OrganizationService_GetCustomerDetails_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
-	OrganizationService_UpdateBillingDetails_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
-	OrganizationService_BillingCheckout_FullMethodName                    = "/akuity.organization.v1.OrganizationService/BillingCheckout"
-	OrganizationService_UpdateSubscription_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
-	OrganizationService_GetAvailableAddons_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
-	OrganizationService_GetSSOConfiguration_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
-	OrganizationService_EnsureSSOConfiguration_FullMethodName             = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
-	OrganizationService_DeleteSSOConfiguration_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
-	OrganizationService_GetFeatureGates_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
-	OrganizationService_GetOIDCMap_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
-	OrganizationService_UpdateOIDCMap_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
-	OrganizationService_CreateCustomRole_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
-	OrganizationService_UpdateCustomRole_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
-	OrganizationService_GetCustomRole_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetCustomRole"
-	OrganizationService_ListCustomRoles_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
-	OrganizationService_DeleteCustomRole_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
-	OrganizationService_CreateTeam_FullMethodName                         = "/akuity.organization.v1.OrganizationService/CreateTeam"
-	OrganizationService_UpdateTeam_FullMethodName                         = "/akuity.organization.v1.OrganizationService/UpdateTeam"
-	OrganizationService_GetTeam_FullMethodName                            = "/akuity.organization.v1.OrganizationService/GetTeam"
-	OrganizationService_ListTeams_FullMethodName                          = "/akuity.organization.v1.OrganizationService/ListTeams"
-	OrganizationService_DeleteTeam_FullMethodName                         = "/akuity.organization.v1.OrganizationService/DeleteTeam"
-	OrganizationService_AddTeamMember_FullMethodName                      = "/akuity.organization.v1.OrganizationService/AddTeamMember"
-	OrganizationService_GetTeamMember_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetTeamMember"
-	OrganizationService_ListTeamMembers_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
-	OrganizationService_RemoveTeamMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
-	OrganizationService_CreateWorkspace_FullMethodName                    = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
-	OrganizationService_ListWorkspaces_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
-	OrganizationService_GetWorkspace_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetWorkspace"
-	OrganizationService_UpdateWorkspace_FullMethodName                    = "/akuity.organization.v1.OrganizationService/UpdateWorkspace"
-	OrganizationService_DeleteWorkspace_FullMethodName                    = "/akuity.organization.v1.OrganizationService/DeleteWorkspace"
-	OrganizationService_AddWorkspaceMember_FullMethodName                 = "/akuity.organization.v1.OrganizationService/AddWorkspaceMember"
-	OrganizationService_ListWorkspaceMembers_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListWorkspaceMembers"
-	OrganizationService_UpdateWorkspaceMembers_FullMethodName             = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMembers"
-	OrganizationService_GetWorkspaceMember_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
-	OrganizationService_UpdateWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
-	OrganizationService_RemoveWorkspaceMember_FullMethodName              = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
-	OrganizationService_CancelSubscription_FullMethodName                 = "/akuity.organization.v1.OrganizationService/CancelSubscription"
-	OrganizationService_ListKubernetesResourceTypes_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
-	OrganizationService_ListKubernetesResources_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
-	OrganizationService_ListNotificationConfigs_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
-	OrganizationService_GetNotificationConfig_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
-	OrganizationService_CreateNotificationConfig_FullMethodName           = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
-	OrganizationService_UpdateNotificationConfig_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateNotificationConfig"
-	OrganizationService_DeleteNotificationConfig_FullMethodName           = "/akuity.organization.v1.OrganizationService/DeleteNotificationConfig"
-	OrganizationService_PingNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
+	OrganizationService_ListAuthenticatedUserOrganizations_FullMethodName   = "/akuity.organization.v1.OrganizationService/ListAuthenticatedUserOrganizations"
+	OrganizationService_GetOrganization_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetOrganization"
+	OrganizationService_GetOrganizationPermissions_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetOrganizationPermissions"
+	OrganizationService_CreateOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateOrganization"
+	OrganizationService_UpdateOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
+	OrganizationService_DeleteOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
+	OrganizationService_ListOrganizationMembers_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListOrganizationMembers"
+	OrganizationService_ListOrganizationInvitees_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees"
+	OrganizationService_GetUserRoleInOrganization_FullMethodName            = "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization"
+	OrganizationService_InviteMembers_FullMethodName                        = "/akuity.organization.v1.OrganizationService/InviteMembers"
+	OrganizationService_UninviteOrganizationMember_FullMethodName           = "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember"
+	OrganizationService_RemoveOrganizationMember_FullMethodName             = "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember"
+	OrganizationService_UpdateOrganizationMemberRole_FullMethodName         = "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole"
+	OrganizationService_JoinOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/JoinOrganization"
+	OrganizationService_RejectOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/RejectOrganization"
+	OrganizationService_ListOrganizationAPIKeys_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
+	OrganizationService_CreateOrganizationAPIKey_FullMethodName             = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
+	OrganizationService_ListWorkspaceAPIKeys_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListWorkspaceAPIKeys"
+	OrganizationService_CreateWorkspaceAPIKey_FullMethodName                = "/akuity.organization.v1.OrganizationService/CreateWorkspaceAPIKey"
+	OrganizationService_GetAuditLogs_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
+	OrganizationService_ListAuditLogsArchives_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
+	OrganizationService_GetAuditLogsInCSV_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
+	OrganizationService_GetCustomerDetails_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
+	OrganizationService_UpdateBillingDetails_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
+	OrganizationService_BillingCheckout_FullMethodName                      = "/akuity.organization.v1.OrganizationService/BillingCheckout"
+	OrganizationService_UpdateSubscription_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
+	OrganizationService_GetAvailableAddons_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
+	OrganizationService_GetSSOConfiguration_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
+	OrganizationService_EnsureSSOConfiguration_FullMethodName               = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
+	OrganizationService_DeleteSSOConfiguration_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
+	OrganizationService_GetFeatureGates_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
+	OrganizationService_GetOIDCMap_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
+	OrganizationService_UpdateOIDCMap_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
+	OrganizationService_CreateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
+	OrganizationService_UpdateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
+	OrganizationService_GetCustomRole_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetCustomRole"
+	OrganizationService_ListCustomRoles_FullMethodName                      = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
+	OrganizationService_DeleteCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
+	OrganizationService_CreateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/CreateTeam"
+	OrganizationService_UpdateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/UpdateTeam"
+	OrganizationService_GetTeam_FullMethodName                              = "/akuity.organization.v1.OrganizationService/GetTeam"
+	OrganizationService_ListTeams_FullMethodName                            = "/akuity.organization.v1.OrganizationService/ListTeams"
+	OrganizationService_DeleteTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/DeleteTeam"
+	OrganizationService_AddTeamMember_FullMethodName                        = "/akuity.organization.v1.OrganizationService/AddTeamMember"
+	OrganizationService_GetTeamMember_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetTeamMember"
+	OrganizationService_ListTeamMembers_FullMethodName                      = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
+	OrganizationService_RemoveTeamMember_FullMethodName                     = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
+	OrganizationService_CreateWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
+	OrganizationService_ListWorkspaces_FullMethodName                       = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
+	OrganizationService_GetWorkspace_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetWorkspace"
+	OrganizationService_UpdateWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateWorkspace"
+	OrganizationService_DeleteWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/DeleteWorkspace"
+	OrganizationService_AddWorkspaceMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/AddWorkspaceMember"
+	OrganizationService_ListWorkspaceMembers_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListWorkspaceMembers"
+	OrganizationService_UpdateWorkspaceMembers_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMembers"
+	OrganizationService_GetWorkspaceMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
+	OrganizationService_UpdateWorkspaceMember_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
+	OrganizationService_RemoveWorkspaceMember_FullMethodName                = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
+	OrganizationService_CancelSubscription_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CancelSubscription"
+	OrganizationService_ListKubernetesResourceTypes_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
+	OrganizationService_ListKubernetesResources_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
+	OrganizationService_ListNotificationConfigs_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
+	OrganizationService_GetNotificationConfig_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
+	OrganizationService_CreateNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
+	OrganizationService_UpdateNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/UpdateNotificationConfig"
+	OrganizationService_DeleteNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteNotificationConfig"
+	OrganizationService_ListNotificationDeliveryHistory_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListNotificationDeliveryHistory"
+	OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName = "/akuity.organization.v1.OrganizationService/GetNotificationDeliveryHistoryDetail"
+	OrganizationService_PingNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -162,6 +164,8 @@ type OrganizationServiceClient interface {
 	CreateNotificationConfig(ctx context.Context, in *CreateNotificationConfigRequest, opts ...grpc.CallOption) (*CreateNotificationConfigResponse, error)
 	UpdateNotificationConfig(ctx context.Context, in *UpdateNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateNotificationConfigResponse, error)
 	DeleteNotificationConfig(ctx context.Context, in *DeleteNotificationConfigRequest, opts ...grpc.CallOption) (*DeleteNotificationConfigResponse, error)
+	ListNotificationDeliveryHistory(ctx context.Context, in *ListNotificationDeliveryHistoryRequest, opts ...grpc.CallOption) (*ListNotificationDeliveryHistoryResponse, error)
+	GetNotificationDeliveryHistoryDetail(ctx context.Context, in *GetNotificationDeliveryHistoryDetailRequest, opts ...grpc.CallOption) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(ctx context.Context, in *PingNotificationConfigRequest, opts ...grpc.CallOption) (*PingNotificationConfigResponse, error)
 }
 
@@ -790,6 +794,24 @@ func (c *organizationServiceClient) DeleteNotificationConfig(ctx context.Context
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListNotificationDeliveryHistory(ctx context.Context, in *ListNotificationDeliveryHistoryRequest, opts ...grpc.CallOption) (*ListNotificationDeliveryHistoryResponse, error) {
+	out := new(ListNotificationDeliveryHistoryResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListNotificationDeliveryHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetNotificationDeliveryHistoryDetail(ctx context.Context, in *GetNotificationDeliveryHistoryDetailRequest, opts ...grpc.CallOption) (*GetNotificationDeliveryHistoryDetailResponse, error) {
+	out := new(GetNotificationDeliveryHistoryDetailResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) PingNotificationConfig(ctx context.Context, in *PingNotificationConfigRequest, opts ...grpc.CallOption) (*PingNotificationConfigResponse, error) {
 	out := new(PingNotificationConfigResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_PingNotificationConfig_FullMethodName, in, out, opts...)
@@ -872,6 +894,8 @@ type OrganizationServiceServer interface {
 	CreateNotificationConfig(context.Context, *CreateNotificationConfigRequest) (*CreateNotificationConfigResponse, error)
 	UpdateNotificationConfig(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error)
 	DeleteNotificationConfig(context.Context, *DeleteNotificationConfigRequest) (*DeleteNotificationConfigResponse, error)
+	ListNotificationDeliveryHistory(context.Context, *ListNotificationDeliveryHistoryRequest) (*ListNotificationDeliveryHistoryResponse, error)
+	GetNotificationDeliveryHistoryDetail(context.Context, *GetNotificationDeliveryHistoryDetailRequest) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
@@ -1077,6 +1101,12 @@ func (UnimplementedOrganizationServiceServer) UpdateNotificationConfig(context.C
 }
 func (UnimplementedOrganizationServiceServer) DeleteNotificationConfig(context.Context, *DeleteNotificationConfigRequest) (*DeleteNotificationConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotificationConfig not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListNotificationDeliveryHistory(context.Context, *ListNotificationDeliveryHistoryRequest) (*ListNotificationDeliveryHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationDeliveryHistory not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetNotificationDeliveryHistoryDetail(context.Context, *GetNotificationDeliveryHistoryDetailRequest) (*GetNotificationDeliveryHistoryDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationDeliveryHistoryDetail not implemented")
 }
 func (UnimplementedOrganizationServiceServer) PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PingNotificationConfig not implemented")
@@ -2285,6 +2315,42 @@ func _OrganizationService_DeleteNotificationConfig_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListNotificationDeliveryHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNotificationDeliveryHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListNotificationDeliveryHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListNotificationDeliveryHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListNotificationDeliveryHistory(ctx, req.(*ListNotificationDeliveryHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetNotificationDeliveryHistoryDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNotificationDeliveryHistoryDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetNotificationDeliveryHistoryDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetNotificationDeliveryHistoryDetail(ctx, req.(*GetNotificationDeliveryHistoryDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_PingNotificationConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PingNotificationConfigRequest)
 	if err := dec(in); err != nil {
@@ -2569,6 +2635,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteNotificationConfig",
 			Handler:    _OrganizationService_DeleteNotificationConfig_Handler,
+		},
+		{
+			MethodName: "ListNotificationDeliveryHistory",
+			Handler:    _OrganizationService_ListNotificationDeliveryHistory_Handler,
+		},
+		{
+			MethodName: "GetNotificationDeliveryHistoryDetail",
+			Handler:    _OrganizationService_GetNotificationDeliveryHistoryDetail_Handler,
 		},
 		{
 			MethodName: "PingNotificationConfig",

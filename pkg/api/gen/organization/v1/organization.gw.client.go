@@ -82,6 +82,8 @@ type OrganizationServiceGatewayClient interface {
 	CreateNotificationConfig(context.Context, *CreateNotificationConfigRequest) (*CreateNotificationConfigResponse, error)
 	UpdateNotificationConfig(context.Context, *UpdateNotificationConfigRequest) (*UpdateNotificationConfigResponse, error)
 	DeleteNotificationConfig(context.Context, *DeleteNotificationConfigRequest) (*DeleteNotificationConfigResponse, error)
+	ListNotificationDeliveryHistory(context.Context, *ListNotificationDeliveryHistoryRequest) (*ListNotificationDeliveryHistoryResponse, error)
+	GetNotificationDeliveryHistoryDetail(context.Context, *GetNotificationDeliveryHistoryDetailRequest) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error)
 }
 
@@ -1251,6 +1253,29 @@ func (c *organizationServiceGatewayClient) DeleteNotificationConfig(ctx context.
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[DeleteNotificationConfigResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListNotificationDeliveryHistory(ctx context.Context, req *ListNotificationDeliveryHistoryRequest) (*ListNotificationDeliveryHistoryResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/notification-configs/{id}/delivery-history")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListNotificationDeliveryHistoryResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetNotificationDeliveryHistoryDetail(ctx context.Context, req *GetNotificationDeliveryHistoryDetailRequest) (*GetNotificationDeliveryHistoryDetailResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/notification-configs/{config_id}/delivery-history/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("config_id", fmt.Sprintf("%v", req.ConfigId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetNotificationDeliveryHistoryDetailResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) PingNotificationConfig(ctx context.Context, req *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error) {
