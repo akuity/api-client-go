@@ -53,11 +53,18 @@ const (
 	OrganizationService_GetFeatureGates_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
 	OrganizationService_GetOIDCMap_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
 	OrganizationService_UpdateOIDCMap_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
+	OrganizationService_GetTeamOIDCMap_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetTeamOIDCMap"
+	OrganizationService_UpdateTeamOIDCMap_FullMethodName                    = "/akuity.organization.v1.OrganizationService/UpdateTeamOIDCMap"
 	OrganizationService_CreateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
 	OrganizationService_UpdateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
 	OrganizationService_GetCustomRole_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetCustomRole"
 	OrganizationService_ListCustomRoles_FullMethodName                      = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
 	OrganizationService_DeleteCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
+	OrganizationService_CreateWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/CreateWorkspaceCustomRole"
+	OrganizationService_UpdateWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceCustomRole"
+	OrganizationService_GetWorkspaceCustomRole_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetWorkspaceCustomRole"
+	OrganizationService_ListWorkspaceCustomRoles_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListWorkspaceCustomRoles"
+	OrganizationService_DeleteWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/DeleteWorkspaceCustomRole"
 	OrganizationService_CreateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/CreateTeam"
 	OrganizationService_UpdateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/UpdateTeam"
 	OrganizationService_GetTeam_FullMethodName                              = "/akuity.organization.v1.OrganizationService/GetTeam"
@@ -81,6 +88,14 @@ const (
 	OrganizationService_CancelSubscription_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CancelSubscription"
 	OrganizationService_ListKubernetesResourceTypes_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
 	OrganizationService_ListKubernetesResources_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
+	OrganizationService_GetKubernetesResource_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetKubernetesResource"
+	OrganizationService_GetKubernetesResourceDetail_FullMethodName          = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDetail"
+	OrganizationService_GetKubernetesContainer_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetKubernetesContainer"
+	OrganizationService_ListKubernetesNamespaces_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespaces"
+	OrganizationService_ListKubernetesImages_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListKubernetesImages"
+	OrganizationService_ListKubernetesContainers_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
+	OrganizationService_ListKubernetesEnabledClusters_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
+	OrganizationService_GetKubernetesLogs_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetKubernetesLogs"
 	OrganizationService_ListNotificationConfigs_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
 	OrganizationService_GetNotificationConfig_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
 	OrganizationService_CreateNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
@@ -89,6 +104,7 @@ const (
 	OrganizationService_ListNotificationDeliveryHistory_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListNotificationDeliveryHistory"
 	OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName = "/akuity.organization.v1.OrganizationService/GetNotificationDeliveryHistoryDetail"
 	OrganizationService_PingNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
+	OrganizationService_RedeliverNotification_FullMethodName                = "/akuity.organization.v1.OrganizationService/RedeliverNotification"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -130,11 +146,18 @@ type OrganizationServiceClient interface {
 	GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error)
 	GetOIDCMap(ctx context.Context, in *GetOIDCMapRequest, opts ...grpc.CallOption) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(ctx context.Context, in *UpdateOIDCMapRequest, opts ...grpc.CallOption) (*UpdateOIDCMapResponse, error)
+	GetTeamOIDCMap(ctx context.Context, in *GetTeamOIDCMapRequest, opts ...grpc.CallOption) (*GetTeamOIDCMapResponse, error)
+	UpdateTeamOIDCMap(ctx context.Context, in *UpdateTeamOIDCMapRequest, opts ...grpc.CallOption) (*UpdateTeamOIDCMapResponse, error)
 	CreateCustomRole(ctx context.Context, in *CreateCustomRoleRequest, opts ...grpc.CallOption) (*CreateCustomRoleResponse, error)
 	UpdateCustomRole(ctx context.Context, in *UpdateCustomRoleRequest, opts ...grpc.CallOption) (*UpdateCustomRoleResponse, error)
 	GetCustomRole(ctx context.Context, in *GetCustomRoleRequest, opts ...grpc.CallOption) (*GetCustomRoleResponse, error)
 	ListCustomRoles(ctx context.Context, in *ListCustomRolesRequest, opts ...grpc.CallOption) (*ListCustomRolesResponse, error)
 	DeleteCustomRole(ctx context.Context, in *DeleteCustomRoleRequest, opts ...grpc.CallOption) (*DeleteCustomRoleResponse, error)
+	CreateWorkspaceCustomRole(ctx context.Context, in *CreateWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*CreateWorkspaceCustomRoleResponse, error)
+	UpdateWorkspaceCustomRole(ctx context.Context, in *UpdateWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*UpdateWorkspaceCustomRoleResponse, error)
+	GetWorkspaceCustomRole(ctx context.Context, in *GetWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*GetWorkspaceCustomRoleResponse, error)
+	ListWorkspaceCustomRoles(ctx context.Context, in *ListWorkspaceCustomRolesRequest, opts ...grpc.CallOption) (*ListWorkspaceCustomRolesResponse, error)
+	DeleteWorkspaceCustomRole(ctx context.Context, in *DeleteWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*DeleteWorkspaceCustomRoleResponse, error)
 	CreateTeam(ctx context.Context, in *CreateTeamRequest, opts ...grpc.CallOption) (*CreateTeamResponse, error)
 	UpdateTeam(ctx context.Context, in *UpdateTeamRequest, opts ...grpc.CallOption) (*UpdateTeamResponse, error)
 	GetTeam(ctx context.Context, in *GetTeamRequest, opts ...grpc.CallOption) (*GetTeamResponse, error)
@@ -158,6 +181,14 @@ type OrganizationServiceClient interface {
 	CancelSubscription(ctx context.Context, in *CancelSubscriptionRequest, opts ...grpc.CallOption) (*CancelSubscriptionResponse, error)
 	ListKubernetesResourceTypes(ctx context.Context, in *ListKubernetesResourceTypesRequest, opts ...grpc.CallOption) (*ListKubernetesResourceTypesResponse, error)
 	ListKubernetesResources(ctx context.Context, in *ListKubernetesResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesResourcesResponse, error)
+	GetKubernetesResource(ctx context.Context, in *GetKubernetesResourceRequest, opts ...grpc.CallOption) (*GetKubernetesResourceResponse, error)
+	GetKubernetesResourceDetail(ctx context.Context, in *GetKubernetesResourceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDetailResponse, error)
+	GetKubernetesContainer(ctx context.Context, in *GetKubernetesContainerRequest, opts ...grpc.CallOption) (*GetKubernetesContainerResponse, error)
+	ListKubernetesNamespaces(ctx context.Context, in *ListKubernetesNamespacesRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesResponse, error)
+	ListKubernetesImages(ctx context.Context, in *ListKubernetesImagesRequest, opts ...grpc.CallOption) (*ListKubernetesImagesResponse, error)
+	ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error)
+	ListKubernetesEnabledClusters(ctx context.Context, in *ListKubernetesEnabledClustersRequest, opts ...grpc.CallOption) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesLogs(ctx context.Context, in *GetKubernetesLogsRequest, opts ...grpc.CallOption) (OrganizationService_GetKubernetesLogsClient, error)
 	// Notification Configs
 	ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error)
@@ -167,6 +198,7 @@ type OrganizationServiceClient interface {
 	ListNotificationDeliveryHistory(ctx context.Context, in *ListNotificationDeliveryHistoryRequest, opts ...grpc.CallOption) (*ListNotificationDeliveryHistoryResponse, error)
 	GetNotificationDeliveryHistoryDetail(ctx context.Context, in *GetNotificationDeliveryHistoryDetailRequest, opts ...grpc.CallOption) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(ctx context.Context, in *PingNotificationConfigRequest, opts ...grpc.CallOption) (*PingNotificationConfigResponse, error)
+	RedeliverNotification(ctx context.Context, in *RedeliverNotificationRequest, opts ...grpc.CallOption) (*RedeliverNotificationResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -497,6 +529,24 @@ func (c *organizationServiceClient) UpdateOIDCMap(ctx context.Context, in *Updat
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetTeamOIDCMap(ctx context.Context, in *GetTeamOIDCMapRequest, opts ...grpc.CallOption) (*GetTeamOIDCMapResponse, error) {
+	out := new(GetTeamOIDCMapResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetTeamOIDCMap_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateTeamOIDCMap(ctx context.Context, in *UpdateTeamOIDCMapRequest, opts ...grpc.CallOption) (*UpdateTeamOIDCMapResponse, error) {
+	out := new(UpdateTeamOIDCMapResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateTeamOIDCMap_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) CreateCustomRole(ctx context.Context, in *CreateCustomRoleRequest, opts ...grpc.CallOption) (*CreateCustomRoleResponse, error) {
 	out := new(CreateCustomRoleResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_CreateCustomRole_FullMethodName, in, out, opts...)
@@ -536,6 +586,51 @@ func (c *organizationServiceClient) ListCustomRoles(ctx context.Context, in *Lis
 func (c *organizationServiceClient) DeleteCustomRole(ctx context.Context, in *DeleteCustomRoleRequest, opts ...grpc.CallOption) (*DeleteCustomRoleResponse, error) {
 	out := new(DeleteCustomRoleResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_DeleteCustomRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) CreateWorkspaceCustomRole(ctx context.Context, in *CreateWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*CreateWorkspaceCustomRoleResponse, error) {
+	out := new(CreateWorkspaceCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateWorkspaceCustomRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateWorkspaceCustomRole(ctx context.Context, in *UpdateWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*UpdateWorkspaceCustomRoleResponse, error) {
+	out := new(UpdateWorkspaceCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateWorkspaceCustomRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetWorkspaceCustomRole(ctx context.Context, in *GetWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*GetWorkspaceCustomRoleResponse, error) {
+	out := new(GetWorkspaceCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetWorkspaceCustomRole_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListWorkspaceCustomRoles(ctx context.Context, in *ListWorkspaceCustomRolesRequest, opts ...grpc.CallOption) (*ListWorkspaceCustomRolesResponse, error) {
+	out := new(ListWorkspaceCustomRolesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListWorkspaceCustomRoles_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteWorkspaceCustomRole(ctx context.Context, in *DeleteWorkspaceCustomRoleRequest, opts ...grpc.CallOption) (*DeleteWorkspaceCustomRoleResponse, error) {
+	out := new(DeleteWorkspaceCustomRoleResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteWorkspaceCustomRole_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -749,6 +844,101 @@ func (c *organizationServiceClient) ListKubernetesResources(ctx context.Context,
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetKubernetesResource(ctx context.Context, in *GetKubernetesResourceRequest, opts ...grpc.CallOption) (*GetKubernetesResourceResponse, error) {
+	out := new(GetKubernetesResourceResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesResource_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetKubernetesResourceDetail(ctx context.Context, in *GetKubernetesResourceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDetailResponse, error) {
+	out := new(GetKubernetesResourceDetailResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesResourceDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetKubernetesContainer(ctx context.Context, in *GetKubernetesContainerRequest, opts ...grpc.CallOption) (*GetKubernetesContainerResponse, error) {
+	out := new(GetKubernetesContainerResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesContainer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesNamespaces(ctx context.Context, in *ListKubernetesNamespacesRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesResponse, error) {
+	out := new(ListKubernetesNamespacesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesNamespaces_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesImages(ctx context.Context, in *ListKubernetesImagesRequest, opts ...grpc.CallOption) (*ListKubernetesImagesResponse, error) {
+	out := new(ListKubernetesImagesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesImages_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error) {
+	out := new(ListKubernetesContainersResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesContainers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesEnabledClusters(ctx context.Context, in *ListKubernetesEnabledClustersRequest, opts ...grpc.CallOption) (*ListKubernetesEnabledClustersResponse, error) {
+	out := new(ListKubernetesEnabledClustersResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesEnabledClusters_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetKubernetesLogs(ctx context.Context, in *GetKubernetesLogsRequest, opts ...grpc.CallOption) (OrganizationService_GetKubernetesLogsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[1], OrganizationService_GetKubernetesLogs_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &organizationServiceGetKubernetesLogsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_GetKubernetesLogsClient interface {
+	Recv() (*GetKubernetesLogsResponse, error)
+	grpc.ClientStream
+}
+
+type organizationServiceGetKubernetesLogsClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceGetKubernetesLogsClient) Recv() (*GetKubernetesLogsResponse, error) {
+	m := new(GetKubernetesLogsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *organizationServiceClient) ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error) {
 	out := new(ListNotificationConfigsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListNotificationConfigs_FullMethodName, in, out, opts...)
@@ -821,6 +1011,15 @@ func (c *organizationServiceClient) PingNotificationConfig(ctx context.Context, 
 	return out, nil
 }
 
+func (c *organizationServiceClient) RedeliverNotification(ctx context.Context, in *RedeliverNotificationRequest, opts ...grpc.CallOption) (*RedeliverNotificationResponse, error) {
+	out := new(RedeliverNotificationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_RedeliverNotification_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -860,11 +1059,18 @@ type OrganizationServiceServer interface {
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
+	GetTeamOIDCMap(context.Context, *GetTeamOIDCMapRequest) (*GetTeamOIDCMapResponse, error)
+	UpdateTeamOIDCMap(context.Context, *UpdateTeamOIDCMapRequest) (*UpdateTeamOIDCMapResponse, error)
 	CreateCustomRole(context.Context, *CreateCustomRoleRequest) (*CreateCustomRoleResponse, error)
 	UpdateCustomRole(context.Context, *UpdateCustomRoleRequest) (*UpdateCustomRoleResponse, error)
 	GetCustomRole(context.Context, *GetCustomRoleRequest) (*GetCustomRoleResponse, error)
 	ListCustomRoles(context.Context, *ListCustomRolesRequest) (*ListCustomRolesResponse, error)
 	DeleteCustomRole(context.Context, *DeleteCustomRoleRequest) (*DeleteCustomRoleResponse, error)
+	CreateWorkspaceCustomRole(context.Context, *CreateWorkspaceCustomRoleRequest) (*CreateWorkspaceCustomRoleResponse, error)
+	UpdateWorkspaceCustomRole(context.Context, *UpdateWorkspaceCustomRoleRequest) (*UpdateWorkspaceCustomRoleResponse, error)
+	GetWorkspaceCustomRole(context.Context, *GetWorkspaceCustomRoleRequest) (*GetWorkspaceCustomRoleResponse, error)
+	ListWorkspaceCustomRoles(context.Context, *ListWorkspaceCustomRolesRequest) (*ListWorkspaceCustomRolesResponse, error)
+	DeleteWorkspaceCustomRole(context.Context, *DeleteWorkspaceCustomRoleRequest) (*DeleteWorkspaceCustomRoleResponse, error)
 	CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error)
 	UpdateTeam(context.Context, *UpdateTeamRequest) (*UpdateTeamResponse, error)
 	GetTeam(context.Context, *GetTeamRequest) (*GetTeamResponse, error)
@@ -888,6 +1094,14 @@ type OrganizationServiceServer interface {
 	CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error)
 	ListKubernetesResourceTypes(context.Context, *ListKubernetesResourceTypesRequest) (*ListKubernetesResourceTypesResponse, error)
 	ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error)
+	GetKubernetesResource(context.Context, *GetKubernetesResourceRequest) (*GetKubernetesResourceResponse, error)
+	GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error)
+	GetKubernetesContainer(context.Context, *GetKubernetesContainerRequest) (*GetKubernetesContainerResponse, error)
+	ListKubernetesNamespaces(context.Context, *ListKubernetesNamespacesRequest) (*ListKubernetesNamespacesResponse, error)
+	ListKubernetesImages(context.Context, *ListKubernetesImagesRequest) (*ListKubernetesImagesResponse, error)
+	ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error)
+	ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesLogs(*GetKubernetesLogsRequest, OrganizationService_GetKubernetesLogsServer) error
 	// Notification Configs
 	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
@@ -897,6 +1111,7 @@ type OrganizationServiceServer interface {
 	ListNotificationDeliveryHistory(context.Context, *ListNotificationDeliveryHistoryRequest) (*ListNotificationDeliveryHistoryResponse, error)
 	GetNotificationDeliveryHistoryDetail(context.Context, *GetNotificationDeliveryHistoryDetailRequest) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error)
+	RedeliverNotification(context.Context, *RedeliverNotificationRequest) (*RedeliverNotificationResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -1003,6 +1218,12 @@ func (UnimplementedOrganizationServiceServer) GetOIDCMap(context.Context, *GetOI
 func (UnimplementedOrganizationServiceServer) UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOIDCMap not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetTeamOIDCMap(context.Context, *GetTeamOIDCMapRequest) (*GetTeamOIDCMapResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTeamOIDCMap not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateTeamOIDCMap(context.Context, *UpdateTeamOIDCMapRequest) (*UpdateTeamOIDCMapResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTeamOIDCMap not implemented")
+}
 func (UnimplementedOrganizationServiceServer) CreateCustomRole(context.Context, *CreateCustomRoleRequest) (*CreateCustomRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCustomRole not implemented")
 }
@@ -1017,6 +1238,21 @@ func (UnimplementedOrganizationServiceServer) ListCustomRoles(context.Context, *
 }
 func (UnimplementedOrganizationServiceServer) DeleteCustomRole(context.Context, *DeleteCustomRoleRequest) (*DeleteCustomRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCustomRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateWorkspaceCustomRole(context.Context, *CreateWorkspaceCustomRoleRequest) (*CreateWorkspaceCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkspaceCustomRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateWorkspaceCustomRole(context.Context, *UpdateWorkspaceCustomRoleRequest) (*UpdateWorkspaceCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkspaceCustomRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetWorkspaceCustomRole(context.Context, *GetWorkspaceCustomRoleRequest) (*GetWorkspaceCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkspaceCustomRole not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListWorkspaceCustomRoles(context.Context, *ListWorkspaceCustomRolesRequest) (*ListWorkspaceCustomRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkspaceCustomRoles not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteWorkspaceCustomRole(context.Context, *DeleteWorkspaceCustomRoleRequest) (*DeleteWorkspaceCustomRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkspaceCustomRole not implemented")
 }
 func (UnimplementedOrganizationServiceServer) CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTeam not implemented")
@@ -1087,6 +1323,30 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesResourceTypes(contex
 func (UnimplementedOrganizationServiceServer) ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesResources not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetKubernetesResource(context.Context, *GetKubernetesResourceRequest) (*GetKubernetesResourceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesResource not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesResourceDetail not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesContainer(context.Context, *GetKubernetesContainerRequest) (*GetKubernetesContainerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesContainer not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesNamespaces(context.Context, *ListKubernetesNamespacesRequest) (*ListKubernetesNamespacesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesNamespaces not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesImages(context.Context, *ListKubernetesImagesRequest) (*ListKubernetesImagesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesImages not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesContainers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesEnabledClusters not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesLogs(*GetKubernetesLogsRequest, OrganizationService_GetKubernetesLogsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetKubernetesLogs not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationConfigs not implemented")
 }
@@ -1110,6 +1370,9 @@ func (UnimplementedOrganizationServiceServer) GetNotificationDeliveryHistoryDeta
 }
 func (UnimplementedOrganizationServiceServer) PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PingNotificationConfig not implemented")
+}
+func (UnimplementedOrganizationServiceServer) RedeliverNotification(context.Context, *RedeliverNotificationRequest) (*RedeliverNotificationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RedeliverNotification not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -1721,6 +1984,42 @@ func _OrganizationService_UpdateOIDCMap_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetTeamOIDCMap_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTeamOIDCMapRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetTeamOIDCMap(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetTeamOIDCMap_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetTeamOIDCMap(ctx, req.(*GetTeamOIDCMapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateTeamOIDCMap_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTeamOIDCMapRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateTeamOIDCMap(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateTeamOIDCMap_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateTeamOIDCMap(ctx, req.(*UpdateTeamOIDCMapRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_CreateCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateCustomRoleRequest)
 	if err := dec(in); err != nil {
@@ -1807,6 +2106,96 @@ func _OrganizationService_DeleteCustomRole_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).DeleteCustomRole(ctx, req.(*DeleteCustomRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_CreateWorkspaceCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWorkspaceCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateWorkspaceCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateWorkspaceCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateWorkspaceCustomRole(ctx, req.(*CreateWorkspaceCustomRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateWorkspaceCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkspaceCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateWorkspaceCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateWorkspaceCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateWorkspaceCustomRole(ctx, req.(*UpdateWorkspaceCustomRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetWorkspaceCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkspaceCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetWorkspaceCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetWorkspaceCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetWorkspaceCustomRole(ctx, req.(*GetWorkspaceCustomRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListWorkspaceCustomRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkspaceCustomRolesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListWorkspaceCustomRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListWorkspaceCustomRoles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListWorkspaceCustomRoles(ctx, req.(*ListWorkspaceCustomRolesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteWorkspaceCustomRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteWorkspaceCustomRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteWorkspaceCustomRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteWorkspaceCustomRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteWorkspaceCustomRole(ctx, req.(*DeleteWorkspaceCustomRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2225,6 +2614,153 @@ func _OrganizationService_ListKubernetesResources_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetKubernetesResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesResourceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesResource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesResource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesResource(ctx, req.(*GetKubernetesResourceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubernetesResourceDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesResourceDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesResourceDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesResourceDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesResourceDetail(ctx, req.(*GetKubernetesResourceDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubernetesContainer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesContainerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesContainer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesContainer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesContainer(ctx, req.(*GetKubernetesContainerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesNamespaces_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesNamespacesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesNamespaces(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesNamespaces_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesNamespaces(ctx, req.(*ListKubernetesNamespacesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesImages_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesImagesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesImages(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesImages_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesImages(ctx, req.(*ListKubernetesImagesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesContainers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesContainersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesContainers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesContainers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesContainers(ctx, req.(*ListKubernetesContainersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesEnabledClusters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesEnabledClustersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesEnabledClusters(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesEnabledClusters_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesEnabledClusters(ctx, req.(*ListKubernetesEnabledClustersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubernetesLogs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetKubernetesLogsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(OrganizationServiceServer).GetKubernetesLogs(m, &organizationServiceGetKubernetesLogsServer{stream})
+}
+
+type OrganizationService_GetKubernetesLogsServer interface {
+	Send(*GetKubernetesLogsResponse) error
+	grpc.ServerStream
+}
+
+type organizationServiceGetKubernetesLogsServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceGetKubernetesLogsServer) Send(m *GetKubernetesLogsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _OrganizationService_ListNotificationConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListNotificationConfigsRequest)
 	if err := dec(in); err != nil {
@@ -2369,6 +2905,24 @@ func _OrganizationService_PingNotificationConfig_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_RedeliverNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RedeliverNotificationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).RedeliverNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_RedeliverNotification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).RedeliverNotification(ctx, req.(*RedeliverNotificationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2505,6 +3059,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_UpdateOIDCMap_Handler,
 		},
 		{
+			MethodName: "GetTeamOIDCMap",
+			Handler:    _OrganizationService_GetTeamOIDCMap_Handler,
+		},
+		{
+			MethodName: "UpdateTeamOIDCMap",
+			Handler:    _OrganizationService_UpdateTeamOIDCMap_Handler,
+		},
+		{
 			MethodName: "CreateCustomRole",
 			Handler:    _OrganizationService_CreateCustomRole_Handler,
 		},
@@ -2523,6 +3085,26 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCustomRole",
 			Handler:    _OrganizationService_DeleteCustomRole_Handler,
+		},
+		{
+			MethodName: "CreateWorkspaceCustomRole",
+			Handler:    _OrganizationService_CreateWorkspaceCustomRole_Handler,
+		},
+		{
+			MethodName: "UpdateWorkspaceCustomRole",
+			Handler:    _OrganizationService_UpdateWorkspaceCustomRole_Handler,
+		},
+		{
+			MethodName: "GetWorkspaceCustomRole",
+			Handler:    _OrganizationService_GetWorkspaceCustomRole_Handler,
+		},
+		{
+			MethodName: "ListWorkspaceCustomRoles",
+			Handler:    _OrganizationService_ListWorkspaceCustomRoles_Handler,
+		},
+		{
+			MethodName: "DeleteWorkspaceCustomRole",
+			Handler:    _OrganizationService_DeleteWorkspaceCustomRole_Handler,
 		},
 		{
 			MethodName: "CreateTeam",
@@ -2617,6 +3199,34 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_ListKubernetesResources_Handler,
 		},
 		{
+			MethodName: "GetKubernetesResource",
+			Handler:    _OrganizationService_GetKubernetesResource_Handler,
+		},
+		{
+			MethodName: "GetKubernetesResourceDetail",
+			Handler:    _OrganizationService_GetKubernetesResourceDetail_Handler,
+		},
+		{
+			MethodName: "GetKubernetesContainer",
+			Handler:    _OrganizationService_GetKubernetesContainer_Handler,
+		},
+		{
+			MethodName: "ListKubernetesNamespaces",
+			Handler:    _OrganizationService_ListKubernetesNamespaces_Handler,
+		},
+		{
+			MethodName: "ListKubernetesImages",
+			Handler:    _OrganizationService_ListKubernetesImages_Handler,
+		},
+		{
+			MethodName: "ListKubernetesContainers",
+			Handler:    _OrganizationService_ListKubernetesContainers_Handler,
+		},
+		{
+			MethodName: "ListKubernetesEnabledClusters",
+			Handler:    _OrganizationService_ListKubernetesEnabledClusters_Handler,
+		},
+		{
 			MethodName: "ListNotificationConfigs",
 			Handler:    _OrganizationService_ListNotificationConfigs_Handler,
 		},
@@ -2648,11 +3258,20 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "PingNotificationConfig",
 			Handler:    _OrganizationService_PingNotificationConfig_Handler,
 		},
+		{
+			MethodName: "RedeliverNotification",
+			Handler:    _OrganizationService_RedeliverNotification_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "GetAuditLogsInCSV",
 			Handler:       _OrganizationService_GetAuditLogsInCSV_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetKubernetesLogs",
+			Handler:       _OrganizationService_GetKubernetesLogs_Handler,
 			ServerStreams: true,
 		},
 	},
