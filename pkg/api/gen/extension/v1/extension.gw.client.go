@@ -13,8 +13,6 @@ type ExtensionServiceGatewayClient interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
-	GetAssistantSuggestion(context.Context, *GetAssistantSuggestionRequest) (*GetAssistantSuggestionResponse, error)
-	ResolveAssistantConversation(context.Context, *ResolveAssistantConversationRequest) (*ResolveAssistantConversationResponse, error)
 }
 
 func NewExtensionServiceGatewayClient(c gateway.Client) ExtensionServiceGatewayClient {
@@ -43,16 +41,4 @@ func (c *extensionServiceGatewayClient) GetSyncOperationsEventsForApplication(ct
 	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/sync-operations-events")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetSyncOperationsEventsForApplicationResponse](ctx, gwReq)
-}
-
-func (c *extensionServiceGatewayClient) GetAssistantSuggestion(ctx context.Context, req *GetAssistantSuggestionRequest) (*GetAssistantSuggestionResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/assistant-suggestion")
-	gwReq.SetBody(req)
-	return gateway.DoRequest[GetAssistantSuggestionResponse](ctx, gwReq)
-}
-
-func (c *extensionServiceGatewayClient) ResolveAssistantConversation(ctx context.Context, req *ResolveAssistantConversationRequest) (*ResolveAssistantConversationResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/resolve-conversation")
-	gwReq.SetBody(req)
-	return gateway.DoRequest[ResolveAssistantConversationResponse](ctx, gwReq)
 }

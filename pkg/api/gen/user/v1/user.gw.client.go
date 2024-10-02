@@ -21,6 +21,7 @@ type UserServiceGatewayClient interface {
 	UnreadNotifications(context.Context, *UnreadNotificationsRequest) (*UnreadNotificationsResponse, error)
 	GetNotificationSettings(context.Context, *GetNotificationSettingsRequest) (*GetNotificationSettingsResponse, error)
 	UpdateNotificationSettings(context.Context, *UpdateNotificationSettingsRequest) (*UpdateNotificationSettingsResponse, error)
+	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
 }
 
 func NewUserServiceGatewayClient(c gateway.Client) UserServiceGatewayClient {
@@ -89,4 +90,10 @@ func (c *userServiceGatewayClient) UpdateNotificationSettings(ctx context.Contex
 	gwReq := c.gwc.NewRequest("PUT", "/api/v1/users/me/notification-settings")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateNotificationSettingsResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) ResetPassword(ctx context.Context, req *ResetPasswordRequest) (*ResetPasswordResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/users/me/reset-password")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ResetPasswordResponse](ctx, gwReq)
 }

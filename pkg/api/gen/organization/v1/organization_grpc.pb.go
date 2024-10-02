@@ -20,91 +20,104 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	OrganizationService_ListAuthenticatedUserOrganizations_FullMethodName   = "/akuity.organization.v1.OrganizationService/ListAuthenticatedUserOrganizations"
-	OrganizationService_GetOrganization_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetOrganization"
-	OrganizationService_GetOrganizationPermissions_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetOrganizationPermissions"
-	OrganizationService_CreateOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateOrganization"
-	OrganizationService_UpdateOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
-	OrganizationService_DeleteOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
-	OrganizationService_ListOrganizationMembers_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListOrganizationMembers"
-	OrganizationService_ListOrganizationInvitees_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees"
-	OrganizationService_GetUserRoleInOrganization_FullMethodName            = "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization"
-	OrganizationService_InviteMembers_FullMethodName                        = "/akuity.organization.v1.OrganizationService/InviteMembers"
-	OrganizationService_UninviteOrganizationMember_FullMethodName           = "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember"
-	OrganizationService_RemoveOrganizationMember_FullMethodName             = "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember"
-	OrganizationService_UpdateOrganizationMemberRole_FullMethodName         = "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole"
-	OrganizationService_JoinOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/JoinOrganization"
-	OrganizationService_RejectOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/RejectOrganization"
-	OrganizationService_ListOrganizationAPIKeys_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
-	OrganizationService_CreateOrganizationAPIKey_FullMethodName             = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
-	OrganizationService_ListWorkspaceAPIKeys_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListWorkspaceAPIKeys"
-	OrganizationService_CreateWorkspaceAPIKey_FullMethodName                = "/akuity.organization.v1.OrganizationService/CreateWorkspaceAPIKey"
-	OrganizationService_GetAuditLogs_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
-	OrganizationService_ListAuditLogsArchives_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
-	OrganizationService_GetAuditLogsInCSV_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
-	OrganizationService_GetCustomerDetails_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
-	OrganizationService_UpdateBillingDetails_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
-	OrganizationService_BillingCheckout_FullMethodName                      = "/akuity.organization.v1.OrganizationService/BillingCheckout"
-	OrganizationService_UpdateSubscription_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
-	OrganizationService_GetAvailableAddons_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
-	OrganizationService_GetSSOConfiguration_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
-	OrganizationService_EnsureSSOConfiguration_FullMethodName               = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
-	OrganizationService_DeleteSSOConfiguration_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
-	OrganizationService_GetFeatureGates_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
-	OrganizationService_GetOIDCMap_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
-	OrganizationService_UpdateOIDCMap_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
-	OrganizationService_GetTeamOIDCMap_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetTeamOIDCMap"
-	OrganizationService_UpdateTeamOIDCMap_FullMethodName                    = "/akuity.organization.v1.OrganizationService/UpdateTeamOIDCMap"
-	OrganizationService_CreateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
-	OrganizationService_UpdateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
-	OrganizationService_GetCustomRole_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetCustomRole"
-	OrganizationService_ListCustomRoles_FullMethodName                      = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
-	OrganizationService_DeleteCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
-	OrganizationService_CreateWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/CreateWorkspaceCustomRole"
-	OrganizationService_UpdateWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceCustomRole"
-	OrganizationService_GetWorkspaceCustomRole_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetWorkspaceCustomRole"
-	OrganizationService_ListWorkspaceCustomRoles_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListWorkspaceCustomRoles"
-	OrganizationService_DeleteWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/DeleteWorkspaceCustomRole"
-	OrganizationService_CreateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/CreateTeam"
-	OrganizationService_UpdateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/UpdateTeam"
-	OrganizationService_GetTeam_FullMethodName                              = "/akuity.organization.v1.OrganizationService/GetTeam"
-	OrganizationService_ListTeams_FullMethodName                            = "/akuity.organization.v1.OrganizationService/ListTeams"
-	OrganizationService_DeleteTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/DeleteTeam"
-	OrganizationService_AddTeamMember_FullMethodName                        = "/akuity.organization.v1.OrganizationService/AddTeamMember"
-	OrganizationService_GetTeamMember_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetTeamMember"
-	OrganizationService_ListTeamMembers_FullMethodName                      = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
-	OrganizationService_RemoveTeamMember_FullMethodName                     = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
-	OrganizationService_CreateWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
-	OrganizationService_ListWorkspaces_FullMethodName                       = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
-	OrganizationService_GetWorkspace_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetWorkspace"
-	OrganizationService_UpdateWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateWorkspace"
-	OrganizationService_DeleteWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/DeleteWorkspace"
-	OrganizationService_AddWorkspaceMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/AddWorkspaceMember"
-	OrganizationService_ListWorkspaceMembers_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListWorkspaceMembers"
-	OrganizationService_UpdateWorkspaceMembers_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMembers"
-	OrganizationService_GetWorkspaceMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
-	OrganizationService_UpdateWorkspaceMember_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
-	OrganizationService_RemoveWorkspaceMember_FullMethodName                = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
-	OrganizationService_CancelSubscription_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CancelSubscription"
-	OrganizationService_ListKubernetesResourceTypes_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
-	OrganizationService_ListKubernetesResources_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
-	OrganizationService_GetKubernetesResource_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetKubernetesResource"
-	OrganizationService_GetKubernetesResourceDetail_FullMethodName          = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDetail"
-	OrganizationService_GetKubernetesContainer_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetKubernetesContainer"
-	OrganizationService_ListKubernetesNamespaces_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespaces"
-	OrganizationService_ListKubernetesImages_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListKubernetesImages"
-	OrganizationService_ListKubernetesContainers_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
-	OrganizationService_ListKubernetesEnabledClusters_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
-	OrganizationService_GetKubernetesLogs_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetKubernetesLogs"
-	OrganizationService_ListNotificationConfigs_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
-	OrganizationService_GetNotificationConfig_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
-	OrganizationService_CreateNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
-	OrganizationService_UpdateNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/UpdateNotificationConfig"
-	OrganizationService_DeleteNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteNotificationConfig"
-	OrganizationService_ListNotificationDeliveryHistory_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListNotificationDeliveryHistory"
-	OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName = "/akuity.organization.v1.OrganizationService/GetNotificationDeliveryHistoryDetail"
-	OrganizationService_PingNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
-	OrganizationService_RedeliverNotification_FullMethodName                = "/akuity.organization.v1.OrganizationService/RedeliverNotification"
+	OrganizationService_ListAuthenticatedUserOrganizations_FullMethodName     = "/akuity.organization.v1.OrganizationService/ListAuthenticatedUserOrganizations"
+	OrganizationService_GetOrganization_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetOrganization"
+	OrganizationService_GetOrganizationPermissions_FullMethodName             = "/akuity.organization.v1.OrganizationService/GetOrganizationPermissions"
+	OrganizationService_CreateOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CreateOrganization"
+	OrganizationService_UpdateOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
+	OrganizationService_DeleteOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
+	OrganizationService_ListOrganizationMembers_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationMembers"
+	OrganizationService_ListOrganizationInvitees_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees"
+	OrganizationService_GetUserRoleInOrganization_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization"
+	OrganizationService_InviteMembers_FullMethodName                          = "/akuity.organization.v1.OrganizationService/InviteMembers"
+	OrganizationService_UninviteOrganizationMember_FullMethodName             = "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember"
+	OrganizationService_RemoveOrganizationMember_FullMethodName               = "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember"
+	OrganizationService_UpdateOrganizationMemberRole_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole"
+	OrganizationService_JoinOrganization_FullMethodName                       = "/akuity.organization.v1.OrganizationService/JoinOrganization"
+	OrganizationService_RejectOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/RejectOrganization"
+	OrganizationService_ListOrganizationAPIKeys_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
+	OrganizationService_CreateOrganizationAPIKey_FullMethodName               = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
+	OrganizationService_ListWorkspaceAPIKeys_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListWorkspaceAPIKeys"
+	OrganizationService_CreateWorkspaceAPIKey_FullMethodName                  = "/akuity.organization.v1.OrganizationService/CreateWorkspaceAPIKey"
+	OrganizationService_GetAuditLogs_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
+	OrganizationService_ListAuditLogsArchives_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
+	OrganizationService_GetAuditLogsInCSV_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
+	OrganizationService_GetCustomerDetails_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
+	OrganizationService_UpdateBillingDetails_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
+	OrganizationService_BillingCheckout_FullMethodName                        = "/akuity.organization.v1.OrganizationService/BillingCheckout"
+	OrganizationService_UpdateSubscription_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
+	OrganizationService_GetAvailableAddons_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
+	OrganizationService_GetSSOConfiguration_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
+	OrganizationService_EnsureSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
+	OrganizationService_DeleteSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
+	OrganizationService_GetFeatureGates_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
+	OrganizationService_GetOIDCMap_FullMethodName                             = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
+	OrganizationService_UpdateOIDCMap_FullMethodName                          = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
+	OrganizationService_GetTeamOIDCMap_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetTeamOIDCMap"
+	OrganizationService_UpdateTeamOIDCMap_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateTeamOIDCMap"
+	OrganizationService_CreateCustomRole_FullMethodName                       = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
+	OrganizationService_UpdateCustomRole_FullMethodName                       = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
+	OrganizationService_GetCustomRole_FullMethodName                          = "/akuity.organization.v1.OrganizationService/GetCustomRole"
+	OrganizationService_ListCustomRoles_FullMethodName                        = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
+	OrganizationService_DeleteCustomRole_FullMethodName                       = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
+	OrganizationService_CreateWorkspaceCustomRole_FullMethodName              = "/akuity.organization.v1.OrganizationService/CreateWorkspaceCustomRole"
+	OrganizationService_UpdateWorkspaceCustomRole_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceCustomRole"
+	OrganizationService_GetWorkspaceCustomRole_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetWorkspaceCustomRole"
+	OrganizationService_ListWorkspaceCustomRoles_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListWorkspaceCustomRoles"
+	OrganizationService_DeleteWorkspaceCustomRole_FullMethodName              = "/akuity.organization.v1.OrganizationService/DeleteWorkspaceCustomRole"
+	OrganizationService_CreateTeam_FullMethodName                             = "/akuity.organization.v1.OrganizationService/CreateTeam"
+	OrganizationService_UpdateTeam_FullMethodName                             = "/akuity.organization.v1.OrganizationService/UpdateTeam"
+	OrganizationService_GetTeam_FullMethodName                                = "/akuity.organization.v1.OrganizationService/GetTeam"
+	OrganizationService_ListTeams_FullMethodName                              = "/akuity.organization.v1.OrganizationService/ListTeams"
+	OrganizationService_DeleteTeam_FullMethodName                             = "/akuity.organization.v1.OrganizationService/DeleteTeam"
+	OrganizationService_AddTeamMember_FullMethodName                          = "/akuity.organization.v1.OrganizationService/AddTeamMember"
+	OrganizationService_GetTeamMember_FullMethodName                          = "/akuity.organization.v1.OrganizationService/GetTeamMember"
+	OrganizationService_ListTeamMembers_FullMethodName                        = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
+	OrganizationService_RemoveTeamMember_FullMethodName                       = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
+	OrganizationService_CreateWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
+	OrganizationService_ListWorkspaces_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
+	OrganizationService_GetWorkspace_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetWorkspace"
+	OrganizationService_UpdateWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateWorkspace"
+	OrganizationService_DeleteWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/DeleteWorkspace"
+	OrganizationService_AddWorkspaceMember_FullMethodName                     = "/akuity.organization.v1.OrganizationService/AddWorkspaceMember"
+	OrganizationService_ListWorkspaceMembers_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListWorkspaceMembers"
+	OrganizationService_UpdateWorkspaceMembers_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMembers"
+	OrganizationService_GetWorkspaceMember_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
+	OrganizationService_UpdateWorkspaceMember_FullMethodName                  = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
+	OrganizationService_RemoveWorkspaceMember_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
+	OrganizationService_CancelSubscription_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CancelSubscription"
+	OrganizationService_ListKubernetesResourceTypes_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
+	OrganizationService_ListKubernetesResources_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
+	OrganizationService_ListKubernetesResourcesToCSV_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesResourcesToCSV"
+	OrganizationService_GetKubernetesResourceDetail_FullMethodName            = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDetail"
+	OrganizationService_GetKubernetesContainer_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetKubernetesContainer"
+	OrganizationService_ListKubernetesNamespaces_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespaces"
+	OrganizationService_ListKubernetesImages_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListKubernetesImages"
+	OrganizationService_ListKubernetesImagesToCSV_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesImagesToCSV"
+	OrganizationService_ListKubernetesContainers_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
+	OrganizationService_ListKubernetesContainersToCSV_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesContainersToCSV"
+	OrganizationService_ListKubernetesEnabledClusters_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
+	OrganizationService_GetKubernetesManifest_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetKubernetesManifest"
+	OrganizationService_GetKubernetesLogs_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesLogs"
+	OrganizationService_GetKubernetesEvents_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetKubernetesEvents"
+	OrganizationService_ListKubernetesAuditLogs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKubernetesAuditLogs"
+	OrganizationService_ListKubernetesNodes_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListKubernetesNodes"
+	OrganizationService_GetKubernetesNode_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesNode"
+	OrganizationService_ListKubernetesPods_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
+	OrganizationService_GetKubernetesPod_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
+	OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIs"
+	OrganizationService_ListKubernetesDeprecatedAPIsToCSV_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIsToCSV"
+	OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName       = "/akuity.organization.v1.OrganizationService/GetKubernetesAssistantSuggestion"
+	OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName = "/akuity.organization.v1.OrganizationService/ResolveKubernetesAssistantConversation"
+	OrganizationService_ListNotificationConfigs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
+	OrganizationService_GetNotificationConfig_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
+	OrganizationService_CreateNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
+	OrganizationService_UpdateNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateNotificationConfig"
+	OrganizationService_DeleteNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteNotificationConfig"
+	OrganizationService_ListNotificationDeliveryHistory_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListNotificationDeliveryHistory"
+	OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName   = "/akuity.organization.v1.OrganizationService/GetNotificationDeliveryHistoryDetail"
+	OrganizationService_PingNotificationConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
+	OrganizationService_RedeliverNotification_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RedeliverNotification"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -180,15 +193,44 @@ type OrganizationServiceClient interface {
 	RemoveWorkspaceMember(ctx context.Context, in *RemoveWorkspaceMemberRequest, opts ...grpc.CallOption) (*RemoveWorkspaceMemberResponse, error)
 	CancelSubscription(ctx context.Context, in *CancelSubscriptionRequest, opts ...grpc.CallOption) (*CancelSubscriptionResponse, error)
 	ListKubernetesResourceTypes(ctx context.Context, in *ListKubernetesResourceTypesRequest, opts ...grpc.CallOption) (*ListKubernetesResourceTypesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesResources(ctx context.Context, in *ListKubernetesResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesResourcesResponse, error)
-	GetKubernetesResource(ctx context.Context, in *GetKubernetesResourceRequest, opts ...grpc.CallOption) (*GetKubernetesResourceResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesResourcesToCSV(ctx context.Context, in *ListKubernetesResourcesRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesResourcesToCSVClient, error)
 	GetKubernetesResourceDetail(ctx context.Context, in *GetKubernetesResourceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDetailResponse, error)
 	GetKubernetesContainer(ctx context.Context, in *GetKubernetesContainerRequest, opts ...grpc.CallOption) (*GetKubernetesContainerResponse, error)
 	ListKubernetesNamespaces(ctx context.Context, in *ListKubernetesNamespacesRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesImages(ctx context.Context, in *ListKubernetesImagesRequest, opts ...grpc.CallOption) (*ListKubernetesImagesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesImagesToCSV(ctx context.Context, in *ListKubernetesImagesRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesImagesToCSVClient, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesContainersToCSV(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesContainersToCSVClient, error)
 	ListKubernetesEnabledClusters(ctx context.Context, in *ListKubernetesEnabledClustersRequest, opts ...grpc.CallOption) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesManifest(ctx context.Context, in *GetKubernetesManifestRequest, opts ...grpc.CallOption) (*GetKubernetesManifestResponse, error)
 	GetKubernetesLogs(ctx context.Context, in *GetKubernetesLogsRequest, opts ...grpc.CallOption) (OrganizationService_GetKubernetesLogsClient, error)
+	GetKubernetesEvents(ctx context.Context, in *GetKubernetesEventsRequest, opts ...grpc.CallOption) (*GetKubernetesEventsResponse, error)
+	ListKubernetesAuditLogs(ctx context.Context, in *ListKubernetesAuditLogsRequest, opts ...grpc.CallOption) (*ListKubernetesAuditLogsResponse, error)
+	ListKubernetesNodes(ctx context.Context, in *ListKubernetesNodesRequest, opts ...grpc.CallOption) (*ListKubernetesNodesResponse, error)
+	GetKubernetesNode(ctx context.Context, in *GetKubernetesNodeRequest, opts ...grpc.CallOption) (*GetKubernetesNodeResponse, error)
+	ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error)
+	GetKubernetesPod(ctx context.Context, in *GetKubernetesPodRequest, opts ...grpc.CallOption) (*GetKubernetesPodResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	ListKubernetesDeprecatedAPIs(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (*ListKubernetesDeprecatedAPIsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesDeprecatedAPIsToCSV(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesDeprecatedAPIsToCSVClient, error)
+	GetKubernetesAssistantSuggestion(ctx context.Context, in *GetKubernetesAssistantSuggestionRequest, opts ...grpc.CallOption) (*GetKubernetesAssistantSuggestionResponse, error)
+	ResolveKubernetesAssistantConversation(ctx context.Context, in *ResolveKubernetesAssistantConversationRequest, opts ...grpc.CallOption) (*ResolveKubernetesAssistantConversationResponse, error)
 	// Notification Configs
 	ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error)
@@ -844,13 +886,36 @@ func (c *organizationServiceClient) ListKubernetesResources(ctx context.Context,
 	return out, nil
 }
 
-func (c *organizationServiceClient) GetKubernetesResource(ctx context.Context, in *GetKubernetesResourceRequest, opts ...grpc.CallOption) (*GetKubernetesResourceResponse, error) {
-	out := new(GetKubernetesResourceResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesResource_FullMethodName, in, out, opts...)
+func (c *organizationServiceClient) ListKubernetesResourcesToCSV(ctx context.Context, in *ListKubernetesResourcesRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesResourcesToCSVClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[1], OrganizationService_ListKubernetesResourcesToCSV_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &organizationServiceListKubernetesResourcesToCSVClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_ListKubernetesResourcesToCSVClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type organizationServiceListKubernetesResourcesToCSVClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceListKubernetesResourcesToCSVClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *organizationServiceClient) GetKubernetesResourceDetail(ctx context.Context, in *GetKubernetesResourceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDetailResponse, error) {
@@ -889,6 +954,38 @@ func (c *organizationServiceClient) ListKubernetesImages(ctx context.Context, in
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListKubernetesImagesToCSV(ctx context.Context, in *ListKubernetesImagesRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesImagesToCSVClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[2], OrganizationService_ListKubernetesImagesToCSV_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &organizationServiceListKubernetesImagesToCSVClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_ListKubernetesImagesToCSVClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type organizationServiceListKubernetesImagesToCSVClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceListKubernetesImagesToCSVClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *organizationServiceClient) ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error) {
 	out := new(ListKubernetesContainersResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesContainers_FullMethodName, in, out, opts...)
@@ -896,6 +993,38 @@ func (c *organizationServiceClient) ListKubernetesContainers(ctx context.Context
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesContainersToCSV(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesContainersToCSVClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[3], OrganizationService_ListKubernetesContainersToCSV_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &organizationServiceListKubernetesContainersToCSVClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_ListKubernetesContainersToCSVClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type organizationServiceListKubernetesContainersToCSVClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceListKubernetesContainersToCSVClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *organizationServiceClient) ListKubernetesEnabledClusters(ctx context.Context, in *ListKubernetesEnabledClustersRequest, opts ...grpc.CallOption) (*ListKubernetesEnabledClustersResponse, error) {
@@ -907,8 +1036,17 @@ func (c *organizationServiceClient) ListKubernetesEnabledClusters(ctx context.Co
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetKubernetesManifest(ctx context.Context, in *GetKubernetesManifestRequest, opts ...grpc.CallOption) (*GetKubernetesManifestResponse, error) {
+	out := new(GetKubernetesManifestResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesManifest_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetKubernetesLogs(ctx context.Context, in *GetKubernetesLogsRequest, opts ...grpc.CallOption) (OrganizationService_GetKubernetesLogsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[1], OrganizationService_GetKubernetesLogs_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[4], OrganizationService_GetKubernetesLogs_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -937,6 +1075,119 @@ func (x *organizationServiceGetKubernetesLogsClient) Recv() (*GetKubernetesLogsR
 		return nil, err
 	}
 	return m, nil
+}
+
+func (c *organizationServiceClient) GetKubernetesEvents(ctx context.Context, in *GetKubernetesEventsRequest, opts ...grpc.CallOption) (*GetKubernetesEventsResponse, error) {
+	out := new(GetKubernetesEventsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesAuditLogs(ctx context.Context, in *ListKubernetesAuditLogsRequest, opts ...grpc.CallOption) (*ListKubernetesAuditLogsResponse, error) {
+	out := new(ListKubernetesAuditLogsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesAuditLogs_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesNodes(ctx context.Context, in *ListKubernetesNodesRequest, opts ...grpc.CallOption) (*ListKubernetesNodesResponse, error) {
+	out := new(ListKubernetesNodesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesNodes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetKubernetesNode(ctx context.Context, in *GetKubernetesNodeRequest, opts ...grpc.CallOption) (*GetKubernetesNodeResponse, error) {
+	out := new(GetKubernetesNodeResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesNode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error) {
+	out := new(ListKubernetesPodsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesPods_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetKubernetesPod(ctx context.Context, in *GetKubernetesPodRequest, opts ...grpc.CallOption) (*GetKubernetesPodResponse, error) {
+	out := new(GetKubernetesPodResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesPod_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesDeprecatedAPIs(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (*ListKubernetesDeprecatedAPIsResponse, error) {
+	out := new(ListKubernetesDeprecatedAPIsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesDeprecatedAPIsToCSV(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesDeprecatedAPIsToCSVClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[5], OrganizationService_ListKubernetesDeprecatedAPIsToCSV_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &organizationServiceListKubernetesDeprecatedAPIsToCSVClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_ListKubernetesDeprecatedAPIsToCSVClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type organizationServiceListKubernetesDeprecatedAPIsToCSVClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceListKubernetesDeprecatedAPIsToCSVClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *organizationServiceClient) GetKubernetesAssistantSuggestion(ctx context.Context, in *GetKubernetesAssistantSuggestionRequest, opts ...grpc.CallOption) (*GetKubernetesAssistantSuggestionResponse, error) {
+	out := new(GetKubernetesAssistantSuggestionResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ResolveKubernetesAssistantConversation(ctx context.Context, in *ResolveKubernetesAssistantConversationRequest, opts ...grpc.CallOption) (*ResolveKubernetesAssistantConversationResponse, error) {
+	out := new(ResolveKubernetesAssistantConversationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *organizationServiceClient) ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error) {
@@ -1093,15 +1344,44 @@ type OrganizationServiceServer interface {
 	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
 	CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error)
 	ListKubernetesResourceTypes(context.Context, *ListKubernetesResourceTypesRequest) (*ListKubernetesResourceTypesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error)
-	GetKubernetesResource(context.Context, *GetKubernetesResourceRequest) (*GetKubernetesResourceResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesResourcesToCSV(*ListKubernetesResourcesRequest, OrganizationService_ListKubernetesResourcesToCSVServer) error
 	GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error)
 	GetKubernetesContainer(context.Context, *GetKubernetesContainerRequest) (*GetKubernetesContainerResponse, error)
 	ListKubernetesNamespaces(context.Context, *ListKubernetesNamespacesRequest) (*ListKubernetesNamespacesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesImages(context.Context, *ListKubernetesImagesRequest) (*ListKubernetesImagesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesImagesToCSV(*ListKubernetesImagesRequest, OrganizationService_ListKubernetesImagesToCSVServer) error
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesContainersToCSV(*ListKubernetesContainersRequest, OrganizationService_ListKubernetesContainersToCSVServer) error
 	ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error)
 	GetKubernetesLogs(*GetKubernetesLogsRequest, OrganizationService_GetKubernetesLogsServer) error
+	GetKubernetesEvents(context.Context, *GetKubernetesEventsRequest) (*GetKubernetesEventsResponse, error)
+	ListKubernetesAuditLogs(context.Context, *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error)
+	ListKubernetesNodes(context.Context, *ListKubernetesNodesRequest) (*ListKubernetesNodesResponse, error)
+	GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error)
+	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
+	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	ListKubernetesDeprecatedAPIs(context.Context, *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesDeprecatedAPIsToCSV(*ListKubernetesDeprecatedAPIsRequest, OrganizationService_ListKubernetesDeprecatedAPIsToCSVServer) error
+	GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error)
+	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
 	// Notification Configs
 	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
@@ -1323,8 +1603,8 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesResourceTypes(contex
 func (UnimplementedOrganizationServiceServer) ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesResources not implemented")
 }
-func (UnimplementedOrganizationServiceServer) GetKubernetesResource(context.Context, *GetKubernetesResourceRequest) (*GetKubernetesResourceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesResource not implemented")
+func (UnimplementedOrganizationServiceServer) ListKubernetesResourcesToCSV(*ListKubernetesResourcesRequest, OrganizationService_ListKubernetesResourcesToCSVServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListKubernetesResourcesToCSV not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesResourceDetail not implemented")
@@ -1338,14 +1618,53 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesNamespaces(context.C
 func (UnimplementedOrganizationServiceServer) ListKubernetesImages(context.Context, *ListKubernetesImagesRequest) (*ListKubernetesImagesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesImages not implemented")
 }
+func (UnimplementedOrganizationServiceServer) ListKubernetesImagesToCSV(*ListKubernetesImagesRequest, OrganizationService_ListKubernetesImagesToCSVServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListKubernetesImagesToCSV not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesContainers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesContainersToCSV(*ListKubernetesContainersRequest, OrganizationService_ListKubernetesContainersToCSVServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListKubernetesContainersToCSV not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesEnabledClusters not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesManifest not implemented")
+}
 func (UnimplementedOrganizationServiceServer) GetKubernetesLogs(*GetKubernetesLogsRequest, OrganizationService_GetKubernetesLogsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetKubernetesLogs not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesEvents(context.Context, *GetKubernetesEventsRequest) (*GetKubernetesEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesEvents not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesAuditLogs(context.Context, *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesAuditLogs not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesNodes(context.Context, *ListKubernetesNodesRequest) (*ListKubernetesNodesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesNodes not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesNode not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesPods not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesPod not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesDeprecatedAPIs(context.Context, *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesDeprecatedAPIs not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesDeprecatedAPIsToCSV(*ListKubernetesDeprecatedAPIsRequest, OrganizationService_ListKubernetesDeprecatedAPIsToCSVServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListKubernetesDeprecatedAPIsToCSV not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesAssistantSuggestion not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResolveKubernetesAssistantConversation not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationConfigs not implemented")
@@ -2614,22 +2933,25 @@ func _OrganizationService_ListKubernetesResources_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrganizationService_GetKubernetesResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetKubernetesResourceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _OrganizationService_ListKubernetesResourcesToCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListKubernetesResourcesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).GetKubernetesResource(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_GetKubernetesResource_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).GetKubernetesResource(ctx, req.(*GetKubernetesResourceRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(OrganizationServiceServer).ListKubernetesResourcesToCSV(m, &organizationServiceListKubernetesResourcesToCSVServer{stream})
+}
+
+type OrganizationService_ListKubernetesResourcesToCSVServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type organizationServiceListKubernetesResourcesToCSVServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceListKubernetesResourcesToCSVServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _OrganizationService_GetKubernetesResourceDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -2704,6 +3026,27 @@ func _OrganizationService_ListKubernetesImages_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListKubernetesImagesToCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListKubernetesImagesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(OrganizationServiceServer).ListKubernetesImagesToCSV(m, &organizationServiceListKubernetesImagesToCSVServer{stream})
+}
+
+type OrganizationService_ListKubernetesImagesToCSVServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type organizationServiceListKubernetesImagesToCSVServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceListKubernetesImagesToCSVServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _OrganizationService_ListKubernetesContainers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesContainersRequest)
 	if err := dec(in); err != nil {
@@ -2722,6 +3065,27 @@ func _OrganizationService_ListKubernetesContainers_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListKubernetesContainersToCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListKubernetesContainersRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(OrganizationServiceServer).ListKubernetesContainersToCSV(m, &organizationServiceListKubernetesContainersToCSVServer{stream})
+}
+
+type OrganizationService_ListKubernetesContainersToCSVServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type organizationServiceListKubernetesContainersToCSVServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceListKubernetesContainersToCSVServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _OrganizationService_ListKubernetesEnabledClusters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesEnabledClustersRequest)
 	if err := dec(in); err != nil {
@@ -2736,6 +3100,24 @@ func _OrganizationService_ListKubernetesEnabledClusters_Handler(srv interface{},
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).ListKubernetesEnabledClusters(ctx, req.(*ListKubernetesEnabledClustersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubernetesManifest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesManifestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesManifest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesManifest_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesManifest(ctx, req.(*GetKubernetesManifestRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2759,6 +3141,189 @@ type organizationServiceGetKubernetesLogsServer struct {
 
 func (x *organizationServiceGetKubernetesLogsServer) Send(m *GetKubernetesLogsResponse) error {
 	return x.ServerStream.SendMsg(m)
+}
+
+func _OrganizationService_GetKubernetesEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesEvents(ctx, req.(*GetKubernetesEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesAuditLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesAuditLogsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesAuditLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesAuditLogs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesAuditLogs(ctx, req.(*ListKubernetesAuditLogsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesNodes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesNodesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesNodes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesNodes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesNodes(ctx, req.(*ListKubernetesNodesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubernetesNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesNodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesNode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesNode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesNode(ctx, req.(*GetKubernetesNodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesPods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesPodsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesPods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesPods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesPods(ctx, req.(*ListKubernetesPodsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubernetesPod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesPodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesPod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesPod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesPod(ctx, req.(*GetKubernetesPodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesDeprecatedAPIs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesDeprecatedAPIsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesDeprecatedAPIs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesDeprecatedAPIs(ctx, req.(*ListKubernetesDeprecatedAPIsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesDeprecatedAPIsToCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListKubernetesDeprecatedAPIsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(OrganizationServiceServer).ListKubernetesDeprecatedAPIsToCSV(m, &organizationServiceListKubernetesDeprecatedAPIsToCSVServer{stream})
+}
+
+type OrganizationService_ListKubernetesDeprecatedAPIsToCSVServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type organizationServiceListKubernetesDeprecatedAPIsToCSVServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceListKubernetesDeprecatedAPIsToCSVServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _OrganizationService_GetKubernetesAssistantSuggestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesAssistantSuggestionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesAssistantSuggestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesAssistantSuggestion(ctx, req.(*GetKubernetesAssistantSuggestionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ResolveKubernetesAssistantConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResolveKubernetesAssistantConversationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ResolveKubernetesAssistantConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ResolveKubernetesAssistantConversation(ctx, req.(*ResolveKubernetesAssistantConversationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _OrganizationService_ListNotificationConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -3199,10 +3764,6 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_ListKubernetesResources_Handler,
 		},
 		{
-			MethodName: "GetKubernetesResource",
-			Handler:    _OrganizationService_GetKubernetesResource_Handler,
-		},
-		{
 			MethodName: "GetKubernetesResourceDetail",
 			Handler:    _OrganizationService_GetKubernetesResourceDetail_Handler,
 		},
@@ -3225,6 +3786,46 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListKubernetesEnabledClusters",
 			Handler:    _OrganizationService_ListKubernetesEnabledClusters_Handler,
+		},
+		{
+			MethodName: "GetKubernetesManifest",
+			Handler:    _OrganizationService_GetKubernetesManifest_Handler,
+		},
+		{
+			MethodName: "GetKubernetesEvents",
+			Handler:    _OrganizationService_GetKubernetesEvents_Handler,
+		},
+		{
+			MethodName: "ListKubernetesAuditLogs",
+			Handler:    _OrganizationService_ListKubernetesAuditLogs_Handler,
+		},
+		{
+			MethodName: "ListKubernetesNodes",
+			Handler:    _OrganizationService_ListKubernetesNodes_Handler,
+		},
+		{
+			MethodName: "GetKubernetesNode",
+			Handler:    _OrganizationService_GetKubernetesNode_Handler,
+		},
+		{
+			MethodName: "ListKubernetesPods",
+			Handler:    _OrganizationService_ListKubernetesPods_Handler,
+		},
+		{
+			MethodName: "GetKubernetesPod",
+			Handler:    _OrganizationService_GetKubernetesPod_Handler,
+		},
+		{
+			MethodName: "ListKubernetesDeprecatedAPIs",
+			Handler:    _OrganizationService_ListKubernetesDeprecatedAPIs_Handler,
+		},
+		{
+			MethodName: "GetKubernetesAssistantSuggestion",
+			Handler:    _OrganizationService_GetKubernetesAssistantSuggestion_Handler,
+		},
+		{
+			MethodName: "ResolveKubernetesAssistantConversation",
+			Handler:    _OrganizationService_ResolveKubernetesAssistantConversation_Handler,
 		},
 		{
 			MethodName: "ListNotificationConfigs",
@@ -3270,8 +3871,28 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 		{
+			StreamName:    "ListKubernetesResourcesToCSV",
+			Handler:       _OrganizationService_ListKubernetesResourcesToCSV_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListKubernetesImagesToCSV",
+			Handler:       _OrganizationService_ListKubernetesImagesToCSV_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListKubernetesContainersToCSV",
+			Handler:       _OrganizationService_ListKubernetesContainersToCSV_Handler,
+			ServerStreams: true,
+		},
+		{
 			StreamName:    "GetKubernetesLogs",
 			Handler:       _OrganizationService_GetKubernetesLogs_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ListKubernetesDeprecatedAPIsToCSV",
+			Handler:       _OrganizationService_ListKubernetesDeprecatedAPIsToCSV_Handler,
 			ServerStreams: true,
 		},
 	},

@@ -37,6 +37,15 @@ type SystemServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
 	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetKargoAgentSizeSpec(context.Context, *emptypb.Empty) (*GetKargoAgentSizeSpecResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error)
 }
 
 func NewSystemServiceGatewayClient(c gateway.Client) SystemServiceGatewayClient {
@@ -112,4 +121,19 @@ func (c *systemServiceGatewayClient) GetAnnouncement(ctx context.Context, req *e
 func (c *systemServiceGatewayClient) ListValidWebhookEvents(ctx context.Context, req *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/webhook/valid-events")
 	return gateway.DoRequest[ListValidWebhookEventsResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) GetArgoCDAgentSizeSpec(ctx context.Context, req *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/cd/agent-size-spec")
+	return gateway.DoRequest[GetArgoCDAgentSizeSpecResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) GetKargoAgentSizeSpec(ctx context.Context, req *emptypb.Empty) (*GetKargoAgentSizeSpecResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/kargo/agent-size-spec")
+	return gateway.DoRequest[GetKargoAgentSizeSpecResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) ListArgoCDImageUpadterVersions(ctx context.Context, req *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/image-updater/versions")
+	return gateway.DoRequest[ListArgoCDImageUpadterVersionsResponse](ctx, gwReq)
 }

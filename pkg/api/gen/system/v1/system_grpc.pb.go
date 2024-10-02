@@ -20,18 +20,21 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SystemService_GetVersion_FullMethodName             = "/akuity.system.v1.SystemService/GetVersion"
-	SystemService_GetAgentVersion_FullMethodName        = "/akuity.system.v1.SystemService/GetAgentVersion"
-	SystemService_GetSettings_FullMethodName            = "/akuity.system.v1.SystemService/GetSettings"
-	SystemService_ListFeatures_FullMethodName           = "/akuity.system.v1.SystemService/ListFeatures"
-	SystemService_GetFeatureGates_FullMethodName        = "/akuity.system.v1.SystemService/GetFeatureGates"
-	SystemService_ListAgentVersions_FullMethodName      = "/akuity.system.v1.SystemService/ListAgentVersions"
-	SystemService_GetStatus_FullMethodName              = "/akuity.system.v1.SystemService/GetStatus"
-	SystemService_ListArgoCDVersions_FullMethodName     = "/akuity.system.v1.SystemService/ListArgoCDVersions"
-	SystemService_ListKargoVersions_FullMethodName      = "/akuity.system.v1.SystemService/ListKargoVersions"
-	SystemService_ListArgoCDExtensions_FullMethodName   = "/akuity.system.v1.SystemService/ListArgoCDExtensions"
-	SystemService_GetAnnouncement_FullMethodName        = "/akuity.system.v1.SystemService/GetAnnouncement"
-	SystemService_ListValidWebhookEvents_FullMethodName = "/akuity.system.v1.SystemService/ListValidWebhookEvents"
+	SystemService_GetVersion_FullMethodName                     = "/akuity.system.v1.SystemService/GetVersion"
+	SystemService_GetAgentVersion_FullMethodName                = "/akuity.system.v1.SystemService/GetAgentVersion"
+	SystemService_GetSettings_FullMethodName                    = "/akuity.system.v1.SystemService/GetSettings"
+	SystemService_ListFeatures_FullMethodName                   = "/akuity.system.v1.SystemService/ListFeatures"
+	SystemService_GetFeatureGates_FullMethodName                = "/akuity.system.v1.SystemService/GetFeatureGates"
+	SystemService_ListAgentVersions_FullMethodName              = "/akuity.system.v1.SystemService/ListAgentVersions"
+	SystemService_GetStatus_FullMethodName                      = "/akuity.system.v1.SystemService/GetStatus"
+	SystemService_ListArgoCDVersions_FullMethodName             = "/akuity.system.v1.SystemService/ListArgoCDVersions"
+	SystemService_ListKargoVersions_FullMethodName              = "/akuity.system.v1.SystemService/ListKargoVersions"
+	SystemService_ListArgoCDExtensions_FullMethodName           = "/akuity.system.v1.SystemService/ListArgoCDExtensions"
+	SystemService_GetAnnouncement_FullMethodName                = "/akuity.system.v1.SystemService/GetAnnouncement"
+	SystemService_ListValidWebhookEvents_FullMethodName         = "/akuity.system.v1.SystemService/ListValidWebhookEvents"
+	SystemService_GetArgoCDAgentSizeSpec_FullMethodName         = "/akuity.system.v1.SystemService/GetArgoCDAgentSizeSpec"
+	SystemService_GetKargoAgentSizeSpec_FullMethodName          = "/akuity.system.v1.SystemService/GetKargoAgentSizeSpec"
+	SystemService_ListArgoCDImageUpadterVersions_FullMethodName = "/akuity.system.v1.SystemService/ListArgoCDImageUpadterVersions"
 )
 
 // SystemServiceClient is the client API for SystemService service.
@@ -63,6 +66,15 @@ type SystemServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAnnouncementResponse, error)
 	ListValidWebhookEvents(ctx context.Context, in *ListValidWebhookEventsRequest, opts ...grpc.CallOption) (*ListValidWebhookEventsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetArgoCDAgentSizeSpec(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetArgoCDAgentSizeSpecResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetKargoAgentSizeSpec(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetKargoAgentSizeSpecResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListArgoCDImageUpadterVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDImageUpadterVersionsResponse, error)
 }
 
 type systemServiceClient struct {
@@ -182,6 +194,33 @@ func (c *systemServiceClient) ListValidWebhookEvents(ctx context.Context, in *Li
 	return out, nil
 }
 
+func (c *systemServiceClient) GetArgoCDAgentSizeSpec(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetArgoCDAgentSizeSpecResponse, error) {
+	out := new(GetArgoCDAgentSizeSpecResponse)
+	err := c.cc.Invoke(ctx, SystemService_GetArgoCDAgentSizeSpec_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) GetKargoAgentSizeSpec(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetKargoAgentSizeSpecResponse, error) {
+	out := new(GetKargoAgentSizeSpecResponse)
+	err := c.cc.Invoke(ctx, SystemService_GetKargoAgentSizeSpec_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListArgoCDImageUpadterVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDImageUpadterVersionsResponse, error) {
+	out := new(ListArgoCDImageUpadterVersionsResponse)
+	err := c.cc.Invoke(ctx, SystemService_ListArgoCDImageUpadterVersions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemServiceServer is the server API for SystemService service.
 // All implementations must embed UnimplementedSystemServiceServer
 // for forward compatibility
@@ -211,6 +250,15 @@ type SystemServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
 	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	GetKargoAgentSizeSpec(context.Context, *emptypb.Empty) (*GetKargoAgentSizeSpecResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error)
 	mustEmbedUnimplementedSystemServiceServer()
 }
 
@@ -253,6 +301,15 @@ func (UnimplementedSystemServiceServer) GetAnnouncement(context.Context, *emptyp
 }
 func (UnimplementedSystemServiceServer) ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListValidWebhookEvents not implemented")
+}
+func (UnimplementedSystemServiceServer) GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetArgoCDAgentSizeSpec not implemented")
+}
+func (UnimplementedSystemServiceServer) GetKargoAgentSizeSpec(context.Context, *emptypb.Empty) (*GetKargoAgentSizeSpecResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKargoAgentSizeSpec not implemented")
+}
+func (UnimplementedSystemServiceServer) ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDImageUpadterVersions not implemented")
 }
 func (UnimplementedSystemServiceServer) mustEmbedUnimplementedSystemServiceServer() {}
 
@@ -483,6 +540,60 @@ func _SystemService_ListValidWebhookEvents_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_GetArgoCDAgentSizeSpec_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetArgoCDAgentSizeSpec(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_GetArgoCDAgentSizeSpec_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetArgoCDAgentSizeSpec(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_GetKargoAgentSizeSpec_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetKargoAgentSizeSpec(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_GetKargoAgentSizeSpec_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetKargoAgentSizeSpec(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListArgoCDImageUpadterVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListArgoCDImageUpadterVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListArgoCDImageUpadterVersions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListArgoCDImageUpadterVersions(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemService_ServiceDesc is the grpc.ServiceDesc for SystemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -537,6 +648,18 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListValidWebhookEvents",
 			Handler:    _SystemService_ListValidWebhookEvents_Handler,
+		},
+		{
+			MethodName: "GetArgoCDAgentSizeSpec",
+			Handler:    _SystemService_GetArgoCDAgentSizeSpec_Handler,
+		},
+		{
+			MethodName: "GetKargoAgentSizeSpec",
+			Handler:    _SystemService_GetKargoAgentSizeSpec_Handler,
+		},
+		{
+			MethodName: "ListArgoCDImageUpadterVersions",
+			Handler:    _SystemService_ListArgoCDImageUpadterVersions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

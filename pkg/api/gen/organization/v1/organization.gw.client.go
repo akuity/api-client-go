@@ -82,15 +82,44 @@ type OrganizationServiceGatewayClient interface {
 	RemoveWorkspaceMember(context.Context, *RemoveWorkspaceMemberRequest) (*RemoveWorkspaceMemberResponse, error)
 	CancelSubscription(context.Context, *CancelSubscriptionRequest) (*CancelSubscriptionResponse, error)
 	ListKubernetesResourceTypes(context.Context, *ListKubernetesResourceTypesRequest) (*ListKubernetesResourceTypesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesResources(context.Context, *ListKubernetesResourcesRequest) (*ListKubernetesResourcesResponse, error)
-	GetKubernetesResource(context.Context, *GetKubernetesResourceRequest) (*GetKubernetesResourceResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesResourcesToCSV(context.Context, *ListKubernetesResourcesRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error)
 	GetKubernetesContainer(context.Context, *GetKubernetesContainerRequest) (*GetKubernetesContainerResponse, error)
 	ListKubernetesNamespaces(context.Context, *ListKubernetesNamespacesRequest) (*ListKubernetesNamespacesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesImages(context.Context, *ListKubernetesImagesRequest) (*ListKubernetesImagesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesImagesToCSV(context.Context, *ListKubernetesImagesRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesContainersToCSV(context.Context, *ListKubernetesContainersRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error)
 	GetKubernetesLogs(context.Context, *GetKubernetesLogsRequest) (<-chan *GetKubernetesLogsResponse, <-chan error, error)
+	GetKubernetesEvents(context.Context, *GetKubernetesEventsRequest) (*GetKubernetesEventsResponse, error)
+	ListKubernetesAuditLogs(context.Context, *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error)
+	ListKubernetesNodes(context.Context, *ListKubernetesNodesRequest) (*ListKubernetesNodesResponse, error)
+	GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error)
+	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
+	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	ListKubernetesDeprecatedAPIs(context.Context, *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKubernetesDeprecatedAPIsToCSV(context.Context, *ListKubernetesDeprecatedAPIsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
+	GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error)
+	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
 	// Notification Configs
 	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
@@ -544,6 +573,52 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 			q.Add("filters.customRoles.enabled", fmt.Sprintf("%v", *req.Filters.CustomRoles.Enabled))
 		}
 	}
+	if req.Filters.NotificationCfg != nil {
+		for _, v := range req.Filters.NotificationCfg.ObjectName {
+			q.Add("filters.notificationCfg.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectKind {
+			q.Add("filters.notificationCfg.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectGroup {
+			q.Add("filters.notificationCfg.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectParentName {
+			q.Add("filters.notificationCfg.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectParentParentName {
+			q.Add("filters.notificationCfg.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectParentApplicationName {
+			q.Add("filters.notificationCfg.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.NotificationCfg.Enabled != nil {
+			q.Add("filters.notificationCfg.enabled", fmt.Sprintf("%v", *req.Filters.NotificationCfg.Enabled))
+		}
+	}
+	if req.Filters.ApiKeys != nil {
+		for _, v := range req.Filters.ApiKeys.ObjectName {
+			q.Add("filters.apiKeys.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectKind {
+			q.Add("filters.apiKeys.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectGroup {
+			q.Add("filters.apiKeys.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectParentName {
+			q.Add("filters.apiKeys.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectParentParentName {
+			q.Add("filters.apiKeys.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectParentApplicationName {
+			q.Add("filters.apiKeys.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ApiKeys.Enabled != nil {
+			q.Add("filters.apiKeys.enabled", fmt.Sprintf("%v", *req.Filters.ApiKeys.Enabled))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
@@ -867,6 +942,52 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		if req.Filters.CustomRoles.Enabled != nil {
 			q.Add("filters.customRoles.enabled", fmt.Sprintf("%v", *req.Filters.CustomRoles.Enabled))
+		}
+	}
+	if req.Filters.NotificationCfg != nil {
+		for _, v := range req.Filters.NotificationCfg.ObjectName {
+			q.Add("filters.notificationCfg.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectKind {
+			q.Add("filters.notificationCfg.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectGroup {
+			q.Add("filters.notificationCfg.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectParentName {
+			q.Add("filters.notificationCfg.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectParentParentName {
+			q.Add("filters.notificationCfg.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.NotificationCfg.ObjectParentApplicationName {
+			q.Add("filters.notificationCfg.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.NotificationCfg.Enabled != nil {
+			q.Add("filters.notificationCfg.enabled", fmt.Sprintf("%v", *req.Filters.NotificationCfg.Enabled))
+		}
+	}
+	if req.Filters.ApiKeys != nil {
+		for _, v := range req.Filters.ApiKeys.ObjectName {
+			q.Add("filters.apiKeys.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectKind {
+			q.Add("filters.apiKeys.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectGroup {
+			q.Add("filters.apiKeys.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectParentName {
+			q.Add("filters.apiKeys.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectParentParentName {
+			q.Add("filters.apiKeys.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ApiKeys.ObjectParentApplicationName {
+			q.Add("filters.apiKeys.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ApiKeys.Enabled != nil {
+			q.Add("filters.apiKeys.enabled", fmt.Sprintf("%v", *req.Filters.ApiKeys.Enabled))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -1289,26 +1410,52 @@ func (c *organizationServiceGatewayClient) ListKubernetesResources(ctx context.C
 		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
 	}
 	q.Add("version", fmt.Sprintf("%v", req.Version))
+	if req.Where != nil {
+		q.Add("where", fmt.Sprintf("%v", *req.Where))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesResourcesResponse](ctx, gwReq)
 }
 
-func (c *organizationServiceGatewayClient) GetKubernetesResource(ctx context.Context, req *GetKubernetesResourceRequest) (*GetKubernetesResourceResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resource")
+func (c *organizationServiceGatewayClient) ListKubernetesResourcesToCSV(ctx context.Context, req *ListKubernetesResourcesRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/k8s/resources-csv")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	q := url.Values{}
-	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
-	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	q.Add("name", fmt.Sprintf("%v", req.Name))
-	q.Add("namespace", fmt.Sprintf("%v", req.Namespace))
-	q.Add("group", fmt.Sprintf("%v", req.Group))
-	q.Add("version", fmt.Sprintf("%v", req.Version))
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Namespaces {
+		q.Add("namespaces", fmt.Sprintf("%v", v))
+	}
 	q.Add("kind", fmt.Sprintf("%v", req.Kind))
+	q.Add("group", fmt.Sprintf("%v", req.Group))
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.OwnerId != nil {
+		q.Add("ownerId", fmt.Sprintf("%v", *req.OwnerId))
+	}
 	if req.ClusterIdType != nil {
 		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
+	if req.NameContains != nil {
+		q.Add("nameContains", fmt.Sprintf("%v", *req.NameContains))
+	}
+	if req.OrderBy != nil {
+		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
+	}
+	q.Add("version", fmt.Sprintf("%v", req.Version))
+	if req.Where != nil {
+		q.Add("where", fmt.Sprintf("%v", *req.Where))
+	}
 	gwReq.SetQueryParamsFromValues(q)
-	return gateway.DoRequest[GetKubernetesResourceResponse](ctx, gwReq)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetKubernetesResourceDetail(ctx context.Context, req *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error) {
@@ -1352,6 +1499,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesNamespaces(ctx context.
 	if req.ClusterIdType != nil {
 		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
+	if req.NodeName != nil {
+		q.Add("nodeName", fmt.Sprintf("%v", *req.NodeName))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesNamespacesResponse](ctx, gwReq)
 }
@@ -1381,8 +1531,43 @@ func (c *organizationServiceGatewayClient) ListKubernetesImages(ctx context.Cont
 	if req.NameContains != nil {
 		q.Add("nameContains", fmt.Sprintf("%v", *req.NameContains))
 	}
+	if req.Digest != nil {
+		q.Add("digest", fmt.Sprintf("%v", *req.Digest))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesImagesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesImagesToCSV(ctx context.Context, req *ListKubernetesImagesRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/k8s/images-csv")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	if req.OrderBy != nil {
+		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.NameContains != nil {
+		q.Add("nameContains", fmt.Sprintf("%v", *req.NameContains))
+	}
+	if req.Digest != nil {
+		q.Add("digest", fmt.Sprintf("%v", *req.Digest))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListKubernetesContainers(ctx context.Context, req *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error) {
@@ -1425,8 +1610,58 @@ func (c *organizationServiceGatewayClient) ListKubernetesContainers(ctx context.
 	if req.Type != nil {
 		q.Add("type", req.Type.String())
 	}
+	if req.ImageDigest != nil {
+		q.Add("imageDigest", fmt.Sprintf("%v", *req.ImageDigest))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesContainersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesContainersToCSV(ctx context.Context, req *ListKubernetesContainersRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/k8s/containers-csv")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.PodId != nil {
+		q.Add("podId", fmt.Sprintf("%v", *req.PodId))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	if req.OrderBy != nil {
+		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
+	}
+	if req.Image != nil {
+		q.Add("image", fmt.Sprintf("%v", *req.Image))
+	}
+	if req.ImageTag != nil {
+		q.Add("imageTag", fmt.Sprintf("%v", *req.ImageTag))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.NameContains != nil {
+		q.Add("nameContains", fmt.Sprintf("%v", *req.NameContains))
+	}
+	if req.Status != nil {
+		q.Add("status", req.Status.String())
+	}
+	if req.Type != nil {
+		q.Add("type", req.Type.String())
+	}
+	if req.ImageDigest != nil {
+		q.Add("imageDigest", fmt.Sprintf("%v", *req.ImageDigest))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListKubernetesEnabledClusters(ctx context.Context, req *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error) {
@@ -1436,8 +1671,25 @@ func (c *organizationServiceGatewayClient) ListKubernetesEnabledClusters(ctx con
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
 	}
+	if req.HasDeprecatedApis != nil {
+		q.Add("hasDeprecatedApis", fmt.Sprintf("%v", *req.HasDeprecatedApis))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesEnabledClustersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubernetesManifest(ctx context.Context, req *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/manifest")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesManifestResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetKubernetesLogs(ctx context.Context, req *GetKubernetesLogsRequest) (<-chan *GetKubernetesLogsResponse, <-chan error, error) {
@@ -1475,6 +1727,220 @@ func (c *organizationServiceGatewayClient) GetKubernetesLogs(ctx context.Context
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[GetKubernetesLogsResponse](ctx, c.gwc, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubernetesEvents(ctx context.Context, req *GetKubernetesEventsRequest) (*GetKubernetesEventsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/events")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesEventsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesAuditLogs(ctx context.Context, req *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/audit-logs")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	if req.StartTime != nil {
+		q.Add("startTime.seconds", fmt.Sprintf("%v", req.StartTime.Seconds))
+		q.Add("startTime.nanos", fmt.Sprintf("%v", req.StartTime.Nanos))
+	}
+	if req.EndTime != nil {
+		q.Add("endTime.seconds", fmt.Sprintf("%v", req.EndTime.Seconds))
+		q.Add("endTime.nanos", fmt.Sprintf("%v", req.EndTime.Nanos))
+	}
+	for _, v := range req.ActorId {
+		q.Add("actorId", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Action {
+		q.Add("action", fmt.Sprintf("%v", v))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesAuditLogsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesNodes(ctx context.Context, req *ListKubernetesNodesRequest) (*ListKubernetesNodesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/nodes")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	for _, v := range req.GroupBy {
+		q.Add("groupBy", v.String())
+	}
+	if req.Filler != nil {
+		q.Add("filler", req.Filler.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesNodesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubernetesNode(ctx context.Context, req *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/nodes/{node_id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("node_id", fmt.Sprintf("%v", req.NodeId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesNodeResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesPods(ctx context.Context, req *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/pods")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	for _, v := range req.GroupBy {
+		q.Add("groupBy", v.String())
+	}
+	if req.Filler != nil {
+		q.Add("filler", req.Filler.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesPodsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubernetesPod(ctx context.Context, req *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/pods/{pod_id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("pod_id", fmt.Sprintf("%v", req.PodId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesPodResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIs(ctx context.Context, req *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/deprecated-apis")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	if req.OrderBy != nil {
+		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
+	}
+	if req.Group != nil {
+		q.Add("group", fmt.Sprintf("%v", *req.Group))
+	}
+	if req.Version != nil {
+		q.Add("version", fmt.Sprintf("%v", *req.Version))
+	}
+	if req.Kind != nil {
+		q.Add("kind", fmt.Sprintf("%v", *req.Kind))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.ApiVersionContains != nil {
+		q.Add("apiVersionContains", fmt.Sprintf("%v", *req.ApiVersionContains))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesDeprecatedAPIsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIsToCSV(ctx context.Context, req *ListKubernetesDeprecatedAPIsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/k8s/deprecated-apis-csv")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	if req.OrderBy != nil {
+		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
+	}
+	if req.Group != nil {
+		q.Add("group", fmt.Sprintf("%v", *req.Group))
+	}
+	if req.Version != nil {
+		q.Add("version", fmt.Sprintf("%v", *req.Version))
+	}
+	if req.Kind != nil {
+		q.Add("kind", fmt.Sprintf("%v", *req.Kind))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.ApiVersionContains != nil {
+		q.Add("apiVersionContains", fmt.Sprintf("%v", *req.ApiVersionContains))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubernetesAssistantSuggestion(ctx context.Context, req *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/assistant-suggestion")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetKubernetesAssistantSuggestionResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ResolveKubernetesAssistantConversation(ctx context.Context, req *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/resolve-assistant-conversation")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ResolveKubernetesAssistantConversationResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListNotificationConfigs(ctx context.Context, req *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {

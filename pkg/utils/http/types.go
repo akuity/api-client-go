@@ -19,4 +19,5 @@ const (
 const (
 	TokenCookieName        = "token"
 	RefreshTokenCookieName = "akuity.refresh-token"
+	ArgoCDTokenCookieName  = "argocd.token"
 )
