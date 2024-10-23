@@ -109,6 +109,8 @@ const (
 	OrganizationService_ListKubernetesDeprecatedAPIsToCSV_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIsToCSV"
 	OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName       = "/akuity.organization.v1.OrganizationService/GetKubernetesAssistantSuggestion"
 	OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName = "/akuity.organization.v1.OrganizationService/ResolveKubernetesAssistantConversation"
+	OrganizationService_ListKubernetesTimelineEvents_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineEvents"
+	OrganizationService_ListKubernetesTimelineResources_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineResources"
 	OrganizationService_ListNotificationConfigs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
 	OrganizationService_GetNotificationConfig_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
 	OrganizationService_CreateNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
@@ -231,6 +233,8 @@ type OrganizationServiceClient interface {
 	ListKubernetesDeprecatedAPIsToCSV(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesDeprecatedAPIsToCSVClient, error)
 	GetKubernetesAssistantSuggestion(ctx context.Context, in *GetKubernetesAssistantSuggestionRequest, opts ...grpc.CallOption) (*GetKubernetesAssistantSuggestionResponse, error)
 	ResolveKubernetesAssistantConversation(ctx context.Context, in *ResolveKubernetesAssistantConversationRequest, opts ...grpc.CallOption) (*ResolveKubernetesAssistantConversationResponse, error)
+	ListKubernetesTimelineEvents(ctx context.Context, in *ListKubernetesTimelineEventsRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineEventsResponse, error)
+	ListKubernetesTimelineResources(ctx context.Context, in *ListKubernetesTimelineResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineResourcesResponse, error)
 	// Notification Configs
 	ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error)
@@ -1190,6 +1194,24 @@ func (c *organizationServiceClient) ResolveKubernetesAssistantConversation(ctx c
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListKubernetesTimelineEvents(ctx context.Context, in *ListKubernetesTimelineEventsRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineEventsResponse, error) {
+	out := new(ListKubernetesTimelineEventsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesTimelineEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKubernetesTimelineResources(ctx context.Context, in *ListKubernetesTimelineResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineResourcesResponse, error) {
+	out := new(ListKubernetesTimelineResourcesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesTimelineResources_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error) {
 	out := new(ListNotificationConfigsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListNotificationConfigs_FullMethodName, in, out, opts...)
@@ -1382,6 +1404,8 @@ type OrganizationServiceServer interface {
 	ListKubernetesDeprecatedAPIsToCSV(*ListKubernetesDeprecatedAPIsRequest, OrganizationService_ListKubernetesDeprecatedAPIsToCSVServer) error
 	GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error)
 	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
+	ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error)
+	ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error)
 	// Notification Configs
 	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
@@ -1665,6 +1689,12 @@ func (UnimplementedOrganizationServiceServer) GetKubernetesAssistantSuggestion(c
 }
 func (UnimplementedOrganizationServiceServer) ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResolveKubernetesAssistantConversation not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesTimelineEvents not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesTimelineResources not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationConfigs not implemented")
@@ -3326,6 +3356,42 @@ func _OrganizationService_ResolveKubernetesAssistantConversation_Handler(srv int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListKubernetesTimelineEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesTimelineEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesTimelineEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesTimelineEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesTimelineEvents(ctx, req.(*ListKubernetesTimelineEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKubernetesTimelineResources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesTimelineResourcesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesTimelineResources(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesTimelineResources_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesTimelineResources(ctx, req.(*ListKubernetesTimelineResourcesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListNotificationConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListNotificationConfigsRequest)
 	if err := dec(in); err != nil {
@@ -3826,6 +3892,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResolveKubernetesAssistantConversation",
 			Handler:    _OrganizationService_ResolveKubernetesAssistantConversation_Handler,
+		},
+		{
+			MethodName: "ListKubernetesTimelineEvents",
+			Handler:    _OrganizationService_ListKubernetesTimelineEvents_Handler,
+		},
+		{
+			MethodName: "ListKubernetesTimelineResources",
+			Handler:    _OrganizationService_ListKubernetesTimelineResources_Handler,
 		},
 		{
 			MethodName: "ListNotificationConfigs",

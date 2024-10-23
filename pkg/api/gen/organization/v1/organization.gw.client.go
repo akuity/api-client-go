@@ -120,6 +120,8 @@ type OrganizationServiceGatewayClient interface {
 	ListKubernetesDeprecatedAPIsToCSV(context.Context, *ListKubernetesDeprecatedAPIsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error)
 	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
+	ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error)
+	ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error)
 	// Notification Configs
 	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
@@ -1941,6 +1943,72 @@ func (c *organizationServiceGatewayClient) ResolveKubernetesAssistantConversatio
 	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[ResolveKubernetesAssistantConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesTimelineEvents(ctx context.Context, req *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/timeline-events")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	for _, v := range req.Namespaces {
+		q.Add("namespaces", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.TimelineResourceIds {
+		q.Add("timelineResourceIds", fmt.Sprintf("%v", v))
+	}
+	if req.StartTime != nil {
+		q.Add("startTime.seconds", fmt.Sprintf("%v", req.StartTime.Seconds))
+		q.Add("startTime.nanos", fmt.Sprintf("%v", req.StartTime.Nanos))
+	}
+	if req.EndTime != nil {
+		q.Add("endTime.seconds", fmt.Sprintf("%v", req.EndTime.Seconds))
+		q.Add("endTime.nanos", fmt.Sprintf("%v", req.EndTime.Nanos))
+	}
+	for _, v := range req.ApplicationNames {
+		q.Add("applicationNames", fmt.Sprintf("%v", v))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesTimelineEventsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKubernetesTimelineResources(ctx context.Context, req *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/timeline-resources")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	for _, v := range req.Namespaces {
+		q.Add("namespaces", fmt.Sprintf("%v", v))
+	}
+	if req.Group != nil {
+		q.Add("group", fmt.Sprintf("%v", *req.Group))
+	}
+	if req.Kind != nil {
+		q.Add("kind", fmt.Sprintf("%v", *req.Kind))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesTimelineResourcesResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListNotificationConfigs(ctx context.Context, req *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {
