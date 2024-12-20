@@ -94,6 +94,7 @@ const (
 	OrganizationService_ListKubernetesNamespaces_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespaces"
 	OrganizationService_ListKubernetesImages_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListKubernetesImages"
 	OrganizationService_ListKubernetesImagesToCSV_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesImagesToCSV"
+	OrganizationService_GetKubernetesImageDetail_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetKubernetesImageDetail"
 	OrganizationService_ListKubernetesContainers_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
 	OrganizationService_ListKubernetesContainersToCSV_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesContainersToCSV"
 	OrganizationService_ListKubernetesEnabledClusters_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
@@ -111,6 +112,8 @@ const (
 	OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName = "/akuity.organization.v1.OrganizationService/ResolveKubernetesAssistantConversation"
 	OrganizationService_ListKubernetesTimelineEvents_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineEvents"
 	OrganizationService_ListKubernetesTimelineResources_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineResources"
+	OrganizationService_GetKubeVisionUsage_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetKubeVisionUsage"
+	OrganizationService_GetKubeVisionUsageToCSV_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetKubeVisionUsageToCSV"
 	OrganizationService_ListNotificationConfigs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
 	OrganizationService_GetNotificationConfig_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
 	OrganizationService_CreateNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
@@ -210,6 +213,7 @@ type OrganizationServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesImagesToCSV(ctx context.Context, in *ListKubernetesImagesRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesImagesToCSVClient, error)
+	GetKubernetesImageDetail(ctx context.Context, in *GetKubernetesImageDetailRequest, opts ...grpc.CallOption) (*GetKubernetesImageDetailResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -235,6 +239,12 @@ type OrganizationServiceClient interface {
 	ResolveKubernetesAssistantConversation(ctx context.Context, in *ResolveKubernetesAssistantConversationRequest, opts ...grpc.CallOption) (*ResolveKubernetesAssistantConversationResponse, error)
 	ListKubernetesTimelineEvents(ctx context.Context, in *ListKubernetesTimelineEventsRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineEventsResponse, error)
 	ListKubernetesTimelineResources(ctx context.Context, in *ListKubernetesTimelineResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineResourcesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	GetKubeVisionUsage(ctx context.Context, in *GetKubeVisionUsageRequest, opts ...grpc.CallOption) (*GetKubeVisionUsageResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKubeVisionUsageToCSV(ctx context.Context, in *GetKubeVisionUsageRequest, opts ...grpc.CallOption) (OrganizationService_GetKubeVisionUsageToCSVClient, error)
 	// Notification Configs
 	ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(ctx context.Context, in *GetNotificationConfigRequest, opts ...grpc.CallOption) (*GetNotificationConfigResponse, error)
@@ -990,6 +1000,15 @@ func (x *organizationServiceListKubernetesImagesToCSVClient) Recv() (*httpbody.H
 	return m, nil
 }
 
+func (c *organizationServiceClient) GetKubernetesImageDetail(ctx context.Context, in *GetKubernetesImageDetailRequest, opts ...grpc.CallOption) (*GetKubernetesImageDetailResponse, error) {
+	out := new(GetKubernetesImageDetailResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesImageDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error) {
 	out := new(ListKubernetesContainersResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesContainers_FullMethodName, in, out, opts...)
@@ -1212,6 +1231,47 @@ func (c *organizationServiceClient) ListKubernetesTimelineResources(ctx context.
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetKubeVisionUsage(ctx context.Context, in *GetKubeVisionUsageRequest, opts ...grpc.CallOption) (*GetKubeVisionUsageResponse, error) {
+	out := new(GetKubeVisionUsageResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubeVisionUsage_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetKubeVisionUsageToCSV(ctx context.Context, in *GetKubeVisionUsageRequest, opts ...grpc.CallOption) (OrganizationService_GetKubeVisionUsageToCSVClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[6], OrganizationService_GetKubeVisionUsageToCSV_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &organizationServiceGetKubeVisionUsageToCSVClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_GetKubeVisionUsageToCSVClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type organizationServiceGetKubeVisionUsageToCSVClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceGetKubeVisionUsageToCSVClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *organizationServiceClient) ListNotificationConfigs(ctx context.Context, in *ListNotificationConfigsRequest, opts ...grpc.CallOption) (*ListNotificationConfigsResponse, error) {
 	out := new(ListNotificationConfigsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListNotificationConfigs_FullMethodName, in, out, opts...)
@@ -1381,6 +1441,7 @@ type OrganizationServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesImagesToCSV(*ListKubernetesImagesRequest, OrganizationService_ListKubernetesImagesToCSVServer) error
+	GetKubernetesImageDetail(context.Context, *GetKubernetesImageDetailRequest) (*GetKubernetesImageDetailResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1406,6 +1467,12 @@ type OrganizationServiceServer interface {
 	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
 	ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error)
 	ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	GetKubeVisionUsage(context.Context, *GetKubeVisionUsageRequest) (*GetKubeVisionUsageResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKubeVisionUsageToCSV(*GetKubeVisionUsageRequest, OrganizationService_GetKubeVisionUsageToCSVServer) error
 	// Notification Configs
 	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
@@ -1645,6 +1712,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesImages(context.Conte
 func (UnimplementedOrganizationServiceServer) ListKubernetesImagesToCSV(*ListKubernetesImagesRequest, OrganizationService_ListKubernetesImagesToCSVServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListKubernetesImagesToCSV not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetKubernetesImageDetail(context.Context, *GetKubernetesImageDetailRequest) (*GetKubernetesImageDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesImageDetail not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesContainers not implemented")
 }
@@ -1695,6 +1765,12 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesTimelineEvents(conte
 }
 func (UnimplementedOrganizationServiceServer) ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesTimelineResources not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubeVisionUsage(context.Context, *GetKubeVisionUsageRequest) (*GetKubeVisionUsageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubeVisionUsage not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubeVisionUsageToCSV(*GetKubeVisionUsageRequest, OrganizationService_GetKubeVisionUsageToCSVServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetKubeVisionUsageToCSV not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationConfigs not implemented")
@@ -3077,6 +3153,24 @@ func (x *organizationServiceListKubernetesImagesToCSVServer) Send(m *httpbody.Ht
 	return x.ServerStream.SendMsg(m)
 }
 
+func _OrganizationService_GetKubernetesImageDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesImageDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesImageDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesImageDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesImageDetail(ctx, req.(*GetKubernetesImageDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListKubernetesContainers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesContainersRequest)
 	if err := dec(in); err != nil {
@@ -3390,6 +3484,45 @@ func _OrganizationService_ListKubernetesTimelineResources_Handler(srv interface{
 		return srv.(OrganizationServiceServer).ListKubernetesTimelineResources(ctx, req.(*ListKubernetesTimelineResourcesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubeVisionUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubeVisionUsageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubeVisionUsage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubeVisionUsage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubeVisionUsage(ctx, req.(*GetKubeVisionUsageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetKubeVisionUsageToCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetKubeVisionUsageRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(OrganizationServiceServer).GetKubeVisionUsageToCSV(m, &organizationServiceGetKubeVisionUsageToCSVServer{stream})
+}
+
+type OrganizationService_GetKubeVisionUsageToCSVServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type organizationServiceGetKubeVisionUsageToCSVServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceGetKubeVisionUsageToCSVServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _OrganizationService_ListNotificationConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -3846,6 +3979,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_ListKubernetesImages_Handler,
 		},
 		{
+			MethodName: "GetKubernetesImageDetail",
+			Handler:    _OrganizationService_GetKubernetesImageDetail_Handler,
+		},
+		{
 			MethodName: "ListKubernetesContainers",
 			Handler:    _OrganizationService_ListKubernetesContainers_Handler,
 		},
@@ -3900,6 +4037,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListKubernetesTimelineResources",
 			Handler:    _OrganizationService_ListKubernetesTimelineResources_Handler,
+		},
+		{
+			MethodName: "GetKubeVisionUsage",
+			Handler:    _OrganizationService_GetKubeVisionUsage_Handler,
 		},
 		{
 			MethodName: "ListNotificationConfigs",
@@ -3967,6 +4108,11 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ListKubernetesDeprecatedAPIsToCSV",
 			Handler:       _OrganizationService_ListKubernetesDeprecatedAPIsToCSV_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetKubeVisionUsageToCSV",
+			Handler:       _OrganizationService_GetKubeVisionUsageToCSV_Handler,
 			ServerStreams: true,
 		},
 	},

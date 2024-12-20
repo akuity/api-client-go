@@ -32,7 +32,7 @@ var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
 var (
-	filter_KargoService_ListKargoInstances_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_KargoService_ListKargoInstances_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_KargoService_ListKargoInstances_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -174,7 +174,7 @@ func local_request_KargoService_ListKargoInstances_1(ctx context.Context, marsha
 }
 
 var (
-	filter_KargoService_WatchKargoInstances_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_KargoService_WatchKargoInstances_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_KargoService_WatchKargoInstances_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_WatchKargoInstancesClient, runtime.ServerMetadata, error) {
@@ -219,7 +219,7 @@ func request_KargoService_WatchKargoInstances_0(ctx context.Context, marshaler r
 }
 
 var (
-	filter_KargoService_WatchKargoInstances_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "workspace_id": 2, "workspaceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
+	filter_KargoService_WatchKargoInstances_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "workspace_id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_KargoService_WatchKargoInstances_1(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_WatchKargoInstancesClient, runtime.ServerMetadata, error) {
@@ -277,11 +277,7 @@ func request_KargoService_CreateKargoInstance_0(ctx context.Context, marshaler r
 	var protoReq CreateKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -311,11 +307,7 @@ func local_request_KargoService_CreateKargoInstance_0(ctx context.Context, marsh
 	var protoReq CreateKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -345,11 +337,7 @@ func request_KargoService_CreateKargoInstance_1(ctx context.Context, marshaler r
 	var protoReq CreateKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -389,11 +377,7 @@ func local_request_KargoService_CreateKargoInstance_1(ctx context.Context, marsh
 	var protoReq CreateKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -430,18 +414,14 @@ func local_request_KargoService_CreateKargoInstance_1(ctx context.Context, marsh
 }
 
 var (
-	filter_KargoService_PatchKargoInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"patch": 0, "organization_id": 1, "organizationId": 2, "id": 3}, Base: []int{1, 2, 3, 4, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 2, 3, 4, 5, 5}}
+	filter_KargoService_PatchKargoInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"patch": 0, "organization_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_KargoService_PatchKargoInstance_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq PatchKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq.Patch); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq.Patch); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -488,11 +468,7 @@ func local_request_KargoService_PatchKargoInstance_0(ctx context.Context, marsha
 	var protoReq PatchKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq.Patch); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq.Patch); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -539,11 +515,7 @@ func request_KargoService_PatchKargoInstance_1(ctx context.Context, marshaler ru
 	var protoReq PatchKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq.Patch); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq.Patch); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -593,11 +565,7 @@ func local_request_KargoService_PatchKargoInstance_1(ctx context.Context, marsha
 	var protoReq PatchKargoInstanceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq.Patch); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq.Patch); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -647,11 +615,7 @@ func request_KargoService_UpdateKargoInstanceWorkspace_0(ctx context.Context, ma
 	var protoReq UpdateKargoInstanceWorkspaceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -691,11 +655,7 @@ func local_request_KargoService_UpdateKargoInstanceWorkspace_0(ctx context.Conte
 	var protoReq UpdateKargoInstanceWorkspaceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -735,11 +695,7 @@ func request_KargoService_UpdateKargoInstanceWorkspace_1(ctx context.Context, ma
 	var protoReq UpdateKargoInstanceWorkspaceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -789,11 +745,7 @@ func local_request_KargoService_UpdateKargoInstanceWorkspace_1(ctx context.Conte
 	var protoReq UpdateKargoInstanceWorkspaceRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -840,7 +792,7 @@ func local_request_KargoService_UpdateKargoInstanceWorkspace_1(ctx context.Conte
 }
 
 var (
-	filter_KargoService_GetKargoInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "name": 2}, Base: []int{1, 1, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4, 4}}
+	filter_KargoService_GetKargoInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "name": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_KargoService_GetKargoInstance_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1022,7 +974,7 @@ func local_request_KargoService_GetKargoInstance_1(ctx context.Context, marshale
 }
 
 var (
-	filter_KargoService_ListKargoInstanceAgents_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
+	filter_KargoService_ListKargoInstanceAgents_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_KargoService_ListKargoInstanceAgents_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1112,7 +1064,7 @@ func local_request_KargoService_ListKargoInstanceAgents_0(ctx context.Context, m
 }
 
 var (
-	filter_KargoService_ListKargoInstanceAgents_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "workspace_id": 2, "workspaceId": 3, "instance_id": 4, "instanceId": 5}, Base: []int{1, 1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7}}
+	filter_KargoService_ListKargoInstanceAgents_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "workspace_id": 1, "instance_id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_KargoService_ListKargoInstanceAgents_1(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1222,7 +1174,7 @@ func local_request_KargoService_ListKargoInstanceAgents_1(ctx context.Context, m
 }
 
 var (
-	filter_KargoService_WatchKargoInstanceAgents_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
+	filter_KargoService_WatchKargoInstanceAgents_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_KargoService_WatchKargoInstanceAgents_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_WatchKargoInstanceAgentsClient, runtime.ServerMetadata, error) {
@@ -1277,7 +1229,7 @@ func request_KargoService_WatchKargoInstanceAgents_0(ctx context.Context, marsha
 }
 
 var (
-	filter_KargoService_WatchKargoInstanceAgents_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "workspace_id": 2, "workspaceId": 3, "instance_id": 4, "instanceId": 5}, Base: []int{1, 1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7}}
+	filter_KargoService_WatchKargoInstanceAgents_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "workspace_id": 1, "instance_id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_KargoService_WatchKargoInstanceAgents_1(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_WatchKargoInstanceAgentsClient, runtime.ServerMetadata, error) {
@@ -1345,11 +1297,7 @@ func request_KargoService_CreateKargoInstanceAgent_0(ctx context.Context, marsha
 	var protoReq CreateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1389,11 +1337,7 @@ func local_request_KargoService_CreateKargoInstanceAgent_0(ctx context.Context, 
 	var protoReq CreateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1433,11 +1377,7 @@ func request_KargoService_CreateKargoInstanceAgent_1(ctx context.Context, marsha
 	var protoReq CreateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1487,11 +1427,7 @@ func local_request_KargoService_CreateKargoInstanceAgent_1(ctx context.Context, 
 	var protoReq CreateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1541,11 +1477,7 @@ func request_KargoService_UpdateKargoInstanceAgent_0(ctx context.Context, marsha
 	var protoReq UpdateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1595,11 +1527,7 @@ func local_request_KargoService_UpdateKargoInstanceAgent_0(ctx context.Context, 
 	var protoReq UpdateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1649,11 +1577,7 @@ func request_KargoService_UpdateKargoInstanceAgent_1(ctx context.Context, marsha
 	var protoReq UpdateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1713,11 +1637,7 @@ func local_request_KargoService_UpdateKargoInstanceAgent_1(ctx context.Context, 
 	var protoReq UpdateKargoInstanceAgentRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1777,11 +1697,7 @@ func request_KargoService_UpdateKargoInstanceAgents_0(ctx context.Context, marsh
 	var protoReq UpdateKargoInstanceAgentsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1821,11 +1737,7 @@ func local_request_KargoService_UpdateKargoInstanceAgents_0(ctx context.Context,
 	var protoReq UpdateKargoInstanceAgentsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1865,11 +1777,7 @@ func request_KargoService_UpdateKargoInstanceAgents_1(ctx context.Context, marsh
 	var protoReq UpdateKargoInstanceAgentsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1919,11 +1827,7 @@ func local_request_KargoService_UpdateKargoInstanceAgents_1(ctx context.Context,
 	var protoReq UpdateKargoInstanceAgentsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -1970,7 +1874,7 @@ func local_request_KargoService_UpdateKargoInstanceAgents_1(ctx context.Context,
 }
 
 var (
-	filter_KargoService_GetKargoInstanceAgent_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3, "id": 4}, Base: []int{1, 1, 2, 3, 4, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 6}}
+	filter_KargoService_GetKargoInstanceAgent_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_KargoService_GetKargoInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2192,7 +2096,7 @@ func local_request_KargoService_GetKargoInstanceAgent_1(ctx context.Context, mar
 }
 
 var (
-	filter_KargoService_GetKargoInstanceAgentManifests_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3, "id": 4}, Base: []int{1, 1, 2, 3, 4, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 6}}
+	filter_KargoService_GetKargoInstanceAgentManifests_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_KargoService_GetKargoInstanceAgentManifests_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_GetKargoInstanceAgentManifestsClient, runtime.ServerMetadata, error) {
@@ -2257,7 +2161,7 @@ func request_KargoService_GetKargoInstanceAgentManifests_0(ctx context.Context, 
 }
 
 var (
-	filter_KargoService_GetKargoInstanceAgentManifests_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "workspace_id": 2, "workspaceId": 3, "instance_id": 4, "instanceId": 5, "id": 6}, Base: []int{1, 1, 2, 3, 4, 5, 6, 8, 0, 0, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 8}}
+	filter_KargoService_GetKargoInstanceAgentManifests_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "workspace_id": 1, "instance_id": 2, "id": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
 )
 
 func request_KargoService_GetKargoInstanceAgentManifests_1(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_GetKargoInstanceAgentManifestsClient, runtime.ServerMetadata, error) {
@@ -2332,7 +2236,7 @@ func request_KargoService_GetKargoInstanceAgentManifests_1(ctx context.Context, 
 }
 
 var (
-	filter_KargoService_GetInstanceAgentCommand_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3, "id": 4}, Base: []int{1, 1, 2, 3, 4, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 6}}
+	filter_KargoService_GetInstanceAgentCommand_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_KargoService_GetInstanceAgentCommand_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2442,7 +2346,7 @@ func local_request_KargoService_GetInstanceAgentCommand_0(ctx context.Context, m
 }
 
 var (
-	filter_KargoService_GetInstanceAgentCommand_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "workspace_id": 2, "workspaceId": 3, "instance_id": 4, "instanceId": 5, "id": 6}, Base: []int{1, 1, 2, 3, 4, 5, 6, 8, 0, 0, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 8}}
+	filter_KargoService_GetInstanceAgentCommand_1 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "workspace_id": 1, "instance_id": 2, "id": 3}, Base: []int{1, 1, 2, 3, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 2, 3, 4, 5}}
 )
 
 func request_KargoService_GetInstanceAgentCommand_1(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2572,7 +2476,7 @@ func local_request_KargoService_GetInstanceAgentCommand_1(ctx context.Context, m
 }
 
 var (
-	filter_KargoService_DeleteInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "id": 2}, Base: []int{1, 1, 2, 4, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4, 4}}
+	filter_KargoService_DeleteInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "id": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
 )
 
 func request_KargoService_DeleteInstance_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2754,7 +2658,7 @@ func local_request_KargoService_DeleteInstance_1(ctx context.Context, marshaler 
 }
 
 var (
-	filter_KargoService_DeleteInstanceAgent_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "organizationId": 1, "instance_id": 2, "instanceId": 3, "id": 4}, Base: []int{1, 1, 2, 3, 4, 6, 0, 0, 0, 0, 0, 0}, Check: []int{0, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 6}}
+	filter_KargoService_DeleteInstanceAgent_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "instance_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_KargoService_DeleteInstanceAgent_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2979,11 +2883,7 @@ func request_KargoService_RotateInstanceAgentCredentials_0(ctx context.Context, 
 	var protoReq RotateInstanceAgentCredentialsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3023,11 +2923,7 @@ func local_request_KargoService_RotateInstanceAgentCredentials_0(ctx context.Con
 	var protoReq RotateInstanceAgentCredentialsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3067,11 +2963,7 @@ func request_KargoService_RotateInstanceAgentCredentials_1(ctx context.Context, 
 	var protoReq RotateInstanceAgentCredentialsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3121,11 +3013,7 @@ func local_request_KargoService_RotateInstanceAgentCredentials_1(ctx context.Con
 	var protoReq RotateInstanceAgentCredentialsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3175,11 +3063,7 @@ func request_KargoService_UpdateInstanceAgentVersion_0(ctx context.Context, mars
 	var protoReq UpdateInstanceAgentVersionRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3219,11 +3103,7 @@ func local_request_KargoService_UpdateInstanceAgentVersion_0(ctx context.Context
 	var protoReq UpdateInstanceAgentVersionRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3263,11 +3143,7 @@ func request_KargoService_UpdateInstanceAgentVersion_1(ctx context.Context, mars
 	var protoReq UpdateInstanceAgentVersionRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3317,11 +3193,7 @@ func local_request_KargoService_UpdateInstanceAgentVersion_1(ctx context.Context
 	var protoReq UpdateInstanceAgentVersionRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3371,11 +3243,7 @@ func request_KargoService_GetPromotionStats_0(ctx context.Context, marshaler run
 	var protoReq GetPromotionStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3405,11 +3273,7 @@ func local_request_KargoService_GetPromotionStats_0(ctx context.Context, marshal
 	var protoReq GetPromotionStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3439,11 +3303,7 @@ func request_KargoService_GetPromotionStats_1(ctx context.Context, marshaler run
 	var protoReq GetPromotionStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3483,11 +3343,7 @@ func local_request_KargoService_GetPromotionStats_1(ctx context.Context, marshal
 	var protoReq GetPromotionStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3527,11 +3383,7 @@ func request_KargoService_GetPromotionEvents_0(ctx context.Context, marshaler ru
 	var protoReq GetPromotionEventsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3561,11 +3413,7 @@ func local_request_KargoService_GetPromotionEvents_0(ctx context.Context, marsha
 	var protoReq GetPromotionEventsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3595,11 +3443,7 @@ func request_KargoService_GetPromotionEvents_1(ctx context.Context, marshaler ru
 	var protoReq GetPromotionEventsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3639,11 +3483,7 @@ func local_request_KargoService_GetPromotionEvents_1(ctx context.Context, marsha
 	var protoReq GetPromotionEventsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3683,11 +3523,7 @@ func request_KargoService_GetStageSpecificStats_0(ctx context.Context, marshaler
 	var protoReq GetStageSpecificStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3717,11 +3553,7 @@ func local_request_KargoService_GetStageSpecificStats_0(ctx context.Context, mar
 	var protoReq GetStageSpecificStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3751,11 +3583,7 @@ func request_KargoService_GetStageSpecificStats_1(ctx context.Context, marshaler
 	var protoReq GetStageSpecificStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3795,11 +3623,7 @@ func local_request_KargoService_GetStageSpecificStats_1(ctx context.Context, mar
 	var protoReq GetStageSpecificStatsRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -3839,6 +3663,7 @@ func local_request_KargoService_GetStageSpecificStats_1(ctx context.Context, mar
 // UnaryRPC     :call KargoServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterKargoServiceHandlerFromEndpoint instead.
+// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server KargoServiceServer) error {
 
 	mux.Handle("GET", pattern_KargoService_ListKargoInstances_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -4789,21 +4614,21 @@ func RegisterKargoServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 // RegisterKargoServiceHandlerFromEndpoint is same as RegisterKargoServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
 func RegisterKargoServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
-	conn, err := grpc.DialContext(ctx, endpoint, opts...)
+	conn, err := grpc.NewClient(endpoint, opts...)
 	if err != nil {
 		return err
 	}
 	defer func() {
 		if err != nil {
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 			return
 		}
 		go func() {
 			<-ctx.Done()
 			if cerr := conn.Close(); cerr != nil {
-				grpclog.Infof("Failed to close conn to %s: %v", endpoint, cerr)
+				grpclog.Errorf("Failed to close conn to %s: %v", endpoint, cerr)
 			}
 		}()
 	}()
@@ -4821,7 +4646,7 @@ func RegisterKargoServiceHandler(ctx context.Context, mux *runtime.ServeMux, con
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "KargoServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "KargoServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "KargoServiceClient" to call the correct interceptors.
+// "KargoServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterKargoServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client KargoServiceClient) error {
 
 	mux.Handle("GET", pattern_KargoService_ListKargoInstances_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

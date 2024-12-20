@@ -97,6 +97,7 @@ type OrganizationServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesImagesToCSV(context.Context, *ListKubernetesImagesRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
+	GetKubernetesImageDetail(context.Context, *GetKubernetesImageDetailRequest) (*GetKubernetesImageDetailResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -122,6 +123,12 @@ type OrganizationServiceGatewayClient interface {
 	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
 	ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error)
 	ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	GetKubeVisionUsage(context.Context, *GetKubeVisionUsageRequest) (*GetKubeVisionUsageResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKubeVisionUsageToCSV(context.Context, *GetKubeVisionUsageRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	// Notification Configs
 	ListNotificationConfigs(context.Context, *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error)
 	GetNotificationConfig(context.Context, *GetNotificationConfigRequest) (*GetNotificationConfigResponse, error)
@@ -621,6 +628,52 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 			q.Add("filters.apiKeys.enabled", fmt.Sprintf("%v", *req.Filters.ApiKeys.Enabled))
 		}
 	}
+	if req.Filters.Addons != nil {
+		for _, v := range req.Filters.Addons.ObjectName {
+			q.Add("filters.addons.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectKind {
+			q.Add("filters.addons.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectGroup {
+			q.Add("filters.addons.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectParentName {
+			q.Add("filters.addons.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectParentParentName {
+			q.Add("filters.addons.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectParentApplicationName {
+			q.Add("filters.addons.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Addons.Enabled != nil {
+			q.Add("filters.addons.enabled", fmt.Sprintf("%v", *req.Filters.Addons.Enabled))
+		}
+	}
+	if req.Filters.AddonRepos != nil {
+		for _, v := range req.Filters.AddonRepos.ObjectName {
+			q.Add("filters.addonRepos.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectKind {
+			q.Add("filters.addonRepos.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectGroup {
+			q.Add("filters.addonRepos.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectParentName {
+			q.Add("filters.addonRepos.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectParentParentName {
+			q.Add("filters.addonRepos.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectParentApplicationName {
+			q.Add("filters.addonRepos.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.AddonRepos.Enabled != nil {
+			q.Add("filters.addonRepos.enabled", fmt.Sprintf("%v", *req.Filters.AddonRepos.Enabled))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
@@ -990,6 +1043,52 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		if req.Filters.ApiKeys.Enabled != nil {
 			q.Add("filters.apiKeys.enabled", fmt.Sprintf("%v", *req.Filters.ApiKeys.Enabled))
+		}
+	}
+	if req.Filters.Addons != nil {
+		for _, v := range req.Filters.Addons.ObjectName {
+			q.Add("filters.addons.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectKind {
+			q.Add("filters.addons.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectGroup {
+			q.Add("filters.addons.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectParentName {
+			q.Add("filters.addons.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectParentParentName {
+			q.Add("filters.addons.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Addons.ObjectParentApplicationName {
+			q.Add("filters.addons.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Addons.Enabled != nil {
+			q.Add("filters.addons.enabled", fmt.Sprintf("%v", *req.Filters.Addons.Enabled))
+		}
+	}
+	if req.Filters.AddonRepos != nil {
+		for _, v := range req.Filters.AddonRepos.ObjectName {
+			q.Add("filters.addonRepos.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectKind {
+			q.Add("filters.addonRepos.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectGroup {
+			q.Add("filters.addonRepos.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectParentName {
+			q.Add("filters.addonRepos.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectParentParentName {
+			q.Add("filters.addonRepos.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonRepos.ObjectParentApplicationName {
+			q.Add("filters.addonRepos.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.AddonRepos.Enabled != nil {
+			q.Add("filters.addonRepos.enabled", fmt.Sprintf("%v", *req.Filters.AddonRepos.Enabled))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -1415,6 +1514,15 @@ func (c *organizationServiceGatewayClient) ListKubernetesResources(ctx context.C
 	if req.Where != nil {
 		q.Add("where", fmt.Sprintf("%v", *req.Where))
 	}
+	if req.HasDeletionTimestamp != nil {
+		q.Add("hasDeletionTimestamp", fmt.Sprintf("%v", *req.HasDeletionTimestamp))
+	}
+	if req.TreeView != nil {
+		q.Add("treeView", fmt.Sprintf("%v", *req.TreeView))
+	}
+	if req.Name != nil {
+		q.Add("name", fmt.Sprintf("%v", *req.Name))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesResourcesResponse](ctx, gwReq)
 }
@@ -1455,6 +1563,15 @@ func (c *organizationServiceGatewayClient) ListKubernetesResourcesToCSV(ctx cont
 	q.Add("version", fmt.Sprintf("%v", req.Version))
 	if req.Where != nil {
 		q.Add("where", fmt.Sprintf("%v", *req.Where))
+	}
+	if req.HasDeletionTimestamp != nil {
+		q.Add("hasDeletionTimestamp", fmt.Sprintf("%v", *req.HasDeletionTimestamp))
+	}
+	if req.TreeView != nil {
+		q.Add("treeView", fmt.Sprintf("%v", *req.TreeView))
+	}
+	if req.Name != nil {
+		q.Add("name", fmt.Sprintf("%v", *req.Name))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
@@ -1570,6 +1687,20 @@ func (c *organizationServiceGatewayClient) ListKubernetesImagesToCSV(ctx context
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubernetesImageDetail(ctx context.Context, req *GetKubernetesImageDetailRequest) (*GetKubernetesImageDetailResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/images/detail")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	if req.ClusterIdType != nil {
+		q.Add("clusterIdType", req.ClusterIdType.String())
+	}
+	q.Add("imageId", fmt.Sprintf("%v", req.ImageId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesImageDetailResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListKubernetesContainers(ctx context.Context, req *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error) {
@@ -2009,6 +2140,38 @@ func (c *organizationServiceGatewayClient) ListKubernetesTimelineResources(ctx c
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesTimelineResourcesResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubeVisionUsage(ctx context.Context, req *GetKubeVisionUsageRequest) (*GetKubeVisionUsageResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/usage")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.StartTime != nil {
+		q.Add("startTime.seconds", fmt.Sprintf("%v", req.StartTime.Seconds))
+		q.Add("startTime.nanos", fmt.Sprintf("%v", req.StartTime.Nanos))
+	}
+	if req.EndTime != nil {
+		q.Add("endTime.seconds", fmt.Sprintf("%v", req.EndTime.Seconds))
+		q.Add("endTime.nanos", fmt.Sprintf("%v", req.EndTime.Nanos))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubeVisionUsageResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetKubeVisionUsageToCSV(ctx context.Context, req *GetKubeVisionUsageRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/k8s/usage-csv")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.StartTime != nil {
+		q.Add("startTime.seconds", fmt.Sprintf("%v", req.StartTime.Seconds))
+		q.Add("startTime.nanos", fmt.Sprintf("%v", req.StartTime.Nanos))
+	}
+	if req.EndTime != nil {
+		q.Add("endTime.seconds", fmt.Sprintf("%v", req.EndTime.Seconds))
+		q.Add("endTime.nanos", fmt.Sprintf("%v", req.EndTime.Nanos))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListNotificationConfigs(ctx context.Context, req *ListNotificationConfigsRequest) (*ListNotificationConfigsResponse, error) {

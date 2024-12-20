@@ -70,6 +70,18 @@ const (
 	ArgoCDService_GetSyncOperationsEvents_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsEvents"
 	ArgoCDService_ApplyInstance_FullMethodName                         = "/akuity.argocd.v1.ArgoCDService/ApplyInstance"
 	ArgoCDService_ExportInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/ExportInstance"
+	ArgoCDService_ListInstanceAddonRepos_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/ListInstanceAddonRepos"
+	ArgoCDService_GetInstanceAddonRepo_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/GetInstanceAddonRepo"
+	ArgoCDService_CreateInstanceAddonRepo_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/CreateInstanceAddonRepo"
+	ArgoCDService_RefreshInstanceAddonRepo_FullMethodName              = "/akuity.argocd.v1.ArgoCDService/RefreshInstanceAddonRepo"
+	ArgoCDService_DeleteInstanceAddonRepo_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/DeleteInstanceAddonRepo"
+	ArgoCDService_ListInstanceAddons_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/ListInstanceAddons"
+	ArgoCDService_GetInstanceAddon_FullMethodName                      = "/akuity.argocd.v1.ArgoCDService/GetInstanceAddon"
+	ArgoCDService_RefreshInstanceAddon_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/RefreshInstanceAddon"
+	ArgoCDService_UpdateInstanceAddon_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceAddon"
+	ArgoCDService_PatchInstanceAddon_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/PatchInstanceAddon"
+	ArgoCDService_WatchInstanceAddons_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/WatchInstanceAddons"
+	ArgoCDService_WatchInstanceAddonRepos_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/WatchInstanceAddonRepos"
 )
 
 // ArgoCDServiceClient is the client API for ArgoCDService service.
@@ -134,6 +146,18 @@ type ArgoCDServiceClient interface {
 	GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error)
 	ExportInstance(ctx context.Context, in *ExportInstanceRequest, opts ...grpc.CallOption) (*ExportInstanceResponse, error)
+	ListInstanceAddonRepos(ctx context.Context, in *ListInstanceAddonReposRequest, opts ...grpc.CallOption) (*ListInstanceAddonReposResponse, error)
+	GetInstanceAddonRepo(ctx context.Context, in *GetInstanceAddonRepoRequest, opts ...grpc.CallOption) (*GetInstanceAddonRepoResponse, error)
+	CreateInstanceAddonRepo(ctx context.Context, in *CreateInstanceAddonRepoRequest, opts ...grpc.CallOption) (*CreateInstanceAddonRepoResponse, error)
+	RefreshInstanceAddonRepo(ctx context.Context, in *RefreshInstanceAddonRepoRequest, opts ...grpc.CallOption) (*RefreshInstanceAddonRepoResponse, error)
+	DeleteInstanceAddonRepo(ctx context.Context, in *DeleteInstanceAddonRepoRequest, opts ...grpc.CallOption) (*DeleteInstanceAddonRepoResponse, error)
+	ListInstanceAddons(ctx context.Context, in *ListInstanceAddonsRequest, opts ...grpc.CallOption) (*ListInstanceAddonsResponse, error)
+	GetInstanceAddon(ctx context.Context, in *GetInstanceAddonRequest, opts ...grpc.CallOption) (*GetInstanceAddonResponse, error)
+	RefreshInstanceAddon(ctx context.Context, in *RefreshInstanceAddonRequest, opts ...grpc.CallOption) (*RefreshInstanceAddonResponse, error)
+	UpdateInstanceAddon(ctx context.Context, in *UpdateInstanceAddonRequest, opts ...grpc.CallOption) (*UpdateInstanceAddonResponse, error)
+	PatchInstanceAddon(ctx context.Context, in *PatchInstanceAddonRequest, opts ...grpc.CallOption) (*PatchInstanceAddonResponse, error)
+	WatchInstanceAddons(ctx context.Context, in *WatchInstanceAddonsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonsClient, error)
+	WatchInstanceAddonRepos(ctx context.Context, in *WatchInstanceAddonReposRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonReposClient, error)
 }
 
 type argoCDServiceClient struct {
@@ -654,6 +678,160 @@ func (c *argoCDServiceClient) ExportInstance(ctx context.Context, in *ExportInst
 	return out, nil
 }
 
+func (c *argoCDServiceClient) ListInstanceAddonRepos(ctx context.Context, in *ListInstanceAddonReposRequest, opts ...grpc.CallOption) (*ListInstanceAddonReposResponse, error) {
+	out := new(ListInstanceAddonReposResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceAddonRepos_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceAddonRepo(ctx context.Context, in *GetInstanceAddonRepoRequest, opts ...grpc.CallOption) (*GetInstanceAddonRepoResponse, error) {
+	out := new(GetInstanceAddonRepoResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceAddonRepo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) CreateInstanceAddonRepo(ctx context.Context, in *CreateInstanceAddonRepoRequest, opts ...grpc.CallOption) (*CreateInstanceAddonRepoResponse, error) {
+	out := new(CreateInstanceAddonRepoResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_CreateInstanceAddonRepo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) RefreshInstanceAddonRepo(ctx context.Context, in *RefreshInstanceAddonRepoRequest, opts ...grpc.CallOption) (*RefreshInstanceAddonRepoResponse, error) {
+	out := new(RefreshInstanceAddonRepoResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_RefreshInstanceAddonRepo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) DeleteInstanceAddonRepo(ctx context.Context, in *DeleteInstanceAddonRepoRequest, opts ...grpc.CallOption) (*DeleteInstanceAddonRepoResponse, error) {
+	out := new(DeleteInstanceAddonRepoResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_DeleteInstanceAddonRepo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) ListInstanceAddons(ctx context.Context, in *ListInstanceAddonsRequest, opts ...grpc.CallOption) (*ListInstanceAddonsResponse, error) {
+	out := new(ListInstanceAddonsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceAddons_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceAddon(ctx context.Context, in *GetInstanceAddonRequest, opts ...grpc.CallOption) (*GetInstanceAddonResponse, error) {
+	out := new(GetInstanceAddonResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceAddon_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) RefreshInstanceAddon(ctx context.Context, in *RefreshInstanceAddonRequest, opts ...grpc.CallOption) (*RefreshInstanceAddonResponse, error) {
+	out := new(RefreshInstanceAddonResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_RefreshInstanceAddon_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceAddon(ctx context.Context, in *UpdateInstanceAddonRequest, opts ...grpc.CallOption) (*UpdateInstanceAddonResponse, error) {
+	out := new(UpdateInstanceAddonResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceAddon_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) PatchInstanceAddon(ctx context.Context, in *PatchInstanceAddonRequest, opts ...grpc.CallOption) (*PatchInstanceAddonResponse, error) {
+	out := new(PatchInstanceAddonResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_PatchInstanceAddon_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) WatchInstanceAddons(ctx context.Context, in *WatchInstanceAddonsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[3], ArgoCDService_WatchInstanceAddons_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &argoCDServiceWatchInstanceAddonsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_WatchInstanceAddonsClient interface {
+	Recv() (*WatchInstanceAddonsResponse, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceWatchInstanceAddonsClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceWatchInstanceAddonsClient) Recv() (*WatchInstanceAddonsResponse, error) {
+	m := new(WatchInstanceAddonsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *argoCDServiceClient) WatchInstanceAddonRepos(ctx context.Context, in *WatchInstanceAddonReposRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonReposClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[4], ArgoCDService_WatchInstanceAddonRepos_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &argoCDServiceWatchInstanceAddonReposClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_WatchInstanceAddonReposClient interface {
+	Recv() (*WatchInstanceAddonReposResponse, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceWatchInstanceAddonReposClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceWatchInstanceAddonReposClient) Recv() (*WatchInstanceAddonReposResponse, error) {
+	m := new(WatchInstanceAddonReposResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ArgoCDServiceServer is the server API for ArgoCDService service.
 // All implementations must embed UnimplementedArgoCDServiceServer
 // for forward compatibility
@@ -716,6 +894,18 @@ type ArgoCDServiceServer interface {
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error)
+	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
+	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
+	CreateInstanceAddonRepo(context.Context, *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error)
+	RefreshInstanceAddonRepo(context.Context, *RefreshInstanceAddonRepoRequest) (*RefreshInstanceAddonRepoResponse, error)
+	DeleteInstanceAddonRepo(context.Context, *DeleteInstanceAddonRepoRequest) (*DeleteInstanceAddonRepoResponse, error)
+	ListInstanceAddons(context.Context, *ListInstanceAddonsRequest) (*ListInstanceAddonsResponse, error)
+	GetInstanceAddon(context.Context, *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error)
+	RefreshInstanceAddon(context.Context, *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error)
+	UpdateInstanceAddon(context.Context, *UpdateInstanceAddonRequest) (*UpdateInstanceAddonResponse, error)
+	PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error)
+	WatchInstanceAddons(*WatchInstanceAddonsRequest, ArgoCDService_WatchInstanceAddonsServer) error
+	WatchInstanceAddonRepos(*WatchInstanceAddonReposRequest, ArgoCDService_WatchInstanceAddonReposServer) error
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
 
@@ -869,6 +1059,42 @@ func (UnimplementedArgoCDServiceServer) ApplyInstance(context.Context, *ApplyIns
 }
 func (UnimplementedArgoCDServiceServer) ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExportInstance not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceAddonRepos not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceAddonRepo not implemented")
+}
+func (UnimplementedArgoCDServiceServer) CreateInstanceAddonRepo(context.Context, *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateInstanceAddonRepo not implemented")
+}
+func (UnimplementedArgoCDServiceServer) RefreshInstanceAddonRepo(context.Context, *RefreshInstanceAddonRepoRequest) (*RefreshInstanceAddonRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshInstanceAddonRepo not implemented")
+}
+func (UnimplementedArgoCDServiceServer) DeleteInstanceAddonRepo(context.Context, *DeleteInstanceAddonRepoRequest) (*DeleteInstanceAddonRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceAddonRepo not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ListInstanceAddons(context.Context, *ListInstanceAddonsRequest) (*ListInstanceAddonsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceAddons not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceAddon(context.Context, *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceAddon not implemented")
+}
+func (UnimplementedArgoCDServiceServer) RefreshInstanceAddon(context.Context, *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshInstanceAddon not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceAddon(context.Context, *UpdateInstanceAddonRequest) (*UpdateInstanceAddonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceAddon not implemented")
+}
+func (UnimplementedArgoCDServiceServer) PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceAddon not implemented")
+}
+func (UnimplementedArgoCDServiceServer) WatchInstanceAddons(*WatchInstanceAddonsRequest, ArgoCDService_WatchInstanceAddonsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchInstanceAddons not implemented")
+}
+func (UnimplementedArgoCDServiceServer) WatchInstanceAddonRepos(*WatchInstanceAddonReposRequest, ArgoCDService_WatchInstanceAddonReposServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchInstanceAddonRepos not implemented")
 }
 func (UnimplementedArgoCDServiceServer) mustEmbedUnimplementedArgoCDServiceServer() {}
 
@@ -1774,6 +2000,228 @@ func _ArgoCDService_ExportInstance_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_ListInstanceAddonRepos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstanceAddonReposRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ListInstanceAddonRepos(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_ListInstanceAddonRepos_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ListInstanceAddonRepos(ctx, req.(*ListInstanceAddonReposRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceAddonRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceAddonRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceAddonRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetInstanceAddonRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceAddonRepo(ctx, req.(*GetInstanceAddonRepoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_CreateInstanceAddonRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateInstanceAddonRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).CreateInstanceAddonRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_CreateInstanceAddonRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).CreateInstanceAddonRepo(ctx, req.(*CreateInstanceAddonRepoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_RefreshInstanceAddonRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshInstanceAddonRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).RefreshInstanceAddonRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_RefreshInstanceAddonRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).RefreshInstanceAddonRepo(ctx, req.(*RefreshInstanceAddonRepoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_DeleteInstanceAddonRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteInstanceAddonRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).DeleteInstanceAddonRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_DeleteInstanceAddonRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).DeleteInstanceAddonRepo(ctx, req.(*DeleteInstanceAddonRepoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_ListInstanceAddons_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstanceAddonsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ListInstanceAddons(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_ListInstanceAddons_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ListInstanceAddons(ctx, req.(*ListInstanceAddonsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceAddonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceAddon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetInstanceAddon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceAddon(ctx, req.(*GetInstanceAddonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_RefreshInstanceAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshInstanceAddonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).RefreshInstanceAddon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_RefreshInstanceAddon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).RefreshInstanceAddon(ctx, req.(*RefreshInstanceAddonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceAddonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceAddon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateInstanceAddon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceAddon(ctx, req.(*UpdateInstanceAddonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_PatchInstanceAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchInstanceAddonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).PatchInstanceAddon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_PatchInstanceAddon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).PatchInstanceAddon(ctx, req.(*PatchInstanceAddonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_WatchInstanceAddons_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchInstanceAddonsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArgoCDServiceServer).WatchInstanceAddons(m, &argoCDServiceWatchInstanceAddonsServer{stream})
+}
+
+type ArgoCDService_WatchInstanceAddonsServer interface {
+	Send(*WatchInstanceAddonsResponse) error
+	grpc.ServerStream
+}
+
+type argoCDServiceWatchInstanceAddonsServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceWatchInstanceAddonsServer) Send(m *WatchInstanceAddonsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ArgoCDService_WatchInstanceAddonRepos_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchInstanceAddonReposRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArgoCDServiceServer).WatchInstanceAddonRepos(m, &argoCDServiceWatchInstanceAddonReposServer{stream})
+}
+
+type ArgoCDService_WatchInstanceAddonReposServer interface {
+	Send(*WatchInstanceAddonReposResponse) error
+	grpc.ServerStream
+}
+
+type argoCDServiceWatchInstanceAddonReposServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceWatchInstanceAddonReposServer) Send(m *WatchInstanceAddonReposResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ArgoCDService_ServiceDesc is the grpc.ServiceDesc for ArgoCDService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1965,6 +2413,46 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ExportInstance",
 			Handler:    _ArgoCDService_ExportInstance_Handler,
 		},
+		{
+			MethodName: "ListInstanceAddonRepos",
+			Handler:    _ArgoCDService_ListInstanceAddonRepos_Handler,
+		},
+		{
+			MethodName: "GetInstanceAddonRepo",
+			Handler:    _ArgoCDService_GetInstanceAddonRepo_Handler,
+		},
+		{
+			MethodName: "CreateInstanceAddonRepo",
+			Handler:    _ArgoCDService_CreateInstanceAddonRepo_Handler,
+		},
+		{
+			MethodName: "RefreshInstanceAddonRepo",
+			Handler:    _ArgoCDService_RefreshInstanceAddonRepo_Handler,
+		},
+		{
+			MethodName: "DeleteInstanceAddonRepo",
+			Handler:    _ArgoCDService_DeleteInstanceAddonRepo_Handler,
+		},
+		{
+			MethodName: "ListInstanceAddons",
+			Handler:    _ArgoCDService_ListInstanceAddons_Handler,
+		},
+		{
+			MethodName: "GetInstanceAddon",
+			Handler:    _ArgoCDService_GetInstanceAddon_Handler,
+		},
+		{
+			MethodName: "RefreshInstanceAddon",
+			Handler:    _ArgoCDService_RefreshInstanceAddon_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceAddon",
+			Handler:    _ArgoCDService_UpdateInstanceAddon_Handler,
+		},
+		{
+			MethodName: "PatchInstanceAddon",
+			Handler:    _ArgoCDService_PatchInstanceAddon_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -1980,6 +2468,16 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetInstanceClusterManifests",
 			Handler:       _ArgoCDService_GetInstanceClusterManifests_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchInstanceAddons",
+			Handler:       _ArgoCDService_WatchInstanceAddons_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchInstanceAddonRepos",
+			Handler:       _ArgoCDService_WatchInstanceAddonRepos_Handler,
 			ServerStreams: true,
 		},
 	},

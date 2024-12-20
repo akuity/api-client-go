@@ -72,6 +72,18 @@ type ArgoCDServiceGatewayClient interface {
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error)
+	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
+	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
+	CreateInstanceAddonRepo(context.Context, *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error)
+	RefreshInstanceAddonRepo(context.Context, *RefreshInstanceAddonRepoRequest) (*RefreshInstanceAddonRepoResponse, error)
+	DeleteInstanceAddonRepo(context.Context, *DeleteInstanceAddonRepoRequest) (*DeleteInstanceAddonRepoResponse, error)
+	ListInstanceAddons(context.Context, *ListInstanceAddonsRequest) (*ListInstanceAddonsResponse, error)
+	GetInstanceAddon(context.Context, *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error)
+	RefreshInstanceAddon(context.Context, *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error)
+	UpdateInstanceAddon(context.Context, *UpdateInstanceAddonRequest) (*UpdateInstanceAddonResponse, error)
+	PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error)
+	WatchInstanceAddons(context.Context, *WatchInstanceAddonsRequest) (<-chan *WatchInstanceAddonsResponse, <-chan error, error)
+	WatchInstanceAddonRepos(context.Context, *WatchInstanceAddonReposRequest) (<-chan *WatchInstanceAddonReposResponse, <-chan error, error)
 }
 
 func NewArgoCDServiceGatewayClient(c gateway.Client) ArgoCDServiceGatewayClient {
@@ -628,4 +640,142 @@ func (c *argoCDServiceGatewayClient) ExportInstance(ctx context.Context, req *Ex
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ExportInstanceResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ListInstanceAddonRepos(ctx context.Context, req *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-repos")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListInstanceAddonReposResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceAddonRepo(ctx context.Context, req *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-repos/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetInstanceAddonRepoResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) CreateInstanceAddonRepo(ctx context.Context, req *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-repos")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateInstanceAddonRepoResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) RefreshInstanceAddonRepo(ctx context.Context, req *RefreshInstanceAddonRepoRequest) (*RefreshInstanceAddonRepoResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-repos/{id}/refresh")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RefreshInstanceAddonRepoResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) DeleteInstanceAddonRepo(ctx context.Context, req *DeleteInstanceAddonRepoRequest) (*DeleteInstanceAddonRepoResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-repos/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteInstanceAddonRepoResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ListInstanceAddons(ctx context.Context, req *ListInstanceAddonsRequest) (*ListInstanceAddonsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListInstanceAddonsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceAddon(ctx context.Context, req *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("instanceName", fmt.Sprintf("%v", req.InstanceName))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetInstanceAddonResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) RefreshInstanceAddon(ctx context.Context, req *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons/{id}/refresh")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RefreshInstanceAddonResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstanceAddon(ctx context.Context, req *UpdateInstanceAddonRequest) (*UpdateInstanceAddonResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstanceAddonResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) PatchInstanceAddon(ctx context.Context, req *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req.Patch)
+	return gateway.DoRequest[PatchInstanceAddonResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) WatchInstanceAddons(ctx context.Context, req *WatchInstanceAddonsRequest) (<-chan *WatchInstanceAddonsResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	q := url.Values{}
+	if req.AddonId != nil {
+		q.Add("addonId", fmt.Sprintf("%v", *req.AddonId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[WatchInstanceAddonsResponse](ctx, c.gwc, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) WatchInstanceAddonRepos(ctx context.Context, req *WatchInstanceAddonReposRequest) (<-chan *WatchInstanceAddonReposResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-repos")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	q := url.Values{}
+	if req.AddonRepoId != nil {
+		q.Add("addonRepoId", fmt.Sprintf("%v", *req.AddonRepoId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[WatchInstanceAddonReposResponse](ctx, c.gwc, gwReq)
 }
