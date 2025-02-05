@@ -88,6 +88,7 @@ type OrganizationServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesResourcesToCSV(context.Context, *ListKubernetesResourcesRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
+	SpotlightSearchKubernetesResources(context.Context, *SpotlightSearchKubernetesResourcesRequest) (*SpotlightSearchKubernetesResourcesResponse, error)
 	GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error)
 	GetKubernetesContainer(context.Context, *GetKubernetesContainerRequest) (*GetKubernetesContainerResponse, error)
 	ListKubernetesNamespaces(context.Context, *ListKubernetesNamespacesRequest) (*ListKubernetesNamespacesResponse, error)
@@ -139,6 +140,13 @@ type OrganizationServiceGatewayClient interface {
 	GetNotificationDeliveryHistoryDetail(context.Context, *GetNotificationDeliveryHistoryDetailRequest) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error)
 	RedeliverNotification(context.Context, *RedeliverNotificationRequest) (*RedeliverNotificationResponse, error)
+	ListOrganizationDomains(context.Context, *ListOrganizationDomainsRequest) (*ListOrganizationDomainsResponse, error)
+	DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error)
+	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
+	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
+	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
+	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
+	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -1501,9 +1509,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesResources(ctx context.C
 	if req.OwnerId != nil {
 		q.Add("ownerId", fmt.Sprintf("%v", *req.OwnerId))
 	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	if req.NameContains != nil {
 		q.Add("nameContains", fmt.Sprintf("%v", *req.NameContains))
 	}
@@ -1551,9 +1556,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesResourcesToCSV(ctx cont
 	if req.OwnerId != nil {
 		q.Add("ownerId", fmt.Sprintf("%v", *req.OwnerId))
 	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	if req.NameContains != nil {
 		q.Add("nameContains", fmt.Sprintf("%v", *req.NameContains))
 	}
@@ -1577,6 +1579,26 @@ func (c *organizationServiceGatewayClient) ListKubernetesResourcesToCSV(ctx cont
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) SpotlightSearchKubernetesResources(ctx context.Context, req *SpotlightSearchKubernetesResourcesRequest) (*SpotlightSearchKubernetesResourcesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/spotlight-search")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	if req.Query != nil {
+		q.Add("query", fmt.Sprintf("%v", *req.Query))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[SpotlightSearchKubernetesResourcesResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) GetKubernetesResourceDetail(ctx context.Context, req *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/detail")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -1584,9 +1606,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesResourceDetail(ctx conte
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesResourceDetailResponse](ctx, gwReq)
 }
@@ -1598,9 +1617,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesContainer(ctx context.Co
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesContainerResponse](ctx, gwReq)
 }
@@ -1614,9 +1630,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesNamespaces(ctx context.
 	}
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
-	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
 	if req.NodeName != nil {
 		q.Add("nodeName", fmt.Sprintf("%v", *req.NodeName))
@@ -1634,9 +1647,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesImages(ctx context.Cont
 	}
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
-	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
 	if req.OrderBy != nil {
 		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
@@ -1667,9 +1677,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesImagesToCSV(ctx context
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
 	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	if req.OrderBy != nil {
 		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
 	}
@@ -1695,9 +1702,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesImageDetail(ctx context.
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	q.Add("imageId", fmt.Sprintf("%v", req.ImageId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesImageDetailResponse](ctx, gwReq)
@@ -1715,9 +1719,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesContainers(ctx context.
 	}
 	if req.PodId != nil {
 		q.Add("podId", fmt.Sprintf("%v", *req.PodId))
-	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
 	if req.OrderBy != nil {
 		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
@@ -1762,9 +1763,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesContainersToCSV(ctx con
 	}
 	if req.PodId != nil {
 		q.Add("podId", fmt.Sprintf("%v", *req.PodId))
-	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
 	if req.OrderBy != nil {
 		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
@@ -1818,9 +1816,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesManifest(ctx context.Con
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesManifestResponse](ctx, gwReq)
 }
@@ -1855,9 +1850,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesLogs(ctx context.Context
 	if req.Filter != nil {
 		q.Add("filter", fmt.Sprintf("%v", *req.Filter))
 	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[GetKubernetesLogsResponse](ctx, c.gwc, gwReq)
 }
@@ -1869,9 +1861,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesEvents(ctx context.Conte
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesEventsResponse](ctx, gwReq)
 }
@@ -1883,9 +1872,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesAuditLogs(ctx context.C
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	if req.StartTime != nil {
 		q.Add("startTime.seconds", fmt.Sprintf("%v", req.StartTime.Seconds))
 		q.Add("startTime.nanos", fmt.Sprintf("%v", req.StartTime.Nanos))
@@ -1920,9 +1906,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesNodes(ctx context.Conte
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
 	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	for _, v := range req.GroupBy {
 		q.Add("groupBy", v.String())
 	}
@@ -1940,9 +1923,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesNode(ctx context.Context
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesNodeResponse](ctx, gwReq)
 }
@@ -1956,9 +1936,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesPods(ctx context.Contex
 	}
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
-	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
 	for _, v := range req.GroupBy {
 		q.Add("groupBy", v.String())
@@ -1977,9 +1954,6 @@ func (c *organizationServiceGatewayClient) GetKubernetesPod(ctx context.Context,
 	q := url.Values{}
 	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesPodResponse](ctx, gwReq)
 }
@@ -1993,9 +1967,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIs(ctx cont
 	}
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
-	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
 	if req.OrderBy != nil {
 		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
@@ -2017,6 +1988,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIs(ctx cont
 	}
 	if req.ApiVersionContains != nil {
 		q.Add("apiVersionContains", fmt.Sprintf("%v", *req.ApiVersionContains))
+	}
+	if req.Severity != nil {
+		q.Add("severity", req.Severity.String())
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesDeprecatedAPIsResponse](ctx, gwReq)
@@ -2032,9 +2006,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIsToCSV(ctx
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
 	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	if req.OrderBy != nil {
 		q.Add("orderBy", fmt.Sprintf("%v", *req.OrderBy))
 	}
@@ -2055,6 +2026,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIsToCSV(ctx
 	}
 	if req.ApiVersionContains != nil {
 		q.Add("apiVersionContains", fmt.Sprintf("%v", *req.ApiVersionContains))
+	}
+	if req.Severity != nil {
+		q.Add("severity", req.Severity.String())
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
@@ -2086,9 +2060,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesTimelineEvents(ctx cont
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
 	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
-	}
 	for _, v := range req.Namespaces {
 		q.Add("namespaces", fmt.Sprintf("%v", v))
 	}
@@ -2119,9 +2090,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesTimelineResources(ctx c
 	}
 	for _, v := range req.ClusterIds {
 		q.Add("clusterIds", fmt.Sprintf("%v", v))
-	}
-	if req.ClusterIdType != nil {
-		q.Add("clusterIdType", req.ClusterIdType.String())
 	}
 	for _, v := range req.Namespaces {
 		q.Add("namespaces", fmt.Sprintf("%v", v))
@@ -2259,4 +2227,53 @@ func (c *organizationServiceGatewayClient) RedeliverNotification(ctx context.Con
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RedeliverNotificationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListOrganizationDomains(ctx context.Context, req *ListOrganizationDomainsRequest) (*ListOrganizationDomainsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{organization_id}/domains")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListOrganizationDomainsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteOrganizationDomain(ctx context.Context, req *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/organizations/{organization_id}/domains/{domain}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("domain", fmt.Sprintf("%v", req.Domain))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteOrganizationDomainResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) VerifyOrganizationDomains(ctx context.Context, req *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/organizations/{organization_id}/domains")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[VerifyOrganizationDomainsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CreateAIConversation(ctx context.Context, req *CreateAIConversationRequest) (*CreateAIConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateAIConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetAIConversation(ctx context.Context, req *GetAIConversationRequest) (*GetAIConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/conversations/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[GetAIConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Context, req *ListAIConversationsRequest) (*ListAIConversationsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/conversations")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListAIConversationsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) CreateAIMessage(ctx context.Context, req *CreateAIMessageRequest) (*CreateAIMessageResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/messages")
+	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateAIMessageResponse](ctx, gwReq)
 }

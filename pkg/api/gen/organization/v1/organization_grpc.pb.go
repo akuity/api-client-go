@@ -89,6 +89,7 @@ const (
 	OrganizationService_ListKubernetesResourceTypes_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
 	OrganizationService_ListKubernetesResources_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
 	OrganizationService_ListKubernetesResourcesToCSV_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesResourcesToCSV"
+	OrganizationService_SpotlightSearchKubernetesResources_FullMethodName     = "/akuity.organization.v1.OrganizationService/SpotlightSearchKubernetesResources"
 	OrganizationService_GetKubernetesResourceDetail_FullMethodName            = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDetail"
 	OrganizationService_GetKubernetesContainer_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetKubernetesContainer"
 	OrganizationService_ListKubernetesNamespaces_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespaces"
@@ -123,6 +124,13 @@ const (
 	OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName   = "/akuity.organization.v1.OrganizationService/GetNotificationDeliveryHistoryDetail"
 	OrganizationService_PingNotificationConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
 	OrganizationService_RedeliverNotification_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RedeliverNotification"
+	OrganizationService_ListOrganizationDomains_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationDomains"
+	OrganizationService_DeleteOrganizationDomain_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteOrganizationDomain"
+	OrganizationService_VerifyOrganizationDomains_FullMethodName              = "/akuity.organization.v1.OrganizationService/VerifyOrganizationDomains"
+	OrganizationService_CreateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateAIConversation"
+	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
+	OrganizationService_ListAIConversations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListAIConversations"
+	OrganizationService_CreateAIMessage_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -204,6 +212,7 @@ type OrganizationServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesResourcesToCSV(ctx context.Context, in *ListKubernetesResourcesRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesResourcesToCSVClient, error)
+	SpotlightSearchKubernetesResources(ctx context.Context, in *SpotlightSearchKubernetesResourcesRequest, opts ...grpc.CallOption) (*SpotlightSearchKubernetesResourcesResponse, error)
 	GetKubernetesResourceDetail(ctx context.Context, in *GetKubernetesResourceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDetailResponse, error)
 	GetKubernetesContainer(ctx context.Context, in *GetKubernetesContainerRequest, opts ...grpc.CallOption) (*GetKubernetesContainerResponse, error)
 	ListKubernetesNamespaces(ctx context.Context, in *ListKubernetesNamespacesRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesResponse, error)
@@ -255,6 +264,13 @@ type OrganizationServiceClient interface {
 	GetNotificationDeliveryHistoryDetail(ctx context.Context, in *GetNotificationDeliveryHistoryDetailRequest, opts ...grpc.CallOption) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(ctx context.Context, in *PingNotificationConfigRequest, opts ...grpc.CallOption) (*PingNotificationConfigResponse, error)
 	RedeliverNotification(ctx context.Context, in *RedeliverNotificationRequest, opts ...grpc.CallOption) (*RedeliverNotificationResponse, error)
+	ListOrganizationDomains(ctx context.Context, in *ListOrganizationDomainsRequest, opts ...grpc.CallOption) (*ListOrganizationDomainsResponse, error)
+	DeleteOrganizationDomain(ctx context.Context, in *DeleteOrganizationDomainRequest, opts ...grpc.CallOption) (*DeleteOrganizationDomainResponse, error)
+	VerifyOrganizationDomains(ctx context.Context, in *VerifyOrganizationDomainsRequest, opts ...grpc.CallOption) (*VerifyOrganizationDomainsResponse, error)
+	CreateAIConversation(ctx context.Context, in *CreateAIConversationRequest, opts ...grpc.CallOption) (*CreateAIConversationResponse, error)
+	GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error)
+	ListAIConversations(ctx context.Context, in *ListAIConversationsRequest, opts ...grpc.CallOption) (*ListAIConversationsResponse, error)
+	CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -932,6 +948,15 @@ func (x *organizationServiceListKubernetesResourcesToCSVClient) Recv() (*httpbod
 	return m, nil
 }
 
+func (c *organizationServiceClient) SpotlightSearchKubernetesResources(ctx context.Context, in *SpotlightSearchKubernetesResourcesRequest, opts ...grpc.CallOption) (*SpotlightSearchKubernetesResourcesResponse, error) {
+	out := new(SpotlightSearchKubernetesResourcesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_SpotlightSearchKubernetesResources_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetKubernetesResourceDetail(ctx context.Context, in *GetKubernetesResourceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDetailResponse, error) {
 	out := new(GetKubernetesResourceDetailResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesResourceDetail_FullMethodName, in, out, opts...)
@@ -1353,6 +1378,69 @@ func (c *organizationServiceClient) RedeliverNotification(ctx context.Context, i
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListOrganizationDomains(ctx context.Context, in *ListOrganizationDomainsRequest, opts ...grpc.CallOption) (*ListOrganizationDomainsResponse, error) {
+	out := new(ListOrganizationDomainsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListOrganizationDomains_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteOrganizationDomain(ctx context.Context, in *DeleteOrganizationDomainRequest, opts ...grpc.CallOption) (*DeleteOrganizationDomainResponse, error) {
+	out := new(DeleteOrganizationDomainResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteOrganizationDomain_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) VerifyOrganizationDomains(ctx context.Context, in *VerifyOrganizationDomainsRequest, opts ...grpc.CallOption) (*VerifyOrganizationDomainsResponse, error) {
+	out := new(VerifyOrganizationDomainsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_VerifyOrganizationDomains_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) CreateAIConversation(ctx context.Context, in *CreateAIConversationRequest, opts ...grpc.CallOption) (*CreateAIConversationResponse, error) {
+	out := new(CreateAIConversationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateAIConversation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error) {
+	out := new(GetAIConversationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetAIConversation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListAIConversations(ctx context.Context, in *ListAIConversationsRequest, opts ...grpc.CallOption) (*ListAIConversationsResponse, error) {
+	out := new(ListAIConversationsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListAIConversations_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error) {
+	out := new(CreateAIMessageResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateAIMessage_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -1432,6 +1520,7 @@ type OrganizationServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesResourcesToCSV(*ListKubernetesResourcesRequest, OrganizationService_ListKubernetesResourcesToCSVServer) error
+	SpotlightSearchKubernetesResources(context.Context, *SpotlightSearchKubernetesResourcesRequest) (*SpotlightSearchKubernetesResourcesResponse, error)
 	GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error)
 	GetKubernetesContainer(context.Context, *GetKubernetesContainerRequest) (*GetKubernetesContainerResponse, error)
 	ListKubernetesNamespaces(context.Context, *ListKubernetesNamespacesRequest) (*ListKubernetesNamespacesResponse, error)
@@ -1483,6 +1572,13 @@ type OrganizationServiceServer interface {
 	GetNotificationDeliveryHistoryDetail(context.Context, *GetNotificationDeliveryHistoryDetailRequest) (*GetNotificationDeliveryHistoryDetailResponse, error)
 	PingNotificationConfig(context.Context, *PingNotificationConfigRequest) (*PingNotificationConfigResponse, error)
 	RedeliverNotification(context.Context, *RedeliverNotificationRequest) (*RedeliverNotificationResponse, error)
+	ListOrganizationDomains(context.Context, *ListOrganizationDomainsRequest) (*ListOrganizationDomainsResponse, error)
+	DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error)
+	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
+	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
+	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
+	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
+	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -1697,6 +1793,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesResources(context.Co
 func (UnimplementedOrganizationServiceServer) ListKubernetesResourcesToCSV(*ListKubernetesResourcesRequest, OrganizationService_ListKubernetesResourcesToCSVServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListKubernetesResourcesToCSV not implemented")
 }
+func (UnimplementedOrganizationServiceServer) SpotlightSearchKubernetesResources(context.Context, *SpotlightSearchKubernetesResourcesRequest) (*SpotlightSearchKubernetesResourcesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SpotlightSearchKubernetesResources not implemented")
+}
 func (UnimplementedOrganizationServiceServer) GetKubernetesResourceDetail(context.Context, *GetKubernetesResourceDetailRequest) (*GetKubernetesResourceDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesResourceDetail not implemented")
 }
@@ -1798,6 +1897,27 @@ func (UnimplementedOrganizationServiceServer) PingNotificationConfig(context.Con
 }
 func (UnimplementedOrganizationServiceServer) RedeliverNotification(context.Context, *RedeliverNotificationRequest) (*RedeliverNotificationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RedeliverNotification not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListOrganizationDomains(context.Context, *ListOrganizationDomainsRequest) (*ListOrganizationDomainsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationDomains not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrganizationDomain not implemented")
+}
+func (UnimplementedOrganizationServiceServer) VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyOrganizationDomains not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAIConversation not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAIConversation not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAIConversations not implemented")
+}
+func (UnimplementedOrganizationServiceServer) CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateAIMessage not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -3060,6 +3180,24 @@ func (x *organizationServiceListKubernetesResourcesToCSVServer) Send(m *httpbody
 	return x.ServerStream.SendMsg(m)
 }
 
+func _OrganizationService_SpotlightSearchKubernetesResources_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SpotlightSearchKubernetesResourcesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).SpotlightSearchKubernetesResources(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_SpotlightSearchKubernetesResources_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).SpotlightSearchKubernetesResources(ctx, req.(*SpotlightSearchKubernetesResourcesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetKubernetesResourceDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetKubernetesResourceDetailRequest)
 	if err := dec(in); err != nil {
@@ -3687,6 +3825,132 @@ func _OrganizationService_RedeliverNotification_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListOrganizationDomains_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrganizationDomainsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListOrganizationDomains(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListOrganizationDomains_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListOrganizationDomains(ctx, req.(*ListOrganizationDomainsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteOrganizationDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteOrganizationDomainRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteOrganizationDomain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteOrganizationDomain_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteOrganizationDomain(ctx, req.(*DeleteOrganizationDomainRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_VerifyOrganizationDomains_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyOrganizationDomainsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).VerifyOrganizationDomains(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_VerifyOrganizationDomains_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).VerifyOrganizationDomains(ctx, req.(*VerifyOrganizationDomainsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_CreateAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAIConversationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateAIConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateAIConversation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateAIConversation(ctx, req.(*CreateAIConversationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAIConversationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetAIConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetAIConversation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetAIConversation(ctx, req.(*GetAIConversationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListAIConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAIConversationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListAIConversations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListAIConversations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListAIConversations(ctx, req.(*ListAIConversationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_CreateAIMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateAIMessageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateAIMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateAIMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateAIMessage(ctx, req.(*CreateAIMessageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -3963,6 +4227,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_ListKubernetesResources_Handler,
 		},
 		{
+			MethodName: "SpotlightSearchKubernetesResources",
+			Handler:    _OrganizationService_SpotlightSearchKubernetesResources_Handler,
+		},
+		{
 			MethodName: "GetKubernetesResourceDetail",
 			Handler:    _OrganizationService_GetKubernetesResourceDetail_Handler,
 		},
@@ -4077,6 +4345,34 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RedeliverNotification",
 			Handler:    _OrganizationService_RedeliverNotification_Handler,
+		},
+		{
+			MethodName: "ListOrganizationDomains",
+			Handler:    _OrganizationService_ListOrganizationDomains_Handler,
+		},
+		{
+			MethodName: "DeleteOrganizationDomain",
+			Handler:    _OrganizationService_DeleteOrganizationDomain_Handler,
+		},
+		{
+			MethodName: "VerifyOrganizationDomains",
+			Handler:    _OrganizationService_VerifyOrganizationDomains_Handler,
+		},
+		{
+			MethodName: "CreateAIConversation",
+			Handler:    _OrganizationService_CreateAIConversation_Handler,
+		},
+		{
+			MethodName: "GetAIConversation",
+			Handler:    _OrganizationService_GetAIConversation_Handler,
+		},
+		{
+			MethodName: "ListAIConversations",
+			Handler:    _OrganizationService_ListAIConversations_Handler,
+		},
+		{
+			MethodName: "CreateAIMessage",
+			Handler:    _OrganizationService_CreateAIMessage_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

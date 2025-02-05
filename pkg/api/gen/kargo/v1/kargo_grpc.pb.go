@@ -41,6 +41,8 @@ const (
 	KargoService_GetPromotionStats_FullMethodName              = "/akuity.kargo.v1.KargoService/GetPromotionStats"
 	KargoService_GetPromotionEvents_FullMethodName             = "/akuity.kargo.v1.KargoService/GetPromotionEvents"
 	KargoService_GetStageSpecificStats_FullMethodName          = "/akuity.kargo.v1.KargoService/GetStageSpecificStats"
+	KargoService_ApplyKargoInstance_FullMethodName             = "/akuity.kargo.v1.KargoService/ApplyKargoInstance"
+	KargoService_ExportKargoInstance_FullMethodName            = "/akuity.kargo.v1.KargoService/ExportKargoInstance"
 )
 
 // KargoServiceClient is the client API for KargoService service.
@@ -74,6 +76,8 @@ type KargoServiceClient interface {
 	GetPromotionStats(ctx context.Context, in *GetPromotionStatsRequest, opts ...grpc.CallOption) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(ctx context.Context, in *GetPromotionEventsRequest, opts ...grpc.CallOption) (*GetPromotionEventsResponse, error)
 	GetStageSpecificStats(ctx context.Context, in *GetStageSpecificStatsRequest, opts ...grpc.CallOption) (*GetStageSpecificStatsResponse, error)
+	ApplyKargoInstance(ctx context.Context, in *ApplyKargoInstanceRequest, opts ...grpc.CallOption) (*ApplyKargoInstanceResponse, error)
+	ExportKargoInstance(ctx context.Context, in *ExportKargoInstanceRequest, opts ...grpc.CallOption) (*ExportKargoInstanceResponse, error)
 }
 
 type kargoServiceClient struct {
@@ -342,6 +346,24 @@ func (c *kargoServiceClient) GetStageSpecificStats(ctx context.Context, in *GetS
 	return out, nil
 }
 
+func (c *kargoServiceClient) ApplyKargoInstance(ctx context.Context, in *ApplyKargoInstanceRequest, opts ...grpc.CallOption) (*ApplyKargoInstanceResponse, error) {
+	out := new(ApplyKargoInstanceResponse)
+	err := c.cc.Invoke(ctx, KargoService_ApplyKargoInstance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) ExportKargoInstance(ctx context.Context, in *ExportKargoInstanceRequest, opts ...grpc.CallOption) (*ExportKargoInstanceResponse, error) {
+	out := new(ExportKargoInstanceResponse)
+	err := c.cc.Invoke(ctx, KargoService_ExportKargoInstance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KargoServiceServer is the server API for KargoService service.
 // All implementations must embed UnimplementedKargoServiceServer
 // for forward compatibility
@@ -373,6 +395,8 @@ type KargoServiceServer interface {
 	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
 	GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error)
+	ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error)
+	ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error)
 	mustEmbedUnimplementedKargoServiceServer()
 }
 
@@ -442,6 +466,12 @@ func (UnimplementedKargoServiceServer) GetPromotionEvents(context.Context, *GetP
 }
 func (UnimplementedKargoServiceServer) GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStageSpecificStats not implemented")
+}
+func (UnimplementedKargoServiceServer) ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyKargoInstance not implemented")
+}
+func (UnimplementedKargoServiceServer) ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExportKargoInstance not implemented")
 }
 func (UnimplementedKargoServiceServer) mustEmbedUnimplementedKargoServiceServer() {}
 
@@ -843,6 +873,42 @@ func _KargoService_GetStageSpecificStats_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KargoService_ApplyKargoInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyKargoInstanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).ApplyKargoInstance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_ApplyKargoInstance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).ApplyKargoInstance(ctx, req.(*ApplyKargoInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_ExportKargoInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExportKargoInstanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).ExportKargoInstance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_ExportKargoInstance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).ExportKargoInstance(ctx, req.(*ExportKargoInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KargoService_ServiceDesc is the grpc.ServiceDesc for KargoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -921,6 +987,14 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStageSpecificStats",
 			Handler:    _KargoService_GetStageSpecificStats_Handler,
+		},
+		{
+			MethodName: "ApplyKargoInstance",
+			Handler:    _KargoService_ApplyKargoInstance_Handler,
+		},
+		{
+			MethodName: "ExportKargoInstance",
+			Handler:    _KargoService_ExportKargoInstance_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

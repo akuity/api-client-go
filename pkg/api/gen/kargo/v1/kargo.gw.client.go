@@ -40,6 +40,8 @@ type KargoServiceGatewayClient interface {
 	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
 	GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error)
+	ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error)
+	ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error)
 }
 
 func NewKargoServiceGatewayClient(c gateway.Client) KargoServiceGatewayClient {
@@ -337,4 +339,21 @@ func (c *kargoServiceGatewayClient) GetStageSpecificStats(ctx context.Context, r
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetStageSpecificStatsResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) ApplyKargoInstance(ctx context.Context, req *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/kargo/instances/{id}/apply")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ApplyKargoInstanceResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) ExportKargoInstance(ctx context.Context, req *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/kargo/instances/{id}/export")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	return gateway.DoRequest[ExportKargoInstanceResponse](ctx, gwReq)
 }

@@ -708,6 +708,33 @@ func (c *argoCDServiceGatewayClient) ListInstanceAddons(ctx context.Context, req
 	if req.Offset != nil {
 		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
 	}
+	if req.Filter != nil {
+		if req.Filter.SortBy != nil {
+			q.Add("filter.sortBy", req.Filter.SortBy.String())
+		}
+		if req.Filter.Enabled != nil {
+			q.Add("filter.enabled", fmt.Sprintf("%v", *req.Filter.Enabled))
+		}
+		if req.Filter.Name != nil {
+			q.Add("filter.name", fmt.Sprintf("%v", *req.Filter.Name))
+		}
+		if req.Filter.AddonType != nil {
+			q.Add("filter.addonType", req.Filter.AddonType.String())
+		}
+		if req.Filter.Synced != nil {
+			q.Add("filter.synced", fmt.Sprintf("%v", *req.Filter.Synced))
+		}
+		if req.Filter.Healthy != nil {
+			q.Add("filter.healthy", fmt.Sprintf("%v", *req.Filter.Healthy))
+		}
+		if req.Filter.ClusterNameLike != nil {
+			q.Add("filter.clusterNameLike", fmt.Sprintf("%v", *req.Filter.ClusterNameLike))
+		}
+		for k, v := range req.Filter.ClusterLabels {
+			key := fmt.Sprintf("filter.clusterLabels[%v]", k)
+			q.Add(key, fmt.Sprintf("%v", v))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstanceAddonsResponse](ctx, gwReq)
 }
@@ -762,6 +789,33 @@ func (c *argoCDServiceGatewayClient) WatchInstanceAddons(ctx context.Context, re
 	q := url.Values{}
 	if req.AddonId != nil {
 		q.Add("addonId", fmt.Sprintf("%v", *req.AddonId))
+	}
+	if req.Filter != nil {
+		if req.Filter.SortBy != nil {
+			q.Add("filter.sortBy", req.Filter.SortBy.String())
+		}
+		if req.Filter.Enabled != nil {
+			q.Add("filter.enabled", fmt.Sprintf("%v", *req.Filter.Enabled))
+		}
+		if req.Filter.Name != nil {
+			q.Add("filter.name", fmt.Sprintf("%v", *req.Filter.Name))
+		}
+		if req.Filter.AddonType != nil {
+			q.Add("filter.addonType", req.Filter.AddonType.String())
+		}
+		if req.Filter.Synced != nil {
+			q.Add("filter.synced", fmt.Sprintf("%v", *req.Filter.Synced))
+		}
+		if req.Filter.Healthy != nil {
+			q.Add("filter.healthy", fmt.Sprintf("%v", *req.Filter.Healthy))
+		}
+		if req.Filter.ClusterNameLike != nil {
+			q.Add("filter.clusterNameLike", fmt.Sprintf("%v", *req.Filter.ClusterNameLike))
+		}
+		for k, v := range req.Filter.ClusterLabels {
+			key := fmt.Sprintf("filter.clusterLabels[%v]", k)
+			q.Add(key, fmt.Sprintf("%v", v))
+		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchInstanceAddonsResponse](ctx, c.gwc, gwReq)
