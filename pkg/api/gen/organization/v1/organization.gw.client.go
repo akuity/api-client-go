@@ -144,9 +144,13 @@ type OrganizationServiceGatewayClient interface {
 	DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
 	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
+	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
+	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
+	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
+	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -2257,16 +2261,42 @@ func (c *organizationServiceGatewayClient) CreateAIConversation(ctx context.Cont
 	return gateway.DoRequest[CreateAIConversationResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) UpdateAIConversation(ctx context.Context, req *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/ai/conversations/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateAIConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteAIConversation(ctx context.Context, req *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/ai/conversations/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteAIConversationResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) GetAIConversation(ctx context.Context, req *GetAIConversationRequest) (*GetAIConversationResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/conversations/{id}")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAIConversationResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Context, req *ListAIConversationsRequest) (*ListAIConversationsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/conversations")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAIConversationsResponse](ctx, gwReq)
 }
 
@@ -2276,4 +2306,20 @@ func (c *organizationServiceGatewayClient) CreateAIMessage(ctx context.Context, 
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[CreateAIMessageResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListAIConversationSuggestions(ctx context.Context, req *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/suggestions")
+	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ListAIConversationSuggestionsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ApplyAISuggestedConfig(ctx context.Context, req *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/apply")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ApplyAISuggestedConfigResponse](ctx, gwReq)
 }

@@ -26,10 +26,13 @@ func init() {
 	}
 }
 
-func SetAKPTokenCookie(w http.ResponseWriter, token string, secure bool) {
+func SetAKPTokenCookie(w http.ResponseWriter, token string, secure bool, domain string) {
 	flags := []string{"path=/", "SameSite=lax", "httpOnly"}
 	if secure {
 		flags = append(flags, "Secure")
+	}
+	if domain != "" {
+		flags = append(flags, "domain="+domain)
 	}
 	cookies := splitCookie(TokenCookieName, token, strings.Join(flags, "; "))
 	for _, cookie := range cookies {

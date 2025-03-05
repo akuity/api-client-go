@@ -128,9 +128,13 @@ const (
 	OrganizationService_DeleteOrganizationDomain_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteOrganizationDomain"
 	OrganizationService_VerifyOrganizationDomains_FullMethodName              = "/akuity.organization.v1.OrganizationService/VerifyOrganizationDomains"
 	OrganizationService_CreateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateAIConversation"
+	OrganizationService_UpdateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateAIConversation"
+	OrganizationService_DeleteAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteAIConversation"
 	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
 	OrganizationService_ListAIConversations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListAIConversations"
 	OrganizationService_CreateAIMessage_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
+	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
+	OrganizationService_ApplyAISuggestedConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ApplyAISuggestedConfig"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -268,9 +272,13 @@ type OrganizationServiceClient interface {
 	DeleteOrganizationDomain(ctx context.Context, in *DeleteOrganizationDomainRequest, opts ...grpc.CallOption) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(ctx context.Context, in *VerifyOrganizationDomainsRequest, opts ...grpc.CallOption) (*VerifyOrganizationDomainsResponse, error)
 	CreateAIConversation(ctx context.Context, in *CreateAIConversationRequest, opts ...grpc.CallOption) (*CreateAIConversationResponse, error)
+	UpdateAIConversation(ctx context.Context, in *UpdateAIConversationRequest, opts ...grpc.CallOption) (*UpdateAIConversationResponse, error)
+	DeleteAIConversation(ctx context.Context, in *DeleteAIConversationRequest, opts ...grpc.CallOption) (*DeleteAIConversationResponse, error)
 	GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error)
 	ListAIConversations(ctx context.Context, in *ListAIConversationsRequest, opts ...grpc.CallOption) (*ListAIConversationsResponse, error)
 	CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error)
+	ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error)
+	ApplyAISuggestedConfig(ctx context.Context, in *ApplyAISuggestedConfigRequest, opts ...grpc.CallOption) (*ApplyAISuggestedConfigResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -1414,6 +1422,24 @@ func (c *organizationServiceClient) CreateAIConversation(ctx context.Context, in
 	return out, nil
 }
 
+func (c *organizationServiceClient) UpdateAIConversation(ctx context.Context, in *UpdateAIConversationRequest, opts ...grpc.CallOption) (*UpdateAIConversationResponse, error) {
+	out := new(UpdateAIConversationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateAIConversation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DeleteAIConversation(ctx context.Context, in *DeleteAIConversationRequest, opts ...grpc.CallOption) (*DeleteAIConversationResponse, error) {
+	out := new(DeleteAIConversationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteAIConversation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error) {
 	out := new(GetAIConversationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetAIConversation_FullMethodName, in, out, opts...)
@@ -1435,6 +1461,24 @@ func (c *organizationServiceClient) ListAIConversations(ctx context.Context, in 
 func (c *organizationServiceClient) CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error) {
 	out := new(CreateAIMessageResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_CreateAIMessage_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error) {
+	out := new(ListAIConversationSuggestionsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListAIConversationSuggestions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ApplyAISuggestedConfig(ctx context.Context, in *ApplyAISuggestedConfigRequest, opts ...grpc.CallOption) (*ApplyAISuggestedConfigResponse, error) {
+	out := new(ApplyAISuggestedConfigResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ApplyAISuggestedConfig_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1576,9 +1620,13 @@ type OrganizationServiceServer interface {
 	DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
 	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
+	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
+	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
+	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
+	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -1910,6 +1958,12 @@ func (UnimplementedOrganizationServiceServer) VerifyOrganizationDomains(context.
 func (UnimplementedOrganizationServiceServer) CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAIConversation not implemented")
 }
+func (UnimplementedOrganizationServiceServer) UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIConversation not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAIConversation not implemented")
+}
 func (UnimplementedOrganizationServiceServer) GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAIConversation not implemented")
 }
@@ -1918,6 +1972,12 @@ func (UnimplementedOrganizationServiceServer) ListAIConversations(context.Contex
 }
 func (UnimplementedOrganizationServiceServer) CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAIMessage not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAIConversationSuggestions not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyAISuggestedConfig not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -3897,6 +3957,42 @@ func _OrganizationService_CreateAIConversation_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_UpdateAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAIConversationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateAIConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateAIConversation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateAIConversation(ctx, req.(*UpdateAIConversationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DeleteAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAIConversationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteAIConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteAIConversation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteAIConversation(ctx, req.(*DeleteAIConversationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAIConversationRequest)
 	if err := dec(in); err != nil {
@@ -3947,6 +4043,42 @@ func _OrganizationService_CreateAIMessage_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).CreateAIMessage(ctx, req.(*CreateAIMessageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListAIConversationSuggestions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAIConversationSuggestionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListAIConversationSuggestions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListAIConversationSuggestions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListAIConversationSuggestions(ctx, req.(*ListAIConversationSuggestionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ApplyAISuggestedConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyAISuggestedConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ApplyAISuggestedConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ApplyAISuggestedConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ApplyAISuggestedConfig(ctx, req.(*ApplyAISuggestedConfigRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4363,6 +4495,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_CreateAIConversation_Handler,
 		},
 		{
+			MethodName: "UpdateAIConversation",
+			Handler:    _OrganizationService_UpdateAIConversation_Handler,
+		},
+		{
+			MethodName: "DeleteAIConversation",
+			Handler:    _OrganizationService_DeleteAIConversation_Handler,
+		},
+		{
 			MethodName: "GetAIConversation",
 			Handler:    _OrganizationService_GetAIConversation_Handler,
 		},
@@ -4373,6 +4513,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAIMessage",
 			Handler:    _OrganizationService_CreateAIMessage_Handler,
+		},
+		{
+			MethodName: "ListAIConversationSuggestions",
+			Handler:    _OrganizationService_ListAIConversationSuggestions_Handler,
+		},
+		{
+			MethodName: "ApplyAISuggestedConfig",
+			Handler:    _OrganizationService_ApplyAISuggestedConfig_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
