@@ -112,6 +112,7 @@ type OrganizationServiceGatewayClient interface {
 	ListKubernetesAuditLogs(context.Context, *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error)
 	ListKubernetesNodes(context.Context, *ListKubernetesNodesRequest) (*ListKubernetesNodesResponse, error)
 	GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error)
+	ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -151,6 +152,7 @@ type OrganizationServiceGatewayClient interface {
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
+	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -1931,6 +1933,26 @@ func (c *organizationServiceGatewayClient) GetKubernetesNode(ctx context.Context
 	return gateway.DoRequest[GetKubernetesNodeResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) ListKubernetesNamespacesDetails(ctx context.Context, req *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/namespaces-details")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.GroupBy {
+		q.Add("groupBy", v.String())
+	}
+	if req.Filler != nil {
+		q.Add("filler", req.Filler.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListKubernetesNamespacesDetailsResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) ListKubernetesPods(ctx context.Context, req *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/pods")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -2322,4 +2344,12 @@ func (c *organizationServiceGatewayClient) ApplyAISuggestedConfig(ctx context.Co
 	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[ApplyAISuggestedConfigResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) RevertAIAppliedChange(ctx context.Context, req *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/revert")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RevertAIAppliedChangeResponse](ctx, gwReq)
 }

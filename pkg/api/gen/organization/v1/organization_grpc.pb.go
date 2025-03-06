@@ -105,6 +105,7 @@ const (
 	OrganizationService_ListKubernetesAuditLogs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKubernetesAuditLogs"
 	OrganizationService_ListKubernetesNodes_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListKubernetesNodes"
 	OrganizationService_GetKubernetesNode_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesNode"
+	OrganizationService_ListKubernetesNamespacesDetails_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespacesDetails"
 	OrganizationService_ListKubernetesPods_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
 	OrganizationService_GetKubernetesPod_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
 	OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIs"
@@ -135,6 +136,7 @@ const (
 	OrganizationService_CreateAIMessage_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
 	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
 	OrganizationService_ApplyAISuggestedConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ApplyAISuggestedConfig"
+	OrganizationService_RevertAIAppliedChange_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RevertAIAppliedChange"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -240,6 +242,7 @@ type OrganizationServiceClient interface {
 	ListKubernetesAuditLogs(ctx context.Context, in *ListKubernetesAuditLogsRequest, opts ...grpc.CallOption) (*ListKubernetesAuditLogsResponse, error)
 	ListKubernetesNodes(ctx context.Context, in *ListKubernetesNodesRequest, opts ...grpc.CallOption) (*ListKubernetesNodesResponse, error)
 	GetKubernetesNode(ctx context.Context, in *GetKubernetesNodeRequest, opts ...grpc.CallOption) (*GetKubernetesNodeResponse, error)
+	ListKubernetesNamespacesDetails(ctx context.Context, in *ListKubernetesNamespacesDetailsRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesDetailsResponse, error)
 	ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(ctx context.Context, in *GetKubernetesPodRequest, opts ...grpc.CallOption) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -279,6 +282,7 @@ type OrganizationServiceClient interface {
 	CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error)
 	ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error)
 	ApplyAISuggestedConfig(ctx context.Context, in *ApplyAISuggestedConfigRequest, opts ...grpc.CallOption) (*ApplyAISuggestedConfigResponse, error)
+	RevertAIAppliedChange(ctx context.Context, in *RevertAIAppliedChangeRequest, opts ...grpc.CallOption) (*RevertAIAppliedChangeResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -1169,6 +1173,15 @@ func (c *organizationServiceClient) GetKubernetesNode(ctx context.Context, in *G
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListKubernetesNamespacesDetails(ctx context.Context, in *ListKubernetesNamespacesDetailsRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesDetailsResponse, error) {
+	out := new(ListKubernetesNamespacesDetailsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesNamespacesDetails_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error) {
 	out := new(ListKubernetesPodsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesPods_FullMethodName, in, out, opts...)
@@ -1485,6 +1498,15 @@ func (c *organizationServiceClient) ApplyAISuggestedConfig(ctx context.Context, 
 	return out, nil
 }
 
+func (c *organizationServiceClient) RevertAIAppliedChange(ctx context.Context, in *RevertAIAppliedChangeRequest, opts ...grpc.CallOption) (*RevertAIAppliedChangeResponse, error) {
+	out := new(RevertAIAppliedChangeResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_RevertAIAppliedChange_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -1588,6 +1610,7 @@ type OrganizationServiceServer interface {
 	ListKubernetesAuditLogs(context.Context, *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error)
 	ListKubernetesNodes(context.Context, *ListKubernetesNodesRequest) (*ListKubernetesNodesResponse, error)
 	GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error)
+	ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1627,6 +1650,7 @@ type OrganizationServiceServer interface {
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
+	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -1889,6 +1913,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesNodes(context.Contex
 func (UnimplementedOrganizationServiceServer) GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesNode not implemented")
 }
+func (UnimplementedOrganizationServiceServer) ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesNamespacesDetails not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesPods not implemented")
 }
@@ -1978,6 +2005,9 @@ func (UnimplementedOrganizationServiceServer) ListAIConversationSuggestions(cont
 }
 func (UnimplementedOrganizationServiceServer) ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ApplyAISuggestedConfig not implemented")
+}
+func (UnimplementedOrganizationServiceServer) RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevertAIAppliedChange not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -3537,6 +3567,24 @@ func _OrganizationService_GetKubernetesNode_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListKubernetesNamespacesDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKubernetesNamespacesDetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKubernetesNamespacesDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKubernetesNamespacesDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKubernetesNamespacesDetails(ctx, req.(*ListKubernetesNamespacesDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListKubernetesPods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesPodsRequest)
 	if err := dec(in); err != nil {
@@ -4083,6 +4131,24 @@ func _OrganizationService_ApplyAISuggestedConfig_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_RevertAIAppliedChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevertAIAppliedChangeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).RevertAIAppliedChange(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_RevertAIAppliedChange_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).RevertAIAppliedChange(ctx, req.(*RevertAIAppliedChangeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4411,6 +4477,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_GetKubernetesNode_Handler,
 		},
 		{
+			MethodName: "ListKubernetesNamespacesDetails",
+			Handler:    _OrganizationService_ListKubernetesNamespacesDetails_Handler,
+		},
+		{
 			MethodName: "ListKubernetesPods",
 			Handler:    _OrganizationService_ListKubernetesPods_Handler,
 		},
@@ -4521,6 +4591,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ApplyAISuggestedConfig",
 			Handler:    _OrganizationService_ApplyAISuggestedConfig_Handler,
+		},
+		{
+			MethodName: "RevertAIAppliedChange",
+			Handler:    _OrganizationService_RevertAIAppliedChange_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
