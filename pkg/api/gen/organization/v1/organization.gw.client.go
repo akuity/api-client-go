@@ -1601,6 +1601,9 @@ func (c *organizationServiceGatewayClient) SpotlightSearchKubernetesResources(ct
 	if req.Offset != nil {
 		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
 	}
+	if req.AiSearch != nil {
+		q.Add("aiSearch", fmt.Sprintf("%v", *req.AiSearch))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[SpotlightSearchKubernetesResourcesResponse](ctx, gwReq)
 }
