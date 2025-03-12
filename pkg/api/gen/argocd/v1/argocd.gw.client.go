@@ -84,6 +84,10 @@ type ArgoCDServiceGatewayClient interface {
 	PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error)
 	WatchInstanceAddons(context.Context, *WatchInstanceAddonsRequest) (<-chan *WatchInstanceAddonsResponse, <-chan error, error)
 	WatchInstanceAddonRepos(context.Context, *WatchInstanceAddonReposRequest) (<-chan *WatchInstanceAddonReposResponse, <-chan error, error)
+	AddonMarketplaceInstall(context.Context, *AddonMarketplaceInstallRequest) (*AddonMarketplaceInstallResponse, error)
+	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
+	WatchAddonMarketplaceInstalls(context.Context, *WatchAddonMarketplaceInstallsRequest) (<-chan *WatchAddonMarketplaceInstallsResponse, <-chan error, error)
+	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
 }
 
 func NewArgoCDServiceGatewayClient(c gateway.Client) ArgoCDServiceGatewayClient {
@@ -832,4 +836,40 @@ func (c *argoCDServiceGatewayClient) WatchInstanceAddonRepos(ctx context.Context
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[WatchInstanceAddonReposResponse](ctx, c.gwc, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) AddonMarketplaceInstall(ctx context.Context, req *AddonMarketplaceInstallRequest) (*AddonMarketplaceInstallResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-marketplace-installs")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[AddonMarketplaceInstallResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ListAddonMarketplaceInstalls(ctx context.Context, req *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/list-addon-marketplace-installs")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ListAddonMarketplaceInstallsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) WatchAddonMarketplaceInstalls(ctx context.Context, req *WatchAddonMarketplaceInstallsRequest) (<-chan *WatchAddonMarketplaceInstallsResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-marketplace-installs")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	return gateway.DoStreamingRequest[WatchAddonMarketplaceInstallsResponse](ctx, c.gwc, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateAddonMarketplaceInstall(ctx context.Context, req *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-marketplace-installs/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateAddonMarketplaceInstallResponse](ctx, gwReq)
 }

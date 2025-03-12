@@ -113,6 +113,7 @@ type OrganizationServiceGatewayClient interface {
 	ListKubernetesNodes(context.Context, *ListKubernetesNodesRequest) (*ListKubernetesNodesResponse, error)
 	GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error)
 	ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error)
+	GetKubernetesNamespaceDetail(context.Context, *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -153,6 +154,7 @@ type OrganizationServiceGatewayClient interface {
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
 	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
+	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -688,6 +690,29 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 			q.Add("filters.addonRepos.enabled", fmt.Sprintf("%v", *req.Filters.AddonRepos.Enabled))
 		}
 	}
+	if req.Filters.AddonMarketplaceInstall != nil {
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectName {
+			q.Add("filters.addonMarketplaceInstall.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectKind {
+			q.Add("filters.addonMarketplaceInstall.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectGroup {
+			q.Add("filters.addonMarketplaceInstall.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentName {
+			q.Add("filters.addonMarketplaceInstall.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentParentName {
+			q.Add("filters.addonMarketplaceInstall.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentApplicationName {
+			q.Add("filters.addonMarketplaceInstall.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.AddonMarketplaceInstall.Enabled != nil {
+			q.Add("filters.addonMarketplaceInstall.enabled", fmt.Sprintf("%v", *req.Filters.AddonMarketplaceInstall.Enabled))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
@@ -1103,6 +1128,29 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		if req.Filters.AddonRepos.Enabled != nil {
 			q.Add("filters.addonRepos.enabled", fmt.Sprintf("%v", *req.Filters.AddonRepos.Enabled))
+		}
+	}
+	if req.Filters.AddonMarketplaceInstall != nil {
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectName {
+			q.Add("filters.addonMarketplaceInstall.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectKind {
+			q.Add("filters.addonMarketplaceInstall.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectGroup {
+			q.Add("filters.addonMarketplaceInstall.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentName {
+			q.Add("filters.addonMarketplaceInstall.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentParentName {
+			q.Add("filters.addonMarketplaceInstall.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentApplicationName {
+			q.Add("filters.addonMarketplaceInstall.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.AddonMarketplaceInstall.Enabled != nil {
+			q.Add("filters.addonMarketplaceInstall.enabled", fmt.Sprintf("%v", *req.Filters.AddonMarketplaceInstall.Enabled))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -1956,6 +2004,17 @@ func (c *organizationServiceGatewayClient) ListKubernetesNamespacesDetails(ctx c
 	return gateway.DoRequest[ListKubernetesNamespacesDetailsResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) GetKubernetesNamespaceDetail(ctx context.Context, req *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/namespaces-details/{namespace_id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("namespace_id", fmt.Sprintf("%v", req.NamespaceId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesNamespaceDetailResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) ListKubernetesPods(ctx context.Context, req *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/pods")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -2355,4 +2414,12 @@ func (c *organizationServiceGatewayClient) RevertAIAppliedChange(ctx context.Con
 	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RevertAIAppliedChangeResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateAIMessageFeedback(ctx context.Context, req *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/feedback")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateAIMessageFeedbackResponse](ctx, gwReq)
 }

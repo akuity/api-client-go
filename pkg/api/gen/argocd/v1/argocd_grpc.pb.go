@@ -82,6 +82,10 @@ const (
 	ArgoCDService_PatchInstanceAddon_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/PatchInstanceAddon"
 	ArgoCDService_WatchInstanceAddons_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/WatchInstanceAddons"
 	ArgoCDService_WatchInstanceAddonRepos_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/WatchInstanceAddonRepos"
+	ArgoCDService_AddonMarketplaceInstall_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/AddonMarketplaceInstall"
+	ArgoCDService_ListAddonMarketplaceInstalls_FullMethodName          = "/akuity.argocd.v1.ArgoCDService/ListAddonMarketplaceInstalls"
+	ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/WatchAddonMarketplaceInstalls"
+	ArgoCDService_UpdateAddonMarketplaceInstall_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/UpdateAddonMarketplaceInstall"
 )
 
 // ArgoCDServiceClient is the client API for ArgoCDService service.
@@ -158,6 +162,10 @@ type ArgoCDServiceClient interface {
 	PatchInstanceAddon(ctx context.Context, in *PatchInstanceAddonRequest, opts ...grpc.CallOption) (*PatchInstanceAddonResponse, error)
 	WatchInstanceAddons(ctx context.Context, in *WatchInstanceAddonsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonsClient, error)
 	WatchInstanceAddonRepos(ctx context.Context, in *WatchInstanceAddonReposRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonReposClient, error)
+	AddonMarketplaceInstall(ctx context.Context, in *AddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*AddonMarketplaceInstallResponse, error)
+	ListAddonMarketplaceInstalls(ctx context.Context, in *ListAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (*ListAddonMarketplaceInstallsResponse, error)
+	WatchAddonMarketplaceInstalls(ctx context.Context, in *WatchAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchAddonMarketplaceInstallsClient, error)
+	UpdateAddonMarketplaceInstall(ctx context.Context, in *UpdateAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*UpdateAddonMarketplaceInstallResponse, error)
 }
 
 type argoCDServiceClient struct {
@@ -832,6 +840,65 @@ func (x *argoCDServiceWatchInstanceAddonReposClient) Recv() (*WatchInstanceAddon
 	return m, nil
 }
 
+func (c *argoCDServiceClient) AddonMarketplaceInstall(ctx context.Context, in *AddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*AddonMarketplaceInstallResponse, error) {
+	out := new(AddonMarketplaceInstallResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_AddonMarketplaceInstall_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) ListAddonMarketplaceInstalls(ctx context.Context, in *ListAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (*ListAddonMarketplaceInstallsResponse, error) {
+	out := new(ListAddonMarketplaceInstallsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_ListAddonMarketplaceInstalls_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) WatchAddonMarketplaceInstalls(ctx context.Context, in *WatchAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchAddonMarketplaceInstallsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[5], ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &argoCDServiceWatchAddonMarketplaceInstallsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_WatchAddonMarketplaceInstallsClient interface {
+	Recv() (*WatchAddonMarketplaceInstallsResponse, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceWatchAddonMarketplaceInstallsClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceWatchAddonMarketplaceInstallsClient) Recv() (*WatchAddonMarketplaceInstallsResponse, error) {
+	m := new(WatchAddonMarketplaceInstallsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *argoCDServiceClient) UpdateAddonMarketplaceInstall(ctx context.Context, in *UpdateAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*UpdateAddonMarketplaceInstallResponse, error) {
+	out := new(UpdateAddonMarketplaceInstallResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateAddonMarketplaceInstall_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArgoCDServiceServer is the server API for ArgoCDService service.
 // All implementations must embed UnimplementedArgoCDServiceServer
 // for forward compatibility
@@ -906,6 +973,10 @@ type ArgoCDServiceServer interface {
 	PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error)
 	WatchInstanceAddons(*WatchInstanceAddonsRequest, ArgoCDService_WatchInstanceAddonsServer) error
 	WatchInstanceAddonRepos(*WatchInstanceAddonReposRequest, ArgoCDService_WatchInstanceAddonReposServer) error
+	AddonMarketplaceInstall(context.Context, *AddonMarketplaceInstallRequest) (*AddonMarketplaceInstallResponse, error)
+	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
+	WatchAddonMarketplaceInstalls(*WatchAddonMarketplaceInstallsRequest, ArgoCDService_WatchAddonMarketplaceInstallsServer) error
+	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
 
@@ -1095,6 +1166,18 @@ func (UnimplementedArgoCDServiceServer) WatchInstanceAddons(*WatchInstanceAddons
 }
 func (UnimplementedArgoCDServiceServer) WatchInstanceAddonRepos(*WatchInstanceAddonReposRequest, ArgoCDService_WatchInstanceAddonReposServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchInstanceAddonRepos not implemented")
+}
+func (UnimplementedArgoCDServiceServer) AddonMarketplaceInstall(context.Context, *AddonMarketplaceInstallRequest) (*AddonMarketplaceInstallResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddonMarketplaceInstall not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAddonMarketplaceInstalls not implemented")
+}
+func (UnimplementedArgoCDServiceServer) WatchAddonMarketplaceInstalls(*WatchAddonMarketplaceInstallsRequest, ArgoCDService_WatchAddonMarketplaceInstallsServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchAddonMarketplaceInstalls not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddonMarketplaceInstall not implemented")
 }
 func (UnimplementedArgoCDServiceServer) mustEmbedUnimplementedArgoCDServiceServer() {}
 
@@ -2222,6 +2305,81 @@ func (x *argoCDServiceWatchInstanceAddonReposServer) Send(m *WatchInstanceAddonR
 	return x.ServerStream.SendMsg(m)
 }
 
+func _ArgoCDService_AddonMarketplaceInstall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddonMarketplaceInstallRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).AddonMarketplaceInstall(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_AddonMarketplaceInstall_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).AddonMarketplaceInstall(ctx, req.(*AddonMarketplaceInstallRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_ListAddonMarketplaceInstalls_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAddonMarketplaceInstallsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ListAddonMarketplaceInstalls(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_ListAddonMarketplaceInstalls_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ListAddonMarketplaceInstalls(ctx, req.(*ListAddonMarketplaceInstallsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_WatchAddonMarketplaceInstalls_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchAddonMarketplaceInstallsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArgoCDServiceServer).WatchAddonMarketplaceInstalls(m, &argoCDServiceWatchAddonMarketplaceInstallsServer{stream})
+}
+
+type ArgoCDService_WatchAddonMarketplaceInstallsServer interface {
+	Send(*WatchAddonMarketplaceInstallsResponse) error
+	grpc.ServerStream
+}
+
+type argoCDServiceWatchAddonMarketplaceInstallsServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceWatchAddonMarketplaceInstallsServer) Send(m *WatchAddonMarketplaceInstallsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ArgoCDService_UpdateAddonMarketplaceInstall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAddonMarketplaceInstallRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateAddonMarketplaceInstall(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateAddonMarketplaceInstall_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateAddonMarketplaceInstall(ctx, req.(*UpdateAddonMarketplaceInstallRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArgoCDService_ServiceDesc is the grpc.ServiceDesc for ArgoCDService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2453,6 +2611,18 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "PatchInstanceAddon",
 			Handler:    _ArgoCDService_PatchInstanceAddon_Handler,
 		},
+		{
+			MethodName: "AddonMarketplaceInstall",
+			Handler:    _ArgoCDService_AddonMarketplaceInstall_Handler,
+		},
+		{
+			MethodName: "ListAddonMarketplaceInstalls",
+			Handler:    _ArgoCDService_ListAddonMarketplaceInstalls_Handler,
+		},
+		{
+			MethodName: "UpdateAddonMarketplaceInstall",
+			Handler:    _ArgoCDService_UpdateAddonMarketplaceInstall_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -2478,6 +2648,11 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "WatchInstanceAddonRepos",
 			Handler:       _ArgoCDService_WatchInstanceAddonRepos_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "WatchAddonMarketplaceInstalls",
+			Handler:       _ArgoCDService_WatchAddonMarketplaceInstalls_Handler,
 			ServerStreams: true,
 		},
 	},
