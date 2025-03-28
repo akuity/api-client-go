@@ -8,6 +8,7 @@ package extensionv1
 
 import (
 	context "context"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -22,6 +23,7 @@ const (
 	ExtensionService_ListAuditRecordForApplication_FullMethodName         = "/akuity.extension.v1.ExtensionService/ListAuditRecordForApplication"
 	ExtensionService_GetSyncOperationsStatsForApplication_FullMethodName  = "/akuity.extension.v1.ExtensionService/GetSyncOperationsStatsForApplication"
 	ExtensionService_GetSyncOperationsEventsForApplication_FullMethodName = "/akuity.extension.v1.ExtensionService/GetSyncOperationsEventsForApplication"
+	ExtensionService_GetKargoAnalysisLogs_FullMethodName                  = "/akuity.extension.v1.ExtensionService/GetKargoAnalysisLogs"
 )
 
 // ExtensionServiceClient is the client API for ExtensionService service.
@@ -31,6 +33,10 @@ type ExtensionServiceClient interface {
 	ListAuditRecordForApplication(ctx context.Context, in *ListAuditRecordForApplicationRequest, opts ...grpc.CallOption) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(ctx context.Context, in *GetSyncOperationsStatsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(ctx context.Context, in *GetSyncOperationsEventsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsForApplicationResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoAnalysisLogs(ctx context.Context, in *GetKargoAnalysisLogsRequest, opts ...grpc.CallOption) (ExtensionService_GetKargoAnalysisLogsClient, error)
 }
 
 type extensionServiceClient struct {
@@ -68,6 +74,38 @@ func (c *extensionServiceClient) GetSyncOperationsEventsForApplication(ctx conte
 	return out, nil
 }
 
+func (c *extensionServiceClient) GetKargoAnalysisLogs(ctx context.Context, in *GetKargoAnalysisLogsRequest, opts ...grpc.CallOption) (ExtensionService_GetKargoAnalysisLogsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ExtensionService_ServiceDesc.Streams[0], ExtensionService_GetKargoAnalysisLogs_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &extensionServiceGetKargoAnalysisLogsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ExtensionService_GetKargoAnalysisLogsClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type extensionServiceGetKargoAnalysisLogsClient struct {
+	grpc.ClientStream
+}
+
+func (x *extensionServiceGetKargoAnalysisLogsClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // ExtensionServiceServer is the server API for ExtensionService service.
 // All implementations must embed UnimplementedExtensionServiceServer
 // for forward compatibility
@@ -75,6 +113,10 @@ type ExtensionServiceServer interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoAnalysisLogs(*GetKargoAnalysisLogsRequest, ExtensionService_GetKargoAnalysisLogsServer) error
 	mustEmbedUnimplementedExtensionServiceServer()
 }
 
@@ -90,6 +132,9 @@ func (UnimplementedExtensionServiceServer) GetSyncOperationsStatsForApplication(
 }
 func (UnimplementedExtensionServiceServer) GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsEventsForApplication not implemented")
+}
+func (UnimplementedExtensionServiceServer) GetKargoAnalysisLogs(*GetKargoAnalysisLogsRequest, ExtensionService_GetKargoAnalysisLogsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetKargoAnalysisLogs not implemented")
 }
 func (UnimplementedExtensionServiceServer) mustEmbedUnimplementedExtensionServiceServer() {}
 
@@ -158,6 +203,27 @@ func _ExtensionService_GetSyncOperationsEventsForApplication_Handler(srv interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExtensionService_GetKargoAnalysisLogs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetKargoAnalysisLogsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ExtensionServiceServer).GetKargoAnalysisLogs(m, &extensionServiceGetKargoAnalysisLogsServer{stream})
+}
+
+type ExtensionService_GetKargoAnalysisLogsServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type extensionServiceGetKargoAnalysisLogsServer struct {
+	grpc.ServerStream
+}
+
+func (x *extensionServiceGetKargoAnalysisLogsServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // ExtensionService_ServiceDesc is the grpc.ServiceDesc for ExtensionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -178,6 +244,12 @@ var ExtensionService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ExtensionService_GetSyncOperationsEventsForApplication_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetKargoAnalysisLogs",
+			Handler:       _ExtensionService_GetKargoAnalysisLogs_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "extension/v1/extension.proto",
 }

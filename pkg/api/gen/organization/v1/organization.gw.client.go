@@ -114,6 +114,7 @@ type OrganizationServiceGatewayClient interface {
 	GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error)
 	ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error)
 	GetKubernetesNamespaceDetail(context.Context, *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error)
+	GetKubernetesClusterDetail(context.Context, *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -151,6 +152,8 @@ type OrganizationServiceGatewayClient interface {
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
+	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
+	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
 	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
@@ -2015,6 +2018,14 @@ func (c *organizationServiceGatewayClient) GetKubernetesNamespaceDetail(ctx cont
 	return gateway.DoRequest[GetKubernetesNamespaceDetailResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) GetKubernetesClusterDetail(ctx context.Context, req *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/instances/{instance_id}/clusters/{cluster_id}/detail")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("cluster_id", fmt.Sprintf("%v", req.ClusterId))
+	return gateway.DoRequest[GetKubernetesClusterDetailResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) ListKubernetesPods(ctx context.Context, req *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/pods")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -2390,6 +2401,20 @@ func (c *organizationServiceGatewayClient) CreateAIMessage(ctx context.Context, 
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[CreateAIMessageResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListUsersMFAStatus(ctx context.Context, req *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{organization_id}/users-mfa-status")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListUsersMFAStatusResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) RequestMFAReset(ctx context.Context, req *RequestMFAResetRequest) (*RequestMFAResetResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/organizations/{organization_id}/users/{email}/mfa/reset")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("email", fmt.Sprintf("%v", req.Email))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RequestMFAResetResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListAIConversationSuggestions(ctx context.Context, req *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error) {

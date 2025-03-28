@@ -725,12 +725,6 @@ func (c *argoCDServiceGatewayClient) ListInstanceAddons(ctx context.Context, req
 		if req.Filter.AddonType != nil {
 			q.Add("filter.addonType", req.Filter.AddonType.String())
 		}
-		if req.Filter.Synced != nil {
-			q.Add("filter.synced", fmt.Sprintf("%v", *req.Filter.Synced))
-		}
-		if req.Filter.Healthy != nil {
-			q.Add("filter.healthy", fmt.Sprintf("%v", *req.Filter.Healthy))
-		}
 		if req.Filter.ClusterNameLike != nil {
 			q.Add("filter.clusterNameLike", fmt.Sprintf("%v", *req.Filter.ClusterNameLike))
 		}
@@ -806,12 +800,6 @@ func (c *argoCDServiceGatewayClient) WatchInstanceAddons(ctx context.Context, re
 		}
 		if req.Filter.AddonType != nil {
 			q.Add("filter.addonType", req.Filter.AddonType.String())
-		}
-		if req.Filter.Synced != nil {
-			q.Add("filter.synced", fmt.Sprintf("%v", *req.Filter.Synced))
-		}
-		if req.Filter.Healthy != nil {
-			q.Add("filter.healthy", fmt.Sprintf("%v", *req.Filter.Healthy))
 		}
 		if req.Filter.ClusterNameLike != nil {
 			q.Add("filter.clusterNameLike", fmt.Sprintf("%v", *req.Filter.ClusterNameLike))

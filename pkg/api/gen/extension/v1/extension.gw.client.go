@@ -5,7 +5,9 @@ package extensionv1
 
 import (
 	context "context"
+	fmt "fmt"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 )
 
 // ExtensionServiceGatewayClient is the interface for ExtensionService service client.
@@ -13,6 +15,10 @@ type ExtensionServiceGatewayClient interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoAnalysisLogs(context.Context, *GetKargoAnalysisLogsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 }
 
 func NewExtensionServiceGatewayClient(c gateway.Client) ExtensionServiceGatewayClient {
@@ -41,4 +47,12 @@ func (c *extensionServiceGatewayClient) GetSyncOperationsEventsForApplication(ct
 	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/sync-operations-events")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetSyncOperationsEventsForApplicationResponse](ctx, gwReq)
+}
+
+func (c *extensionServiceGatewayClient) GetKargoAnalysisLogs(ctx context.Context, req *GetKargoAnalysisLogsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/kargo/extensions/logs/{project_name}/{analysis_run}/{container_name}")
+	gwReq.SetPathParam("project_name", fmt.Sprintf("%v", req.ProjectName))
+	gwReq.SetPathParam("analysis_run", fmt.Sprintf("%v", req.AnalysisRun))
+	gwReq.SetPathParam("container_name", fmt.Sprintf("%v", req.ContainerName))
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }

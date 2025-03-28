@@ -107,6 +107,7 @@ const (
 	OrganizationService_GetKubernetesNode_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesNode"
 	OrganizationService_ListKubernetesNamespacesDetails_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespacesDetails"
 	OrganizationService_GetKubernetesNamespaceDetail_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetKubernetesNamespaceDetail"
+	OrganizationService_GetKubernetesClusterDetail_FullMethodName             = "/akuity.organization.v1.OrganizationService/GetKubernetesClusterDetail"
 	OrganizationService_ListKubernetesPods_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
 	OrganizationService_GetKubernetesPod_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
 	OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIs"
@@ -135,6 +136,8 @@ const (
 	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
 	OrganizationService_ListAIConversations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListAIConversations"
 	OrganizationService_CreateAIMessage_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
+	OrganizationService_ListUsersMFAStatus_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListUsersMFAStatus"
+	OrganizationService_RequestMFAReset_FullMethodName                        = "/akuity.organization.v1.OrganizationService/RequestMFAReset"
 	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
 	OrganizationService_ApplyAISuggestedConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ApplyAISuggestedConfig"
 	OrganizationService_RevertAIAppliedChange_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RevertAIAppliedChange"
@@ -246,6 +249,7 @@ type OrganizationServiceClient interface {
 	GetKubernetesNode(ctx context.Context, in *GetKubernetesNodeRequest, opts ...grpc.CallOption) (*GetKubernetesNodeResponse, error)
 	ListKubernetesNamespacesDetails(ctx context.Context, in *ListKubernetesNamespacesDetailsRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesDetailsResponse, error)
 	GetKubernetesNamespaceDetail(ctx context.Context, in *GetKubernetesNamespaceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesNamespaceDetailResponse, error)
+	GetKubernetesClusterDetail(ctx context.Context, in *GetKubernetesClusterDetailRequest, opts ...grpc.CallOption) (*GetKubernetesClusterDetailResponse, error)
 	ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(ctx context.Context, in *GetKubernetesPodRequest, opts ...grpc.CallOption) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -283,6 +287,8 @@ type OrganizationServiceClient interface {
 	GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error)
 	ListAIConversations(ctx context.Context, in *ListAIConversationsRequest, opts ...grpc.CallOption) (*ListAIConversationsResponse, error)
 	CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error)
+	ListUsersMFAStatus(ctx context.Context, in *ListUsersMFAStatusRequest, opts ...grpc.CallOption) (*ListUsersMFAStatusResponse, error)
+	RequestMFAReset(ctx context.Context, in *RequestMFAResetRequest, opts ...grpc.CallOption) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error)
 	ApplyAISuggestedConfig(ctx context.Context, in *ApplyAISuggestedConfigRequest, opts ...grpc.CallOption) (*ApplyAISuggestedConfigResponse, error)
 	RevertAIAppliedChange(ctx context.Context, in *RevertAIAppliedChangeRequest, opts ...grpc.CallOption) (*RevertAIAppliedChangeResponse, error)
@@ -1195,6 +1201,15 @@ func (c *organizationServiceClient) GetKubernetesNamespaceDetail(ctx context.Con
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetKubernetesClusterDetail(ctx context.Context, in *GetKubernetesClusterDetailRequest, opts ...grpc.CallOption) (*GetKubernetesClusterDetailResponse, error) {
+	out := new(GetKubernetesClusterDetailResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesClusterDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error) {
 	out := new(ListKubernetesPodsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesPods_FullMethodName, in, out, opts...)
@@ -1493,6 +1508,24 @@ func (c *organizationServiceClient) CreateAIMessage(ctx context.Context, in *Cre
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListUsersMFAStatus(ctx context.Context, in *ListUsersMFAStatusRequest, opts ...grpc.CallOption) (*ListUsersMFAStatusResponse, error) {
+	out := new(ListUsersMFAStatusResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListUsersMFAStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) RequestMFAReset(ctx context.Context, in *RequestMFAResetRequest, opts ...grpc.CallOption) (*RequestMFAResetResponse, error) {
+	out := new(RequestMFAResetResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_RequestMFAReset_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error) {
 	out := new(ListAIConversationSuggestionsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListAIConversationSuggestions_FullMethodName, in, out, opts...)
@@ -1634,6 +1667,7 @@ type OrganizationServiceServer interface {
 	GetKubernetesNode(context.Context, *GetKubernetesNodeRequest) (*GetKubernetesNodeResponse, error)
 	ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error)
 	GetKubernetesNamespaceDetail(context.Context, *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error)
+	GetKubernetesClusterDetail(context.Context, *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1671,6 +1705,8 @@ type OrganizationServiceServer interface {
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
+	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
+	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
 	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
@@ -1943,6 +1979,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesNamespacesDetails(co
 func (UnimplementedOrganizationServiceServer) GetKubernetesNamespaceDetail(context.Context, *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesNamespaceDetail not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetKubernetesClusterDetail(context.Context, *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesClusterDetail not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesPods not implemented")
 }
@@ -2026,6 +2065,12 @@ func (UnimplementedOrganizationServiceServer) ListAIConversations(context.Contex
 }
 func (UnimplementedOrganizationServiceServer) CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAIMessage not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsersMFAStatus not implemented")
+}
+func (UnimplementedOrganizationServiceServer) RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestMFAReset not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAIConversationSuggestions not implemented")
@@ -3633,6 +3678,24 @@ func _OrganizationService_GetKubernetesNamespaceDetail_Handler(srv interface{}, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetKubernetesClusterDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesClusterDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesClusterDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesClusterDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesClusterDetail(ctx, req.(*GetKubernetesClusterDetailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListKubernetesPods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesPodsRequest)
 	if err := dec(in); err != nil {
@@ -4143,6 +4206,42 @@ func _OrganizationService_CreateAIMessage_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListUsersMFAStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUsersMFAStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListUsersMFAStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListUsersMFAStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListUsersMFAStatus(ctx, req.(*ListUsersMFAStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_RequestMFAReset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestMFAResetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).RequestMFAReset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_RequestMFAReset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).RequestMFAReset(ctx, req.(*RequestMFAResetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListAIConversationSuggestions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAIConversationSuggestionsRequest)
 	if err := dec(in); err != nil {
@@ -4551,6 +4650,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_GetKubernetesNamespaceDetail_Handler,
 		},
 		{
+			MethodName: "GetKubernetesClusterDetail",
+			Handler:    _OrganizationService_GetKubernetesClusterDetail_Handler,
+		},
+		{
 			MethodName: "ListKubernetesPods",
 			Handler:    _OrganizationService_ListKubernetesPods_Handler,
 		},
@@ -4653,6 +4756,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAIMessage",
 			Handler:    _OrganizationService_CreateAIMessage_Handler,
+		},
+		{
+			MethodName: "ListUsersMFAStatus",
+			Handler:    _OrganizationService_ListUsersMFAStatus_Handler,
+		},
+		{
+			MethodName: "RequestMFAReset",
+			Handler:    _OrganizationService_RequestMFAReset_Handler,
 		},
 		{
 			MethodName: "ListAIConversationSuggestions",

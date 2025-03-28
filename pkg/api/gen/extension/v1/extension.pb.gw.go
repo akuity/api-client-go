@@ -109,6 +109,60 @@ func local_request_ExtensionService_GetSyncOperationsEventsForApplication_0(ctx 
 
 }
 
+func request_ExtensionService_GetKargoAnalysisLogs_0(ctx context.Context, marshaler runtime.Marshaler, client ExtensionServiceClient, req *http.Request, pathParams map[string]string) (ExtensionService_GetKargoAnalysisLogsClient, runtime.ServerMetadata, error) {
+	var protoReq GetKargoAnalysisLogsRequest
+	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["project_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "project_name")
+	}
+
+	protoReq.ProjectName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "project_name", err)
+	}
+
+	val, ok = pathParams["analysis_run"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "analysis_run")
+	}
+
+	protoReq.AnalysisRun, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "analysis_run", err)
+	}
+
+	val, ok = pathParams["container_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "container_name")
+	}
+
+	protoReq.ContainerName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "container_name", err)
+	}
+
+	stream, err := client.GetKargoAnalysisLogs(ctx, &protoReq)
+	if err != nil {
+		return nil, metadata, err
+	}
+	header, err := stream.Header()
+	if err != nil {
+		return nil, metadata, err
+	}
+	metadata.HeaderMD = header
+	return stream, metadata, nil
+
+}
+
 // RegisterExtensionServiceHandlerServer registers the http handlers for service ExtensionService to "mux".
 // UnaryRPC     :call ExtensionServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -189,6 +243,13 @@ func RegisterExtensionServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 
 		forward_ExtensionService_GetSyncOperationsEventsForApplication_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
+	})
+
+	mux.Handle("GET", pattern_ExtensionService_GetKargoAnalysisLogs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
+		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+		return
 	})
 
 	return nil
@@ -298,6 +359,28 @@ func RegisterExtensionServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 
 	})
 
+	mux.Handle("GET", pattern_ExtensionService_GetKargoAnalysisLogs_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.extension.v1.ExtensionService/GetKargoAnalysisLogs", runtime.WithHTTPPathPattern("/ext-api/v1/kargo/extensions/logs/{project_name}/{analysis_run}/{container_name}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_ExtensionService_GetKargoAnalysisLogs_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ExtensionService_GetKargoAnalysisLogs_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -307,6 +390,8 @@ var (
 	pattern_ExtensionService_GetSyncOperationsStatsForApplication_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"ext-api", "v1", "argocd", "extensions", "sync-operations-stats"}, ""))
 
 	pattern_ExtensionService_GetSyncOperationsEventsForApplication_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"ext-api", "v1", "argocd", "extensions", "sync-operations-events"}, ""))
+
+	pattern_ExtensionService_GetKargoAnalysisLogs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7}, []string{"ext-api", "v1", "kargo", "extensions", "logs", "project_name", "analysis_run", "container_name"}, ""))
 )
 
 var (
@@ -315,4 +400,6 @@ var (
 	forward_ExtensionService_GetSyncOperationsStatsForApplication_0 = runtime.ForwardResponseMessage
 
 	forward_ExtensionService_GetSyncOperationsEventsForApplication_0 = runtime.ForwardResponseMessage
+
+	forward_ExtensionService_GetKargoAnalysisLogs_0 = runtime.ForwardResponseStream
 )
