@@ -86,6 +86,10 @@ const (
 	ArgoCDService_ListAddonMarketplaceInstalls_FullMethodName          = "/akuity.argocd.v1.ArgoCDService/ListAddonMarketplaceInstalls"
 	ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/WatchAddonMarketplaceInstalls"
 	ArgoCDService_UpdateAddonMarketplaceInstall_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/UpdateAddonMarketplaceInstall"
+	ArgoCDService_ListInstanceManagedSecrets_FullMethodName            = "/akuity.argocd.v1.ArgoCDService/ListInstanceManagedSecrets"
+	ArgoCDService_CreateManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/CreateManagedSecret"
+	ArgoCDService_DeleteManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/DeleteManagedSecret"
+	ArgoCDService_UpdateManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/UpdateManagedSecret"
 )
 
 // ArgoCDServiceClient is the client API for ArgoCDService service.
@@ -166,6 +170,10 @@ type ArgoCDServiceClient interface {
 	ListAddonMarketplaceInstalls(ctx context.Context, in *ListAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(ctx context.Context, in *WatchAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchAddonMarketplaceInstallsClient, error)
 	UpdateAddonMarketplaceInstall(ctx context.Context, in *UpdateAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*UpdateAddonMarketplaceInstallResponse, error)
+	ListInstanceManagedSecrets(ctx context.Context, in *ListInstanceManagedSecretsRequest, opts ...grpc.CallOption) (*ListInstanceManagedSecretsResponse, error)
+	CreateManagedSecret(ctx context.Context, in *CreateManagedSecretRequest, opts ...grpc.CallOption) (*CreateManagedSecretResponse, error)
+	DeleteManagedSecret(ctx context.Context, in *DeleteManagedSecretRequest, opts ...grpc.CallOption) (*DeleteManagedSecretResponse, error)
+	UpdateManagedSecret(ctx context.Context, in *UpdateManagedSecretRequest, opts ...grpc.CallOption) (*UpdateManagedSecretResponse, error)
 }
 
 type argoCDServiceClient struct {
@@ -899,6 +907,42 @@ func (c *argoCDServiceClient) UpdateAddonMarketplaceInstall(ctx context.Context,
 	return out, nil
 }
 
+func (c *argoCDServiceClient) ListInstanceManagedSecrets(ctx context.Context, in *ListInstanceManagedSecretsRequest, opts ...grpc.CallOption) (*ListInstanceManagedSecretsResponse, error) {
+	out := new(ListInstanceManagedSecretsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceManagedSecrets_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) CreateManagedSecret(ctx context.Context, in *CreateManagedSecretRequest, opts ...grpc.CallOption) (*CreateManagedSecretResponse, error) {
+	out := new(CreateManagedSecretResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_CreateManagedSecret_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) DeleteManagedSecret(ctx context.Context, in *DeleteManagedSecretRequest, opts ...grpc.CallOption) (*DeleteManagedSecretResponse, error) {
+	out := new(DeleteManagedSecretResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_DeleteManagedSecret_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateManagedSecret(ctx context.Context, in *UpdateManagedSecretRequest, opts ...grpc.CallOption) (*UpdateManagedSecretResponse, error) {
+	out := new(UpdateManagedSecretResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateManagedSecret_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArgoCDServiceServer is the server API for ArgoCDService service.
 // All implementations must embed UnimplementedArgoCDServiceServer
 // for forward compatibility
@@ -977,6 +1021,10 @@ type ArgoCDServiceServer interface {
 	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(*WatchAddonMarketplaceInstallsRequest, ArgoCDService_WatchAddonMarketplaceInstallsServer) error
 	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
+	ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error)
+	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
+	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
+	UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
 
@@ -1178,6 +1226,18 @@ func (UnimplementedArgoCDServiceServer) WatchAddonMarketplaceInstalls(*WatchAddo
 }
 func (UnimplementedArgoCDServiceServer) UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddonMarketplaceInstall not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceManagedSecrets not implemented")
+}
+func (UnimplementedArgoCDServiceServer) CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateManagedSecret not implemented")
+}
+func (UnimplementedArgoCDServiceServer) DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteManagedSecret not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateManagedSecret not implemented")
 }
 func (UnimplementedArgoCDServiceServer) mustEmbedUnimplementedArgoCDServiceServer() {}
 
@@ -2380,6 +2440,78 @@ func _ArgoCDService_UpdateAddonMarketplaceInstall_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_ListInstanceManagedSecrets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstanceManagedSecretsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ListInstanceManagedSecrets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_ListInstanceManagedSecrets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ListInstanceManagedSecrets(ctx, req.(*ListInstanceManagedSecretsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_CreateManagedSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateManagedSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).CreateManagedSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_CreateManagedSecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).CreateManagedSecret(ctx, req.(*CreateManagedSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_DeleteManagedSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteManagedSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).DeleteManagedSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_DeleteManagedSecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).DeleteManagedSecret(ctx, req.(*DeleteManagedSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateManagedSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateManagedSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateManagedSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateManagedSecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateManagedSecret(ctx, req.(*UpdateManagedSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArgoCDService_ServiceDesc is the grpc.ServiceDesc for ArgoCDService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2622,6 +2754,22 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAddonMarketplaceInstall",
 			Handler:    _ArgoCDService_UpdateAddonMarketplaceInstall_Handler,
+		},
+		{
+			MethodName: "ListInstanceManagedSecrets",
+			Handler:    _ArgoCDService_ListInstanceManagedSecrets_Handler,
+		},
+		{
+			MethodName: "CreateManagedSecret",
+			Handler:    _ArgoCDService_CreateManagedSecret_Handler,
+		},
+		{
+			MethodName: "DeleteManagedSecret",
+			Handler:    _ArgoCDService_DeleteManagedSecret_Handler,
+		},
+		{
+			MethodName: "UpdateManagedSecret",
+			Handler:    _ArgoCDService_UpdateManagedSecret_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

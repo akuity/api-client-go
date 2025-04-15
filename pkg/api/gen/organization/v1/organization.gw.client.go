@@ -46,6 +46,7 @@ type OrganizationServiceGatewayClient interface {
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
+	GetFeatureStatuses(context.Context, *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
 	GetTeamOIDCMap(context.Context, *GetTeamOIDCMapRequest) (*GetTeamOIDCMapResponse, error)
@@ -115,6 +116,7 @@ type OrganizationServiceGatewayClient interface {
 	ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error)
 	GetKubernetesNamespaceDetail(context.Context, *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error)
 	GetKubernetesClusterDetail(context.Context, *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error)
+	GetKubernetesSummary(context.Context, *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -158,6 +160,7 @@ type OrganizationServiceGatewayClient interface {
 	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
 	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
+	SyncAISuggestedApplication(context.Context, *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -1220,6 +1223,12 @@ func (c *organizationServiceGatewayClient) GetFeatureGates(ctx context.Context, 
 	return gateway.DoRequest[GetFeatureGatesResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) GetFeatureStatuses(ctx context.Context, req *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/feature-statuses")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetFeatureStatusesResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) GetOIDCMap(ctx context.Context, req *GetOIDCMapRequest) (*GetOIDCMapResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/oidc-map")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
@@ -2026,6 +2035,17 @@ func (c *organizationServiceGatewayClient) GetKubernetesClusterDetail(ctx contex
 	return gateway.DoRequest[GetKubernetesClusterDetailResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) GetKubernetesSummary(ctx context.Context, req *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/summary")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesSummaryResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) ListKubernetesPods(ctx context.Context, req *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/pods")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -2447,4 +2467,12 @@ func (c *organizationServiceGatewayClient) UpdateAIMessageFeedback(ctx context.C
 	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateAIMessageFeedbackResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) SyncAISuggestedApplication(ctx context.Context, req *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/sync")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[SyncAISuggestedApplicationResponse](ctx, gwReq)
 }

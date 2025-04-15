@@ -51,6 +51,7 @@ const (
 	OrganizationService_EnsureSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
 	OrganizationService_DeleteSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
 	OrganizationService_GetFeatureGates_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
+	OrganizationService_GetFeatureStatuses_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetFeatureStatuses"
 	OrganizationService_GetOIDCMap_FullMethodName                             = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
 	OrganizationService_UpdateOIDCMap_FullMethodName                          = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
 	OrganizationService_GetTeamOIDCMap_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetTeamOIDCMap"
@@ -108,6 +109,7 @@ const (
 	OrganizationService_ListKubernetesNamespacesDetails_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespacesDetails"
 	OrganizationService_GetKubernetesNamespaceDetail_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetKubernetesNamespaceDetail"
 	OrganizationService_GetKubernetesClusterDetail_FullMethodName             = "/akuity.organization.v1.OrganizationService/GetKubernetesClusterDetail"
+	OrganizationService_GetKubernetesSummary_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetKubernetesSummary"
 	OrganizationService_ListKubernetesPods_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
 	OrganizationService_GetKubernetesPod_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
 	OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIs"
@@ -142,6 +144,7 @@ const (
 	OrganizationService_ApplyAISuggestedConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ApplyAISuggestedConfig"
 	OrganizationService_RevertAIAppliedChange_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RevertAIAppliedChange"
 	OrganizationService_UpdateAIMessageFeedback_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateAIMessageFeedback"
+	OrganizationService_SyncAISuggestedApplication_FullMethodName             = "/akuity.organization.v1.OrganizationService/SyncAISuggestedApplication"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -181,6 +184,7 @@ type OrganizationServiceClient interface {
 	EnsureSSOConfiguration(ctx context.Context, in *EnsureSSOConfigurationRequest, opts ...grpc.CallOption) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(ctx context.Context, in *DeleteSSOConfigurationRequest, opts ...grpc.CallOption) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error)
+	GetFeatureStatuses(ctx context.Context, in *GetFeatureStatusesRequest, opts ...grpc.CallOption) (*GetFeatureStatusesResponse, error)
 	GetOIDCMap(ctx context.Context, in *GetOIDCMapRequest, opts ...grpc.CallOption) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(ctx context.Context, in *UpdateOIDCMapRequest, opts ...grpc.CallOption) (*UpdateOIDCMapResponse, error)
 	GetTeamOIDCMap(ctx context.Context, in *GetTeamOIDCMapRequest, opts ...grpc.CallOption) (*GetTeamOIDCMapResponse, error)
@@ -250,6 +254,7 @@ type OrganizationServiceClient interface {
 	ListKubernetesNamespacesDetails(ctx context.Context, in *ListKubernetesNamespacesDetailsRequest, opts ...grpc.CallOption) (*ListKubernetesNamespacesDetailsResponse, error)
 	GetKubernetesNamespaceDetail(ctx context.Context, in *GetKubernetesNamespaceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesNamespaceDetailResponse, error)
 	GetKubernetesClusterDetail(ctx context.Context, in *GetKubernetesClusterDetailRequest, opts ...grpc.CallOption) (*GetKubernetesClusterDetailResponse, error)
+	GetKubernetesSummary(ctx context.Context, in *GetKubernetesSummaryRequest, opts ...grpc.CallOption) (*GetKubernetesSummaryResponse, error)
 	ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(ctx context.Context, in *GetKubernetesPodRequest, opts ...grpc.CallOption) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -293,6 +298,7 @@ type OrganizationServiceClient interface {
 	ApplyAISuggestedConfig(ctx context.Context, in *ApplyAISuggestedConfigRequest, opts ...grpc.CallOption) (*ApplyAISuggestedConfigResponse, error)
 	RevertAIAppliedChange(ctx context.Context, in *RevertAIAppliedChangeRequest, opts ...grpc.CallOption) (*RevertAIAppliedChangeResponse, error)
 	UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error)
+	SyncAISuggestedApplication(ctx context.Context, in *SyncAISuggestedApplicationRequest, opts ...grpc.CallOption) (*SyncAISuggestedApplicationResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -599,6 +605,15 @@ func (c *organizationServiceClient) DeleteSSOConfiguration(ctx context.Context, 
 func (c *organizationServiceClient) GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error) {
 	out := new(GetFeatureGatesResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetFeatureGates_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetFeatureStatuses(ctx context.Context, in *GetFeatureStatusesRequest, opts ...grpc.CallOption) (*GetFeatureStatusesResponse, error) {
+	out := new(GetFeatureStatusesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetFeatureStatuses_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1210,6 +1225,15 @@ func (c *organizationServiceClient) GetKubernetesClusterDetail(ctx context.Conte
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetKubernetesSummary(ctx context.Context, in *GetKubernetesSummaryRequest, opts ...grpc.CallOption) (*GetKubernetesSummaryResponse, error) {
+	out := new(GetKubernetesSummaryResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesSummary_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error) {
 	out := new(ListKubernetesPodsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesPods_FullMethodName, in, out, opts...)
@@ -1562,6 +1586,15 @@ func (c *organizationServiceClient) UpdateAIMessageFeedback(ctx context.Context,
 	return out, nil
 }
 
+func (c *organizationServiceClient) SyncAISuggestedApplication(ctx context.Context, in *SyncAISuggestedApplicationRequest, opts ...grpc.CallOption) (*SyncAISuggestedApplicationResponse, error) {
+	out := new(SyncAISuggestedApplicationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_SyncAISuggestedApplication_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -1599,6 +1632,7 @@ type OrganizationServiceServer interface {
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
 	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
+	GetFeatureStatuses(context.Context, *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
 	GetTeamOIDCMap(context.Context, *GetTeamOIDCMapRequest) (*GetTeamOIDCMapResponse, error)
@@ -1668,6 +1702,7 @@ type OrganizationServiceServer interface {
 	ListKubernetesNamespacesDetails(context.Context, *ListKubernetesNamespacesDetailsRequest) (*ListKubernetesNamespacesDetailsResponse, error)
 	GetKubernetesNamespaceDetail(context.Context, *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error)
 	GetKubernetesClusterDetail(context.Context, *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error)
+	GetKubernetesSummary(context.Context, *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1711,6 +1746,7 @@ type OrganizationServiceServer interface {
 	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
 	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
+	SyncAISuggestedApplication(context.Context, *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -1810,6 +1846,9 @@ func (UnimplementedOrganizationServiceServer) DeleteSSOConfiguration(context.Con
 }
 func (UnimplementedOrganizationServiceServer) GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFeatureGates not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetFeatureStatuses(context.Context, *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFeatureStatuses not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOIDCMap not implemented")
@@ -1982,6 +2021,9 @@ func (UnimplementedOrganizationServiceServer) GetKubernetesNamespaceDetail(conte
 func (UnimplementedOrganizationServiceServer) GetKubernetesClusterDetail(context.Context, *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesClusterDetail not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetKubernetesSummary(context.Context, *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesSummary not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesPods not implemented")
 }
@@ -2083,6 +2125,9 @@ func (UnimplementedOrganizationServiceServer) RevertAIAppliedChange(context.Cont
 }
 func (UnimplementedOrganizationServiceServer) UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIMessageFeedback not implemented")
+}
+func (UnimplementedOrganizationServiceServer) SyncAISuggestedApplication(context.Context, *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SyncAISuggestedApplication not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -2654,6 +2699,24 @@ func _OrganizationService_GetFeatureGates_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).GetFeatureGates(ctx, req.(*GetFeatureGatesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetFeatureStatuses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFeatureStatusesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetFeatureStatuses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetFeatureStatuses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetFeatureStatuses(ctx, req.(*GetFeatureStatusesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3696,6 +3759,24 @@ func _OrganizationService_GetKubernetesClusterDetail_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetKubernetesSummary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesSummaryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesSummary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesSummary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesSummary(ctx, req.(*GetKubernetesSummaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListKubernetesPods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesPodsRequest)
 	if err := dec(in); err != nil {
@@ -4314,6 +4395,24 @@ func _OrganizationService_UpdateAIMessageFeedback_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_SyncAISuggestedApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SyncAISuggestedApplicationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).SyncAISuggestedApplication(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_SyncAISuggestedApplication_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).SyncAISuggestedApplication(ctx, req.(*SyncAISuggestedApplicationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4440,6 +4539,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetFeatureGates",
 			Handler:    _OrganizationService_GetFeatureGates_Handler,
+		},
+		{
+			MethodName: "GetFeatureStatuses",
+			Handler:    _OrganizationService_GetFeatureStatuses_Handler,
 		},
 		{
 			MethodName: "GetOIDCMap",
@@ -4654,6 +4757,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_GetKubernetesClusterDetail_Handler,
 		},
 		{
+			MethodName: "GetKubernetesSummary",
+			Handler:    _OrganizationService_GetKubernetesSummary_Handler,
+		},
+		{
 			MethodName: "ListKubernetesPods",
 			Handler:    _OrganizationService_ListKubernetesPods_Handler,
 		},
@@ -4780,6 +4887,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAIMessageFeedback",
 			Handler:    _OrganizationService_UpdateAIMessageFeedback_Handler,
+		},
+		{
+			MethodName: "SyncAISuggestedApplication",
+			Handler:    _OrganizationService_SyncAISuggestedApplication_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

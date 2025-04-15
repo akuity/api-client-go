@@ -88,6 +88,10 @@ type ArgoCDServiceGatewayClient interface {
 	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(context.Context, *WatchAddonMarketplaceInstallsRequest) (<-chan *WatchAddonMarketplaceInstallsResponse, <-chan error, error)
 	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
+	ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error)
+	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
+	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
+	UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error)
 }
 
 func NewArgoCDServiceGatewayClient(c gateway.Client) ArgoCDServiceGatewayClient {
@@ -860,4 +864,41 @@ func (c *argoCDServiceGatewayClient) UpdateAddonMarketplaceInstall(ctx context.C
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateAddonMarketplaceInstallResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ListInstanceManagedSecrets(ctx context.Context, req *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/managed-secrets")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	return gateway.DoRequest[ListInstanceManagedSecretsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) CreateManagedSecret(ctx context.Context, req *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/managed-secrets")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateManagedSecretResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) DeleteManagedSecret(ctx context.Context, req *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/managed-secrets/{name}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("name", fmt.Sprintf("%v", req.Name))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteManagedSecretResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateManagedSecret(ctx context.Context, req *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/managed-secrets/{name}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("name", fmt.Sprintf("%v", req.Name))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateManagedSecretResponse](ctx, gwReq)
 }
