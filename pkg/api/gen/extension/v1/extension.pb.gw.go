@@ -163,6 +163,32 @@ func request_ExtensionService_GetKargoAnalysisLogs_0(ctx context.Context, marsha
 
 }
 
+func request_ExtensionService_ListAuditRecordForKargoProjects_0(ctx context.Context, marshaler runtime.Marshaler, client ExtensionServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListAuditRecordForKargoProjectsRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.ListAuditRecordForKargoProjects(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_ExtensionService_ListAuditRecordForKargoProjects_0(ctx context.Context, marshaler runtime.Marshaler, server ExtensionServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq ListAuditRecordForKargoProjectsRequest
+	var metadata runtime.ServerMetadata
+
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.ListAuditRecordForKargoProjects(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
 // RegisterExtensionServiceHandlerServer registers the http handlers for service ExtensionService to "mux".
 // UnaryRPC     :call ExtensionServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
@@ -250,6 +276,31 @@ func RegisterExtensionServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 		return
+	})
+
+	mux.Handle("POST", pattern_ExtensionService_ListAuditRecordForKargoProjects_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/akuity.extension.v1.ExtensionService/ListAuditRecordForKargoProjects", runtime.WithHTTPPathPattern("/ext-api/v1/kargo/extensions/audit-records"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_ExtensionService_ListAuditRecordForKargoProjects_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ExtensionService_ListAuditRecordForKargoProjects_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	return nil
@@ -381,6 +432,28 @@ func RegisterExtensionServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 
 	})
 
+	mux.Handle("POST", pattern_ExtensionService_ListAuditRecordForKargoProjects_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.extension.v1.ExtensionService/ListAuditRecordForKargoProjects", runtime.WithHTTPPathPattern("/ext-api/v1/kargo/extensions/audit-records"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_ExtensionService_ListAuditRecordForKargoProjects_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_ExtensionService_ListAuditRecordForKargoProjects_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	return nil
 }
 
@@ -392,6 +465,8 @@ var (
 	pattern_ExtensionService_GetSyncOperationsEventsForApplication_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"ext-api", "v1", "argocd", "extensions", "sync-operations-events"}, ""))
 
 	pattern_ExtensionService_GetKargoAnalysisLogs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7}, []string{"ext-api", "v1", "kargo", "extensions", "logs", "project_name", "analysis_run", "container_name"}, ""))
+
+	pattern_ExtensionService_ListAuditRecordForKargoProjects_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"ext-api", "v1", "kargo", "extensions", "audit-records"}, ""))
 )
 
 var (
@@ -402,4 +477,6 @@ var (
 	forward_ExtensionService_GetSyncOperationsEventsForApplication_0 = runtime.ForwardResponseMessage
 
 	forward_ExtensionService_GetKargoAnalysisLogs_0 = runtime.ForwardResponseStream
+
+	forward_ExtensionService_ListAuditRecordForKargoProjects_0 = runtime.ForwardResponseMessage
 )

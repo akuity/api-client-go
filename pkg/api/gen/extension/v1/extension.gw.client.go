@@ -19,6 +19,7 @@ type ExtensionServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetKargoAnalysisLogs(context.Context, *GetKargoAnalysisLogsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
+	ListAuditRecordForKargoProjects(context.Context, *ListAuditRecordForKargoProjectsRequest) (*ListAuditRecordForKargoProjectsResponse, error)
 }
 
 func NewExtensionServiceGatewayClient(c gateway.Client) ExtensionServiceGatewayClient {
@@ -55,4 +56,10 @@ func (c *extensionServiceGatewayClient) GetKargoAnalysisLogs(ctx context.Context
 	gwReq.SetPathParam("analysis_run", fmt.Sprintf("%v", req.AnalysisRun))
 	gwReq.SetPathParam("container_name", fmt.Sprintf("%v", req.ContainerName))
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
+}
+
+func (c *extensionServiceGatewayClient) ListAuditRecordForKargoProjects(ctx context.Context, req *ListAuditRecordForKargoProjectsRequest) (*ListAuditRecordForKargoProjectsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/kargo/extensions/audit-records")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ListAuditRecordForKargoProjectsResponse](ctx, gwReq)
 }
