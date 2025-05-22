@@ -23,8 +23,6 @@ const (
 	SystemService_GetVersion_FullMethodName                     = "/akuity.system.v1.SystemService/GetVersion"
 	SystemService_GetAgentVersion_FullMethodName                = "/akuity.system.v1.SystemService/GetAgentVersion"
 	SystemService_GetSettings_FullMethodName                    = "/akuity.system.v1.SystemService/GetSettings"
-	SystemService_ListFeatures_FullMethodName                   = "/akuity.system.v1.SystemService/ListFeatures"
-	SystemService_GetFeatureGates_FullMethodName                = "/akuity.system.v1.SystemService/GetFeatureGates"
 	SystemService_ListAgentVersions_FullMethodName              = "/akuity.system.v1.SystemService/ListAgentVersions"
 	SystemService_GetStatus_FullMethodName                      = "/akuity.system.v1.SystemService/GetStatus"
 	SystemService_ListArgoCDVersions_FullMethodName             = "/akuity.system.v1.SystemService/ListArgoCDVersions"
@@ -44,9 +42,6 @@ type SystemServiceClient interface {
 	GetVersion(ctx context.Context, in *GetVersionRequest, opts ...grpc.CallOption) (*GetVersionResponse, error)
 	GetAgentVersion(ctx context.Context, in *GetAgentVersionRequest, opts ...grpc.CallOption) (*GetAgentVersionResponse, error)
 	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*GetSettingsResponse, error)
-	// Deprecated: Do not use.
-	ListFeatures(ctx context.Context, in *ListFeaturesRequest, opts ...grpc.CallOption) (*ListFeaturesResponse, error)
-	GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListAgentVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListAgentVersionsResponse, error)
@@ -106,25 +101,6 @@ func (c *systemServiceClient) GetAgentVersion(ctx context.Context, in *GetAgentV
 func (c *systemServiceClient) GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*GetSettingsResponse, error) {
 	out := new(GetSettingsResponse)
 	err := c.cc.Invoke(ctx, SystemService_GetSettings_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Deprecated: Do not use.
-func (c *systemServiceClient) ListFeatures(ctx context.Context, in *ListFeaturesRequest, opts ...grpc.CallOption) (*ListFeaturesResponse, error) {
-	out := new(ListFeaturesResponse)
-	err := c.cc.Invoke(ctx, SystemService_ListFeatures_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *systemServiceClient) GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error) {
-	out := new(GetFeatureGatesResponse)
-	err := c.cc.Invoke(ctx, SystemService_GetFeatureGates_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -228,9 +204,6 @@ type SystemServiceServer interface {
 	GetVersion(context.Context, *GetVersionRequest) (*GetVersionResponse, error)
 	GetAgentVersion(context.Context, *GetAgentVersionRequest) (*GetAgentVersionResponse, error)
 	GetSettings(context.Context, *GetSettingsRequest) (*GetSettingsResponse, error)
-	// Deprecated: Do not use.
-	ListFeatures(context.Context, *ListFeaturesRequest) (*ListFeaturesResponse, error)
-	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListAgentVersions(context.Context, *emptypb.Empty) (*ListAgentVersionsResponse, error)
@@ -274,12 +247,6 @@ func (UnimplementedSystemServiceServer) GetAgentVersion(context.Context, *GetAge
 }
 func (UnimplementedSystemServiceServer) GetSettings(context.Context, *GetSettingsRequest) (*GetSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSettings not implemented")
-}
-func (UnimplementedSystemServiceServer) ListFeatures(context.Context, *ListFeaturesRequest) (*ListFeaturesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListFeatures not implemented")
-}
-func (UnimplementedSystemServiceServer) GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFeatureGates not implemented")
 }
 func (UnimplementedSystemServiceServer) ListAgentVersions(context.Context, *emptypb.Empty) (*ListAgentVersionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAgentVersions not implemented")
@@ -374,42 +341,6 @@ func _SystemService_GetSettings_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SystemServiceServer).GetSettings(ctx, req.(*GetSettingsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SystemService_ListFeatures_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListFeaturesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemServiceServer).ListFeatures(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SystemService_ListFeatures_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemServiceServer).ListFeatures(ctx, req.(*ListFeaturesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SystemService_GetFeatureGates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFeatureGatesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemServiceServer).GetFeatureGates(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SystemService_GetFeatureGates_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemServiceServer).GetFeatureGates(ctx, req.(*GetFeatureGatesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -612,14 +543,6 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSettings",
 			Handler:    _SystemService_GetSettings_Handler,
-		},
-		{
-			MethodName: "ListFeatures",
-			Handler:    _SystemService_ListFeatures_Handler,
-		},
-		{
-			MethodName: "GetFeatureGates",
-			Handler:    _SystemService_GetFeatureGates_Handler,
 		},
 		{
 			MethodName: "ListAgentVersions",

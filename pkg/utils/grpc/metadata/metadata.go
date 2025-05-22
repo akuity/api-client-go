@@ -11,6 +11,7 @@ const (
 	apiKeySecretMetadataKey = "x-akuity-api-key-secret"
 	userTokenMetadataKey    = "x-akuity-user-token"
 	argocdTokenMetadataKey  = "x-argocd-token"
+	kargoTokenMetadataKey   = "x-kargo-token"
 	requestIDMetadataKey    = "x-request-id"
 	refreshTokenMetadataKey = "x-refresh-token"
 )
@@ -79,6 +80,18 @@ func GetArgoCDToken(md metadata.MD) (string, bool) {
 
 func SetArgoCDToken(md metadata.MD, token string) {
 	md.Set(argocdTokenMetadataKey, token)
+}
+
+func GetKargoToken(md metadata.MD) (string, bool) {
+	v := md.Get(kargoTokenMetadataKey)
+	if len(v) == 0 {
+		return "", false
+	}
+	return v[0], true
+}
+
+func SetKargoToken(md metadata.MD, token string) {
+	md.Set(kargoTokenMetadataKey, token)
 }
 
 func GetRequestID(md metadata.MD) (string, bool) {

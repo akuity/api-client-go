@@ -5,10 +5,8 @@ package systemv1
 
 import (
 	context "context"
-	fmt "fmt"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	url "net/url"
 )
 
 // SystemServiceGatewayClient is the interface for SystemService service client.
@@ -16,8 +14,6 @@ type SystemServiceGatewayClient interface {
 	GetVersion(context.Context, *GetVersionRequest) (*GetVersionResponse, error)
 	GetAgentVersion(context.Context, *GetAgentVersionRequest) (*GetAgentVersionResponse, error)
 	GetSettings(context.Context, *GetSettingsRequest) (*GetSettingsResponse, error)
-	ListFeatures(context.Context, *ListFeaturesRequest) (*ListFeaturesResponse, error)
-	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListAgentVersions(context.Context, *emptypb.Empty) (*ListAgentVersionsResponse, error)
@@ -71,21 +67,6 @@ func (c *systemServiceGatewayClient) GetAgentVersion(ctx context.Context, req *G
 func (c *systemServiceGatewayClient) GetSettings(ctx context.Context, req *GetSettingsRequest) (*GetSettingsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/settings")
 	return gateway.DoRequest[GetSettingsResponse](ctx, gwReq)
-}
-
-func (c *systemServiceGatewayClient) ListFeatures(ctx context.Context, req *ListFeaturesRequest) (*ListFeaturesResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/features")
-	q := url.Values{}
-	for _, v := range req.Names {
-		q.Add("names", fmt.Sprintf("%v", v))
-	}
-	gwReq.SetQueryParamsFromValues(q)
-	return gateway.DoRequest[ListFeaturesResponse](ctx, gwReq)
-}
-
-func (c *systemServiceGatewayClient) GetFeatureGates(ctx context.Context, req *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/feature-gates")
-	return gateway.DoRequest[GetFeatureGatesResponse](ctx, gwReq)
 }
 
 func (c *systemServiceGatewayClient) ListAgentVersions(ctx context.Context, req *emptypb.Empty) (*ListAgentVersionsResponse, error) {

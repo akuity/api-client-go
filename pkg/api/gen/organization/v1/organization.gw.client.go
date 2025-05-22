@@ -41,11 +41,11 @@ type OrganizationServiceGatewayClient interface {
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error)
+	ListAvailablePlans(context.Context, *ListAvailablePlansRequest) (*ListAvailablePlansResponse, error)
 	GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error)
 	GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error)
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
-	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	GetFeatureStatuses(context.Context, *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
@@ -152,15 +152,13 @@ type OrganizationServiceGatewayClient interface {
 	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
+	GetAIConversationStream(context.Context, *GetAIConversationStreamRequest) (<-chan *GetAIConversationStreamResponse, <-chan error, error)
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
-	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
-	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
-	SyncAISuggestedApplication(context.Context, *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -1292,6 +1290,14 @@ func (c *organizationServiceGatewayClient) UpdateSubscription(ctx context.Contex
 	return gateway.DoRequest[UpdateSubscriptionResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) ListAvailablePlans(ctx context.Context, req *ListAvailablePlansRequest) (*ListAvailablePlansResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/billing/plans")
+	q := url.Values{}
+	q.Add("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListAvailablePlansResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) GetAvailableAddons(ctx context.Context, req *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/billing/{plan}/addons")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
@@ -1317,12 +1323,6 @@ func (c *organizationServiceGatewayClient) DeleteSSOConfiguration(ctx context.Co
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[DeleteSSOConfigurationResponse](ctx, gwReq)
-}
-
-func (c *organizationServiceGatewayClient) GetFeatureGates(ctx context.Context, req *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{id}/feature-gates")
-	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
-	return gateway.DoRequest[GetFeatureGatesResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetFeatureStatuses(ctx context.Context, req *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error) {
@@ -2506,6 +2506,18 @@ func (c *organizationServiceGatewayClient) GetAIConversation(ctx context.Context
 	return gateway.DoRequest[GetAIConversationResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) GetAIConversationStream(ctx context.Context, req *GetAIConversationStreamRequest) (<-chan *GetAIConversationStreamResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/ai/conversations/{id}/messages")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[GetAIConversationStreamResponse](ctx, c.gwc, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Context, req *ListAIConversationsRequest) (*ListAIConversationsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/conversations")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -2547,34 +2559,10 @@ func (c *organizationServiceGatewayClient) ListAIConversationSuggestions(ctx con
 	return gateway.DoRequest[ListAIConversationSuggestionsResponse](ctx, gwReq)
 }
 
-func (c *organizationServiceGatewayClient) ApplyAISuggestedConfig(ctx context.Context, req *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error) {
-	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/apply")
-	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
-	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
-	gwReq.SetBody(req)
-	return gateway.DoRequest[ApplyAISuggestedConfigResponse](ctx, gwReq)
-}
-
-func (c *organizationServiceGatewayClient) RevertAIAppliedChange(ctx context.Context, req *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/revert")
-	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
-	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
-	gwReq.SetBody(req)
-	return gateway.DoRequest[RevertAIAppliedChangeResponse](ctx, gwReq)
-}
-
 func (c *organizationServiceGatewayClient) UpdateAIMessageFeedback(ctx context.Context, req *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error) {
 	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/feedback")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateAIMessageFeedbackResponse](ctx, gwReq)
-}
-
-func (c *organizationServiceGatewayClient) SyncAISuggestedApplication(ctx context.Context, req *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/sync")
-	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
-	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
-	gwReq.SetBody(req)
-	return gateway.DoRequest[SyncAISuggestedApplicationResponse](ctx, gwReq)
 }

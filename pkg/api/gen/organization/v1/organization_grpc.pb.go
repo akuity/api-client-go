@@ -46,11 +46,11 @@ const (
 	OrganizationService_UpdateBillingDetails_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
 	OrganizationService_BillingCheckout_FullMethodName                        = "/akuity.organization.v1.OrganizationService/BillingCheckout"
 	OrganizationService_UpdateSubscription_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
+	OrganizationService_ListAvailablePlans_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListAvailablePlans"
 	OrganizationService_GetAvailableAddons_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
 	OrganizationService_GetSSOConfiguration_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
 	OrganizationService_EnsureSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
 	OrganizationService_DeleteSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
-	OrganizationService_GetFeatureGates_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetFeatureGates"
 	OrganizationService_GetFeatureStatuses_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetFeatureStatuses"
 	OrganizationService_GetOIDCMap_FullMethodName                             = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
 	OrganizationService_UpdateOIDCMap_FullMethodName                          = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
@@ -136,15 +136,13 @@ const (
 	OrganizationService_UpdateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateAIConversation"
 	OrganizationService_DeleteAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteAIConversation"
 	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
+	OrganizationService_GetAIConversationStream_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetAIConversationStream"
 	OrganizationService_ListAIConversations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListAIConversations"
 	OrganizationService_CreateAIMessage_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
 	OrganizationService_ListUsersMFAStatus_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListUsersMFAStatus"
 	OrganizationService_RequestMFAReset_FullMethodName                        = "/akuity.organization.v1.OrganizationService/RequestMFAReset"
 	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
-	OrganizationService_ApplyAISuggestedConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ApplyAISuggestedConfig"
-	OrganizationService_RevertAIAppliedChange_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RevertAIAppliedChange"
 	OrganizationService_UpdateAIMessageFeedback_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateAIMessageFeedback"
-	OrganizationService_SyncAISuggestedApplication_FullMethodName             = "/akuity.organization.v1.OrganizationService/SyncAISuggestedApplication"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -179,11 +177,11 @@ type OrganizationServiceClient interface {
 	UpdateBillingDetails(ctx context.Context, in *UpdateBillingDetailsRequest, opts ...grpc.CallOption) (*UpdateBillingDetailsResponse, error)
 	BillingCheckout(ctx context.Context, in *BillingCheckoutRequest, opts ...grpc.CallOption) (*BillingCheckoutResponse, error)
 	UpdateSubscription(ctx context.Context, in *UpdateSubscriptionRequest, opts ...grpc.CallOption) (*UpdateSubscriptionResponse, error)
+	ListAvailablePlans(ctx context.Context, in *ListAvailablePlansRequest, opts ...grpc.CallOption) (*ListAvailablePlansResponse, error)
 	GetAvailableAddons(ctx context.Context, in *GetAvailableAddonsRequest, opts ...grpc.CallOption) (*GetAvailableAddonsResponse, error)
 	GetSSOConfiguration(ctx context.Context, in *GetSSOConfigurationRequest, opts ...grpc.CallOption) (*GetSSOConfigurationResponse, error)
 	EnsureSSOConfiguration(ctx context.Context, in *EnsureSSOConfigurationRequest, opts ...grpc.CallOption) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(ctx context.Context, in *DeleteSSOConfigurationRequest, opts ...grpc.CallOption) (*DeleteSSOConfigurationResponse, error)
-	GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error)
 	GetFeatureStatuses(ctx context.Context, in *GetFeatureStatusesRequest, opts ...grpc.CallOption) (*GetFeatureStatusesResponse, error)
 	GetOIDCMap(ctx context.Context, in *GetOIDCMapRequest, opts ...grpc.CallOption) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(ctx context.Context, in *UpdateOIDCMapRequest, opts ...grpc.CallOption) (*UpdateOIDCMapResponse, error)
@@ -290,15 +288,13 @@ type OrganizationServiceClient interface {
 	UpdateAIConversation(ctx context.Context, in *UpdateAIConversationRequest, opts ...grpc.CallOption) (*UpdateAIConversationResponse, error)
 	DeleteAIConversation(ctx context.Context, in *DeleteAIConversationRequest, opts ...grpc.CallOption) (*DeleteAIConversationResponse, error)
 	GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error)
+	GetAIConversationStream(ctx context.Context, in *GetAIConversationStreamRequest, opts ...grpc.CallOption) (OrganizationService_GetAIConversationStreamClient, error)
 	ListAIConversations(ctx context.Context, in *ListAIConversationsRequest, opts ...grpc.CallOption) (*ListAIConversationsResponse, error)
 	CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error)
 	ListUsersMFAStatus(ctx context.Context, in *ListUsersMFAStatusRequest, opts ...grpc.CallOption) (*ListUsersMFAStatusResponse, error)
 	RequestMFAReset(ctx context.Context, in *RequestMFAResetRequest, opts ...grpc.CallOption) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error)
-	ApplyAISuggestedConfig(ctx context.Context, in *ApplyAISuggestedConfigRequest, opts ...grpc.CallOption) (*ApplyAISuggestedConfigResponse, error)
-	RevertAIAppliedChange(ctx context.Context, in *RevertAIAppliedChangeRequest, opts ...grpc.CallOption) (*RevertAIAppliedChangeResponse, error)
 	UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error)
-	SyncAISuggestedApplication(ctx context.Context, in *SyncAISuggestedApplicationRequest, opts ...grpc.CallOption) (*SyncAISuggestedApplicationResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -566,6 +562,15 @@ func (c *organizationServiceClient) UpdateSubscription(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListAvailablePlans(ctx context.Context, in *ListAvailablePlansRequest, opts ...grpc.CallOption) (*ListAvailablePlansResponse, error) {
+	out := new(ListAvailablePlansResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListAvailablePlans_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetAvailableAddons(ctx context.Context, in *GetAvailableAddonsRequest, opts ...grpc.CallOption) (*GetAvailableAddonsResponse, error) {
 	out := new(GetAvailableAddonsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetAvailableAddons_FullMethodName, in, out, opts...)
@@ -596,15 +601,6 @@ func (c *organizationServiceClient) EnsureSSOConfiguration(ctx context.Context, 
 func (c *organizationServiceClient) DeleteSSOConfiguration(ctx context.Context, in *DeleteSSOConfigurationRequest, opts ...grpc.CallOption) (*DeleteSSOConfigurationResponse, error) {
 	out := new(DeleteSSOConfigurationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_DeleteSSOConfiguration_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *organizationServiceClient) GetFeatureGates(ctx context.Context, in *GetFeatureGatesRequest, opts ...grpc.CallOption) (*GetFeatureGatesResponse, error) {
-	out := new(GetFeatureGatesResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_GetFeatureGates_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1514,6 +1510,38 @@ func (c *organizationServiceClient) GetAIConversation(ctx context.Context, in *G
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetAIConversationStream(ctx context.Context, in *GetAIConversationStreamRequest, opts ...grpc.CallOption) (OrganizationService_GetAIConversationStreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[7], OrganizationService_GetAIConversationStream_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &organizationServiceGetAIConversationStreamClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type OrganizationService_GetAIConversationStreamClient interface {
+	Recv() (*GetAIConversationStreamResponse, error)
+	grpc.ClientStream
+}
+
+type organizationServiceGetAIConversationStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *organizationServiceGetAIConversationStreamClient) Recv() (*GetAIConversationStreamResponse, error) {
+	m := new(GetAIConversationStreamResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *organizationServiceClient) ListAIConversations(ctx context.Context, in *ListAIConversationsRequest, opts ...grpc.CallOption) (*ListAIConversationsResponse, error) {
 	out := new(ListAIConversationsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListAIConversations_FullMethodName, in, out, opts...)
@@ -1559,36 +1587,9 @@ func (c *organizationServiceClient) ListAIConversationSuggestions(ctx context.Co
 	return out, nil
 }
 
-func (c *organizationServiceClient) ApplyAISuggestedConfig(ctx context.Context, in *ApplyAISuggestedConfigRequest, opts ...grpc.CallOption) (*ApplyAISuggestedConfigResponse, error) {
-	out := new(ApplyAISuggestedConfigResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_ApplyAISuggestedConfig_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *organizationServiceClient) RevertAIAppliedChange(ctx context.Context, in *RevertAIAppliedChangeRequest, opts ...grpc.CallOption) (*RevertAIAppliedChangeResponse, error) {
-	out := new(RevertAIAppliedChangeResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_RevertAIAppliedChange_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *organizationServiceClient) UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error) {
 	out := new(UpdateAIMessageFeedbackResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateAIMessageFeedback_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *organizationServiceClient) SyncAISuggestedApplication(ctx context.Context, in *SyncAISuggestedApplicationRequest, opts ...grpc.CallOption) (*SyncAISuggestedApplicationResponse, error) {
-	out := new(SyncAISuggestedApplicationResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_SyncAISuggestedApplication_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1627,11 +1628,11 @@ type OrganizationServiceServer interface {
 	UpdateBillingDetails(context.Context, *UpdateBillingDetailsRequest) (*UpdateBillingDetailsResponse, error)
 	BillingCheckout(context.Context, *BillingCheckoutRequest) (*BillingCheckoutResponse, error)
 	UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error)
+	ListAvailablePlans(context.Context, *ListAvailablePlansRequest) (*ListAvailablePlansResponse, error)
 	GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error)
 	GetSSOConfiguration(context.Context, *GetSSOConfigurationRequest) (*GetSSOConfigurationResponse, error)
 	EnsureSSOConfiguration(context.Context, *EnsureSSOConfigurationRequest) (*EnsureSSOConfigurationResponse, error)
 	DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error)
-	GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error)
 	GetFeatureStatuses(context.Context, *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error)
 	GetOIDCMap(context.Context, *GetOIDCMapRequest) (*GetOIDCMapResponse, error)
 	UpdateOIDCMap(context.Context, *UpdateOIDCMapRequest) (*UpdateOIDCMapResponse, error)
@@ -1738,15 +1739,13 @@ type OrganizationServiceServer interface {
 	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
+	GetAIConversationStream(*GetAIConversationStreamRequest, OrganizationService_GetAIConversationStreamServer) error
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
-	ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error)
-	RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
-	SyncAISuggestedApplication(context.Context, *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -1832,6 +1831,9 @@ func (UnimplementedOrganizationServiceServer) BillingCheckout(context.Context, *
 func (UnimplementedOrganizationServiceServer) UpdateSubscription(context.Context, *UpdateSubscriptionRequest) (*UpdateSubscriptionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSubscription not implemented")
 }
+func (UnimplementedOrganizationServiceServer) ListAvailablePlans(context.Context, *ListAvailablePlansRequest) (*ListAvailablePlansResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAvailablePlans not implemented")
+}
 func (UnimplementedOrganizationServiceServer) GetAvailableAddons(context.Context, *GetAvailableAddonsRequest) (*GetAvailableAddonsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAvailableAddons not implemented")
 }
@@ -1843,9 +1845,6 @@ func (UnimplementedOrganizationServiceServer) EnsureSSOConfiguration(context.Con
 }
 func (UnimplementedOrganizationServiceServer) DeleteSSOConfiguration(context.Context, *DeleteSSOConfigurationRequest) (*DeleteSSOConfigurationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSSOConfiguration not implemented")
-}
-func (UnimplementedOrganizationServiceServer) GetFeatureGates(context.Context, *GetFeatureGatesRequest) (*GetFeatureGatesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFeatureGates not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetFeatureStatuses(context.Context, *GetFeatureStatusesRequest) (*GetFeatureStatusesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFeatureStatuses not implemented")
@@ -2102,6 +2101,9 @@ func (UnimplementedOrganizationServiceServer) DeleteAIConversation(context.Conte
 func (UnimplementedOrganizationServiceServer) GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAIConversation not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetAIConversationStream(*GetAIConversationStreamRequest, OrganizationService_GetAIConversationStreamServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetAIConversationStream not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAIConversations not implemented")
 }
@@ -2117,17 +2119,8 @@ func (UnimplementedOrganizationServiceServer) RequestMFAReset(context.Context, *
 func (UnimplementedOrganizationServiceServer) ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAIConversationSuggestions not implemented")
 }
-func (UnimplementedOrganizationServiceServer) ApplyAISuggestedConfig(context.Context, *ApplyAISuggestedConfigRequest) (*ApplyAISuggestedConfigResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ApplyAISuggestedConfig not implemented")
-}
-func (UnimplementedOrganizationServiceServer) RevertAIAppliedChange(context.Context, *RevertAIAppliedChangeRequest) (*RevertAIAppliedChangeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RevertAIAppliedChange not implemented")
-}
 func (UnimplementedOrganizationServiceServer) UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIMessageFeedback not implemented")
-}
-func (UnimplementedOrganizationServiceServer) SyncAISuggestedApplication(context.Context, *SyncAISuggestedApplicationRequest) (*SyncAISuggestedApplicationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SyncAISuggestedApplication not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -2613,6 +2606,24 @@ func _OrganizationService_UpdateSubscription_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListAvailablePlans_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAvailablePlansRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListAvailablePlans(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListAvailablePlans_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListAvailablePlans(ctx, req.(*ListAvailablePlansRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetAvailableAddons_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAvailableAddonsRequest)
 	if err := dec(in); err != nil {
@@ -2681,24 +2692,6 @@ func _OrganizationService_DeleteSSOConfiguration_Handler(srv interface{}, ctx co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).DeleteSSOConfiguration(ctx, req.(*DeleteSSOConfigurationRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrganizationService_GetFeatureGates_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFeatureGatesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).GetFeatureGates(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_GetFeatureGates_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).GetFeatureGates(ctx, req.(*GetFeatureGatesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4251,6 +4244,27 @@ func _OrganizationService_GetAIConversation_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetAIConversationStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(GetAIConversationStreamRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(OrganizationServiceServer).GetAIConversationStream(m, &organizationServiceGetAIConversationStreamServer{stream})
+}
+
+type OrganizationService_GetAIConversationStreamServer interface {
+	Send(*GetAIConversationStreamResponse) error
+	grpc.ServerStream
+}
+
+type organizationServiceGetAIConversationStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *organizationServiceGetAIConversationStreamServer) Send(m *GetAIConversationStreamResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _OrganizationService_ListAIConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAIConversationsRequest)
 	if err := dec(in); err != nil {
@@ -4341,42 +4355,6 @@ func _OrganizationService_ListAIConversationSuggestions_Handler(srv interface{},
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrganizationService_ApplyAISuggestedConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ApplyAISuggestedConfigRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).ApplyAISuggestedConfig(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_ApplyAISuggestedConfig_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).ApplyAISuggestedConfig(ctx, req.(*ApplyAISuggestedConfigRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrganizationService_RevertAIAppliedChange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevertAIAppliedChangeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).RevertAIAppliedChange(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_RevertAIAppliedChange_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).RevertAIAppliedChange(ctx, req.(*RevertAIAppliedChangeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _OrganizationService_UpdateAIMessageFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateAIMessageFeedbackRequest)
 	if err := dec(in); err != nil {
@@ -4391,24 +4369,6 @@ func _OrganizationService_UpdateAIMessageFeedback_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).UpdateAIMessageFeedback(ctx, req.(*UpdateAIMessageFeedbackRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrganizationService_SyncAISuggestedApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SyncAISuggestedApplicationRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).SyncAISuggestedApplication(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_SyncAISuggestedApplication_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).SyncAISuggestedApplication(ctx, req.(*SyncAISuggestedApplicationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4521,6 +4481,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_UpdateSubscription_Handler,
 		},
 		{
+			MethodName: "ListAvailablePlans",
+			Handler:    _OrganizationService_ListAvailablePlans_Handler,
+		},
+		{
 			MethodName: "GetAvailableAddons",
 			Handler:    _OrganizationService_GetAvailableAddons_Handler,
 		},
@@ -4535,10 +4499,6 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteSSOConfiguration",
 			Handler:    _OrganizationService_DeleteSSOConfiguration_Handler,
-		},
-		{
-			MethodName: "GetFeatureGates",
-			Handler:    _OrganizationService_GetFeatureGates_Handler,
 		},
 		{
 			MethodName: "GetFeatureStatuses",
@@ -4877,20 +4837,8 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_ListAIConversationSuggestions_Handler,
 		},
 		{
-			MethodName: "ApplyAISuggestedConfig",
-			Handler:    _OrganizationService_ApplyAISuggestedConfig_Handler,
-		},
-		{
-			MethodName: "RevertAIAppliedChange",
-			Handler:    _OrganizationService_RevertAIAppliedChange_Handler,
-		},
-		{
 			MethodName: "UpdateAIMessageFeedback",
 			Handler:    _OrganizationService_UpdateAIMessageFeedback_Handler,
-		},
-		{
-			MethodName: "SyncAISuggestedApplication",
-			Handler:    _OrganizationService_SyncAISuggestedApplication_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
@@ -4927,6 +4875,11 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetKubeVisionUsageToCSV",
 			Handler:       _OrganizationService_GetKubeVisionUsageToCSV_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetAIConversationStream",
+			Handler:       _OrganizationService_GetAIConversationStream_Handler,
 			ServerStreams: true,
 		},
 	},
