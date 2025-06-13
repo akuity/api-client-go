@@ -48,6 +48,25 @@ func GetArgoCDTokenCookie(r *http.Request) (string, error) {
 	return joinCookies(ArgoCDTokenCookieName, r.Cookies())
 }
 
+func SetArgoCDRequestTokenCookie(token string, httpOnly, secure bool, domain string) ([]*http.Cookie, error) {
+	cookies := splitCookie(ArgoCDTokenCookieName, token, "")
+	httpCookies := []*http.Cookie{}
+	for _, cookie := range cookies {
+		splits := strings.Split(cookie, "=")
+		if len(splits) != 2 {
+			return nil, fmt.Errorf("invalid cookie format recieved from splitCookie: %s", cookie)
+		}
+		httpCookies = append(httpCookies, &http.Cookie{
+			Name:     splits[0],
+			Value:    splits[1],
+			HttpOnly: httpOnly,
+			Secure:   secure,
+			Domain:   domain,
+		})
+	}
+	return httpCookies, nil
+}
+
 // Functions below are borrowed from
 // https://github.com/argoproj/argo-cd/blob/61abc805731962cfd20159c315d8ed436870b0e7/util/http/http.go#L36
 

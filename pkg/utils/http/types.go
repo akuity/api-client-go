@@ -3,6 +3,7 @@ package http
 const (
 	HeaderAuthorization = "Authorization"
 	HeaderContentType   = "Content-Type"
+	HeaderPlatform      = "X-Platform"
 	HeaderRequestID     = "X-Request-ID"
 )
 

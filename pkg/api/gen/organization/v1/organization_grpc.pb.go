@@ -133,6 +133,7 @@ const (
 	OrganizationService_DeleteOrganizationDomain_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteOrganizationDomain"
 	OrganizationService_VerifyOrganizationDomains_FullMethodName              = "/akuity.organization.v1.OrganizationService/VerifyOrganizationDomains"
 	OrganizationService_CreateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateAIConversation"
+	OrganizationService_CreateIncident_FullMethodName                         = "/akuity.organization.v1.OrganizationService/CreateIncident"
 	OrganizationService_UpdateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateAIConversation"
 	OrganizationService_DeleteAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteAIConversation"
 	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
@@ -143,6 +144,7 @@ const (
 	OrganizationService_RequestMFAReset_FullMethodName                        = "/akuity.organization.v1.OrganizationService/RequestMFAReset"
 	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
 	OrganizationService_UpdateAIMessageFeedback_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateAIMessageFeedback"
+	OrganizationService_UpdateAIConversationFeedback_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateAIConversationFeedback"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -285,6 +287,7 @@ type OrganizationServiceClient interface {
 	DeleteOrganizationDomain(ctx context.Context, in *DeleteOrganizationDomainRequest, opts ...grpc.CallOption) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(ctx context.Context, in *VerifyOrganizationDomainsRequest, opts ...grpc.CallOption) (*VerifyOrganizationDomainsResponse, error)
 	CreateAIConversation(ctx context.Context, in *CreateAIConversationRequest, opts ...grpc.CallOption) (*CreateAIConversationResponse, error)
+	CreateIncident(ctx context.Context, in *CreateIncidentRequest, opts ...grpc.CallOption) (*CreateIncidentResponse, error)
 	UpdateAIConversation(ctx context.Context, in *UpdateAIConversationRequest, opts ...grpc.CallOption) (*UpdateAIConversationResponse, error)
 	DeleteAIConversation(ctx context.Context, in *DeleteAIConversationRequest, opts ...grpc.CallOption) (*DeleteAIConversationResponse, error)
 	GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error)
@@ -295,6 +298,7 @@ type OrganizationServiceClient interface {
 	RequestMFAReset(ctx context.Context, in *RequestMFAResetRequest, opts ...grpc.CallOption) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error)
 	UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error)
+	UpdateAIConversationFeedback(ctx context.Context, in *UpdateAIConversationFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIConversationFeedbackResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -1483,6 +1487,15 @@ func (c *organizationServiceClient) CreateAIConversation(ctx context.Context, in
 	return out, nil
 }
 
+func (c *organizationServiceClient) CreateIncident(ctx context.Context, in *CreateIncidentRequest, opts ...grpc.CallOption) (*CreateIncidentResponse, error) {
+	out := new(CreateIncidentResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_CreateIncident_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) UpdateAIConversation(ctx context.Context, in *UpdateAIConversationRequest, opts ...grpc.CallOption) (*UpdateAIConversationResponse, error) {
 	out := new(UpdateAIConversationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateAIConversation_FullMethodName, in, out, opts...)
@@ -1590,6 +1603,15 @@ func (c *organizationServiceClient) ListAIConversationSuggestions(ctx context.Co
 func (c *organizationServiceClient) UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error) {
 	out := new(UpdateAIMessageFeedbackResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateAIMessageFeedback_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateAIConversationFeedback(ctx context.Context, in *UpdateAIConversationFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIConversationFeedbackResponse, error) {
+	out := new(UpdateAIConversationFeedbackResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateAIConversationFeedback_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1736,6 +1758,7 @@ type OrganizationServiceServer interface {
 	DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
 	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
+	CreateIncident(context.Context, *CreateIncidentRequest) (*CreateIncidentResponse, error)
 	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
@@ -1746,6 +1769,7 @@ type OrganizationServiceServer interface {
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
+	UpdateAIConversationFeedback(context.Context, *UpdateAIConversationFeedbackRequest) (*UpdateAIConversationFeedbackResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -2092,6 +2116,9 @@ func (UnimplementedOrganizationServiceServer) VerifyOrganizationDomains(context.
 func (UnimplementedOrganizationServiceServer) CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAIConversation not implemented")
 }
+func (UnimplementedOrganizationServiceServer) CreateIncident(context.Context, *CreateIncidentRequest) (*CreateIncidentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateIncident not implemented")
+}
 func (UnimplementedOrganizationServiceServer) UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIConversation not implemented")
 }
@@ -2121,6 +2148,9 @@ func (UnimplementedOrganizationServiceServer) ListAIConversationSuggestions(cont
 }
 func (UnimplementedOrganizationServiceServer) UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIMessageFeedback not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateAIConversationFeedback(context.Context, *UpdateAIConversationFeedbackRequest) (*UpdateAIConversationFeedbackResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIConversationFeedback not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -4190,6 +4220,24 @@ func _OrganizationService_CreateAIConversation_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_CreateIncident_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateIncidentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).CreateIncident(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_CreateIncident_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).CreateIncident(ctx, req.(*CreateIncidentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_UpdateAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateAIConversationRequest)
 	if err := dec(in); err != nil {
@@ -4369,6 +4417,24 @@ func _OrganizationService_UpdateAIMessageFeedback_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).UpdateAIMessageFeedback(ctx, req.(*UpdateAIMessageFeedbackRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateAIConversationFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAIConversationFeedbackRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateAIConversationFeedback(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateAIConversationFeedback_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateAIConversationFeedback(ctx, req.(*UpdateAIConversationFeedbackRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4805,6 +4871,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_CreateAIConversation_Handler,
 		},
 		{
+			MethodName: "CreateIncident",
+			Handler:    _OrganizationService_CreateIncident_Handler,
+		},
+		{
 			MethodName: "UpdateAIConversation",
 			Handler:    _OrganizationService_UpdateAIConversation_Handler,
 		},
@@ -4839,6 +4909,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAIMessageFeedback",
 			Handler:    _OrganizationService_UpdateAIMessageFeedback_Handler,
+		},
+		{
+			MethodName: "UpdateAIConversationFeedback",
+			Handler:    _OrganizationService_UpdateAIConversationFeedback_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

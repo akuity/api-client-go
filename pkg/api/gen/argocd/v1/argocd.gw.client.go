@@ -78,6 +78,7 @@ type ArgoCDServiceGatewayClient interface {
 	RefreshInstanceAddonRepo(context.Context, *RefreshInstanceAddonRepoRequest) (*RefreshInstanceAddonRepoResponse, error)
 	DeleteInstanceAddonRepo(context.Context, *DeleteInstanceAddonRepoRequest) (*DeleteInstanceAddonRepoResponse, error)
 	ListInstanceAddons(context.Context, *ListInstanceAddonsRequest) (*ListInstanceAddonsResponse, error)
+	ListInstanceAddonErrors(context.Context, *ListInstanceAddonErrorsRequest) (*ListInstanceAddonErrorsResponse, error)
 	GetInstanceAddon(context.Context, *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error)
 	RefreshInstanceAddon(context.Context, *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error)
 	UpdateInstanceAddon(context.Context, *UpdateInstanceAddonRequest) (*UpdateInstanceAddonResponse, error)
@@ -739,6 +740,23 @@ func (c *argoCDServiceGatewayClient) ListInstanceAddons(ctx context.Context, req
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListInstanceAddonsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ListInstanceAddonErrors(ctx context.Context, req *ListInstanceAddonErrorsRequest) (*ListInstanceAddonErrorsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-errors/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListInstanceAddonErrorsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) GetInstanceAddon(ctx context.Context, req *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error) {

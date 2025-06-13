@@ -7,12 +7,14 @@ import (
 )
 
 const (
+	platformMetadataKey     = "x-platform"
 	apiKeyIDMetadataKey     = "x-akuity-api-key-id"
 	apiKeySecretMetadataKey = "x-akuity-api-key-secret"
 	userTokenMetadataKey    = "x-akuity-user-token"
 	argocdTokenMetadataKey  = "x-argocd-token"
 	kargoTokenMetadataKey   = "x-kargo-token"
 	requestIDMetadataKey    = "x-request-id"
+	requestURLMetadataKey   = "x-request-url"
 	refreshTokenMetadataKey = "x-refresh-token"
 )
 
@@ -24,12 +26,32 @@ var allowedHeaders = map[string]bool{
 	requestIDMetadataKey:    true,
 }
 
+type Platform string
+
+const (
+	PlatformAkuityPlatform Platform = "akuity-platform"
+	PlatformArgoCD         Platform = "argocd"
+	PlatformKargo          Platform = "kargo"
+)
+
 func MatchIncomingMetadata(header string) (string, bool) {
 	if allowedHeaders[strings.ToLower(header)] {
 		return header, true
 	}
 
 	return "", false
+}
+
+func GetPlatform(md metadata.MD) (Platform, bool) {
+	v := md.Get(platformMetadataKey)
+	if len(v) == 0 {
+		return "", false
+	}
+	return Platform(v[0]), true
+}
+
+func SetPlatform(md metadata.MD, platform string) {
+	md.Set(platformMetadataKey, platform)
 }
 
 func GetAPIKey(md metadata.MD) (id, secret string, ok bool) {
@@ -104,6 +126,18 @@ func GetRequestID(md metadata.MD) (string, bool) {
 
 func SetRequestID(md metadata.MD, requestID string) {
 	md.Set(requestIDMetadataKey, requestID)
+}
+
+func SetRequestURL(md metadata.MD, url string) {
+	md.Set(requestURLMetadataKey, url)
+}
+
+func GetRequestURL(md metadata.MD) (string, bool) {
+	v := md.Get(requestURLMetadataKey)
+	if len(v) == 0 {
+		return "", false
+	}
+	return v[0], true
 }
 
 func GetClientIP(md metadata.MD) (string, bool) {
