@@ -15,6 +15,7 @@ type ExtensionServiceGatewayClient interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
+	GetExtensionSettings(context.Context, *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -48,6 +49,11 @@ func (c *extensionServiceGatewayClient) GetSyncOperationsEventsForApplication(ct
 	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/sync-operations-events")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetSyncOperationsEventsForApplicationResponse](ctx, gwReq)
+}
+
+func (c *extensionServiceGatewayClient) GetExtensionSettings(ctx context.Context, req *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/kargo/extensions/settings")
+	return gateway.DoRequest[GetExtensionSettingsResponse](ctx, gwReq)
 }
 
 func (c *extensionServiceGatewayClient) GetKargoAnalysisLogs(ctx context.Context, req *GetKargoAnalysisLogsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {

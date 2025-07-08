@@ -23,6 +23,7 @@ const (
 	ExtensionService_ListAuditRecordForApplication_FullMethodName         = "/akuity.extension.v1.ExtensionService/ListAuditRecordForApplication"
 	ExtensionService_GetSyncOperationsStatsForApplication_FullMethodName  = "/akuity.extension.v1.ExtensionService/GetSyncOperationsStatsForApplication"
 	ExtensionService_GetSyncOperationsEventsForApplication_FullMethodName = "/akuity.extension.v1.ExtensionService/GetSyncOperationsEventsForApplication"
+	ExtensionService_GetExtensionSettings_FullMethodName                  = "/akuity.extension.v1.ExtensionService/GetExtensionSettings"
 	ExtensionService_GetKargoAnalysisLogs_FullMethodName                  = "/akuity.extension.v1.ExtensionService/GetKargoAnalysisLogs"
 	ExtensionService_ListAuditRecordForKargoProjects_FullMethodName       = "/akuity.extension.v1.ExtensionService/ListAuditRecordForKargoProjects"
 )
@@ -34,6 +35,7 @@ type ExtensionServiceClient interface {
 	ListAuditRecordForApplication(ctx context.Context, in *ListAuditRecordForApplicationRequest, opts ...grpc.CallOption) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(ctx context.Context, in *GetSyncOperationsStatsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(ctx context.Context, in *GetSyncOperationsEventsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsForApplicationResponse, error)
+	GetExtensionSettings(ctx context.Context, in *GetExtensionSettingsRequest, opts ...grpc.CallOption) (*GetExtensionSettingsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -70,6 +72,15 @@ func (c *extensionServiceClient) GetSyncOperationsStatsForApplication(ctx contex
 func (c *extensionServiceClient) GetSyncOperationsEventsForApplication(ctx context.Context, in *GetSyncOperationsEventsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsForApplicationResponse, error) {
 	out := new(GetSyncOperationsEventsForApplicationResponse)
 	err := c.cc.Invoke(ctx, ExtensionService_GetSyncOperationsEventsForApplication_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *extensionServiceClient) GetExtensionSettings(ctx context.Context, in *GetExtensionSettingsRequest, opts ...grpc.CallOption) (*GetExtensionSettingsResponse, error) {
+	out := new(GetExtensionSettingsResponse)
+	err := c.cc.Invoke(ctx, ExtensionService_GetExtensionSettings_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -124,6 +135,7 @@ type ExtensionServiceServer interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
+	GetExtensionSettings(context.Context, *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -144,6 +156,9 @@ func (UnimplementedExtensionServiceServer) GetSyncOperationsStatsForApplication(
 }
 func (UnimplementedExtensionServiceServer) GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsEventsForApplication not implemented")
+}
+func (UnimplementedExtensionServiceServer) GetExtensionSettings(context.Context, *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetExtensionSettings not implemented")
 }
 func (UnimplementedExtensionServiceServer) GetKargoAnalysisLogs(*GetKargoAnalysisLogsRequest, ExtensionService_GetKargoAnalysisLogsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetKargoAnalysisLogs not implemented")
@@ -218,6 +233,24 @@ func _ExtensionService_GetSyncOperationsEventsForApplication_Handler(srv interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExtensionService_GetExtensionSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetExtensionSettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExtensionServiceServer).GetExtensionSettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExtensionService_GetExtensionSettings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExtensionServiceServer).GetExtensionSettings(ctx, req.(*GetExtensionSettingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ExtensionService_GetKargoAnalysisLogs_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetKargoAnalysisLogsRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -275,6 +308,10 @@ var ExtensionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSyncOperationsEventsForApplication",
 			Handler:    _ExtensionService_GetSyncOperationsEventsForApplication_Handler,
+		},
+		{
+			MethodName: "GetExtensionSettings",
+			Handler:    _ExtensionService_GetExtensionSettings_Handler,
 		},
 		{
 			MethodName: "ListAuditRecordForKargoProjects",

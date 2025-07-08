@@ -24,6 +24,7 @@ var allowedHeaders = map[string]bool{
 	userTokenMetadataKey:    true,
 	argocdTokenMetadataKey:  true,
 	requestIDMetadataKey:    true,
+	kargoTokenMetadataKey:   true,
 }
 
 type Platform string

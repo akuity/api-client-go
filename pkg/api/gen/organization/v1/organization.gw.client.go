@@ -1698,6 +1698,15 @@ func (c *organizationServiceGatewayClient) ListKubernetesResources(ctx context.C
 	if req.Name != nil {
 		q.Add("name", fmt.Sprintf("%v", *req.Name))
 	}
+	if req.TreeViewNameContains != nil {
+		q.Add("treeViewNameContains", fmt.Sprintf("%v", *req.TreeViewNameContains))
+	}
+	for _, v := range req.TreeViewResourceKinds {
+		q.Add("treeViewResourceKinds", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.TreeViewHealthStatuses {
+		q.Add("treeViewHealthStatuses", v.String())
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesResourcesResponse](ctx, gwReq)
 }
@@ -1744,6 +1753,15 @@ func (c *organizationServiceGatewayClient) ListKubernetesResourcesToCSV(ctx cont
 	}
 	if req.Name != nil {
 		q.Add("name", fmt.Sprintf("%v", *req.Name))
+	}
+	if req.TreeViewNameContains != nil {
+		q.Add("treeViewNameContains", fmt.Sprintf("%v", *req.TreeViewNameContains))
+	}
+	for _, v := range req.TreeViewResourceKinds {
+		q.Add("treeViewResourceKinds", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.TreeViewHealthStatuses {
+		q.Add("treeViewHealthStatuses", v.String())
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
@@ -2488,7 +2506,7 @@ func (c *organizationServiceGatewayClient) CreateIncident(ctx context.Context, r
 }
 
 func (c *organizationServiceGatewayClient) UpdateAIConversation(ctx context.Context, req *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error) {
-	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/ai/conversations/{id}")
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/ai/conversations/{id}")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
@@ -2536,6 +2554,15 @@ func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Conte
 	}
 	if req.IncidentOnly != nil {
 		q.Add("incidentOnly", fmt.Sprintf("%v", *req.IncidentOnly))
+	}
+	if req.IncidentStatus != nil {
+		q.Add("incidentStatus", req.IncidentStatus.String())
+	}
+	if req.IncidentApplication != nil {
+		q.Add("incidentApplication", fmt.Sprintf("%v", *req.IncidentApplication))
+	}
+	if req.IncidentNamespace != nil {
+		q.Add("incidentNamespace", fmt.Sprintf("%v", *req.IncidentNamespace))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAIConversationsResponse](ctx, gwReq)
