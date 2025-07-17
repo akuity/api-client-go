@@ -80,15 +80,18 @@ type ArgoCDServiceGatewayClient interface {
 	ListInstanceAddons(context.Context, *ListInstanceAddonsRequest) (*ListInstanceAddonsResponse, error)
 	ListInstanceAddonErrors(context.Context, *ListInstanceAddonErrorsRequest) (*ListInstanceAddonErrorsResponse, error)
 	GetInstanceAddon(context.Context, *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error)
+	DeleteInstanceAddon(context.Context, *DeleteInstanceAddonRequest) (*DeleteInstanceAddonResponse, error)
 	RefreshInstanceAddon(context.Context, *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error)
 	UpdateInstanceAddon(context.Context, *UpdateInstanceAddonRequest) (*UpdateInstanceAddonResponse, error)
 	PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error)
+	ClearAddonStatusSourceHistory(context.Context, *ClearAddonStatusSourceHistoryRequest) (*ClearAddonStatusSourceHistoryResponse, error)
 	WatchInstanceAddons(context.Context, *WatchInstanceAddonsRequest) (<-chan *WatchInstanceAddonsResponse, <-chan error, error)
 	WatchInstanceAddonRepos(context.Context, *WatchInstanceAddonReposRequest) (<-chan *WatchInstanceAddonReposResponse, <-chan error, error)
 	AddonMarketplaceInstall(context.Context, *AddonMarketplaceInstallRequest) (*AddonMarketplaceInstallResponse, error)
 	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(context.Context, *WatchAddonMarketplaceInstallsRequest) (<-chan *WatchAddonMarketplaceInstallsResponse, <-chan error, error)
 	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
+	DeleteAddonMarketplaceInstall(context.Context, *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error)
 	ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error)
 	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
 	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
@@ -771,6 +774,16 @@ func (c *argoCDServiceGatewayClient) GetInstanceAddon(ctx context.Context, req *
 	return gateway.DoRequest[GetInstanceAddonResponse](ctx, gwReq)
 }
 
+func (c *argoCDServiceGatewayClient) DeleteInstanceAddon(ctx context.Context, req *DeleteInstanceAddonRequest) (*DeleteInstanceAddonResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteInstanceAddonResponse](ctx, gwReq)
+}
+
 func (c *argoCDServiceGatewayClient) RefreshInstanceAddon(ctx context.Context, req *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error) {
 	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons/{id}/refresh")
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
@@ -799,6 +812,16 @@ func (c *argoCDServiceGatewayClient) PatchInstanceAddon(ctx context.Context, req
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req.Patch)
 	return gateway.DoRequest[PatchInstanceAddonResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ClearAddonStatusSourceHistory(ctx context.Context, req *ClearAddonStatusSourceHistoryRequest) (*ClearAddonStatusSourceHistoryResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addons/{id}/clear-operation-history")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ClearAddonStatusSourceHistoryResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) WatchInstanceAddons(ctx context.Context, req *WatchInstanceAddonsRequest) (<-chan *WatchInstanceAddonsResponse, <-chan error, error) {
@@ -882,6 +905,16 @@ func (c *argoCDServiceGatewayClient) UpdateAddonMarketplaceInstall(ctx context.C
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateAddonMarketplaceInstallResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) DeleteAddonMarketplaceInstall(ctx context.Context, req *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/addon-marketplace-installs/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteAddonMarketplaceInstallResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) ListInstanceManagedSecrets(ctx context.Context, req *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error) {

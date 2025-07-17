@@ -108,6 +108,7 @@ type OrganizationServiceGatewayClient interface {
 	ListKubernetesContainersToCSV(context.Context, *ListKubernetesContainersRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error)
 	GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error)
+	DeleteKubernetesResource(context.Context, *DeleteKubernetesResourceRequest) (*DeleteKubernetesResourceResponse, error)
 	GetKubernetesLogs(context.Context, *GetKubernetesLogsRequest) (<-chan *GetKubernetesLogsResponse, <-chan error, error)
 	GetKubernetesEvents(context.Context, *GetKubernetesEventsRequest) (*GetKubernetesEventsResponse, error)
 	ListKubernetesAuditLogs(context.Context, *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error)
@@ -2009,6 +2010,16 @@ func (c *organizationServiceGatewayClient) GetKubernetesManifest(ctx context.Con
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesManifestResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteKubernetesResource(ctx context.Context, req *DeleteKubernetesResourceRequest) (*DeleteKubernetesResourceResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/k8s/instances/{instance_id}/clusters/{cluster_id}/resources/{resource_id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("cluster_id", fmt.Sprintf("%v", req.ClusterId))
+	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteKubernetesResourceResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetKubernetesLogs(ctx context.Context, req *GetKubernetesLogsRequest) (<-chan *GetKubernetesLogsResponse, <-chan error, error) {

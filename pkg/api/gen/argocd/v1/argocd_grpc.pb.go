@@ -78,15 +78,18 @@ const (
 	ArgoCDService_ListInstanceAddons_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/ListInstanceAddons"
 	ArgoCDService_ListInstanceAddonErrors_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/ListInstanceAddonErrors"
 	ArgoCDService_GetInstanceAddon_FullMethodName                      = "/akuity.argocd.v1.ArgoCDService/GetInstanceAddon"
+	ArgoCDService_DeleteInstanceAddon_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/DeleteInstanceAddon"
 	ArgoCDService_RefreshInstanceAddon_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/RefreshInstanceAddon"
 	ArgoCDService_UpdateInstanceAddon_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceAddon"
 	ArgoCDService_PatchInstanceAddon_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/PatchInstanceAddon"
+	ArgoCDService_ClearAddonStatusSourceHistory_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/ClearAddonStatusSourceHistory"
 	ArgoCDService_WatchInstanceAddons_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/WatchInstanceAddons"
 	ArgoCDService_WatchInstanceAddonRepos_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/WatchInstanceAddonRepos"
 	ArgoCDService_AddonMarketplaceInstall_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/AddonMarketplaceInstall"
 	ArgoCDService_ListAddonMarketplaceInstalls_FullMethodName          = "/akuity.argocd.v1.ArgoCDService/ListAddonMarketplaceInstalls"
 	ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/WatchAddonMarketplaceInstalls"
 	ArgoCDService_UpdateAddonMarketplaceInstall_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/UpdateAddonMarketplaceInstall"
+	ArgoCDService_DeleteAddonMarketplaceInstall_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/DeleteAddonMarketplaceInstall"
 	ArgoCDService_ListInstanceManagedSecrets_FullMethodName            = "/akuity.argocd.v1.ArgoCDService/ListInstanceManagedSecrets"
 	ArgoCDService_CreateManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/CreateManagedSecret"
 	ArgoCDService_DeleteManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/DeleteManagedSecret"
@@ -163,15 +166,18 @@ type ArgoCDServiceClient interface {
 	ListInstanceAddons(ctx context.Context, in *ListInstanceAddonsRequest, opts ...grpc.CallOption) (*ListInstanceAddonsResponse, error)
 	ListInstanceAddonErrors(ctx context.Context, in *ListInstanceAddonErrorsRequest, opts ...grpc.CallOption) (*ListInstanceAddonErrorsResponse, error)
 	GetInstanceAddon(ctx context.Context, in *GetInstanceAddonRequest, opts ...grpc.CallOption) (*GetInstanceAddonResponse, error)
+	DeleteInstanceAddon(ctx context.Context, in *DeleteInstanceAddonRequest, opts ...grpc.CallOption) (*DeleteInstanceAddonResponse, error)
 	RefreshInstanceAddon(ctx context.Context, in *RefreshInstanceAddonRequest, opts ...grpc.CallOption) (*RefreshInstanceAddonResponse, error)
 	UpdateInstanceAddon(ctx context.Context, in *UpdateInstanceAddonRequest, opts ...grpc.CallOption) (*UpdateInstanceAddonResponse, error)
 	PatchInstanceAddon(ctx context.Context, in *PatchInstanceAddonRequest, opts ...grpc.CallOption) (*PatchInstanceAddonResponse, error)
+	ClearAddonStatusSourceHistory(ctx context.Context, in *ClearAddonStatusSourceHistoryRequest, opts ...grpc.CallOption) (*ClearAddonStatusSourceHistoryResponse, error)
 	WatchInstanceAddons(ctx context.Context, in *WatchInstanceAddonsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonsClient, error)
 	WatchInstanceAddonRepos(ctx context.Context, in *WatchInstanceAddonReposRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonReposClient, error)
 	AddonMarketplaceInstall(ctx context.Context, in *AddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*AddonMarketplaceInstallResponse, error)
 	ListAddonMarketplaceInstalls(ctx context.Context, in *ListAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(ctx context.Context, in *WatchAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchAddonMarketplaceInstallsClient, error)
 	UpdateAddonMarketplaceInstall(ctx context.Context, in *UpdateAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*UpdateAddonMarketplaceInstallResponse, error)
+	DeleteAddonMarketplaceInstall(ctx context.Context, in *DeleteAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*DeleteAddonMarketplaceInstallResponse, error)
 	ListInstanceManagedSecrets(ctx context.Context, in *ListInstanceManagedSecretsRequest, opts ...grpc.CallOption) (*ListInstanceManagedSecretsResponse, error)
 	CreateManagedSecret(ctx context.Context, in *CreateManagedSecretRequest, opts ...grpc.CallOption) (*CreateManagedSecretResponse, error)
 	DeleteManagedSecret(ctx context.Context, in *DeleteManagedSecretRequest, opts ...grpc.CallOption) (*DeleteManagedSecretResponse, error)
@@ -768,6 +774,15 @@ func (c *argoCDServiceClient) GetInstanceAddon(ctx context.Context, in *GetInsta
 	return out, nil
 }
 
+func (c *argoCDServiceClient) DeleteInstanceAddon(ctx context.Context, in *DeleteInstanceAddonRequest, opts ...grpc.CallOption) (*DeleteInstanceAddonResponse, error) {
+	out := new(DeleteInstanceAddonResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_DeleteInstanceAddon_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) RefreshInstanceAddon(ctx context.Context, in *RefreshInstanceAddonRequest, opts ...grpc.CallOption) (*RefreshInstanceAddonResponse, error) {
 	out := new(RefreshInstanceAddonResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_RefreshInstanceAddon_FullMethodName, in, out, opts...)
@@ -789,6 +804,15 @@ func (c *argoCDServiceClient) UpdateInstanceAddon(ctx context.Context, in *Updat
 func (c *argoCDServiceClient) PatchInstanceAddon(ctx context.Context, in *PatchInstanceAddonRequest, opts ...grpc.CallOption) (*PatchInstanceAddonResponse, error) {
 	out := new(PatchInstanceAddonResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_PatchInstanceAddon_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) ClearAddonStatusSourceHistory(ctx context.Context, in *ClearAddonStatusSourceHistoryRequest, opts ...grpc.CallOption) (*ClearAddonStatusSourceHistoryResponse, error) {
+	out := new(ClearAddonStatusSourceHistoryResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_ClearAddonStatusSourceHistory_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -918,6 +942,15 @@ func (c *argoCDServiceClient) UpdateAddonMarketplaceInstall(ctx context.Context,
 	return out, nil
 }
 
+func (c *argoCDServiceClient) DeleteAddonMarketplaceInstall(ctx context.Context, in *DeleteAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*DeleteAddonMarketplaceInstallResponse, error) {
+	out := new(DeleteAddonMarketplaceInstallResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_DeleteAddonMarketplaceInstall_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) ListInstanceManagedSecrets(ctx context.Context, in *ListInstanceManagedSecretsRequest, opts ...grpc.CallOption) (*ListInstanceManagedSecretsResponse, error) {
 	out := new(ListInstanceManagedSecretsResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceManagedSecrets_FullMethodName, in, out, opts...)
@@ -1024,15 +1057,18 @@ type ArgoCDServiceServer interface {
 	ListInstanceAddons(context.Context, *ListInstanceAddonsRequest) (*ListInstanceAddonsResponse, error)
 	ListInstanceAddonErrors(context.Context, *ListInstanceAddonErrorsRequest) (*ListInstanceAddonErrorsResponse, error)
 	GetInstanceAddon(context.Context, *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error)
+	DeleteInstanceAddon(context.Context, *DeleteInstanceAddonRequest) (*DeleteInstanceAddonResponse, error)
 	RefreshInstanceAddon(context.Context, *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error)
 	UpdateInstanceAddon(context.Context, *UpdateInstanceAddonRequest) (*UpdateInstanceAddonResponse, error)
 	PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error)
+	ClearAddonStatusSourceHistory(context.Context, *ClearAddonStatusSourceHistoryRequest) (*ClearAddonStatusSourceHistoryResponse, error)
 	WatchInstanceAddons(*WatchInstanceAddonsRequest, ArgoCDService_WatchInstanceAddonsServer) error
 	WatchInstanceAddonRepos(*WatchInstanceAddonReposRequest, ArgoCDService_WatchInstanceAddonReposServer) error
 	AddonMarketplaceInstall(context.Context, *AddonMarketplaceInstallRequest) (*AddonMarketplaceInstallResponse, error)
 	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(*WatchAddonMarketplaceInstallsRequest, ArgoCDService_WatchAddonMarketplaceInstallsServer) error
 	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
+	DeleteAddonMarketplaceInstall(context.Context, *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error)
 	ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error)
 	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
 	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
@@ -1215,6 +1251,9 @@ func (UnimplementedArgoCDServiceServer) ListInstanceAddonErrors(context.Context,
 func (UnimplementedArgoCDServiceServer) GetInstanceAddon(context.Context, *GetInstanceAddonRequest) (*GetInstanceAddonResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceAddon not implemented")
 }
+func (UnimplementedArgoCDServiceServer) DeleteInstanceAddon(context.Context, *DeleteInstanceAddonRequest) (*DeleteInstanceAddonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceAddon not implemented")
+}
 func (UnimplementedArgoCDServiceServer) RefreshInstanceAddon(context.Context, *RefreshInstanceAddonRequest) (*RefreshInstanceAddonResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshInstanceAddon not implemented")
 }
@@ -1223,6 +1262,9 @@ func (UnimplementedArgoCDServiceServer) UpdateInstanceAddon(context.Context, *Up
 }
 func (UnimplementedArgoCDServiceServer) PatchInstanceAddon(context.Context, *PatchInstanceAddonRequest) (*PatchInstanceAddonResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceAddon not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ClearAddonStatusSourceHistory(context.Context, *ClearAddonStatusSourceHistoryRequest) (*ClearAddonStatusSourceHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClearAddonStatusSourceHistory not implemented")
 }
 func (UnimplementedArgoCDServiceServer) WatchInstanceAddons(*WatchInstanceAddonsRequest, ArgoCDService_WatchInstanceAddonsServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchInstanceAddons not implemented")
@@ -1241,6 +1283,9 @@ func (UnimplementedArgoCDServiceServer) WatchAddonMarketplaceInstalls(*WatchAddo
 }
 func (UnimplementedArgoCDServiceServer) UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddonMarketplaceInstall not implemented")
+}
+func (UnimplementedArgoCDServiceServer) DeleteAddonMarketplaceInstall(context.Context, *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAddonMarketplaceInstall not implemented")
 }
 func (UnimplementedArgoCDServiceServer) ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceManagedSecrets not implemented")
@@ -2302,6 +2347,24 @@ func _ArgoCDService_GetInstanceAddon_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_DeleteInstanceAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteInstanceAddonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).DeleteInstanceAddon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_DeleteInstanceAddon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).DeleteInstanceAddon(ctx, req.(*DeleteInstanceAddonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_RefreshInstanceAddon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RefreshInstanceAddonRequest)
 	if err := dec(in); err != nil {
@@ -2352,6 +2415,24 @@ func _ArgoCDService_PatchInstanceAddon_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).PatchInstanceAddon(ctx, req.(*PatchInstanceAddonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_ClearAddonStatusSourceHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClearAddonStatusSourceHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ClearAddonStatusSourceHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_ClearAddonStatusSourceHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ClearAddonStatusSourceHistory(ctx, req.(*ClearAddonStatusSourceHistoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2469,6 +2550,24 @@ func _ArgoCDService_UpdateAddonMarketplaceInstall_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).UpdateAddonMarketplaceInstall(ctx, req.(*UpdateAddonMarketplaceInstallRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_DeleteAddonMarketplaceInstall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAddonMarketplaceInstallRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).DeleteAddonMarketplaceInstall(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_DeleteAddonMarketplaceInstall_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).DeleteAddonMarketplaceInstall(ctx, req.(*DeleteAddonMarketplaceInstallRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2769,6 +2868,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_GetInstanceAddon_Handler,
 		},
 		{
+			MethodName: "DeleteInstanceAddon",
+			Handler:    _ArgoCDService_DeleteInstanceAddon_Handler,
+		},
+		{
 			MethodName: "RefreshInstanceAddon",
 			Handler:    _ArgoCDService_RefreshInstanceAddon_Handler,
 		},
@@ -2781,6 +2884,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_PatchInstanceAddon_Handler,
 		},
 		{
+			MethodName: "ClearAddonStatusSourceHistory",
+			Handler:    _ArgoCDService_ClearAddonStatusSourceHistory_Handler,
+		},
+		{
 			MethodName: "AddonMarketplaceInstall",
 			Handler:    _ArgoCDService_AddonMarketplaceInstall_Handler,
 		},
@@ -2791,6 +2898,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAddonMarketplaceInstall",
 			Handler:    _ArgoCDService_UpdateAddonMarketplaceInstall_Handler,
+		},
+		{
+			MethodName: "DeleteAddonMarketplaceInstall",
+			Handler:    _ArgoCDService_DeleteAddonMarketplaceInstall_Handler,
 		},
 		{
 			MethodName: "ListInstanceManagedSecrets",

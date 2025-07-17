@@ -101,6 +101,7 @@ const (
 	OrganizationService_ListKubernetesContainersToCSV_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesContainersToCSV"
 	OrganizationService_ListKubernetesEnabledClusters_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
 	OrganizationService_GetKubernetesManifest_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetKubernetesManifest"
+	OrganizationService_DeleteKubernetesResource_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteKubernetesResource"
 	OrganizationService_GetKubernetesLogs_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesLogs"
 	OrganizationService_GetKubernetesEvents_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetKubernetesEvents"
 	OrganizationService_ListKubernetesAuditLogs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKubernetesAuditLogs"
@@ -246,6 +247,7 @@ type OrganizationServiceClient interface {
 	ListKubernetesContainersToCSV(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesContainersToCSVClient, error)
 	ListKubernetesEnabledClusters(ctx context.Context, in *ListKubernetesEnabledClustersRequest, opts ...grpc.CallOption) (*ListKubernetesEnabledClustersResponse, error)
 	GetKubernetesManifest(ctx context.Context, in *GetKubernetesManifestRequest, opts ...grpc.CallOption) (*GetKubernetesManifestResponse, error)
+	DeleteKubernetesResource(ctx context.Context, in *DeleteKubernetesResourceRequest, opts ...grpc.CallOption) (*DeleteKubernetesResourceResponse, error)
 	GetKubernetesLogs(ctx context.Context, in *GetKubernetesLogsRequest, opts ...grpc.CallOption) (OrganizationService_GetKubernetesLogsClient, error)
 	GetKubernetesEvents(ctx context.Context, in *GetKubernetesEventsRequest, opts ...grpc.CallOption) (*GetKubernetesEventsResponse, error)
 	ListKubernetesAuditLogs(ctx context.Context, in *ListKubernetesAuditLogsRequest, opts ...grpc.CallOption) (*ListKubernetesAuditLogsResponse, error)
@@ -1130,6 +1132,15 @@ func (c *organizationServiceClient) GetKubernetesManifest(ctx context.Context, i
 	return out, nil
 }
 
+func (c *organizationServiceClient) DeleteKubernetesResource(ctx context.Context, in *DeleteKubernetesResourceRequest, opts ...grpc.CallOption) (*DeleteKubernetesResourceResponse, error) {
+	out := new(DeleteKubernetesResourceResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteKubernetesResource_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetKubernetesLogs(ctx context.Context, in *GetKubernetesLogsRequest, opts ...grpc.CallOption) (OrganizationService_GetKubernetesLogsClient, error) {
 	stream, err := c.cc.NewStream(ctx, &OrganizationService_ServiceDesc.Streams[4], OrganizationService_GetKubernetesLogs_FullMethodName, opts...)
 	if err != nil {
@@ -1717,6 +1728,7 @@ type OrganizationServiceServer interface {
 	ListKubernetesContainersToCSV(*ListKubernetesContainersRequest, OrganizationService_ListKubernetesContainersToCSVServer) error
 	ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error)
 	GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error)
+	DeleteKubernetesResource(context.Context, *DeleteKubernetesResourceRequest) (*DeleteKubernetesResourceResponse, error)
 	GetKubernetesLogs(*GetKubernetesLogsRequest, OrganizationService_GetKubernetesLogsServer) error
 	GetKubernetesEvents(context.Context, *GetKubernetesEventsRequest) (*GetKubernetesEventsResponse, error)
 	ListKubernetesAuditLogs(context.Context, *ListKubernetesAuditLogsRequest) (*ListKubernetesAuditLogsResponse, error)
@@ -2019,6 +2031,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesEnabledClusters(cont
 }
 func (UnimplementedOrganizationServiceServer) GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesManifest not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteKubernetesResource(context.Context, *DeleteKubernetesResourceRequest) (*DeleteKubernetesResourceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteKubernetesResource not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetKubernetesLogs(*GetKubernetesLogsRequest, OrganizationService_GetKubernetesLogsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetKubernetesLogs not implemented")
@@ -3635,6 +3650,24 @@ func _OrganizationService_GetKubernetesManifest_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_DeleteKubernetesResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteKubernetesResourceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteKubernetesResource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteKubernetesResource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteKubernetesResource(ctx, req.(*DeleteKubernetesResourceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetKubernetesLogs_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetKubernetesLogsRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -4753,6 +4786,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetKubernetesManifest",
 			Handler:    _OrganizationService_GetKubernetesManifest_Handler,
+		},
+		{
+			MethodName: "DeleteKubernetesResource",
+			Handler:    _OrganizationService_DeleteKubernetesResource_Handler,
 		},
 		{
 			MethodName: "GetKubernetesEvents",
