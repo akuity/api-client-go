@@ -2575,6 +2575,18 @@ func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Conte
 	if req.IncidentNamespace != nil {
 		q.Add("incidentNamespace", fmt.Sprintf("%v", *req.IncidentNamespace))
 	}
+	if req.TitleContains != nil {
+		q.Add("titleContains", fmt.Sprintf("%v", *req.TitleContains))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.IncidentClusterId != nil {
+		q.Add("incidentClusterId", fmt.Sprintf("%v", *req.IncidentClusterId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAIConversationsResponse](ctx, gwReq)
 }

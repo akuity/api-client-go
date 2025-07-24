@@ -89,6 +89,8 @@ const (
 	ArgoCDService_ListAddonMarketplaceInstalls_FullMethodName          = "/akuity.argocd.v1.ArgoCDService/ListAddonMarketplaceInstalls"
 	ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/WatchAddonMarketplaceInstalls"
 	ArgoCDService_UpdateAddonMarketplaceInstall_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/UpdateAddonMarketplaceInstall"
+	ArgoCDService_ListInstanceRepos_FullMethodName                     = "/akuity.argocd.v1.ArgoCDService/ListInstanceRepos"
+	ArgoCDService_CreateInstanceRepo_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/CreateInstanceRepo"
 	ArgoCDService_DeleteAddonMarketplaceInstall_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/DeleteAddonMarketplaceInstall"
 	ArgoCDService_ListInstanceManagedSecrets_FullMethodName            = "/akuity.argocd.v1.ArgoCDService/ListInstanceManagedSecrets"
 	ArgoCDService_CreateManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/CreateManagedSecret"
@@ -177,6 +179,8 @@ type ArgoCDServiceClient interface {
 	ListAddonMarketplaceInstalls(ctx context.Context, in *ListAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(ctx context.Context, in *WatchAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchAddonMarketplaceInstallsClient, error)
 	UpdateAddonMarketplaceInstall(ctx context.Context, in *UpdateAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*UpdateAddonMarketplaceInstallResponse, error)
+	ListInstanceRepos(ctx context.Context, in *ListInstanceReposRequest, opts ...grpc.CallOption) (*ListInstanceReposResponse, error)
+	CreateInstanceRepo(ctx context.Context, in *CreateInstanceRepoRequest, opts ...grpc.CallOption) (*CreateInstanceRepoResponse, error)
 	DeleteAddonMarketplaceInstall(ctx context.Context, in *DeleteAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*DeleteAddonMarketplaceInstallResponse, error)
 	ListInstanceManagedSecrets(ctx context.Context, in *ListInstanceManagedSecretsRequest, opts ...grpc.CallOption) (*ListInstanceManagedSecretsResponse, error)
 	CreateManagedSecret(ctx context.Context, in *CreateManagedSecretRequest, opts ...grpc.CallOption) (*CreateManagedSecretResponse, error)
@@ -942,6 +946,24 @@ func (c *argoCDServiceClient) UpdateAddonMarketplaceInstall(ctx context.Context,
 	return out, nil
 }
 
+func (c *argoCDServiceClient) ListInstanceRepos(ctx context.Context, in *ListInstanceReposRequest, opts ...grpc.CallOption) (*ListInstanceReposResponse, error) {
+	out := new(ListInstanceReposResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceRepos_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) CreateInstanceRepo(ctx context.Context, in *CreateInstanceRepoRequest, opts ...grpc.CallOption) (*CreateInstanceRepoResponse, error) {
+	out := new(CreateInstanceRepoResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_CreateInstanceRepo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) DeleteAddonMarketplaceInstall(ctx context.Context, in *DeleteAddonMarketplaceInstallRequest, opts ...grpc.CallOption) (*DeleteAddonMarketplaceInstallResponse, error) {
 	out := new(DeleteAddonMarketplaceInstallResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_DeleteAddonMarketplaceInstall_FullMethodName, in, out, opts...)
@@ -1068,6 +1090,8 @@ type ArgoCDServiceServer interface {
 	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(*WatchAddonMarketplaceInstallsRequest, ArgoCDService_WatchAddonMarketplaceInstallsServer) error
 	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
+	ListInstanceRepos(context.Context, *ListInstanceReposRequest) (*ListInstanceReposResponse, error)
+	CreateInstanceRepo(context.Context, *CreateInstanceRepoRequest) (*CreateInstanceRepoResponse, error)
 	DeleteAddonMarketplaceInstall(context.Context, *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error)
 	ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error)
 	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
@@ -1283,6 +1307,12 @@ func (UnimplementedArgoCDServiceServer) WatchAddonMarketplaceInstalls(*WatchAddo
 }
 func (UnimplementedArgoCDServiceServer) UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAddonMarketplaceInstall not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ListInstanceRepos(context.Context, *ListInstanceReposRequest) (*ListInstanceReposResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceRepos not implemented")
+}
+func (UnimplementedArgoCDServiceServer) CreateInstanceRepo(context.Context, *CreateInstanceRepoRequest) (*CreateInstanceRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateInstanceRepo not implemented")
 }
 func (UnimplementedArgoCDServiceServer) DeleteAddonMarketplaceInstall(context.Context, *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAddonMarketplaceInstall not implemented")
@@ -2554,6 +2584,42 @@ func _ArgoCDService_UpdateAddonMarketplaceInstall_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_ListInstanceRepos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListInstanceReposRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ListInstanceRepos(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_ListInstanceRepos_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ListInstanceRepos(ctx, req.(*ListInstanceReposRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_CreateInstanceRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateInstanceRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).CreateInstanceRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_CreateInstanceRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).CreateInstanceRepo(ctx, req.(*CreateInstanceRepoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_DeleteAddonMarketplaceInstall_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteAddonMarketplaceInstallRequest)
 	if err := dec(in); err != nil {
@@ -2898,6 +2964,14 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAddonMarketplaceInstall",
 			Handler:    _ArgoCDService_UpdateAddonMarketplaceInstall_Handler,
+		},
+		{
+			MethodName: "ListInstanceRepos",
+			Handler:    _ArgoCDService_ListInstanceRepos_Handler,
+		},
+		{
+			MethodName: "CreateInstanceRepo",
+			Handler:    _ArgoCDService_CreateInstanceRepo_Handler,
 		},
 		{
 			MethodName: "DeleteAddonMarketplaceInstall",

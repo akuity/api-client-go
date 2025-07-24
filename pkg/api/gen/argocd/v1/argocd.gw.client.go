@@ -91,6 +91,8 @@ type ArgoCDServiceGatewayClient interface {
 	ListAddonMarketplaceInstalls(context.Context, *ListAddonMarketplaceInstallsRequest) (*ListAddonMarketplaceInstallsResponse, error)
 	WatchAddonMarketplaceInstalls(context.Context, *WatchAddonMarketplaceInstallsRequest) (<-chan *WatchAddonMarketplaceInstallsResponse, <-chan error, error)
 	UpdateAddonMarketplaceInstall(context.Context, *UpdateAddonMarketplaceInstallRequest) (*UpdateAddonMarketplaceInstallResponse, error)
+	ListInstanceRepos(context.Context, *ListInstanceReposRequest) (*ListInstanceReposResponse, error)
+	CreateInstanceRepo(context.Context, *CreateInstanceRepoRequest) (*CreateInstanceRepoResponse, error)
 	DeleteAddonMarketplaceInstall(context.Context, *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error)
 	ListInstanceManagedSecrets(context.Context, *ListInstanceManagedSecretsRequest) (*ListInstanceManagedSecretsResponse, error)
 	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
@@ -905,6 +907,23 @@ func (c *argoCDServiceGatewayClient) UpdateAddonMarketplaceInstall(ctx context.C
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateAddonMarketplaceInstallResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ListInstanceRepos(ctx context.Context, req *ListInstanceReposRequest) (*ListInstanceReposResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/repos")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	return gateway.DoRequest[ListInstanceReposResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) CreateInstanceRepo(ctx context.Context, req *CreateInstanceRepoRequest) (*CreateInstanceRepoResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/repos")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateInstanceRepoResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) DeleteAddonMarketplaceInstall(ctx context.Context, req *DeleteAddonMarketplaceInstallRequest) (*DeleteAddonMarketplaceInstallResponse, error) {
