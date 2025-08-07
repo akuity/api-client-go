@@ -98,6 +98,11 @@ type ArgoCDServiceGatewayClient interface {
 	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
 	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
 	UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error)
+	// PatchManagedSecret updates the current metadata information (i.e. access permissions and
+	// labels) for the secret without modifying the actual secret data. For simplicity, this is not a
+	// true patch operation in that it doesn't merge with existing data. All data that is currently
+	// set should be passed as well
+	PatchManagedSecret(context.Context, *PatchManagedSecretRequest) (*PatchManagedSecretResponse, error)
 }
 
 func NewArgoCDServiceGatewayClient(c gateway.Client) ArgoCDServiceGatewayClient {
@@ -971,4 +976,14 @@ func (c *argoCDServiceGatewayClient) UpdateManagedSecret(ctx context.Context, re
 	gwReq.SetPathParam("name", fmt.Sprintf("%v", req.Name))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateManagedSecretResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) PatchManagedSecret(ctx context.Context, req *PatchManagedSecretRequest) (*PatchManagedSecretResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/workspaces/{workspace_id}/argocd/instances/{instance_id}/managed-secrets/{name}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("name", fmt.Sprintf("%v", req.Name))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[PatchManagedSecretResponse](ctx, gwReq)
 }

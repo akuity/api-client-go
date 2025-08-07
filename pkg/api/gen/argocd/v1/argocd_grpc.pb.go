@@ -96,6 +96,7 @@ const (
 	ArgoCDService_CreateManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/CreateManagedSecret"
 	ArgoCDService_DeleteManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/DeleteManagedSecret"
 	ArgoCDService_UpdateManagedSecret_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/UpdateManagedSecret"
+	ArgoCDService_PatchManagedSecret_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/PatchManagedSecret"
 )
 
 // ArgoCDServiceClient is the client API for ArgoCDService service.
@@ -186,6 +187,11 @@ type ArgoCDServiceClient interface {
 	CreateManagedSecret(ctx context.Context, in *CreateManagedSecretRequest, opts ...grpc.CallOption) (*CreateManagedSecretResponse, error)
 	DeleteManagedSecret(ctx context.Context, in *DeleteManagedSecretRequest, opts ...grpc.CallOption) (*DeleteManagedSecretResponse, error)
 	UpdateManagedSecret(ctx context.Context, in *UpdateManagedSecretRequest, opts ...grpc.CallOption) (*UpdateManagedSecretResponse, error)
+	// PatchManagedSecret updates the current metadata information (i.e. access permissions and
+	// labels) for the secret without modifying the actual secret data. For simplicity, this is not a
+	// true patch operation in that it doesn't merge with existing data. All data that is currently
+	// set should be passed as well
+	PatchManagedSecret(ctx context.Context, in *PatchManagedSecretRequest, opts ...grpc.CallOption) (*PatchManagedSecretResponse, error)
 }
 
 type argoCDServiceClient struct {
@@ -1009,6 +1015,15 @@ func (c *argoCDServiceClient) UpdateManagedSecret(ctx context.Context, in *Updat
 	return out, nil
 }
 
+func (c *argoCDServiceClient) PatchManagedSecret(ctx context.Context, in *PatchManagedSecretRequest, opts ...grpc.CallOption) (*PatchManagedSecretResponse, error) {
+	out := new(PatchManagedSecretResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_PatchManagedSecret_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArgoCDServiceServer is the server API for ArgoCDService service.
 // All implementations must embed UnimplementedArgoCDServiceServer
 // for forward compatibility
@@ -1097,6 +1112,11 @@ type ArgoCDServiceServer interface {
 	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
 	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
 	UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error)
+	// PatchManagedSecret updates the current metadata information (i.e. access permissions and
+	// labels) for the secret without modifying the actual secret data. For simplicity, this is not a
+	// true patch operation in that it doesn't merge with existing data. All data that is currently
+	// set should be passed as well
+	PatchManagedSecret(context.Context, *PatchManagedSecretRequest) (*PatchManagedSecretResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
 
@@ -1328,6 +1348,9 @@ func (UnimplementedArgoCDServiceServer) DeleteManagedSecret(context.Context, *De
 }
 func (UnimplementedArgoCDServiceServer) UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateManagedSecret not implemented")
+}
+func (UnimplementedArgoCDServiceServer) PatchManagedSecret(context.Context, *PatchManagedSecretRequest) (*PatchManagedSecretResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchManagedSecret not implemented")
 }
 func (UnimplementedArgoCDServiceServer) mustEmbedUnimplementedArgoCDServiceServer() {}
 
@@ -2710,6 +2733,24 @@ func _ArgoCDService_UpdateManagedSecret_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_PatchManagedSecret_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchManagedSecretRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).PatchManagedSecret(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_PatchManagedSecret_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).PatchManagedSecret(ctx, req.(*PatchManagedSecretRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArgoCDService_ServiceDesc is the grpc.ServiceDesc for ArgoCDService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2992,6 +3033,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateManagedSecret",
 			Handler:    _ArgoCDService_UpdateManagedSecret_Handler,
+		},
+		{
+			MethodName: "PatchManagedSecret",
+			Handler:    _ArgoCDService_PatchManagedSecret_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
