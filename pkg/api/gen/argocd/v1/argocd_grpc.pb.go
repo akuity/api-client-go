@@ -188,9 +188,9 @@ type ArgoCDServiceClient interface {
 	DeleteManagedSecret(ctx context.Context, in *DeleteManagedSecretRequest, opts ...grpc.CallOption) (*DeleteManagedSecretResponse, error)
 	UpdateManagedSecret(ctx context.Context, in *UpdateManagedSecretRequest, opts ...grpc.CallOption) (*UpdateManagedSecretResponse, error)
 	// PatchManagedSecret updates the current metadata information (i.e. access permissions and
-	// labels) for the secret without modifying the actual secret data. For simplicity, this is not a
-	// true patch operation in that it doesn't merge with existing data. All data that is currently
-	// set should be passed as well
+	// labels) for the secret without modifying the actual secret data. If this is purely managed on
+	// the control plane, all labels will overwrite the current labels. However, if this secret is
+	// managed by another cluster, an error will be returned if any labels are set
 	PatchManagedSecret(ctx context.Context, in *PatchManagedSecretRequest, opts ...grpc.CallOption) (*PatchManagedSecretResponse, error)
 }
 
@@ -1113,9 +1113,9 @@ type ArgoCDServiceServer interface {
 	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
 	UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error)
 	// PatchManagedSecret updates the current metadata information (i.e. access permissions and
-	// labels) for the secret without modifying the actual secret data. For simplicity, this is not a
-	// true patch operation in that it doesn't merge with existing data. All data that is currently
-	// set should be passed as well
+	// labels) for the secret without modifying the actual secret data. If this is purely managed on
+	// the control plane, all labels will overwrite the current labels. However, if this secret is
+	// managed by another cluster, an error will be returned if any labels are set
 	PatchManagedSecret(context.Context, *PatchManagedSecretRequest) (*PatchManagedSecretResponse, error)
 	mustEmbedUnimplementedArgoCDServiceServer()
 }
