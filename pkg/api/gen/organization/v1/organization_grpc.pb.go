@@ -75,6 +75,10 @@ const (
 	OrganizationService_GetTeamMember_FullMethodName                          = "/akuity.organization.v1.OrganizationService/GetTeamMember"
 	OrganizationService_ListTeamMembers_FullMethodName                        = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
 	OrganizationService_RemoveTeamMember_FullMethodName                       = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
+	OrganizationService_UpdateArgocdInstancesQuota_FullMethodName             = "/akuity.organization.v1.OrganizationService/UpdateArgocdInstancesQuota"
+	OrganizationService_ListArgocdInstancesQuota_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListArgocdInstancesQuota"
+	OrganizationService_UpdateKargoInstancesQuota_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateKargoInstancesQuota"
+	OrganizationService_ListKargoInstancesQuota_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKargoInstancesQuota"
 	OrganizationService_CreateWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
 	OrganizationService_ListWorkspaces_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
 	OrganizationService_GetWorkspace_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetWorkspace"
@@ -209,6 +213,10 @@ type OrganizationServiceClient interface {
 	GetTeamMember(ctx context.Context, in *GetTeamMemberRequest, opts ...grpc.CallOption) (*GetTeamMemberResponse, error)
 	ListTeamMembers(ctx context.Context, in *ListTeamMembersRequest, opts ...grpc.CallOption) (*ListTeamMembersResponse, error)
 	RemoveTeamMember(ctx context.Context, in *RemoveTeamMemberRequest, opts ...grpc.CallOption) (*RemoveTeamMemberResponse, error)
+	UpdateArgocdInstancesQuota(ctx context.Context, in *UpdateArgocdInstancesQuotaRequest, opts ...grpc.CallOption) (*UpdateArgocdInstancesQuotaResponse, error)
+	ListArgocdInstancesQuota(ctx context.Context, in *ListArgocdInstancesQuotaRequest, opts ...grpc.CallOption) (*ListArgocdInstancesQuotaResponse, error)
+	UpdateKargoInstancesQuota(ctx context.Context, in *UpdateKargoInstancesQuotaRequest, opts ...grpc.CallOption) (*UpdateKargoInstancesQuotaResponse, error)
+	ListKargoInstancesQuota(ctx context.Context, in *ListKargoInstancesQuotaRequest, opts ...grpc.CallOption) (*ListKargoInstancesQuotaResponse, error)
 	CreateWorkspace(ctx context.Context, in *CreateWorkspaceRequest, opts ...grpc.CallOption) (*CreateWorkspaceResponse, error)
 	ListWorkspaces(ctx context.Context, in *ListWorkspacesRequest, opts ...grpc.CallOption) (*ListWorkspacesResponse, error)
 	GetWorkspace(ctx context.Context, in *GetWorkspaceRequest, opts ...grpc.CallOption) (*GetWorkspaceResponse, error)
@@ -823,6 +831,42 @@ func (c *organizationServiceClient) ListTeamMembers(ctx context.Context, in *Lis
 func (c *organizationServiceClient) RemoveTeamMember(ctx context.Context, in *RemoveTeamMemberRequest, opts ...grpc.CallOption) (*RemoveTeamMemberResponse, error) {
 	out := new(RemoveTeamMemberResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_RemoveTeamMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateArgocdInstancesQuota(ctx context.Context, in *UpdateArgocdInstancesQuotaRequest, opts ...grpc.CallOption) (*UpdateArgocdInstancesQuotaResponse, error) {
+	out := new(UpdateArgocdInstancesQuotaResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateArgocdInstancesQuota_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListArgocdInstancesQuota(ctx context.Context, in *ListArgocdInstancesQuotaRequest, opts ...grpc.CallOption) (*ListArgocdInstancesQuotaResponse, error) {
+	out := new(ListArgocdInstancesQuotaResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListArgocdInstancesQuota_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateKargoInstancesQuota(ctx context.Context, in *UpdateKargoInstancesQuotaRequest, opts ...grpc.CallOption) (*UpdateKargoInstancesQuotaResponse, error) {
+	out := new(UpdateKargoInstancesQuotaResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateKargoInstancesQuota_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListKargoInstancesQuota(ctx context.Context, in *ListKargoInstancesQuotaRequest, opts ...grpc.CallOption) (*ListKargoInstancesQuotaResponse, error) {
+	out := new(ListKargoInstancesQuotaResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListKargoInstancesQuota_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1690,6 +1734,10 @@ type OrganizationServiceServer interface {
 	GetTeamMember(context.Context, *GetTeamMemberRequest) (*GetTeamMemberResponse, error)
 	ListTeamMembers(context.Context, *ListTeamMembersRequest) (*ListTeamMembersResponse, error)
 	RemoveTeamMember(context.Context, *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error)
+	UpdateArgocdInstancesQuota(context.Context, *UpdateArgocdInstancesQuotaRequest) (*UpdateArgocdInstancesQuotaResponse, error)
+	ListArgocdInstancesQuota(context.Context, *ListArgocdInstancesQuotaRequest) (*ListArgocdInstancesQuotaResponse, error)
+	UpdateKargoInstancesQuota(context.Context, *UpdateKargoInstancesQuotaRequest) (*UpdateKargoInstancesQuotaResponse, error)
+	ListKargoInstancesQuota(context.Context, *ListKargoInstancesQuotaRequest) (*ListKargoInstancesQuotaResponse, error)
 	CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error)
 	ListWorkspaces(context.Context, *ListWorkspacesRequest) (*ListWorkspacesResponse, error)
 	GetWorkspace(context.Context, *GetWorkspaceRequest) (*GetWorkspaceResponse, error)
@@ -1953,6 +2001,18 @@ func (UnimplementedOrganizationServiceServer) ListTeamMembers(context.Context, *
 }
 func (UnimplementedOrganizationServiceServer) RemoveTeamMember(context.Context, *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveTeamMember not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateArgocdInstancesQuota(context.Context, *UpdateArgocdInstancesQuotaRequest) (*UpdateArgocdInstancesQuotaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateArgocdInstancesQuota not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListArgocdInstancesQuota(context.Context, *ListArgocdInstancesQuotaRequest) (*ListArgocdInstancesQuotaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListArgocdInstancesQuota not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateKargoInstancesQuota(context.Context, *UpdateKargoInstancesQuotaRequest) (*UpdateKargoInstancesQuotaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateKargoInstancesQuota not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListKargoInstancesQuota(context.Context, *ListKargoInstancesQuotaRequest) (*ListKargoInstancesQuotaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKargoInstancesQuota not implemented")
 }
 func (UnimplementedOrganizationServiceServer) CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkspace not implemented")
@@ -3169,6 +3229,78 @@ func _OrganizationService_RemoveTeamMember_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).RemoveTeamMember(ctx, req.(*RemoveTeamMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateArgocdInstancesQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateArgocdInstancesQuotaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateArgocdInstancesQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateArgocdInstancesQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateArgocdInstancesQuota(ctx, req.(*UpdateArgocdInstancesQuotaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListArgocdInstancesQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListArgocdInstancesQuotaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListArgocdInstancesQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListArgocdInstancesQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListArgocdInstancesQuota(ctx, req.(*ListArgocdInstancesQuotaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateKargoInstancesQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateKargoInstancesQuotaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateKargoInstancesQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateKargoInstancesQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateKargoInstancesQuota(ctx, req.(*UpdateKargoInstancesQuotaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListKargoInstancesQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListKargoInstancesQuotaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListKargoInstancesQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListKargoInstancesQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListKargoInstancesQuota(ctx, req.(*ListKargoInstancesQuotaRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4694,6 +4826,22 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveTeamMember",
 			Handler:    _OrganizationService_RemoveTeamMember_Handler,
+		},
+		{
+			MethodName: "UpdateArgocdInstancesQuota",
+			Handler:    _OrganizationService_UpdateArgocdInstancesQuota_Handler,
+		},
+		{
+			MethodName: "ListArgocdInstancesQuota",
+			Handler:    _OrganizationService_ListArgocdInstancesQuota_Handler,
+		},
+		{
+			MethodName: "UpdateKargoInstancesQuota",
+			Handler:    _OrganizationService_UpdateKargoInstancesQuota_Handler,
+		},
+		{
+			MethodName: "ListKargoInstancesQuota",
+			Handler:    _OrganizationService_ListKargoInstancesQuota_Handler,
 		},
 		{
 			MethodName: "CreateWorkspace",

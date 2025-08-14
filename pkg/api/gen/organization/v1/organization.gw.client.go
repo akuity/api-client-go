@@ -70,6 +70,10 @@ type OrganizationServiceGatewayClient interface {
 	GetTeamMember(context.Context, *GetTeamMemberRequest) (*GetTeamMemberResponse, error)
 	ListTeamMembers(context.Context, *ListTeamMembersRequest) (*ListTeamMembersResponse, error)
 	RemoveTeamMember(context.Context, *RemoveTeamMemberRequest) (*RemoveTeamMemberResponse, error)
+	UpdateArgocdInstancesQuota(context.Context, *UpdateArgocdInstancesQuotaRequest) (*UpdateArgocdInstancesQuotaResponse, error)
+	ListArgocdInstancesQuota(context.Context, *ListArgocdInstancesQuotaRequest) (*ListArgocdInstancesQuotaResponse, error)
+	UpdateKargoInstancesQuota(context.Context, *UpdateKargoInstancesQuotaRequest) (*UpdateKargoInstancesQuotaResponse, error)
+	ListKargoInstancesQuota(context.Context, *ListKargoInstancesQuotaRequest) (*ListKargoInstancesQuotaResponse, error)
 	CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error)
 	ListWorkspaces(context.Context, *ListWorkspacesRequest) (*ListWorkspacesResponse, error)
 	GetWorkspace(context.Context, *GetWorkspaceRequest) (*GetWorkspaceResponse, error)
@@ -1641,6 +1645,32 @@ func (c *organizationServiceGatewayClient) RemoveTeamMember(ctx context.Context,
 	return gateway.DoRequest[RemoveTeamMemberResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) UpdateArgocdInstancesQuota(ctx context.Context, req *UpdateArgocdInstancesQuotaRequest) (*UpdateArgocdInstancesQuotaResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/instances/quota")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateArgocdInstancesQuotaResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListArgocdInstancesQuota(ctx context.Context, req *ListArgocdInstancesQuotaRequest) (*ListArgocdInstancesQuotaResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/instances/quota")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListArgocdInstancesQuotaResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateKargoInstancesQuota(ctx context.Context, req *UpdateKargoInstancesQuotaRequest) (*UpdateKargoInstancesQuotaResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/kargo-instances/quota")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateKargoInstancesQuotaResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListKargoInstancesQuota(ctx context.Context, req *ListKargoInstancesQuotaRequest) (*ListKargoInstancesQuotaResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo-instances/quota")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListKargoInstancesQuotaResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) CreateWorkspace(ctx context.Context, req *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error) {
 	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/workspaces")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -2673,11 +2703,11 @@ func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Conte
 	if req.IncidentStatus != nil {
 		q.Add("incidentStatus", req.IncidentStatus.String())
 	}
-	if req.IncidentApplication != nil {
-		q.Add("incidentApplication", fmt.Sprintf("%v", *req.IncidentApplication))
+	if req.Application != nil {
+		q.Add("application", fmt.Sprintf("%v", *req.Application))
 	}
-	if req.IncidentNamespace != nil {
-		q.Add("incidentNamespace", fmt.Sprintf("%v", *req.IncidentNamespace))
+	if req.Namespace != nil {
+		q.Add("namespace", fmt.Sprintf("%v", *req.Namespace))
 	}
 	if req.TitleContains != nil {
 		q.Add("titleContains", fmt.Sprintf("%v", *req.TitleContains))
@@ -2688,8 +2718,8 @@ func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Conte
 	if req.Limit != nil {
 		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
 	}
-	if req.IncidentClusterId != nil {
-		q.Add("incidentClusterId", fmt.Sprintf("%v", *req.IncidentClusterId))
+	if req.ClusterId != nil {
+		q.Add("clusterId", fmt.Sprintf("%v", *req.ClusterId))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAIConversationsResponse](ctx, gwReq)
