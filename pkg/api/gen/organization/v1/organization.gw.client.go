@@ -161,6 +161,7 @@ type OrganizationServiceGatewayClient interface {
 	GetAIConversationStream(context.Context, *GetAIConversationStreamRequest) (<-chan *GetAIConversationStreamResponse, <-chan error, error)
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
+	SetAIToolApprovalStatus(context.Context, *SetAIToolApprovalStatusRequest) (*SetAIToolApprovalStatusResponse, error)
 	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
@@ -1921,6 +1922,9 @@ func (c *organizationServiceGatewayClient) SpotlightSearchKubernetesResources(ct
 	if req.AiSearch != nil {
 		q.Add("aiSearch", fmt.Sprintf("%v", *req.AiSearch))
 	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[SpotlightSearchKubernetesResourcesResponse](ctx, gwReq)
 }
@@ -2674,6 +2678,9 @@ func (c *organizationServiceGatewayClient) GetAIConversation(ctx context.Context
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
 	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAIConversationResponse](ctx, gwReq)
 }
@@ -2721,6 +2728,12 @@ func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Conte
 	if req.ClusterId != nil {
 		q.Add("clusterId", fmt.Sprintf("%v", *req.ClusterId))
 	}
+	if req.KargoProject != nil {
+		q.Add("kargoProject", fmt.Sprintf("%v", *req.KargoProject))
+	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAIConversationsResponse](ctx, gwReq)
 }
@@ -2731,6 +2744,15 @@ func (c *organizationServiceGatewayClient) CreateAIMessage(ctx context.Context, 
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[CreateAIMessageResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) SetAIToolApprovalStatus(ctx context.Context, req *SetAIToolApprovalStatusRequest) (*SetAIToolApprovalStatusResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/ai/conversations/{conversation_id}/tools/{tool_call_id}/approval-status")
+	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("tool_call_id", fmt.Sprintf("%v", req.ToolCallId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[SetAIToolApprovalStatusResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListUsersMFAStatus(ctx context.Context, req *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error) {
