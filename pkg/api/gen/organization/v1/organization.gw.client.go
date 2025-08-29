@@ -2693,6 +2693,9 @@ func (c *organizationServiceGatewayClient) GetAIConversationStream(ctx context.C
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
 	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[GetAIConversationStreamResponse](ctx, c.gwc, gwReq)
 }
