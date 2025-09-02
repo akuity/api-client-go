@@ -155,6 +155,7 @@ type OrganizationServiceGatewayClient interface {
 	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
 	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
 	CreateIncident(context.Context, *CreateIncidentRequest) (*CreateIncidentResponse, error)
+	ResolveIncidents(context.Context, *ResolveIncidentsRequest) (*ResolveIncidentsResponse, error)
 	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
@@ -2652,6 +2653,13 @@ func (c *organizationServiceGatewayClient) CreateIncident(ctx context.Context, r
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req.Body)
 	return gateway.DoRequest[CreateIncidentResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ResolveIncidents(ctx context.Context, req *ResolveIncidentsRequest) (*ResolveIncidentsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/incidents/resolve")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ResolveIncidentsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) UpdateAIConversation(ctx context.Context, req *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error) {
