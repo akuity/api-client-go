@@ -66,6 +66,10 @@ type AimsServiceGatewayClient interface {
 	ListOrganizationUsers(context.Context, *ListOrganizationUsersRequest) (*ListOrganizationUsersResponse, error)
 	ListAIConversations(context.Context, *v1.ListAIConversationsRequest) (*v1.ListAIConversationsResponse, error)
 	GetAIConversation(context.Context, *v1.GetAIConversationRequest) (*v1.GetAIConversationResponse, error)
+	UpdateAnnouncementBanner(context.Context, *UpdateAnnouncementBannerRequest) (*UpdateAnnouncementBannerResponse, error)
+	GetAnnouncementBanner(context.Context, *GetAnnouncementBannerRequest) (*GetAnnouncementBannerResponse, error)
+	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 }
 
 func NewAimsServiceGatewayClient(c gateway.Client) AimsServiceGatewayClient {
@@ -1055,6 +1059,12 @@ func (c *aimsServiceGatewayClient) ListAIConversations(ctx context.Context, req 
 	if req.ClusterId != nil {
 		q.Add("clusterId", fmt.Sprintf("%v", *req.ClusterId))
 	}
+	if req.KargoProject != nil {
+		q.Add("kargoProject", fmt.Sprintf("%v", *req.KargoProject))
+	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[v1.ListAIConversationsResponse](ctx, gwReq)
 }
@@ -1067,6 +1077,49 @@ func (c *aimsServiceGatewayClient) GetAIConversation(ctx context.Context, req *v
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
 	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[v1.GetAIConversationResponse](ctx, gwReq)
+}
+
+func (c *aimsServiceGatewayClient) UpdateAnnouncementBanner(ctx context.Context, req *UpdateAnnouncementBannerRequest) (*UpdateAnnouncementBannerResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/aims/banner")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateAnnouncementBannerResponse](ctx, gwReq)
+}
+
+func (c *aimsServiceGatewayClient) GetAnnouncementBanner(ctx context.Context, req *GetAnnouncementBannerRequest) (*GetAnnouncementBannerResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/aims/announcement")
+	return gateway.DoRequest[GetAnnouncementBannerResponse](ctx, gwReq)
+}
+
+func (c *aimsServiceGatewayClient) ListUsers(ctx context.Context, req *ListUsersRequest) (*ListUsersResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/aims/users")
+	q := url.Values{}
+	if req.Filters != nil {
+		q.Add("filters.fuzz", fmt.Sprintf("%v", req.Filters.Fuzz))
+		if req.Filters.Limit != nil {
+			q.Add("filters.limit", fmt.Sprintf("%v", *req.Filters.Limit))
+		}
+		if req.Filters.Offset != nil {
+			q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
+		}
+		if req.Filters.TimeFrom != nil {
+			q.Add("filters.timeFrom", fmt.Sprintf("%v", *req.Filters.TimeFrom))
+		}
+		if req.Filters.TimeTo != nil {
+			q.Add("filters.timeTo", fmt.Sprintf("%v", *req.Filters.TimeTo))
+		}
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListUsersResponse](ctx, gwReq)
+}
+
+func (c *aimsServiceGatewayClient) UpdateUser(ctx context.Context, req *UpdateUserRequest) (*UpdateUserResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/aims/users/{user_id}")
+	gwReq.SetPathParam("user_id", fmt.Sprintf("%v", req.UserId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateUserResponse](ctx, gwReq)
 }

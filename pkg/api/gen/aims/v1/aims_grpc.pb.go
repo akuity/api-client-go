@@ -65,6 +65,10 @@ const (
 	AimsService_ListOrganizationUsers_FullMethodName             = "/akuity.aims.v1.AimsService/ListOrganizationUsers"
 	AimsService_ListAIConversations_FullMethodName               = "/akuity.aims.v1.AimsService/ListAIConversations"
 	AimsService_GetAIConversation_FullMethodName                 = "/akuity.aims.v1.AimsService/GetAIConversation"
+	AimsService_UpdateAnnouncementBanner_FullMethodName          = "/akuity.aims.v1.AimsService/UpdateAnnouncementBanner"
+	AimsService_GetAnnouncementBanner_FullMethodName             = "/akuity.aims.v1.AimsService/GetAnnouncementBanner"
+	AimsService_ListUsers_FullMethodName                         = "/akuity.aims.v1.AimsService/ListUsers"
+	AimsService_UpdateUser_FullMethodName                        = "/akuity.aims.v1.AimsService/UpdateUser"
 )
 
 // AimsServiceClient is the client API for AimsService service.
@@ -123,6 +127,10 @@ type AimsServiceClient interface {
 	ListOrganizationUsers(ctx context.Context, in *ListOrganizationUsersRequest, opts ...grpc.CallOption) (*ListOrganizationUsersResponse, error)
 	ListAIConversations(ctx context.Context, in *v1.ListAIConversationsRequest, opts ...grpc.CallOption) (*v1.ListAIConversationsResponse, error)
 	GetAIConversation(ctx context.Context, in *v1.GetAIConversationRequest, opts ...grpc.CallOption) (*v1.GetAIConversationResponse, error)
+	UpdateAnnouncementBanner(ctx context.Context, in *UpdateAnnouncementBannerRequest, opts ...grpc.CallOption) (*UpdateAnnouncementBannerResponse, error)
+	GetAnnouncementBanner(ctx context.Context, in *GetAnnouncementBannerRequest, opts ...grpc.CallOption) (*GetAnnouncementBannerResponse, error)
+	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 }
 
 type aimsServiceClient struct {
@@ -575,6 +583,42 @@ func (c *aimsServiceClient) GetAIConversation(ctx context.Context, in *v1.GetAIC
 	return out, nil
 }
 
+func (c *aimsServiceClient) UpdateAnnouncementBanner(ctx context.Context, in *UpdateAnnouncementBannerRequest, opts ...grpc.CallOption) (*UpdateAnnouncementBannerResponse, error) {
+	out := new(UpdateAnnouncementBannerResponse)
+	err := c.cc.Invoke(ctx, AimsService_UpdateAnnouncementBanner_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimsServiceClient) GetAnnouncementBanner(ctx context.Context, in *GetAnnouncementBannerRequest, opts ...grpc.CallOption) (*GetAnnouncementBannerResponse, error) {
+	out := new(GetAnnouncementBannerResponse)
+	err := c.cc.Invoke(ctx, AimsService_GetAnnouncementBanner_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimsServiceClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error) {
+	out := new(ListUsersResponse)
+	err := c.cc.Invoke(ctx, AimsService_ListUsers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aimsServiceClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
+	out := new(UpdateUserResponse)
+	err := c.cc.Invoke(ctx, AimsService_UpdateUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AimsServiceServer is the server API for AimsService service.
 // All implementations must embed UnimplementedAimsServiceServer
 // for forward compatibility
@@ -631,6 +675,10 @@ type AimsServiceServer interface {
 	ListOrganizationUsers(context.Context, *ListOrganizationUsersRequest) (*ListOrganizationUsersResponse, error)
 	ListAIConversations(context.Context, *v1.ListAIConversationsRequest) (*v1.ListAIConversationsResponse, error)
 	GetAIConversation(context.Context, *v1.GetAIConversationRequest) (*v1.GetAIConversationResponse, error)
+	UpdateAnnouncementBanner(context.Context, *UpdateAnnouncementBannerRequest) (*UpdateAnnouncementBannerResponse, error)
+	GetAnnouncementBanner(context.Context, *GetAnnouncementBannerRequest) (*GetAnnouncementBannerResponse, error)
+	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	mustEmbedUnimplementedAimsServiceServer()
 }
 
@@ -769,6 +817,18 @@ func (UnimplementedAimsServiceServer) ListAIConversations(context.Context, *v1.L
 }
 func (UnimplementedAimsServiceServer) GetAIConversation(context.Context, *v1.GetAIConversationRequest) (*v1.GetAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAIConversation not implemented")
+}
+func (UnimplementedAimsServiceServer) UpdateAnnouncementBanner(context.Context, *UpdateAnnouncementBannerRequest) (*UpdateAnnouncementBannerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAnnouncementBanner not implemented")
+}
+func (UnimplementedAimsServiceServer) GetAnnouncementBanner(context.Context, *GetAnnouncementBannerRequest) (*GetAnnouncementBannerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAnnouncementBanner not implemented")
+}
+func (UnimplementedAimsServiceServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
+}
+func (UnimplementedAimsServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
 func (UnimplementedAimsServiceServer) mustEmbedUnimplementedAimsServiceServer() {}
 
@@ -1581,6 +1641,78 @@ func _AimsService_GetAIConversation_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AimsService_UpdateAnnouncementBanner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAnnouncementBannerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimsServiceServer).UpdateAnnouncementBanner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AimsService_UpdateAnnouncementBanner_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimsServiceServer).UpdateAnnouncementBanner(ctx, req.(*UpdateAnnouncementBannerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AimsService_GetAnnouncementBanner_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAnnouncementBannerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimsServiceServer).GetAnnouncementBanner(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AimsService_GetAnnouncementBanner_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimsServiceServer).GetAnnouncementBanner(ctx, req.(*GetAnnouncementBannerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AimsService_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimsServiceServer).ListUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AimsService_ListUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimsServiceServer).ListUsers(ctx, req.(*ListUsersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AimsService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AimsServiceServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AimsService_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AimsServiceServer).UpdateUser(ctx, req.(*UpdateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AimsService_ServiceDesc is the grpc.ServiceDesc for AimsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1755,6 +1887,22 @@ var AimsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAIConversation",
 			Handler:    _AimsService_GetAIConversation_Handler,
+		},
+		{
+			MethodName: "UpdateAnnouncementBanner",
+			Handler:    _AimsService_UpdateAnnouncementBanner_Handler,
+		},
+		{
+			MethodName: "GetAnnouncementBanner",
+			Handler:    _AimsService_GetAnnouncementBanner_Handler,
+		},
+		{
+			MethodName: "ListUsers",
+			Handler:    _AimsService_ListUsers_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _AimsService_UpdateUser_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
