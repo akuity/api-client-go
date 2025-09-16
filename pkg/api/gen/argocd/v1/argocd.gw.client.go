@@ -98,10 +98,19 @@ type ArgoCDServiceGatewayClient interface {
 	CreateManagedSecret(context.Context, *CreateManagedSecretRequest) (*CreateManagedSecretResponse, error)
 	DeleteManagedSecret(context.Context, *DeleteManagedSecretRequest) (*DeleteManagedSecretResponse, error)
 	UpdateManagedSecret(context.Context, *UpdateManagedSecretRequest) (*UpdateManagedSecretResponse, error)
-	// PatchManagedSecret updates the current metadata information (i.e. access permissions and
-	// labels) for the secret without modifying the actual secret data. If this is purely managed on
-	// the control plane, all labels will overwrite the current labels. However, if this secret is
-	// managed by another cluster, an error will be returned if any labels are set
+	// PatchManagedSecret updates the current secret by merging secret data and replacing other data.
+	// Due to this being a wrapper around Kubernetes secrets and the security requirements of not
+	// returning secret data as part of the API, this method has different semantics than other PATCH
+	// type functionality you'd expect. This behavior for the different types of data is as follows:
+	//
+	//   - managed_secret_data: Merges provided data with existing data. If a key exists in both the
+	//     existing secret and the provided data, the value from the provided data will overwrite the
+	//     existing value. If a key exists in the existing secret but not in the provided data, it will
+	//     remain unchanged. Deleting a secret key can be done by passing an empty string as the value
+	//     for that key.
+	//   - managed_secret (non-data fields): Replaces existing non-data fields with the provided fields.
+	//     Fields not provided in the request will be cleared. For example, if the existing secret has
+	//     labels and the request does not include labels, the existing labels will be removed.
 	PatchManagedSecret(context.Context, *PatchManagedSecretRequest) (*PatchManagedSecretResponse, error)
 }
 

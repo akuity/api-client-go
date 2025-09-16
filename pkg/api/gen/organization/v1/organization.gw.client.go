@@ -166,6 +166,7 @@ type OrganizationServiceGatewayClient interface {
 	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
+	ListAITools(context.Context, *ListAIToolsRequest) (*ListAIToolsResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
 	UpdateAIConversationFeedback(context.Context, *UpdateAIConversationFeedbackRequest) (*UpdateAIConversationFeedbackResponse, error)
 }
@@ -2314,6 +2315,9 @@ func (c *organizationServiceGatewayClient) GetKubernetesSummary(ctx context.Cont
 	if req.InstanceId != nil {
 		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
 	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesSummaryResponse](ctx, gwReq)
 }
@@ -2786,6 +2790,12 @@ func (c *organizationServiceGatewayClient) ListAIConversationSuggestions(ctx con
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[ListAIConversationSuggestionsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListAITools(ctx context.Context, req *ListAIToolsRequest) (*ListAIToolsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/tools")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListAIToolsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) UpdateAIMessageFeedback(ctx context.Context, req *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error) {

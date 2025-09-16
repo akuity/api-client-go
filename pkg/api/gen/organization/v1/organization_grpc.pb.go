@@ -150,6 +150,7 @@ const (
 	OrganizationService_ListUsersMFAStatus_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListUsersMFAStatus"
 	OrganizationService_RequestMFAReset_FullMethodName                        = "/akuity.organization.v1.OrganizationService/RequestMFAReset"
 	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
+	OrganizationService_ListAITools_FullMethodName                            = "/akuity.organization.v1.OrganizationService/ListAITools"
 	OrganizationService_UpdateAIMessageFeedback_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateAIMessageFeedback"
 	OrganizationService_UpdateAIConversationFeedback_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateAIConversationFeedback"
 )
@@ -311,6 +312,7 @@ type OrganizationServiceClient interface {
 	ListUsersMFAStatus(ctx context.Context, in *ListUsersMFAStatusRequest, opts ...grpc.CallOption) (*ListUsersMFAStatusResponse, error)
 	RequestMFAReset(ctx context.Context, in *RequestMFAResetRequest, opts ...grpc.CallOption) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error)
+	ListAITools(ctx context.Context, in *ListAIToolsRequest, opts ...grpc.CallOption) (*ListAIToolsResponse, error)
 	UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error)
 	UpdateAIConversationFeedback(ctx context.Context, in *UpdateAIConversationFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIConversationFeedbackResponse, error)
 }
@@ -1677,6 +1679,15 @@ func (c *organizationServiceClient) ListAIConversationSuggestions(ctx context.Co
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListAITools(ctx context.Context, in *ListAIToolsRequest, opts ...grpc.CallOption) (*ListAIToolsResponse, error) {
+	out := new(ListAIToolsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListAITools_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error) {
 	out := new(UpdateAIMessageFeedbackResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateAIMessageFeedback_FullMethodName, in, out, opts...)
@@ -1852,6 +1863,7 @@ type OrganizationServiceServer interface {
 	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
+	ListAITools(context.Context, *ListAIToolsRequest) (*ListAIToolsResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
 	UpdateAIConversationFeedback(context.Context, *UpdateAIConversationFeedbackRequest) (*UpdateAIConversationFeedbackResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
@@ -2250,6 +2262,9 @@ func (UnimplementedOrganizationServiceServer) RequestMFAReset(context.Context, *
 }
 func (UnimplementedOrganizationServiceServer) ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAIConversationSuggestions not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListAITools(context.Context, *ListAIToolsRequest) (*ListAIToolsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAITools not implemented")
 }
 func (UnimplementedOrganizationServiceServer) UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIMessageFeedback not implemented")
@@ -4634,6 +4649,24 @@ func _OrganizationService_ListAIConversationSuggestions_Handler(srv interface{},
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListAITools_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListAIToolsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListAITools(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListAITools_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListAITools(ctx, req.(*ListAIToolsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_UpdateAIMessageFeedback_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateAIMessageFeedbackRequest)
 	if err := dec(in); err != nil {
@@ -5164,6 +5197,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAIConversationSuggestions",
 			Handler:    _OrganizationService_ListAIConversationSuggestions_Handler,
+		},
+		{
+			MethodName: "ListAITools",
+			Handler:    _OrganizationService_ListAITools_Handler,
 		},
 		{
 			MethodName: "UpdateAIMessageFeedback",
