@@ -268,45 +268,46 @@ type OrganizationFeatureGates struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sso                         *bool    `protobuf:"varint,1,opt,name=sso,proto3,oneof" json:"sso,omitempty"`
-	Shards                      []string `protobuf:"bytes,2,rep,name=shards,proto3" json:"shards,omitempty"`
-	Kargo                       *bool    `protobuf:"varint,3,opt,name=kargo,proto3,oneof" json:"kargo,omitempty"`
-	K3SProxyInformers           *bool    `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,oneof" json:"k3s_proxy_informers,omitempty"`
-	Team                        *bool    `protobuf:"varint,5,opt,name=team,proto3,oneof" json:"team,omitempty"`
-	AuditRecordExport           *bool    `protobuf:"varint,6,opt,name=audit_record_export,json=auditRecordExport,proto3,oneof" json:"audit_record_export,omitempty"`
-	Workspaces                  *bool    `protobuf:"varint,7,opt,name=workspaces,proto3,oneof" json:"workspaces,omitempty"`
-	CustomRoles                 *bool    `protobuf:"varint,8,opt,name=custom_roles,json=customRoles,proto3,oneof" json:"custom_roles,omitempty"`
-	ScopedApiKeys               *bool    `protobuf:"varint,9,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,oneof" json:"scoped_api_keys,omitempty"`
-	ArgocdSso                   *bool    `protobuf:"varint,10,opt,name=argocd_sso,json=argocdSso,proto3,oneof" json:"argocd_sso,omitempty"`
-	ArgocdHaControlPlane        *bool    `protobuf:"varint,11,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,oneof" json:"argocd_ha_control_plane,omitempty"`
-	AkuityArgocdExtensions      *bool    `protobuf:"varint,12,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,oneof" json:"akuity_argocd_extensions,omitempty"`
-	AppOfApps                   *bool    `protobuf:"varint,13,opt,name=app_of_apps,json=appOfApps,proto3,oneof" json:"app_of_apps,omitempty"`
-	ApplicationSetController    *bool    `protobuf:"varint,14,opt,name=application_set_controller,json=applicationSetController,proto3,oneof" json:"application_set_controller,omitempty"`
-	ArgocdCustomSubdomain       *bool    `protobuf:"varint,15,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,oneof" json:"argocd_custom_subdomain,omitempty"`
-	ArgocdCustomDomain          *bool    `protobuf:"varint,16,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,oneof" json:"argocd_custom_domain,omitempty"`
-	ArgocdFlexibleArchitecture  *bool    `protobuf:"varint,17,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,oneof" json:"argocd_flexible_architecture,omitempty"`
-	ArgocdAgentStateReplication *bool    `protobuf:"varint,18,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,oneof" json:"argocd_agent_state_replication,omitempty"`
-	ArgocdDeepLinks             *bool    `protobuf:"varint,19,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,oneof" json:"argocd_deep_links,omitempty"`
-	ArgocdCustomStyles          *bool    `protobuf:"varint,20,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,oneof" json:"argocd_custom_styles,omitempty"`
-	ConfigManagementPlugins     *bool    `protobuf:"varint,21,opt,name=config_management_plugins,json=configManagementPlugins,proto3,oneof" json:"config_management_plugins,omitempty"`
-	AuditArchive                *bool    `protobuf:"varint,22,opt,name=audit_archive,json=auditArchive,proto3,oneof" json:"audit_archive,omitempty"`
-	MultiClusterK8SDashboard    *bool    `protobuf:"varint,23,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,oneof" json:"multi_cluster_k8s_dashboard,omitempty"`
-	ArgocdClusterIntegration    *bool    `protobuf:"varint,24,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,oneof" json:"argocd_cluster_integration,omitempty"`
-	Notification                *bool    `protobuf:"varint,25,opt,name=notification,proto3,oneof" json:"notification,omitempty"`
-	ClusterAutoscaler           *bool    `protobuf:"varint,26,opt,name=cluster_autoscaler,json=clusterAutoscaler,proto3,oneof" json:"cluster_autoscaler,omitempty"`
-	FleetManagement             *bool    `protobuf:"varint,27,opt,name=fleet_management,json=fleetManagement,proto3,oneof" json:"fleet_management,omitempty"`
-	Pgpool                      *bool    `protobuf:"varint,28,opt,name=pgpool,proto3,oneof" json:"pgpool,omitempty"`
-	AiSupportEngineer           *bool    `protobuf:"varint,29,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,oneof" json:"ai_support_engineer,omitempty"`
-	Pgbouncer                   *bool    `protobuf:"varint,30,opt,name=pgbouncer,proto3,oneof" json:"pgbouncer,omitempty"`
-	MultiFactorAuth             *bool    `protobuf:"varint,31,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,oneof" json:"multi_factor_auth,omitempty"`
-	KargoAnalysisLogs           *bool    `protobuf:"varint,32,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,oneof" json:"kargo_analysis_logs,omitempty"`
-	KargoEnterprise             *bool    `protobuf:"varint,33,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,oneof" json:"kargo_enterprise,omitempty"`
-	OidcMap                     *bool    `protobuf:"varint,34,opt,name=oidc_map,json=oidcMap,proto3,oneof" json:"oidc_map,omitempty"`
-	EksAddon                    *bool    `protobuf:"varint,35,opt,name=eks_addon,json=eksAddon,proto3,oneof" json:"eks_addon,omitempty"`
-	K3STrafficReduction         *bool    `protobuf:"varint,36,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,oneof" json:"k3s_traffic_reduction,omitempty"`
-	RedisTrafficReduction       *bool    `protobuf:"varint,37,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,oneof" json:"redis_traffic_reduction,omitempty"`
-	DragonflyDb                 *bool    `protobuf:"varint,38,opt,name=dragonfly_db,json=dragonflyDb,proto3,oneof" json:"dragonfly_db,omitempty"`
-	AkiAiModelSelection         *bool    `protobuf:"varint,39,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,oneof" json:"aki_ai_model_selection,omitempty"`
+	Sso                          *bool    `protobuf:"varint,1,opt,name=sso,proto3,oneof" json:"sso,omitempty"`
+	Shards                       []string `protobuf:"bytes,2,rep,name=shards,proto3" json:"shards,omitempty"`
+	Kargo                        *bool    `protobuf:"varint,3,opt,name=kargo,proto3,oneof" json:"kargo,omitempty"`
+	K3SProxyInformers            *bool    `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,oneof" json:"k3s_proxy_informers,omitempty"`
+	Team                         *bool    `protobuf:"varint,5,opt,name=team,proto3,oneof" json:"team,omitempty"`
+	AuditRecordExport            *bool    `protobuf:"varint,6,opt,name=audit_record_export,json=auditRecordExport,proto3,oneof" json:"audit_record_export,omitempty"`
+	Workspaces                   *bool    `protobuf:"varint,7,opt,name=workspaces,proto3,oneof" json:"workspaces,omitempty"`
+	CustomRoles                  *bool    `protobuf:"varint,8,opt,name=custom_roles,json=customRoles,proto3,oneof" json:"custom_roles,omitempty"`
+	ScopedApiKeys                *bool    `protobuf:"varint,9,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,oneof" json:"scoped_api_keys,omitempty"`
+	ArgocdSso                    *bool    `protobuf:"varint,10,opt,name=argocd_sso,json=argocdSso,proto3,oneof" json:"argocd_sso,omitempty"`
+	ArgocdHaControlPlane         *bool    `protobuf:"varint,11,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,oneof" json:"argocd_ha_control_plane,omitempty"`
+	AkuityArgocdExtensions       *bool    `protobuf:"varint,12,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,oneof" json:"akuity_argocd_extensions,omitempty"`
+	AppOfApps                    *bool    `protobuf:"varint,13,opt,name=app_of_apps,json=appOfApps,proto3,oneof" json:"app_of_apps,omitempty"`
+	ApplicationSetController     *bool    `protobuf:"varint,14,opt,name=application_set_controller,json=applicationSetController,proto3,oneof" json:"application_set_controller,omitempty"`
+	ArgocdCustomSubdomain        *bool    `protobuf:"varint,15,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,oneof" json:"argocd_custom_subdomain,omitempty"`
+	ArgocdCustomDomain           *bool    `protobuf:"varint,16,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,oneof" json:"argocd_custom_domain,omitempty"`
+	ArgocdFlexibleArchitecture   *bool    `protobuf:"varint,17,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,oneof" json:"argocd_flexible_architecture,omitempty"`
+	ArgocdAgentStateReplication  *bool    `protobuf:"varint,18,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,oneof" json:"argocd_agent_state_replication,omitempty"`
+	ArgocdDeepLinks              *bool    `protobuf:"varint,19,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,oneof" json:"argocd_deep_links,omitempty"`
+	ArgocdCustomStyles           *bool    `protobuf:"varint,20,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,oneof" json:"argocd_custom_styles,omitempty"`
+	ConfigManagementPlugins      *bool    `protobuf:"varint,21,opt,name=config_management_plugins,json=configManagementPlugins,proto3,oneof" json:"config_management_plugins,omitempty"`
+	AuditArchive                 *bool    `protobuf:"varint,22,opt,name=audit_archive,json=auditArchive,proto3,oneof" json:"audit_archive,omitempty"`
+	MultiClusterK8SDashboard     *bool    `protobuf:"varint,23,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,oneof" json:"multi_cluster_k8s_dashboard,omitempty"`
+	ArgocdClusterIntegration     *bool    `protobuf:"varint,24,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,oneof" json:"argocd_cluster_integration,omitempty"`
+	Notification                 *bool    `protobuf:"varint,25,opt,name=notification,proto3,oneof" json:"notification,omitempty"`
+	ClusterAutoscaler            *bool    `protobuf:"varint,26,opt,name=cluster_autoscaler,json=clusterAutoscaler,proto3,oneof" json:"cluster_autoscaler,omitempty"`
+	FleetManagement              *bool    `protobuf:"varint,27,opt,name=fleet_management,json=fleetManagement,proto3,oneof" json:"fleet_management,omitempty"`
+	Pgpool                       *bool    `protobuf:"varint,28,opt,name=pgpool,proto3,oneof" json:"pgpool,omitempty"`
+	AiSupportEngineer            *bool    `protobuf:"varint,29,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,oneof" json:"ai_support_engineer,omitempty"`
+	Pgbouncer                    *bool    `protobuf:"varint,30,opt,name=pgbouncer,proto3,oneof" json:"pgbouncer,omitempty"`
+	MultiFactorAuth              *bool    `protobuf:"varint,31,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,oneof" json:"multi_factor_auth,omitempty"`
+	KargoAnalysisLogs            *bool    `protobuf:"varint,32,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,oneof" json:"kargo_analysis_logs,omitempty"`
+	KargoEnterprise              *bool    `protobuf:"varint,33,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,oneof" json:"kargo_enterprise,omitempty"`
+	OidcMap                      *bool    `protobuf:"varint,34,opt,name=oidc_map,json=oidcMap,proto3,oneof" json:"oidc_map,omitempty"`
+	EksAddon                     *bool    `protobuf:"varint,35,opt,name=eks_addon,json=eksAddon,proto3,oneof" json:"eks_addon,omitempty"`
+	K3STrafficReduction          *bool    `protobuf:"varint,36,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,oneof" json:"k3s_traffic_reduction,omitempty"`
+	RedisTrafficReduction        *bool    `protobuf:"varint,37,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,oneof" json:"redis_traffic_reduction,omitempty"`
+	DragonflyDb                  *bool    `protobuf:"varint,38,opt,name=dragonfly_db,json=dragonflyDb,proto3,oneof" json:"dragonfly_db,omitempty"`
+	AkiAiModelSelection          *bool    `protobuf:"varint,39,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,oneof" json:"aki_ai_model_selection,omitempty"`
+	RelaxedClusterNameValidation *bool    `protobuf:"varint,40,opt,name=relaxed_cluster_name_validation,json=relaxedClusterNameValidation,proto3,oneof" json:"relaxed_cluster_name_validation,omitempty"`
 }
 
 func (x *OrganizationFeatureGates) Reset() {
@@ -614,57 +615,65 @@ func (x *OrganizationFeatureGates) GetAkiAiModelSelection() bool {
 	return false
 }
 
+func (x *OrganizationFeatureGates) GetRelaxedClusterNameValidation() bool {
+	if x != nil && x.RelaxedClusterNameValidation != nil {
+		return *x.RelaxedClusterNameValidation
+	}
+	return false
+}
+
 type FeatureStatuses struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sso                         FeatureStatus `protobuf:"varint,1,opt,name=sso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"sso,omitempty"`
-	Kargo                       FeatureStatus `protobuf:"varint,2,opt,name=kargo,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo,omitempty"`
-	Autoscaler                  FeatureStatus `protobuf:"varint,3,opt,name=autoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"autoscaler,omitempty"`
-	K3SProxyInformers           FeatureStatus `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_proxy_informers,omitempty"`
-	AiAssistantStats            FeatureStatus `protobuf:"varint,5,opt,name=ai_assistant_stats,json=aiAssistantStats,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_assistant_stats,omitempty"`
-	AgentPermissions            FeatureStatus `protobuf:"varint,6,opt,name=agent_permissions,json=agentPermissions,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"agent_permissions,omitempty"`
-	Team                        FeatureStatus `protobuf:"varint,7,opt,name=team,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"team,omitempty"`
-	SelfServeCancel             FeatureStatus `protobuf:"varint,8,opt,name=self_serve_cancel,json=selfServeCancel,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"self_serve_cancel,omitempty"`
-	K3SCertCnReset              FeatureStatus `protobuf:"varint,9,opt,name=k3s_cert_cn_reset,json=k3sCertCnReset,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_cert_cn_reset,omitempty"`
-	Notification                FeatureStatus `protobuf:"varint,10,opt,name=notification,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"notification,omitempty"`
-	MultiClusterK8SDashboard    FeatureStatus `protobuf:"varint,11,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_cluster_k8s_dashboard,omitempty"`
-	ClusterAutoscaler           FeatureStatus `protobuf:"varint,12,opt,name=cluster_autoscaler,json=clusterAutoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"cluster_autoscaler,omitempty"`
-	FleetManagement             FeatureStatus `protobuf:"varint,13,opt,name=fleet_management,json=fleetManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"fleet_management,omitempty"`
-	AiSupportEngineer           FeatureStatus `protobuf:"varint,14,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_support_engineer,omitempty"`
-	SecretManagement            FeatureStatus `protobuf:"varint,15,opt,name=secret_management,json=secretManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"secret_management,omitempty"`
-	Shards                      []string      `protobuf:"bytes,16,rep,name=shards,proto3" json:"shards,omitempty"`
-	AuditRecordExport           FeatureStatus `protobuf:"varint,17,opt,name=audit_record_export,json=auditRecordExport,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_record_export,omitempty"`
-	Workspaces                  FeatureStatus `protobuf:"varint,18,opt,name=workspaces,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"workspaces,omitempty"`
-	CustomRoles                 FeatureStatus `protobuf:"varint,19,opt,name=custom_roles,json=customRoles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"custom_roles,omitempty"`
-	ScopedApiKeys               FeatureStatus `protobuf:"varint,20,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"scoped_api_keys,omitempty"`
-	ArgocdSso                   FeatureStatus `protobuf:"varint,21,opt,name=argocd_sso,json=argocdSso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_sso,omitempty"`
-	ArgocdHaControlPlane        FeatureStatus `protobuf:"varint,22,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_ha_control_plane,omitempty"`
-	AkuityArgocdExtensions      FeatureStatus `protobuf:"varint,23,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"akuity_argocd_extensions,omitempty"`
-	AppOfApps                   FeatureStatus `protobuf:"varint,24,opt,name=app_of_apps,json=appOfApps,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"app_of_apps,omitempty"`
-	ApplicationSetController    FeatureStatus `protobuf:"varint,25,opt,name=application_set_controller,json=applicationSetController,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"application_set_controller,omitempty"`
-	ArgocdCustomSubdomain       FeatureStatus `protobuf:"varint,26,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_subdomain,omitempty"`
-	ArgocdCustomDomain          FeatureStatus `protobuf:"varint,27,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_domain,omitempty"`
-	ArgocdFlexibleArchitecture  FeatureStatus `protobuf:"varint,28,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_flexible_architecture,omitempty"`
-	ArgocdAgentStateReplication FeatureStatus `protobuf:"varint,29,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_agent_state_replication,omitempty"`
-	ArgocdDeepLinks             FeatureStatus `protobuf:"varint,30,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_deep_links,omitempty"`
-	ArgocdCustomStyles          FeatureStatus `protobuf:"varint,31,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_styles,omitempty"`
-	ConfigManagementPlugins     FeatureStatus `protobuf:"varint,32,opt,name=config_management_plugins,json=configManagementPlugins,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"config_management_plugins,omitempty"`
-	AuditArchive                FeatureStatus `protobuf:"varint,33,opt,name=audit_archive,json=auditArchive,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_archive,omitempty"`
-	ArgocdClusterIntegration    FeatureStatus `protobuf:"varint,34,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_cluster_integration,omitempty"`
-	Pgpool                      FeatureStatus `protobuf:"varint,35,opt,name=pgpool,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgpool,omitempty"`
-	Pgbouncer                   FeatureStatus `protobuf:"varint,36,opt,name=pgbouncer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgbouncer,omitempty"`
-	MultiFactorAuth             FeatureStatus `protobuf:"varint,37,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_factor_auth,omitempty"`
-	KargoAnalysisLogs           FeatureStatus `protobuf:"varint,38,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_analysis_logs,omitempty"`
-	KargoEnterprise             FeatureStatus `protobuf:"varint,39,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_enterprise,omitempty"`
-	OidcMap                     FeatureStatus `protobuf:"varint,40,opt,name=oidc_map,json=oidcMap,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"oidc_map,omitempty"`
-	EksAddon                    FeatureStatus `protobuf:"varint,41,opt,name=eks_addon,json=eksAddon,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"eks_addon,omitempty"`
-	K3STrafficReduction         FeatureStatus `protobuf:"varint,42,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_traffic_reduction,omitempty"`
-	RedisTrafficReduction       FeatureStatus `protobuf:"varint,43,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"redis_traffic_reduction,omitempty"`
-	AkiPermissionModel          FeatureStatus `protobuf:"varint,44,opt,name=aki_permission_model,json=akiPermissionModel,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_permission_model,omitempty"`
-	DragonflyDb                 FeatureStatus `protobuf:"varint,45,opt,name=dragonfly_db,json=dragonflyDb,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"dragonfly_db,omitempty"`
-	AkiAiModelSelection         FeatureStatus `protobuf:"varint,46,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_ai_model_selection,omitempty"`
+	Sso                          FeatureStatus `protobuf:"varint,1,opt,name=sso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"sso,omitempty"`
+	Kargo                        FeatureStatus `protobuf:"varint,2,opt,name=kargo,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo,omitempty"`
+	Autoscaler                   FeatureStatus `protobuf:"varint,3,opt,name=autoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"autoscaler,omitempty"`
+	K3SProxyInformers            FeatureStatus `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_proxy_informers,omitempty"`
+	AiAssistantStats             FeatureStatus `protobuf:"varint,5,opt,name=ai_assistant_stats,json=aiAssistantStats,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_assistant_stats,omitempty"`
+	AgentPermissions             FeatureStatus `protobuf:"varint,6,opt,name=agent_permissions,json=agentPermissions,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"agent_permissions,omitempty"`
+	Team                         FeatureStatus `protobuf:"varint,7,opt,name=team,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"team,omitempty"`
+	SelfServeCancel              FeatureStatus `protobuf:"varint,8,opt,name=self_serve_cancel,json=selfServeCancel,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"self_serve_cancel,omitempty"`
+	K3SCertCnReset               FeatureStatus `protobuf:"varint,9,opt,name=k3s_cert_cn_reset,json=k3sCertCnReset,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_cert_cn_reset,omitempty"`
+	Notification                 FeatureStatus `protobuf:"varint,10,opt,name=notification,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"notification,omitempty"`
+	MultiClusterK8SDashboard     FeatureStatus `protobuf:"varint,11,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_cluster_k8s_dashboard,omitempty"`
+	ClusterAutoscaler            FeatureStatus `protobuf:"varint,12,opt,name=cluster_autoscaler,json=clusterAutoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"cluster_autoscaler,omitempty"`
+	FleetManagement              FeatureStatus `protobuf:"varint,13,opt,name=fleet_management,json=fleetManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"fleet_management,omitempty"`
+	AiSupportEngineer            FeatureStatus `protobuf:"varint,14,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_support_engineer,omitempty"`
+	SecretManagement             FeatureStatus `protobuf:"varint,15,opt,name=secret_management,json=secretManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"secret_management,omitempty"`
+	Shards                       []string      `protobuf:"bytes,16,rep,name=shards,proto3" json:"shards,omitempty"`
+	AuditRecordExport            FeatureStatus `protobuf:"varint,17,opt,name=audit_record_export,json=auditRecordExport,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_record_export,omitempty"`
+	Workspaces                   FeatureStatus `protobuf:"varint,18,opt,name=workspaces,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"workspaces,omitempty"`
+	CustomRoles                  FeatureStatus `protobuf:"varint,19,opt,name=custom_roles,json=customRoles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"custom_roles,omitempty"`
+	ScopedApiKeys                FeatureStatus `protobuf:"varint,20,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"scoped_api_keys,omitempty"`
+	ArgocdSso                    FeatureStatus `protobuf:"varint,21,opt,name=argocd_sso,json=argocdSso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_sso,omitempty"`
+	ArgocdHaControlPlane         FeatureStatus `protobuf:"varint,22,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_ha_control_plane,omitempty"`
+	AkuityArgocdExtensions       FeatureStatus `protobuf:"varint,23,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"akuity_argocd_extensions,omitempty"`
+	AppOfApps                    FeatureStatus `protobuf:"varint,24,opt,name=app_of_apps,json=appOfApps,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"app_of_apps,omitempty"`
+	ApplicationSetController     FeatureStatus `protobuf:"varint,25,opt,name=application_set_controller,json=applicationSetController,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"application_set_controller,omitempty"`
+	ArgocdCustomSubdomain        FeatureStatus `protobuf:"varint,26,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_subdomain,omitempty"`
+	ArgocdCustomDomain           FeatureStatus `protobuf:"varint,27,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_domain,omitempty"`
+	ArgocdFlexibleArchitecture   FeatureStatus `protobuf:"varint,28,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_flexible_architecture,omitempty"`
+	ArgocdAgentStateReplication  FeatureStatus `protobuf:"varint,29,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_agent_state_replication,omitempty"`
+	ArgocdDeepLinks              FeatureStatus `protobuf:"varint,30,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_deep_links,omitempty"`
+	ArgocdCustomStyles           FeatureStatus `protobuf:"varint,31,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_styles,omitempty"`
+	ConfigManagementPlugins      FeatureStatus `protobuf:"varint,32,opt,name=config_management_plugins,json=configManagementPlugins,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"config_management_plugins,omitempty"`
+	AuditArchive                 FeatureStatus `protobuf:"varint,33,opt,name=audit_archive,json=auditArchive,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_archive,omitempty"`
+	ArgocdClusterIntegration     FeatureStatus `protobuf:"varint,34,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_cluster_integration,omitempty"`
+	Pgpool                       FeatureStatus `protobuf:"varint,35,opt,name=pgpool,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgpool,omitempty"`
+	Pgbouncer                    FeatureStatus `protobuf:"varint,36,opt,name=pgbouncer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgbouncer,omitempty"`
+	MultiFactorAuth              FeatureStatus `protobuf:"varint,37,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_factor_auth,omitempty"`
+	KargoAnalysisLogs            FeatureStatus `protobuf:"varint,38,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_analysis_logs,omitempty"`
+	KargoEnterprise              FeatureStatus `protobuf:"varint,39,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_enterprise,omitempty"`
+	OidcMap                      FeatureStatus `protobuf:"varint,40,opt,name=oidc_map,json=oidcMap,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"oidc_map,omitempty"`
+	EksAddon                     FeatureStatus `protobuf:"varint,41,opt,name=eks_addon,json=eksAddon,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"eks_addon,omitempty"`
+	K3STrafficReduction          FeatureStatus `protobuf:"varint,42,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_traffic_reduction,omitempty"`
+	RedisTrafficReduction        FeatureStatus `protobuf:"varint,43,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"redis_traffic_reduction,omitempty"`
+	AkiPermissionModel           FeatureStatus `protobuf:"varint,44,opt,name=aki_permission_model,json=akiPermissionModel,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_permission_model,omitempty"`
+	DragonflyDb                  FeatureStatus `protobuf:"varint,45,opt,name=dragonfly_db,json=dragonflyDb,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"dragonfly_db,omitempty"`
+	AkiAiModelSelection          FeatureStatus `protobuf:"varint,46,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_ai_model_selection,omitempty"`
+	RelaxedClusterNameValidation FeatureStatus `protobuf:"varint,47,opt,name=relaxed_cluster_name_validation,json=relaxedClusterNameValidation,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"relaxed_cluster_name_validation,omitempty"`
 }
 
 func (x *FeatureStatuses) Reset() {
@@ -1021,6 +1030,13 @@ func (x *FeatureStatuses) GetAkiAiModelSelection() FeatureStatus {
 	return FeatureStatus_FEATURE_STATUS_UNSPECIFIED
 }
 
+func (x *FeatureStatuses) GetRelaxedClusterNameValidation() FeatureStatus {
+	if x != nil {
+		return x.RelaxedClusterNameValidation
+	}
+	return FeatureStatus_FEATURE_STATUS_UNSPECIFIED
+}
+
 // OrganizationQuota is a quota for the given organization.
 // NOTE: It is encouraged to define quota fields in `double` or `int64` to
 // avoid type cast failure.
@@ -1352,7 +1368,7 @@ var file_types_features_v1_features_proto_rawDesc = []byte{
 	0x6b, 0x69, 0x5f, 0x61, 0x69, 0x5f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x5f, 0x73, 0x65, 0x6c, 0x65,
 	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x13, 0x20, 0x01, 0x28, 0x08, 0x52, 0x13, 0x61, 0x6b, 0x69,
 	0x41, 0x69, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x22, 0xb4, 0x15, 0x0a, 0x18, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
+	0x22, 0xa4, 0x16, 0x0a, 0x18, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
 	0x6e, 0x46, 0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x47, 0x61, 0x74, 0x65, 0x73, 0x12, 0x15, 0x0a,
 	0x03, 0x73, 0x73, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x03, 0x73, 0x73,
 	0x6f, 0x88, 0x01, 0x01, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x68, 0x61, 0x72, 0x64, 0x73, 0x18, 0x02,
@@ -1471,59 +1487,66 @@ var file_types_features_v1_features_proto_rawDesc = []byte{
 	0x01, 0x01, 0x12, 0x38, 0x0a, 0x16, 0x61, 0x6b, 0x69, 0x5f, 0x61, 0x69, 0x5f, 0x6d, 0x6f, 0x64,
 	0x65, 0x6c, 0x5f, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x27, 0x20, 0x01,
 	0x28, 0x08, 0x48, 0x25, 0x52, 0x13, 0x61, 0x6b, 0x69, 0x41, 0x69, 0x4d, 0x6f, 0x64, 0x65, 0x6c,
-	0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x88, 0x01, 0x01, 0x42, 0x06, 0x0a, 0x04,
-	0x5f, 0x73, 0x73, 0x6f, 0x42, 0x08, 0x0a, 0x06, 0x5f, 0x6b, 0x61, 0x72, 0x67, 0x6f, 0x42, 0x16,
-	0x0a, 0x14, 0x5f, 0x6b, 0x33, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x6e, 0x66,
-	0x6f, 0x72, 0x6d, 0x65, 0x72, 0x73, 0x42, 0x07, 0x0a, 0x05, 0x5f, 0x74, 0x65, 0x61, 0x6d, 0x42,
-	0x16, 0x0a, 0x14, 0x5f, 0x61, 0x75, 0x64, 0x69, 0x74, 0x5f, 0x72, 0x65, 0x63, 0x6f, 0x72, 0x64,
-	0x5f, 0x65, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x42, 0x0d, 0x0a, 0x0b, 0x5f, 0x77, 0x6f, 0x72, 0x6b,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x63, 0x75, 0x73, 0x74, 0x6f,
-	0x6d, 0x5f, 0x72, 0x6f, 0x6c, 0x65, 0x73, 0x42, 0x12, 0x0a, 0x10, 0x5f, 0x73, 0x63, 0x6f, 0x70,
-	0x65, 0x64, 0x5f, 0x61, 0x70, 0x69, 0x5f, 0x6b, 0x65, 0x79, 0x73, 0x42, 0x0d, 0x0a, 0x0b, 0x5f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x73, 0x73, 0x6f, 0x42, 0x1a, 0x0a, 0x18, 0x5f, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x68, 0x61, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c,
-	0x5f, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x42, 0x1b, 0x0a, 0x19, 0x5f, 0x61, 0x6b, 0x75, 0x69, 0x74,
-	0x79, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69,
-	0x6f, 0x6e, 0x73, 0x42, 0x0e, 0x0a, 0x0c, 0x5f, 0x61, 0x70, 0x70, 0x5f, 0x6f, 0x66, 0x5f, 0x61,
-	0x70, 0x70, 0x73, 0x42, 0x1d, 0x0a, 0x1b, 0x5f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x74, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c,
-	0x65, 0x72, 0x42, 0x1a, 0x0a, 0x18, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x75,
-	0x73, 0x74, 0x6f, 0x6d, 0x5f, 0x73, 0x75, 0x62, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x42, 0x17,
-	0x0a, 0x15, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d,
-	0x5f, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x42, 0x1f, 0x0a, 0x1d, 0x5f, 0x61, 0x72, 0x67, 0x6f,
-	0x63, 0x64, 0x5f, 0x66, 0x6c, 0x65, 0x78, 0x69, 0x62, 0x6c, 0x65, 0x5f, 0x61, 0x72, 0x63, 0x68,
-	0x69, 0x74, 0x65, 0x63, 0x74, 0x75, 0x72, 0x65, 0x42, 0x21, 0x0a, 0x1f, 0x5f, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x5f, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x5f,
-	0x72, 0x65, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x14, 0x0a, 0x12, 0x5f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x64, 0x65, 0x65, 0x70, 0x5f, 0x6c, 0x69, 0x6e, 0x6b,
-	0x73, 0x42, 0x17, 0x0a, 0x15, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x75, 0x73,
-	0x74, 0x6f, 0x6d, 0x5f, 0x73, 0x74, 0x79, 0x6c, 0x65, 0x73, 0x42, 0x1c, 0x0a, 0x1a, 0x5f, 0x63,
-	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74,
-	0x5f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x73, 0x42, 0x10, 0x0a, 0x0e, 0x5f, 0x61, 0x75, 0x64,
-	0x69, 0x74, 0x5f, 0x61, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x42, 0x1e, 0x0a, 0x1c, 0x5f, 0x6d,
-	0x75, 0x6c, 0x74, 0x69, 0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x6b, 0x38, 0x73,
-	0x5f, 0x64, 0x61, 0x73, 0x68, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x42, 0x1d, 0x0a, 0x1b, 0x5f, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x6e,
-	0x74, 0x65, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x6e, 0x6f,
-	0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x15, 0x0a, 0x13, 0x5f, 0x63,
-	0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x61, 0x75, 0x74, 0x6f, 0x73, 0x63, 0x61, 0x6c, 0x65,
-	0x72, 0x42, 0x13, 0x0a, 0x11, 0x5f, 0x66, 0x6c, 0x65, 0x65, 0x74, 0x5f, 0x6d, 0x61, 0x6e, 0x61,
-	0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x42, 0x09, 0x0a, 0x07, 0x5f, 0x70, 0x67, 0x70, 0x6f, 0x6f,
-	0x6c, 0x42, 0x16, 0x0a, 0x14, 0x5f, 0x61, 0x69, 0x5f, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74,
-	0x5f, 0x65, 0x6e, 0x67, 0x69, 0x6e, 0x65, 0x65, 0x72, 0x42, 0x0c, 0x0a, 0x0a, 0x5f, 0x70, 0x67,
-	0x62, 0x6f, 0x75, 0x6e, 0x63, 0x65, 0x72, 0x42, 0x14, 0x0a, 0x12, 0x5f, 0x6d, 0x75, 0x6c, 0x74,
-	0x69, 0x5f, 0x66, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x5f, 0x61, 0x75, 0x74, 0x68, 0x42, 0x16, 0x0a,
-	0x14, 0x5f, 0x6b, 0x61, 0x72, 0x67, 0x6f, 0x5f, 0x61, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x69, 0x73,
-	0x5f, 0x6c, 0x6f, 0x67, 0x73, 0x42, 0x13, 0x0a, 0x11, 0x5f, 0x6b, 0x61, 0x72, 0x67, 0x6f, 0x5f,
-	0x65, 0x6e, 0x74, 0x65, 0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x42, 0x0b, 0x0a, 0x09, 0x5f, 0x6f,
-	0x69, 0x64, 0x63, 0x5f, 0x6d, 0x61, 0x70, 0x42, 0x0c, 0x0a, 0x0a, 0x5f, 0x65, 0x6b, 0x73, 0x5f,
-	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x42, 0x18, 0x0a, 0x16, 0x5f, 0x6b, 0x33, 0x73, 0x5f, 0x74, 0x72,
-	0x61, 0x66, 0x66, 0x69, 0x63, 0x5f, 0x72, 0x65, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x42,
-	0x1a, 0x0a, 0x18, 0x5f, 0x72, 0x65, 0x64, 0x69, 0x73, 0x5f, 0x74, 0x72, 0x61, 0x66, 0x66, 0x69,
-	0x63, 0x5f, 0x72, 0x65, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0f, 0x0a, 0x0d, 0x5f,
-	0x64, 0x72, 0x61, 0x67, 0x6f, 0x6e, 0x66, 0x6c, 0x79, 0x5f, 0x64, 0x62, 0x42, 0x19, 0x0a, 0x17,
-	0x5f, 0x61, 0x6b, 0x69, 0x5f, 0x61, 0x69, 0x5f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x5f, 0x73, 0x65,
-	0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x98, 0x1e, 0x0a, 0x0f, 0x46, 0x65, 0x61, 0x74,
+	0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x88, 0x01, 0x01, 0x12, 0x4a, 0x0a, 0x1f,
+	0x72, 0x65, 0x6c, 0x61, 0x78, 0x65, 0x64, 0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f,
+	0x6e, 0x61, 0x6d, 0x65, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18,
+	0x28, 0x20, 0x01, 0x28, 0x08, 0x48, 0x26, 0x52, 0x1c, 0x72, 0x65, 0x6c, 0x61, 0x78, 0x65, 0x64,
+	0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x56, 0x61, 0x6c, 0x69, 0x64,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x88, 0x01, 0x01, 0x42, 0x06, 0x0a, 0x04, 0x5f, 0x73, 0x73, 0x6f,
+	0x42, 0x08, 0x0a, 0x06, 0x5f, 0x6b, 0x61, 0x72, 0x67, 0x6f, 0x42, 0x16, 0x0a, 0x14, 0x5f, 0x6b,
+	0x33, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x78, 0x79, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x65,
+	0x72, 0x73, 0x42, 0x07, 0x0a, 0x05, 0x5f, 0x74, 0x65, 0x61, 0x6d, 0x42, 0x16, 0x0a, 0x14, 0x5f,
+	0x61, 0x75, 0x64, 0x69, 0x74, 0x5f, 0x72, 0x65, 0x63, 0x6f, 0x72, 0x64, 0x5f, 0x65, 0x78, 0x70,
+	0x6f, 0x72, 0x74, 0x42, 0x0d, 0x0a, 0x0b, 0x5f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63,
+	0x65, 0x73, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x5f, 0x72, 0x6f,
+	0x6c, 0x65, 0x73, 0x42, 0x12, 0x0a, 0x10, 0x5f, 0x73, 0x63, 0x6f, 0x70, 0x65, 0x64, 0x5f, 0x61,
+	0x70, 0x69, 0x5f, 0x6b, 0x65, 0x79, 0x73, 0x42, 0x0d, 0x0a, 0x0b, 0x5f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x5f, 0x73, 0x73, 0x6f, 0x42, 0x1a, 0x0a, 0x18, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x5f, 0x68, 0x61, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x5f, 0x70, 0x6c, 0x61,
+	0x6e, 0x65, 0x42, 0x1b, 0x0a, 0x19, 0x5f, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x5f, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x5f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42,
+	0x0e, 0x0a, 0x0c, 0x5f, 0x61, 0x70, 0x70, 0x5f, 0x6f, 0x66, 0x5f, 0x61, 0x70, 0x70, 0x73, 0x42,
+	0x1d, 0x0a, 0x1b, 0x5f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x73, 0x65, 0x74, 0x5f, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x6f, 0x6c, 0x6c, 0x65, 0x72, 0x42, 0x1a,
+	0x0a, 0x18, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d,
+	0x5f, 0x73, 0x75, 0x62, 0x64, 0x6f, 0x6d, 0x61, 0x69, 0x6e, 0x42, 0x17, 0x0a, 0x15, 0x5f, 0x61,
+	0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x5f, 0x64, 0x6f, 0x6d,
+	0x61, 0x69, 0x6e, 0x42, 0x1f, 0x0a, 0x1d, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x66,
+	0x6c, 0x65, 0x78, 0x69, 0x62, 0x6c, 0x65, 0x5f, 0x61, 0x72, 0x63, 0x68, 0x69, 0x74, 0x65, 0x63,
+	0x74, 0x75, 0x72, 0x65, 0x42, 0x21, 0x0a, 0x1f, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f,
+	0x61, 0x67, 0x65, 0x6e, 0x74, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x70, 0x6c,
+	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x14, 0x0a, 0x12, 0x5f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x5f, 0x64, 0x65, 0x65, 0x70, 0x5f, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x42, 0x17, 0x0a,
+	0x15, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x5f,
+	0x73, 0x74, 0x79, 0x6c, 0x65, 0x73, 0x42, 0x1c, 0x0a, 0x1a, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69,
+	0x67, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x70, 0x6c, 0x75,
+	0x67, 0x69, 0x6e, 0x73, 0x42, 0x10, 0x0a, 0x0e, 0x5f, 0x61, 0x75, 0x64, 0x69, 0x74, 0x5f, 0x61,
+	0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x42, 0x1e, 0x0a, 0x1c, 0x5f, 0x6d, 0x75, 0x6c, 0x74, 0x69,
+	0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x6b, 0x38, 0x73, 0x5f, 0x64, 0x61, 0x73,
+	0x68, 0x62, 0x6f, 0x61, 0x72, 0x64, 0x42, 0x1d, 0x0a, 0x1b, 0x5f, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x67, 0x72,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x15, 0x0a, 0x13, 0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74,
+	0x65, 0x72, 0x5f, 0x61, 0x75, 0x74, 0x6f, 0x73, 0x63, 0x61, 0x6c, 0x65, 0x72, 0x42, 0x13, 0x0a,
+	0x11, 0x5f, 0x66, 0x6c, 0x65, 0x65, 0x74, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65,
+	0x6e, 0x74, 0x42, 0x09, 0x0a, 0x07, 0x5f, 0x70, 0x67, 0x70, 0x6f, 0x6f, 0x6c, 0x42, 0x16, 0x0a,
+	0x14, 0x5f, 0x61, 0x69, 0x5f, 0x73, 0x75, 0x70, 0x70, 0x6f, 0x72, 0x74, 0x5f, 0x65, 0x6e, 0x67,
+	0x69, 0x6e, 0x65, 0x65, 0x72, 0x42, 0x0c, 0x0a, 0x0a, 0x5f, 0x70, 0x67, 0x62, 0x6f, 0x75, 0x6e,
+	0x63, 0x65, 0x72, 0x42, 0x14, 0x0a, 0x12, 0x5f, 0x6d, 0x75, 0x6c, 0x74, 0x69, 0x5f, 0x66, 0x61,
+	0x63, 0x74, 0x6f, 0x72, 0x5f, 0x61, 0x75, 0x74, 0x68, 0x42, 0x16, 0x0a, 0x14, 0x5f, 0x6b, 0x61,
+	0x72, 0x67, 0x6f, 0x5f, 0x61, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x69, 0x73, 0x5f, 0x6c, 0x6f, 0x67,
+	0x73, 0x42, 0x13, 0x0a, 0x11, 0x5f, 0x6b, 0x61, 0x72, 0x67, 0x6f, 0x5f, 0x65, 0x6e, 0x74, 0x65,
+	0x72, 0x70, 0x72, 0x69, 0x73, 0x65, 0x42, 0x0b, 0x0a, 0x09, 0x5f, 0x6f, 0x69, 0x64, 0x63, 0x5f,
+	0x6d, 0x61, 0x70, 0x42, 0x0c, 0x0a, 0x0a, 0x5f, 0x65, 0x6b, 0x73, 0x5f, 0x61, 0x64, 0x64, 0x6f,
+	0x6e, 0x42, 0x18, 0x0a, 0x16, 0x5f, 0x6b, 0x33, 0x73, 0x5f, 0x74, 0x72, 0x61, 0x66, 0x66, 0x69,
+	0x63, 0x5f, 0x72, 0x65, 0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x1a, 0x0a, 0x18, 0x5f,
+	0x72, 0x65, 0x64, 0x69, 0x73, 0x5f, 0x74, 0x72, 0x61, 0x66, 0x66, 0x69, 0x63, 0x5f, 0x72, 0x65,
+	0x64, 0x75, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0f, 0x0a, 0x0d, 0x5f, 0x64, 0x72, 0x61, 0x67,
+	0x6f, 0x6e, 0x66, 0x6c, 0x79, 0x5f, 0x64, 0x62, 0x42, 0x19, 0x0a, 0x17, 0x5f, 0x61, 0x6b, 0x69,
+	0x5f, 0x61, 0x69, 0x5f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x5f, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x42, 0x22, 0x0a, 0x20, 0x5f, 0x72, 0x65, 0x6c, 0x61, 0x78, 0x65, 0x64, 0x5f,
+	0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x5f, 0x76, 0x61, 0x6c,
+	0x69, 0x64, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x88, 0x1f, 0x0a, 0x0f, 0x46, 0x65, 0x61, 0x74,
 	0x75, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x65, 0x73, 0x12, 0x39, 0x0a, 0x03, 0x73,
 	0x73, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x27, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
 	0x79, 0x2e, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x66, 0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x73,
@@ -1765,6 +1788,13 @@ var file_types_features_v1_features_proto_rawDesc = []byte{
 	0x70, 0x65, 0x73, 0x2e, 0x66, 0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e,
 	0x46, 0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x13, 0x61,
 	0x6b, 0x69, 0x41, 0x69, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x12, 0x6e, 0x0a, 0x1f, 0x72, 0x65, 0x6c, 0x61, 0x78, 0x65, 0x64, 0x5f, 0x63, 0x6c,
+	0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x5f, 0x76, 0x61, 0x6c, 0x69, 0x64,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x2f, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x27, 0x2e, 0x61, 0x6b,
+	0x75, 0x69, 0x74, 0x79, 0x2e, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x66, 0x65, 0x61, 0x74, 0x75,
+	0x72, 0x65, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x46, 0x65, 0x61, 0x74, 0x75, 0x72, 0x65, 0x53, 0x74,
+	0x61, 0x74, 0x75, 0x73, 0x52, 0x1c, 0x72, 0x65, 0x6c, 0x61, 0x78, 0x65, 0x64, 0x43, 0x6c, 0x75,
+	0x73, 0x74, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x56, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x22, 0xde, 0x04, 0x0a, 0x11, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74,
 	0x69, 0x6f, 0x6e, 0x51, 0x75, 0x6f, 0x74, 0x61, 0x12, 0x23, 0x0a, 0x0d, 0x6d, 0x61, 0x78, 0x5f,
 	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
@@ -1936,11 +1966,12 @@ var file_types_features_v1_features_proto_depIdxs = []int32{
 	0,  // 42: akuity.types.features.v1.FeatureStatuses.aki_permission_model:type_name -> akuity.types.features.v1.FeatureStatus
 	0,  // 43: akuity.types.features.v1.FeatureStatuses.dragonfly_db:type_name -> akuity.types.features.v1.FeatureStatus
 	0,  // 44: akuity.types.features.v1.FeatureStatuses.aki_ai_model_selection:type_name -> akuity.types.features.v1.FeatureStatus
-	45, // [45:45] is the sub-list for method output_type
-	45, // [45:45] is the sub-list for method input_type
-	45, // [45:45] is the sub-list for extension type_name
-	45, // [45:45] is the sub-list for extension extendee
-	0,  // [0:45] is the sub-list for field type_name
+	0,  // 45: akuity.types.features.v1.FeatureStatuses.relaxed_cluster_name_validation:type_name -> akuity.types.features.v1.FeatureStatus
+	46, // [46:46] is the sub-list for method output_type
+	46, // [46:46] is the sub-list for method input_type
+	46, // [46:46] is the sub-list for extension type_name
+	46, // [46:46] is the sub-list for extension extendee
+	0,  // [0:46] is the sub-list for field type_name
 }
 
 func init() { file_types_features_v1_features_proto_init() }
