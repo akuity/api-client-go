@@ -2079,6 +2079,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesContainers(ctx context.
 	if req.ImageDigest != nil {
 		q.Add("imageDigest", fmt.Sprintf("%v", *req.ImageDigest))
 	}
+	if req.Namespace != nil {
+		q.Add("namespace", fmt.Sprintf("%v", *req.Namespace))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesContainersResponse](ctx, gwReq)
 }
@@ -2122,6 +2125,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesContainersToCSV(ctx con
 	}
 	if req.ImageDigest != nil {
 		q.Add("imageDigest", fmt.Sprintf("%v", *req.ImageDigest))
+	}
+	if req.Namespace != nil {
+		q.Add("namespace", fmt.Sprintf("%v", *req.Namespace))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
