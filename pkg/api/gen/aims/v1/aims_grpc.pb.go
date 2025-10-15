@@ -36,6 +36,7 @@ const (
 	AimsService_UpdateQuotas_FullMethodName                      = "/akuity.aims.v1.AimsService/UpdateQuotas"
 	AimsService_ListUnbilledOrganizations_FullMethodName         = "/akuity.aims.v1.AimsService/ListUnbilledOrganizations"
 	AimsService_ListAllOrganizations_FullMethodName              = "/akuity.aims.v1.AimsService/ListAllOrganizations"
+	AimsService_ExportOrganizationsCSV_FullMethodName            = "/akuity.aims.v1.AimsService/ExportOrganizationsCSV"
 	AimsService_ListOrganizationMembers_FullMethodName           = "/akuity.aims.v1.AimsService/ListOrganizationMembers"
 	AimsService_UpdateOrganizationTrialExpiration_FullMethodName = "/akuity.aims.v1.AimsService/UpdateOrganizationTrialExpiration"
 	AimsService_DecrementInstanceGeneration_FullMethodName       = "/akuity.aims.v1.AimsService/DecrementInstanceGeneration"
@@ -94,6 +95,10 @@ type AimsServiceClient interface {
 	UpdateQuotas(ctx context.Context, in *UpdateQuotasRequest, opts ...grpc.CallOption) (*UpdateQuotasResponse, error)
 	ListUnbilledOrganizations(ctx context.Context, in *ListUnbilledOrganizationsRequest, opts ...grpc.CallOption) (*ListUnbilledOrganizationsResponse, error)
 	ListAllOrganizations(ctx context.Context, in *ListAllOrganizationsRequest, opts ...grpc.CallOption) (*ListAllOrganizationsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ExportOrganizationsCSV(ctx context.Context, in *ListAllOrganizationsRequest, opts ...grpc.CallOption) (AimsService_ExportOrganizationsCSVClient, error)
 	ListOrganizationMembers(ctx context.Context, in *ListOrganizationMembersRequest, opts ...grpc.CallOption) (*ListOrganizationMembersResponse, error)
 	UpdateOrganizationTrialExpiration(ctx context.Context, in *UpdateOrganizationTrialExpirationRequest, opts ...grpc.CallOption) (*UpdateOrganizationTrialExpirationResponse, error)
 	DecrementInstanceGeneration(ctx context.Context, in *DecrementInstanceGenerationRequest, opts ...grpc.CallOption) (*DecrementInstanceGenerationResponse, error)
@@ -276,6 +281,38 @@ func (c *aimsServiceClient) ListAllOrganizations(ctx context.Context, in *ListAl
 	return out, nil
 }
 
+func (c *aimsServiceClient) ExportOrganizationsCSV(ctx context.Context, in *ListAllOrganizationsRequest, opts ...grpc.CallOption) (AimsService_ExportOrganizationsCSVClient, error) {
+	stream, err := c.cc.NewStream(ctx, &AimsService_ServiceDesc.Streams[0], AimsService_ExportOrganizationsCSV_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &aimsServiceExportOrganizationsCSVClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type AimsService_ExportOrganizationsCSVClient interface {
+	Recv() (*httpbody.HttpBody, error)
+	grpc.ClientStream
+}
+
+type aimsServiceExportOrganizationsCSVClient struct {
+	grpc.ClientStream
+}
+
+func (x *aimsServiceExportOrganizationsCSVClient) Recv() (*httpbody.HttpBody, error) {
+	m := new(httpbody.HttpBody)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *aimsServiceClient) ListOrganizationMembers(ctx context.Context, in *ListOrganizationMembersRequest, opts ...grpc.CallOption) (*ListOrganizationMembersResponse, error) {
 	out := new(ListOrganizationMembersResponse)
 	err := c.cc.Invoke(ctx, AimsService_ListOrganizationMembers_FullMethodName, in, out, opts...)
@@ -322,7 +359,7 @@ func (c *aimsServiceClient) ListAgentsForKargoInstance(ctx context.Context, in *
 }
 
 func (c *aimsServiceClient) GetClusterManifests(ctx context.Context, in *GetClusterManifestsRequest, opts ...grpc.CallOption) (AimsService_GetClusterManifestsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &AimsService_ServiceDesc.Streams[0], AimsService_GetClusterManifests_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &AimsService_ServiceDesc.Streams[1], AimsService_GetClusterManifests_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -354,7 +391,7 @@ func (x *aimsServiceGetClusterManifestsClient) Recv() (*httpbody.HttpBody, error
 }
 
 func (c *aimsServiceClient) GetKargoAgentManifests(ctx context.Context, in *GetKargoAgentManifestsRequest, opts ...grpc.CallOption) (AimsService_GetKargoAgentManifestsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &AimsService_ServiceDesc.Streams[1], AimsService_GetKargoAgentManifests_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &AimsService_ServiceDesc.Streams[2], AimsService_GetKargoAgentManifests_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -642,6 +679,10 @@ type AimsServiceServer interface {
 	UpdateQuotas(context.Context, *UpdateQuotasRequest) (*UpdateQuotasResponse, error)
 	ListUnbilledOrganizations(context.Context, *ListUnbilledOrganizationsRequest) (*ListUnbilledOrganizationsResponse, error)
 	ListAllOrganizations(context.Context, *ListAllOrganizationsRequest) (*ListAllOrganizationsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ExportOrganizationsCSV(*ListAllOrganizationsRequest, AimsService_ExportOrganizationsCSVServer) error
 	ListOrganizationMembers(context.Context, *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error)
 	UpdateOrganizationTrialExpiration(context.Context, *UpdateOrganizationTrialExpirationRequest) (*UpdateOrganizationTrialExpirationResponse, error)
 	DecrementInstanceGeneration(context.Context, *DecrementInstanceGenerationRequest) (*DecrementInstanceGenerationResponse, error)
@@ -730,6 +771,9 @@ func (UnimplementedAimsServiceServer) ListUnbilledOrganizations(context.Context,
 }
 func (UnimplementedAimsServiceServer) ListAllOrganizations(context.Context, *ListAllOrganizationsRequest) (*ListAllOrganizationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAllOrganizations not implemented")
+}
+func (UnimplementedAimsServiceServer) ExportOrganizationsCSV(*ListAllOrganizationsRequest, AimsService_ExportOrganizationsCSVServer) error {
+	return status.Errorf(codes.Unimplemented, "method ExportOrganizationsCSV not implemented")
 }
 func (UnimplementedAimsServiceServer) ListOrganizationMembers(context.Context, *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationMembers not implemented")
@@ -1111,6 +1155,27 @@ func _AimsService_ListAllOrganizations_Handler(srv interface{}, ctx context.Cont
 		return srv.(AimsServiceServer).ListAllOrganizations(ctx, req.(*ListAllOrganizationsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
+}
+
+func _AimsService_ExportOrganizationsCSV_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ListAllOrganizationsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AimsServiceServer).ExportOrganizationsCSV(m, &aimsServiceExportOrganizationsCSVServer{stream})
+}
+
+type AimsService_ExportOrganizationsCSVServer interface {
+	Send(*httpbody.HttpBody) error
+	grpc.ServerStream
+}
+
+type aimsServiceExportOrganizationsCSVServer struct {
+	grpc.ServerStream
+}
+
+func (x *aimsServiceExportOrganizationsCSVServer) Send(m *httpbody.HttpBody) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _AimsService_ListOrganizationMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1906,6 +1971,11 @@ var AimsService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ExportOrganizationsCSV",
+			Handler:       _AimsService_ExportOrganizationsCSV_Handler,
+			ServerStreams: true,
+		},
 		{
 			StreamName:    "GetClusterManifests",
 			Handler:       _AimsService_GetClusterManifests_Handler,

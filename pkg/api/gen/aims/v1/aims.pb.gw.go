@@ -603,6 +603,32 @@ func local_request_AimsService_ListAllOrganizations_0(ctx context.Context, marsh
 	return msg, metadata, err
 }
 
+var filter_AimsService_ExportOrganizationsCSV_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
+func request_AimsService_ExportOrganizationsCSV_0(ctx context.Context, marshaler runtime.Marshaler, client AimsServiceClient, req *http.Request, pathParams map[string]string) (AimsService_ExportOrganizationsCSVClient, runtime.ServerMetadata, error) {
+	var (
+		protoReq ListAllOrganizationsRequest
+		metadata runtime.ServerMetadata
+	)
+	io.Copy(io.Discard, req.Body)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_AimsService_ExportOrganizationsCSV_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	stream, err := client.ExportOrganizationsCSV(ctx, &protoReq)
+	if err != nil {
+		return nil, metadata, err
+	}
+	header, err := stream.Header()
+	if err != nil {
+		return nil, metadata, err
+	}
+	metadata.HeaderMD = header
+	return stream, metadata, nil
+}
+
 var filter_AimsService_ListOrganizationMembers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_AimsService_ListOrganizationMembers_0(ctx context.Context, marshaler runtime.Marshaler, client AimsServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -2306,6 +2332,13 @@ func RegisterAimsServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux
 		}
 		forward_AimsService_ListAllOrganizations_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+
+	mux.Handle(http.MethodGet, pattern_AimsService_ExportOrganizationsCSV_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
+		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+		return
+	})
 	mux.Handle(http.MethodGet, pattern_AimsService_ListOrganizationMembers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -3235,6 +3268,23 @@ func RegisterAimsServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux
 		}
 		forward_AimsService_ListAllOrganizations_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodGet, pattern_AimsService_ExportOrganizationsCSV_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/akuity.aims.v1.AimsService/ExportOrganizationsCSV", runtime.WithHTTPPathPattern("/api/v1/aims/organizations/csv"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_AimsService_ExportOrganizationsCSV_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AimsService_ExportOrganizationsCSV_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodGet, pattern_AimsService_ListOrganizationMembers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -3815,6 +3865,7 @@ var (
 	pattern_AimsService_UpdateQuotas_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "aims", "organizations", "id", "quotas"}, ""))
 	pattern_AimsService_ListUnbilledOrganizations_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "v1", "aims", "organizations", "unbilled"}, ""))
 	pattern_AimsService_ListAllOrganizations_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "aims", "organizations"}, ""))
+	pattern_AimsService_ExportOrganizationsCSV_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "v1", "aims", "organizations", "csv"}, ""))
 	pattern_AimsService_ListOrganizationMembers_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "v1", "aims", "organizations", "members"}, ""))
 	pattern_AimsService_UpdateOrganizationTrialExpiration_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "aims", "organizations", "organization_id", "trial"}, ""))
 	pattern_AimsService_DecrementInstanceGeneration_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 2, 6}, []string{"api", "v1", "aims", "instances", "instance_id", "generation", "decrement"}, ""))
@@ -3866,6 +3917,7 @@ var (
 	forward_AimsService_UpdateQuotas_0                      = runtime.ForwardResponseMessage
 	forward_AimsService_ListUnbilledOrganizations_0         = runtime.ForwardResponseMessage
 	forward_AimsService_ListAllOrganizations_0              = runtime.ForwardResponseMessage
+	forward_AimsService_ExportOrganizationsCSV_0            = runtime.ForwardResponseStream
 	forward_AimsService_ListOrganizationMembers_0           = runtime.ForwardResponseMessage
 	forward_AimsService_UpdateOrganizationTrialExpiration_0 = runtime.ForwardResponseMessage
 	forward_AimsService_DecrementInstanceGeneration_0       = runtime.ForwardResponseMessage

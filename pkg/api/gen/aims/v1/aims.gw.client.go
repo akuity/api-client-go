@@ -33,6 +33,10 @@ type AimsServiceGatewayClient interface {
 	UpdateQuotas(context.Context, *UpdateQuotasRequest) (*UpdateQuotasResponse, error)
 	ListUnbilledOrganizations(context.Context, *ListUnbilledOrganizationsRequest) (*ListUnbilledOrganizationsResponse, error)
 	ListAllOrganizations(context.Context, *ListAllOrganizationsRequest) (*ListAllOrganizationsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	ExportOrganizationsCSV(context.Context, *ListAllOrganizationsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	ListOrganizationMembers(context.Context, *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error)
 	UpdateOrganizationTrialExpiration(context.Context, *UpdateOrganizationTrialExpirationRequest) (*UpdateOrganizationTrialExpirationResponse, error)
 	DecrementInstanceGeneration(context.Context, *DecrementInstanceGenerationRequest) (*DecrementInstanceGenerationResponse, error)
@@ -259,6 +263,42 @@ func (c *aimsServiceGatewayClient) ListAllOrganizations(ctx context.Context, req
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAllOrganizationsResponse](ctx, gwReq)
+}
+
+func (c *aimsServiceGatewayClient) ExportOrganizationsCSV(ctx context.Context, req *ListAllOrganizationsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/aims/organizations/csv")
+	q := url.Values{}
+	if req.Filters != nil {
+		if req.Filters.Limit != nil {
+			q.Add("filters.limit", fmt.Sprintf("%v", *req.Filters.Limit))
+		}
+		if req.Filters.Offset != nil {
+			q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
+		}
+		if req.Filters.Fuzz != nil {
+			q.Add("filters.fuzz", fmt.Sprintf("%v", *req.Filters.Fuzz))
+		}
+		if req.Filters.SortByCreation != nil {
+			q.Add("filters.sortByCreation", req.Filters.SortByCreation.String())
+		}
+		if req.Filters.Billed != nil {
+			q.Add("filters.billed", fmt.Sprintf("%v", *req.Filters.Billed))
+		}
+		if req.Filters.ManuallyVerified != nil {
+			q.Add("filters.manuallyVerified", fmt.Sprintf("%v", *req.Filters.ManuallyVerified))
+		}
+		for _, v := range req.Filters.Plans {
+			q.Add("filters.plans", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.StartTime != nil {
+			q.Add("filters.startTime", fmt.Sprintf("%v", *req.Filters.StartTime))
+		}
+		if req.Filters.EndTime != nil {
+			q.Add("filters.endTime", fmt.Sprintf("%v", *req.Filters.EndTime))
+		}
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 
 func (c *aimsServiceGatewayClient) ListOrganizationMembers(ctx context.Context, req *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error) {
@@ -1106,11 +1146,11 @@ func (c *aimsServiceGatewayClient) ListUsers(ctx context.Context, req *ListUsers
 		if req.Filters.Offset != nil {
 			q.Add("filters.offset", fmt.Sprintf("%v", *req.Filters.Offset))
 		}
-		if req.Filters.TimeFrom != nil {
-			q.Add("filters.timeFrom", fmt.Sprintf("%v", *req.Filters.TimeFrom))
+		if req.Filters.StartTime != nil {
+			q.Add("filters.startTime", fmt.Sprintf("%v", *req.Filters.StartTime))
 		}
-		if req.Filters.TimeTo != nil {
-			q.Add("filters.timeTo", fmt.Sprintf("%v", *req.Filters.TimeTo))
+		if req.Filters.EndTime != nil {
+			q.Add("filters.endTime", fmt.Sprintf("%v", *req.Filters.EndTime))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
