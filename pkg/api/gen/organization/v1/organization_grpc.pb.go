@@ -117,6 +117,7 @@ const (
 	OrganizationService_GetKubernetesSummary_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetKubernetesSummary"
 	OrganizationService_ListKubernetesPods_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
 	OrganizationService_GetKubernetesPod_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
+	OrganizationService_ListArgoCDApplications_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListArgoCDApplications"
 	OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIs"
 	OrganizationService_ListKubernetesDeprecatedAPIsToCSV_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIsToCSV"
 	OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName       = "/akuity.organization.v1.OrganizationService/GetKubernetesAssistantSuggestion"
@@ -270,6 +271,7 @@ type OrganizationServiceClient interface {
 	GetKubernetesSummary(ctx context.Context, in *GetKubernetesSummaryRequest, opts ...grpc.CallOption) (*GetKubernetesSummaryResponse, error)
 	ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(ctx context.Context, in *GetKubernetesPodRequest, opts ...grpc.CallOption) (*GetKubernetesPodResponse, error)
+	ListArgoCDApplications(ctx context.Context, in *ListArgoCDApplicationsRequest, opts ...grpc.CallOption) (*ListArgoCDApplicationsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesDeprecatedAPIs(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (*ListKubernetesDeprecatedAPIsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1313,6 +1315,15 @@ func (c *organizationServiceClient) GetKubernetesPod(ctx context.Context, in *Ge
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListArgoCDApplications(ctx context.Context, in *ListArgoCDApplicationsRequest, opts ...grpc.CallOption) (*ListArgoCDApplicationsResponse, error) {
+	out := new(ListArgoCDApplicationsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListArgoCDApplications_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListKubernetesDeprecatedAPIs(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (*ListKubernetesDeprecatedAPIsResponse, error) {
 	out := new(ListKubernetesDeprecatedAPIsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName, in, out, opts...)
@@ -1821,6 +1832,7 @@ type OrganizationServiceServer interface {
 	GetKubernetesSummary(context.Context, *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
+	ListArgoCDApplications(context.Context, *ListArgoCDApplicationsRequest) (*ListArgoCDApplicationsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesDeprecatedAPIs(context.Context, *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -2163,6 +2175,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesPods(context.Context
 }
 func (UnimplementedOrganizationServiceServer) GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesPod not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListArgoCDApplications(context.Context, *ListArgoCDApplicationsRequest) (*ListArgoCDApplicationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDApplications not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListKubernetesDeprecatedAPIs(context.Context, *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesDeprecatedAPIs not implemented")
@@ -4046,6 +4061,24 @@ func _OrganizationService_GetKubernetesPod_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListArgoCDApplications_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListArgoCDApplicationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListArgoCDApplications(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListArgoCDApplications_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListArgoCDApplications(ctx, req.(*ListArgoCDApplicationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListKubernetesDeprecatedAPIs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesDeprecatedAPIsRequest)
 	if err := dec(in); err != nil {
@@ -5077,6 +5110,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetKubernetesPod",
 			Handler:    _OrganizationService_GetKubernetesPod_Handler,
+		},
+		{
+			MethodName: "ListArgoCDApplications",
+			Handler:    _OrganizationService_ListArgoCDApplications_Handler,
 		},
 		{
 			MethodName: "ListKubernetesDeprecatedAPIs",

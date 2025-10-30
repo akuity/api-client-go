@@ -124,6 +124,7 @@ type OrganizationServiceGatewayClient interface {
 	GetKubernetesSummary(context.Context, *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
+	ListArgoCDApplications(context.Context, *ListArgoCDApplicationsRequest) (*ListArgoCDApplicationsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesDeprecatedAPIs(context.Context, *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1845,6 +1846,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesResources(ctx context.C
 	for _, v := range req.TreeViewHealthStatuses {
 		q.Add("treeViewHealthStatuses", v.String())
 	}
+	for _, v := range req.HealthStatuses {
+		q.Add("healthStatuses", v.String())
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesResourcesResponse](ctx, gwReq)
 }
@@ -1900,6 +1904,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesResourcesToCSV(ctx cont
 	}
 	for _, v := range req.TreeViewHealthStatuses {
 		q.Add("treeViewHealthStatuses", v.String())
+	}
+	for _, v := range req.HealthStatuses {
+		q.Add("healthStatuses", v.String())
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
@@ -2357,6 +2364,32 @@ func (c *organizationServiceGatewayClient) GetKubernetesPod(ctx context.Context,
 	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetKubernetesPodResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListArgoCDApplications(ctx context.Context, req *ListArgoCDApplicationsRequest) (*ListArgoCDApplicationsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/applications")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	for _, v := range req.ClusterIds {
+		q.Add("clusterIds", fmt.Sprintf("%v", v))
+	}
+	if req.Filler != nil {
+		q.Add("filler", req.Filler.String())
+	}
+	if req.ClusterLabelSelector != nil {
+		q.Add("clusterLabelSelector", fmt.Sprintf("%v", *req.ClusterLabelSelector))
+	}
+	if req.Search != nil {
+		q.Add("search", fmt.Sprintf("%v", *req.Search))
+	}
+	for _, v := range req.GroupBy {
+		q.Add("groupBy", v.String())
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListArgoCDApplicationsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIs(ctx context.Context, req *ListKubernetesDeprecatedAPIsRequest) (*ListKubernetesDeprecatedAPIsResponse, error) {
