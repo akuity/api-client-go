@@ -18,9 +18,11 @@ const (
 )
 
 const (
-	TokenCookieName        = "token"
-	RefreshTokenCookieName = "akuity.refresh-token"
-	PlatformCookieName     = "x-platform"
-	ArgoCDTokenCookieName  = "argocd.token"
-	KargoTokenCookieName   = "kargo.token"
+	TokenCookieName            = "token"
+	RefreshTokenCookieName     = "akuity.refresh-token"
+	PlatformCookieName         = "x-platform"
+	ArgoCDTokenCookieName      = "argocd.token"
+	KargoTokenCookieName       = "kargo.token"
+	AimsTokenCookieName        = "aims.token"
+	AimsRefreshTokenCookieName = "aims.refresh-token"
 )

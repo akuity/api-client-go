@@ -344,6 +344,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.K8SResource.ObjectParentKargoProjectName {
 			q.Add("filters.k8sResource.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.K8SResource.IncludeChildObjects != nil {
+			q.Add("filters.k8sResource.includeChildObjects", fmt.Sprintf("%v", *req.Filters.K8SResource.IncludeChildObjects))
+		}
 	}
 	if req.Filters.ArgocdApplication != nil {
 		for _, v := range req.Filters.ArgocdApplication.ObjectName {
@@ -369,6 +372,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.ArgocdApplication.ObjectParentKargoProjectName {
 			q.Add("filters.argocdApplication.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdApplication.IncludeChildObjects != nil {
+			q.Add("filters.argocdApplication.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdApplication.IncludeChildObjects))
 		}
 	}
 	if req.Filters.ArgocdCluster != nil {
@@ -396,6 +402,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.ArgocdCluster.ObjectParentKargoProjectName {
 			q.Add("filters.argocdCluster.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.ArgocdCluster.IncludeChildObjects != nil {
+			q.Add("filters.argocdCluster.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdCluster.IncludeChildObjects))
+		}
 	}
 	if req.Filters.ArgocdInstance != nil {
 		for _, v := range req.Filters.ArgocdInstance.ObjectName {
@@ -421,6 +430,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.ArgocdInstance.ObjectParentKargoProjectName {
 			q.Add("filters.argocdInstance.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdInstance.IncludeChildObjects != nil {
+			q.Add("filters.argocdInstance.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdInstance.IncludeChildObjects))
 		}
 	}
 	if req.Filters.ArgocdProject != nil {
@@ -448,6 +460,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.ArgocdProject.ObjectParentKargoProjectName {
 			q.Add("filters.argocdProject.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.ArgocdProject.IncludeChildObjects != nil {
+			q.Add("filters.argocdProject.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdProject.IncludeChildObjects))
+		}
 	}
 	if req.Filters.Member != nil {
 		for _, v := range req.Filters.Member.ObjectName {
@@ -474,6 +489,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.Member.ObjectParentKargoProjectName {
 			q.Add("filters.member.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.Member.IncludeChildObjects != nil {
+			q.Add("filters.member.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Member.IncludeChildObjects))
+		}
 	}
 	if req.Filters.OrganizationInvite != nil {
 		for _, v := range req.Filters.OrganizationInvite.ObjectName {
@@ -499,6 +517,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.OrganizationInvite.ObjectParentKargoProjectName {
 			q.Add("filters.organizationInvite.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OrganizationInvite.IncludeChildObjects != nil {
+			q.Add("filters.organizationInvite.includeChildObjects", fmt.Sprintf("%v", *req.Filters.OrganizationInvite.IncludeChildObjects))
 		}
 	}
 	for _, v := range req.Filters.Action {
@@ -544,6 +565,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.KargoInstance.ObjectParentKargoProjectName {
 			q.Add("filters.kargoInstance.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.KargoInstance.IncludeChildObjects != nil {
+			q.Add("filters.kargoInstance.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoInstance.IncludeChildObjects))
+		}
 	}
 	if req.Filters.KargoAgent != nil {
 		for _, v := range req.Filters.KargoAgent.ObjectName {
@@ -569,6 +593,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.KargoAgent.ObjectParentKargoProjectName {
 			q.Add("filters.kargoAgent.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoAgent.IncludeChildObjects != nil {
+			q.Add("filters.kargoAgent.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoAgent.IncludeChildObjects))
 		}
 	}
 	if req.Filters.KargoPromotion != nil {
@@ -596,6 +623,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.KargoPromotion.ObjectParentKargoProjectName {
 			q.Add("filters.kargoPromotion.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.KargoPromotion.IncludeChildObjects != nil {
+			q.Add("filters.kargoPromotion.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoPromotion.IncludeChildObjects))
+		}
 	}
 	if req.Filters.KargoFreight != nil {
 		for _, v := range req.Filters.KargoFreight.ObjectName {
@@ -621,6 +651,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.KargoFreight.ObjectParentKargoProjectName {
 			q.Add("filters.kargoFreight.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoFreight.IncludeChildObjects != nil {
+			q.Add("filters.kargoFreight.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoFreight.IncludeChildObjects))
 		}
 	}
 	if req.Filters.CustomRoles != nil {
@@ -648,6 +681,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.CustomRoles.ObjectParentKargoProjectName {
 			q.Add("filters.customRoles.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.CustomRoles.IncludeChildObjects != nil {
+			q.Add("filters.customRoles.includeChildObjects", fmt.Sprintf("%v", *req.Filters.CustomRoles.IncludeChildObjects))
+		}
 	}
 	if req.Filters.NotificationCfg != nil {
 		for _, v := range req.Filters.NotificationCfg.ObjectName {
@@ -673,6 +709,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.NotificationCfg.ObjectParentKargoProjectName {
 			q.Add("filters.notificationCfg.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.NotificationCfg.IncludeChildObjects != nil {
+			q.Add("filters.notificationCfg.includeChildObjects", fmt.Sprintf("%v", *req.Filters.NotificationCfg.IncludeChildObjects))
 		}
 	}
 	if req.Filters.ApiKeys != nil {
@@ -700,6 +739,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.ApiKeys.ObjectParentKargoProjectName {
 			q.Add("filters.apiKeys.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.ApiKeys.IncludeChildObjects != nil {
+			q.Add("filters.apiKeys.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ApiKeys.IncludeChildObjects))
+		}
 	}
 	if req.Filters.Addons != nil {
 		for _, v := range req.Filters.Addons.ObjectName {
@@ -725,6 +767,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.Addons.ObjectParentKargoProjectName {
 			q.Add("filters.addons.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Addons.IncludeChildObjects != nil {
+			q.Add("filters.addons.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Addons.IncludeChildObjects))
 		}
 	}
 	if req.Filters.AddonRepos != nil {
@@ -752,6 +797,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.AddonRepos.ObjectParentKargoProjectName {
 			q.Add("filters.addonRepos.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.AddonRepos.IncludeChildObjects != nil {
+			q.Add("filters.addonRepos.includeChildObjects", fmt.Sprintf("%v", *req.Filters.AddonRepos.IncludeChildObjects))
+		}
 	}
 	if req.Filters.AddonMarketplaceInstall != nil {
 		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectName {
@@ -777,6 +825,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentKargoProjectName {
 			q.Add("filters.addonMarketplaceInstall.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.AddonMarketplaceInstall.IncludeChildObjects != nil {
+			q.Add("filters.addonMarketplaceInstall.includeChildObjects", fmt.Sprintf("%v", *req.Filters.AddonMarketplaceInstall.IncludeChildObjects))
 		}
 	}
 	if req.Filters.Workspace != nil {
@@ -804,6 +855,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		for _, v := range req.Filters.Workspace.ObjectParentKargoProjectName {
 			q.Add("filters.workspace.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.Workspace.IncludeChildObjects != nil {
+			q.Add("filters.workspace.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Workspace.IncludeChildObjects))
+		}
 	}
 	if req.Filters.WorkspaceMember != nil {
 		for _, v := range req.Filters.WorkspaceMember.ObjectName {
@@ -829,6 +883,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 		}
 		for _, v := range req.Filters.WorkspaceMember.ObjectParentKargoProjectName {
 			q.Add("filters.workspaceMember.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.WorkspaceMember.IncludeChildObjects != nil {
+			q.Add("filters.workspaceMember.includeChildObjects", fmt.Sprintf("%v", *req.Filters.WorkspaceMember.IncludeChildObjects))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -887,6 +944,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.K8SResource.ObjectParentKargoProjectName {
 			q.Add("filters.k8sResource.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.K8SResource.IncludeChildObjects != nil {
+			q.Add("filters.k8sResource.includeChildObjects", fmt.Sprintf("%v", *req.Filters.K8SResource.IncludeChildObjects))
+		}
 	}
 	if req.Filters.ArgocdApplication != nil {
 		for _, v := range req.Filters.ArgocdApplication.ObjectName {
@@ -912,6 +972,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.ArgocdApplication.ObjectParentKargoProjectName {
 			q.Add("filters.argocdApplication.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdApplication.IncludeChildObjects != nil {
+			q.Add("filters.argocdApplication.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdApplication.IncludeChildObjects))
 		}
 	}
 	if req.Filters.ArgocdCluster != nil {
@@ -939,6 +1002,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.ArgocdCluster.ObjectParentKargoProjectName {
 			q.Add("filters.argocdCluster.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.ArgocdCluster.IncludeChildObjects != nil {
+			q.Add("filters.argocdCluster.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdCluster.IncludeChildObjects))
+		}
 	}
 	if req.Filters.ArgocdInstance != nil {
 		for _, v := range req.Filters.ArgocdInstance.ObjectName {
@@ -964,6 +1030,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.ArgocdInstance.ObjectParentKargoProjectName {
 			q.Add("filters.argocdInstance.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdInstance.IncludeChildObjects != nil {
+			q.Add("filters.argocdInstance.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdInstance.IncludeChildObjects))
 		}
 	}
 	if req.Filters.ArgocdProject != nil {
@@ -991,6 +1060,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.ArgocdProject.ObjectParentKargoProjectName {
 			q.Add("filters.argocdProject.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.ArgocdProject.IncludeChildObjects != nil {
+			q.Add("filters.argocdProject.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdProject.IncludeChildObjects))
+		}
 	}
 	if req.Filters.Member != nil {
 		for _, v := range req.Filters.Member.ObjectName {
@@ -1017,6 +1089,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.Member.ObjectParentKargoProjectName {
 			q.Add("filters.member.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.Member.IncludeChildObjects != nil {
+			q.Add("filters.member.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Member.IncludeChildObjects))
+		}
 	}
 	if req.Filters.OrganizationInvite != nil {
 		for _, v := range req.Filters.OrganizationInvite.ObjectName {
@@ -1042,6 +1117,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.OrganizationInvite.ObjectParentKargoProjectName {
 			q.Add("filters.organizationInvite.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OrganizationInvite.IncludeChildObjects != nil {
+			q.Add("filters.organizationInvite.includeChildObjects", fmt.Sprintf("%v", *req.Filters.OrganizationInvite.IncludeChildObjects))
 		}
 	}
 	for _, v := range req.Filters.Action {
@@ -1087,6 +1165,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.KargoInstance.ObjectParentKargoProjectName {
 			q.Add("filters.kargoInstance.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.KargoInstance.IncludeChildObjects != nil {
+			q.Add("filters.kargoInstance.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoInstance.IncludeChildObjects))
+		}
 	}
 	if req.Filters.KargoAgent != nil {
 		for _, v := range req.Filters.KargoAgent.ObjectName {
@@ -1112,6 +1193,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.KargoAgent.ObjectParentKargoProjectName {
 			q.Add("filters.kargoAgent.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoAgent.IncludeChildObjects != nil {
+			q.Add("filters.kargoAgent.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoAgent.IncludeChildObjects))
 		}
 	}
 	if req.Filters.KargoPromotion != nil {
@@ -1139,6 +1223,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.KargoPromotion.ObjectParentKargoProjectName {
 			q.Add("filters.kargoPromotion.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.KargoPromotion.IncludeChildObjects != nil {
+			q.Add("filters.kargoPromotion.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoPromotion.IncludeChildObjects))
+		}
 	}
 	if req.Filters.KargoFreight != nil {
 		for _, v := range req.Filters.KargoFreight.ObjectName {
@@ -1164,6 +1251,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.KargoFreight.ObjectParentKargoProjectName {
 			q.Add("filters.kargoFreight.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoFreight.IncludeChildObjects != nil {
+			q.Add("filters.kargoFreight.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoFreight.IncludeChildObjects))
 		}
 	}
 	if req.Filters.CustomRoles != nil {
@@ -1191,6 +1281,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.CustomRoles.ObjectParentKargoProjectName {
 			q.Add("filters.customRoles.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.CustomRoles.IncludeChildObjects != nil {
+			q.Add("filters.customRoles.includeChildObjects", fmt.Sprintf("%v", *req.Filters.CustomRoles.IncludeChildObjects))
+		}
 	}
 	if req.Filters.NotificationCfg != nil {
 		for _, v := range req.Filters.NotificationCfg.ObjectName {
@@ -1216,6 +1309,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.NotificationCfg.ObjectParentKargoProjectName {
 			q.Add("filters.notificationCfg.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.NotificationCfg.IncludeChildObjects != nil {
+			q.Add("filters.notificationCfg.includeChildObjects", fmt.Sprintf("%v", *req.Filters.NotificationCfg.IncludeChildObjects))
 		}
 	}
 	if req.Filters.ApiKeys != nil {
@@ -1243,6 +1339,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.ApiKeys.ObjectParentKargoProjectName {
 			q.Add("filters.apiKeys.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.ApiKeys.IncludeChildObjects != nil {
+			q.Add("filters.apiKeys.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ApiKeys.IncludeChildObjects))
+		}
 	}
 	if req.Filters.Addons != nil {
 		for _, v := range req.Filters.Addons.ObjectName {
@@ -1268,6 +1367,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.Addons.ObjectParentKargoProjectName {
 			q.Add("filters.addons.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Addons.IncludeChildObjects != nil {
+			q.Add("filters.addons.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Addons.IncludeChildObjects))
 		}
 	}
 	if req.Filters.AddonRepos != nil {
@@ -1295,6 +1397,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.AddonRepos.ObjectParentKargoProjectName {
 			q.Add("filters.addonRepos.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.AddonRepos.IncludeChildObjects != nil {
+			q.Add("filters.addonRepos.includeChildObjects", fmt.Sprintf("%v", *req.Filters.AddonRepos.IncludeChildObjects))
+		}
 	}
 	if req.Filters.AddonMarketplaceInstall != nil {
 		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectName {
@@ -1320,6 +1425,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.AddonMarketplaceInstall.ObjectParentKargoProjectName {
 			q.Add("filters.addonMarketplaceInstall.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.AddonMarketplaceInstall.IncludeChildObjects != nil {
+			q.Add("filters.addonMarketplaceInstall.includeChildObjects", fmt.Sprintf("%v", *req.Filters.AddonMarketplaceInstall.IncludeChildObjects))
 		}
 	}
 	if req.Filters.Workspace != nil {
@@ -1347,6 +1455,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.Workspace.ObjectParentKargoProjectName {
 			q.Add("filters.workspace.objectParentKargoProjectName", fmt.Sprintf("%v", v))
 		}
+		if req.Filters.Workspace.IncludeChildObjects != nil {
+			q.Add("filters.workspace.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Workspace.IncludeChildObjects))
+		}
 	}
 	if req.Filters.WorkspaceMember != nil {
 		for _, v := range req.Filters.WorkspaceMember.ObjectName {
@@ -1372,6 +1483,9 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.WorkspaceMember.ObjectParentKargoProjectName {
 			q.Add("filters.workspaceMember.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.WorkspaceMember.IncludeChildObjects != nil {
+			q.Add("filters.workspaceMember.includeChildObjects", fmt.Sprintf("%v", *req.Filters.WorkspaceMember.IncludeChildObjects))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)

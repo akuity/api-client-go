@@ -57,10 +57,13 @@ func (c *extensionServiceGatewayClient) GetExtensionSettings(ctx context.Context
 }
 
 func (c *extensionServiceGatewayClient) GetKargoAnalysisLogs(ctx context.Context, req *GetKargoAnalysisLogsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
-	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/kargo/extensions/logs/{project_name}/{analysis_run}/{container_name}")
+	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/kargo/extensions/logs/{project_name}/{analysis_run}/{shard}/{job_namespace}/{job_name}/{container_name}")
 	gwReq.SetPathParam("project_name", fmt.Sprintf("%v", req.ProjectName))
 	gwReq.SetPathParam("analysis_run", fmt.Sprintf("%v", req.AnalysisRun))
 	gwReq.SetPathParam("container_name", fmt.Sprintf("%v", req.ContainerName))
+	gwReq.SetPathParam("job_name", fmt.Sprintf("%v", req.JobName))
+	gwReq.SetPathParam("job_namespace", fmt.Sprintf("%v", req.JobNamespace))
+	gwReq.SetPathParam("shard", fmt.Sprintf("%v", req.Shard))
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
 }
 

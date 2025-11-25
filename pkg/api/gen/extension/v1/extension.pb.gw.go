@@ -158,6 +158,36 @@ func request_ExtensionService_GetKargoAnalysisLogs_0(ctx context.Context, marsha
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "analysis_run", err)
 	}
 
+	val, ok = pathParams["shard"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "shard")
+	}
+
+	protoReq.Shard, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "shard", err)
+	}
+
+	val, ok = pathParams["job_namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_namespace")
+	}
+
+	protoReq.JobNamespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_namespace", err)
+	}
+
+	val, ok = pathParams["job_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_name")
+	}
+
+	protoReq.JobName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_name", err)
+	}
+
 	val, ok = pathParams["container_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "container_name")
@@ -481,7 +511,7 @@ func RegisterExtensionServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.extension.v1.ExtensionService/GetKargoAnalysisLogs", runtime.WithHTTPPathPattern("/ext-api/v1/kargo/extensions/logs/{project_name}/{analysis_run}/{container_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/akuity.extension.v1.ExtensionService/GetKargoAnalysisLogs", runtime.WithHTTPPathPattern("/ext-api/v1/kargo/extensions/logs/{project_name}/{analysis_run}/{shard}/{job_namespace}/{job_name}/{container_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -531,7 +561,7 @@ var (
 
 	pattern_ExtensionService_GetExtensionSettings_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"ext-api", "v1", "kargo", "extensions", "settings"}, ""))
 
-	pattern_ExtensionService_GetKargoAnalysisLogs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7}, []string{"ext-api", "v1", "kargo", "extensions", "logs", "project_name", "analysis_run", "container_name"}, ""))
+	pattern_ExtensionService_GetKargoAnalysisLogs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 1, 0, 4, 1, 5, 7, 1, 0, 4, 1, 5, 8, 1, 0, 4, 1, 5, 9, 1, 0, 4, 1, 5, 10}, []string{"ext-api", "v1", "kargo", "extensions", "logs", "project_name", "analysis_run", "shard", "job_namespace", "job_name", "container_name"}, ""))
 
 	pattern_ExtensionService_ListAuditRecordForKargoProjects_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"ext-api", "v1", "kargo", "extensions", "audit-records"}, ""))
 )

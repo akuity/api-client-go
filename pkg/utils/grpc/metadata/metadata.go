@@ -33,6 +33,7 @@ const (
 	PlatformAkuityPlatform Platform = "akuity-platform"
 	PlatformArgoCD         Platform = "argocd"
 	PlatformKargo          Platform = "kargo"
+	PlatformAIMS           Platform = "aims"
 )
 
 func MatchIncomingMetadata(header string) (string, bool) {

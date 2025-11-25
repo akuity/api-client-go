@@ -40,8 +40,26 @@ func SetAKPTokenCookie(w http.ResponseWriter, token string, secure bool, domain 
 	}
 }
 
+func SetAimsTokenCookie(w http.ResponseWriter, token string, secure bool, domain string) {
+	flags := []string{"path=/", "SameSite=lax", "httpOnly"}
+	if secure {
+		flags = append(flags, "Secure")
+	}
+	if domain != "" {
+		flags = append(flags, "domain="+domain)
+	}
+	cookies := splitCookie(AimsTokenCookieName, token, strings.Join(flags, "; "))
+	for _, cookie := range cookies {
+		w.Header().Add("Set-Cookie", cookie)
+	}
+}
+
 func GetAKPTokenCookie(r *http.Request) (string, error) {
 	return joinCookies(TokenCookieName, r.Cookies())
+}
+
+func GetAimsTokenCookie(r *http.Request) (string, error) {
+	return joinCookies(AimsTokenCookieName, r.Cookies())
 }
 
 func GetArgoCDTokenCookie(r *http.Request) (string, error) {
