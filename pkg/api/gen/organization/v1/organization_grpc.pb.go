@@ -142,6 +142,8 @@ const (
 	OrganizationService_CreateIncident_FullMethodName                         = "/akuity.organization.v1.OrganizationService/CreateIncident"
 	OrganizationService_ResolveIncidents_FullMethodName                       = "/akuity.organization.v1.OrganizationService/ResolveIncidents"
 	OrganizationService_UpdateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateAIConversation"
+	OrganizationService_ShareAIConversation_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ShareAIConversation"
+	OrganizationService_UnshareAIConversation_FullMethodName                  = "/akuity.organization.v1.OrganizationService/UnshareAIConversation"
 	OrganizationService_DeleteAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteAIConversation"
 	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
 	OrganizationService_GetAIConversationStream_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetAIConversationStream"
@@ -305,6 +307,8 @@ type OrganizationServiceClient interface {
 	CreateIncident(ctx context.Context, in *CreateIncidentRequest, opts ...grpc.CallOption) (*CreateIncidentResponse, error)
 	ResolveIncidents(ctx context.Context, in *ResolveIncidentsRequest, opts ...grpc.CallOption) (*ResolveIncidentsResponse, error)
 	UpdateAIConversation(ctx context.Context, in *UpdateAIConversationRequest, opts ...grpc.CallOption) (*UpdateAIConversationResponse, error)
+	ShareAIConversation(ctx context.Context, in *ShareAIConversationRequest, opts ...grpc.CallOption) (*ShareAIConversationResponse, error)
+	UnshareAIConversation(ctx context.Context, in *UnshareAIConversationRequest, opts ...grpc.CallOption) (*UnshareAIConversationResponse, error)
 	DeleteAIConversation(ctx context.Context, in *DeleteAIConversationRequest, opts ...grpc.CallOption) (*DeleteAIConversationResponse, error)
 	GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error)
 	GetAIConversationStream(ctx context.Context, in *GetAIConversationStreamRequest, opts ...grpc.CallOption) (OrganizationService_GetAIConversationStreamClient, error)
@@ -1586,6 +1590,24 @@ func (c *organizationServiceClient) UpdateAIConversation(ctx context.Context, in
 	return out, nil
 }
 
+func (c *organizationServiceClient) ShareAIConversation(ctx context.Context, in *ShareAIConversationRequest, opts ...grpc.CallOption) (*ShareAIConversationResponse, error) {
+	out := new(ShareAIConversationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ShareAIConversation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UnshareAIConversation(ctx context.Context, in *UnshareAIConversationRequest, opts ...grpc.CallOption) (*UnshareAIConversationResponse, error) {
+	out := new(UnshareAIConversationResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UnshareAIConversation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) DeleteAIConversation(ctx context.Context, in *DeleteAIConversationRequest, opts ...grpc.CallOption) (*DeleteAIConversationResponse, error) {
 	out := new(DeleteAIConversationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_DeleteAIConversation_FullMethodName, in, out, opts...)
@@ -1866,6 +1888,8 @@ type OrganizationServiceServer interface {
 	CreateIncident(context.Context, *CreateIncidentRequest) (*CreateIncidentResponse, error)
 	ResolveIncidents(context.Context, *ResolveIncidentsRequest) (*ResolveIncidentsResponse, error)
 	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
+	ShareAIConversation(context.Context, *ShareAIConversationRequest) (*ShareAIConversationResponse, error)
+	UnshareAIConversation(context.Context, *UnshareAIConversationRequest) (*UnshareAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	GetAIConversationStream(*GetAIConversationStreamRequest, OrganizationService_GetAIConversationStreamServer) error
@@ -2250,6 +2274,12 @@ func (UnimplementedOrganizationServiceServer) ResolveIncidents(context.Context, 
 }
 func (UnimplementedOrganizationServiceServer) UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIConversation not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ShareAIConversation(context.Context, *ShareAIConversationRequest) (*ShareAIConversationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShareAIConversation not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UnshareAIConversation(context.Context, *UnshareAIConversationRequest) (*UnshareAIConversationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnshareAIConversation not implemented")
 }
 func (UnimplementedOrganizationServiceServer) DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAIConversation not implemented")
@@ -4517,6 +4547,42 @@ func _OrganizationService_UpdateAIConversation_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ShareAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShareAIConversationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ShareAIConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ShareAIConversation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ShareAIConversation(ctx, req.(*ShareAIConversationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UnshareAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnshareAIConversationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UnshareAIConversation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UnshareAIConversation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UnshareAIConversation(ctx, req.(*UnshareAIConversationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_DeleteAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteAIConversationRequest)
 	if err := dec(in); err != nil {
@@ -5202,6 +5268,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAIConversation",
 			Handler:    _OrganizationService_UpdateAIConversation_Handler,
+		},
+		{
+			MethodName: "ShareAIConversation",
+			Handler:    _OrganizationService_ShareAIConversation_Handler,
+		},
+		{
+			MethodName: "UnshareAIConversation",
+			Handler:    _OrganizationService_UnshareAIConversation_Handler,
 		},
 		{
 			MethodName: "DeleteAIConversation",

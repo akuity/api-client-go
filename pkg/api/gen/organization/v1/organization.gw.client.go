@@ -158,6 +158,8 @@ type OrganizationServiceGatewayClient interface {
 	CreateIncident(context.Context, *CreateIncidentRequest) (*CreateIncidentResponse, error)
 	ResolveIncidents(context.Context, *ResolveIncidentsRequest) (*ResolveIncidentsResponse, error)
 	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
+	ShareAIConversation(context.Context, *ShareAIConversationRequest) (*ShareAIConversationResponse, error)
+	UnshareAIConversation(context.Context, *UnshareAIConversationRequest) (*UnshareAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	GetAIConversationStream(context.Context, *GetAIConversationStreamRequest) (<-chan *GetAIConversationStreamResponse, <-chan error, error)
@@ -2825,6 +2827,22 @@ func (c *organizationServiceGatewayClient) UpdateAIConversation(ctx context.Cont
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateAIConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ShareAIConversation(ctx context.Context, req *ShareAIConversationRequest) (*ShareAIConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{id}/share")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[ShareAIConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UnshareAIConversation(ctx context.Context, req *UnshareAIConversationRequest) (*UnshareAIConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{id}/unshare")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UnshareAIConversationResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) DeleteAIConversation(ctx context.Context, req *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error) {
