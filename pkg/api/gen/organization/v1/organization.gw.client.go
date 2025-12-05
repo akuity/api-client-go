@@ -111,6 +111,7 @@ type OrganizationServiceGatewayClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesContainersToCSV(context.Context, *ListKubernetesContainersRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesResourceDiff(context.Context, *GetKubernetesResourceDiffRequest) (*GetKubernetesResourceDiffResponse, error)
 	GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error)
 	DeleteKubernetesResource(context.Context, *DeleteKubernetesResourceRequest) (*DeleteKubernetesResourceResponse, error)
 	GetKubernetesLogs(context.Context, *GetKubernetesLogsRequest) (<-chan *GetKubernetesLogsResponse, <-chan error, error)
@@ -2270,6 +2271,17 @@ func (c *organizationServiceGatewayClient) ListKubernetesEnabledClusters(ctx con
 	return gateway.DoRequest[ListKubernetesEnabledClustersResponse](ctx, gwReq)
 }
 
+func (c *organizationServiceGatewayClient) GetKubernetesResourceDiff(ctx context.Context, req *GetKubernetesResourceDiffRequest) (*GetKubernetesResourceDiffResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/diff")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
+	q := url.Values{}
+	q.Add("instanceId", fmt.Sprintf("%v", req.InstanceId))
+	q.Add("clusterId", fmt.Sprintf("%v", req.ClusterId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKubernetesResourceDiffResponse](ctx, gwReq)
+}
+
 func (c *organizationServiceGatewayClient) GetKubernetesManifest(ctx context.Context, req *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/manifest")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -2919,6 +2931,21 @@ func (c *organizationServiceGatewayClient) ListAIConversations(ctx context.Conte
 	}
 	if req.KargoInstanceId != nil {
 		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
+	if req.ScheduledTaskOnly != nil {
+		q.Add("scheduledTaskOnly", fmt.Sprintf("%v", *req.ScheduledTaskOnly))
+	}
+	if req.ScheduledTaskStatus != nil {
+		q.Add("scheduledTaskStatus", req.ScheduledTaskStatus.String())
+	}
+	if req.StartTime != nil {
+		q.Add("startTime", fmt.Sprintf("%v", *req.StartTime))
+	}
+	if req.EndTime != nil {
+		q.Add("endTime", fmt.Sprintf("%v", *req.EndTime))
+	}
+	if req.HasUserInteractions != nil {
+		q.Add("hasUserInteractions", fmt.Sprintf("%v", *req.HasUserInteractions))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListAIConversationsResponse](ctx, gwReq)

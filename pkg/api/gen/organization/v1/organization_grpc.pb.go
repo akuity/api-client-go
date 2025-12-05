@@ -104,6 +104,7 @@ const (
 	OrganizationService_ListKubernetesContainers_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
 	OrganizationService_ListKubernetesContainersToCSV_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesContainersToCSV"
 	OrganizationService_ListKubernetesEnabledClusters_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
+	OrganizationService_GetKubernetesResourceDiff_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDiff"
 	OrganizationService_GetKubernetesManifest_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetKubernetesManifest"
 	OrganizationService_DeleteKubernetesResource_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteKubernetesResource"
 	OrganizationService_GetKubernetesLogs_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesLogs"
@@ -260,6 +261,7 @@ type OrganizationServiceClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesContainersToCSV(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesContainersToCSVClient, error)
 	ListKubernetesEnabledClusters(ctx context.Context, in *ListKubernetesEnabledClustersRequest, opts ...grpc.CallOption) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesResourceDiff(ctx context.Context, in *GetKubernetesResourceDiffRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDiffResponse, error)
 	GetKubernetesManifest(ctx context.Context, in *GetKubernetesManifestRequest, opts ...grpc.CallOption) (*GetKubernetesManifestResponse, error)
 	DeleteKubernetesResource(ctx context.Context, in *DeleteKubernetesResourceRequest, opts ...grpc.CallOption) (*DeleteKubernetesResourceResponse, error)
 	GetKubernetesLogs(ctx context.Context, in *GetKubernetesLogsRequest, opts ...grpc.CallOption) (OrganizationService_GetKubernetesLogsClient, error)
@@ -1179,6 +1181,15 @@ func (c *organizationServiceClient) ListKubernetesEnabledClusters(ctx context.Co
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetKubernetesResourceDiff(ctx context.Context, in *GetKubernetesResourceDiffRequest, opts ...grpc.CallOption) (*GetKubernetesResourceDiffResponse, error) {
+	out := new(GetKubernetesResourceDiffResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesResourceDiff_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetKubernetesManifest(ctx context.Context, in *GetKubernetesManifestRequest, opts ...grpc.CallOption) (*GetKubernetesManifestResponse, error) {
 	out := new(GetKubernetesManifestResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesManifest_FullMethodName, in, out, opts...)
@@ -1841,6 +1852,7 @@ type OrganizationServiceServer interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesContainersToCSV(*ListKubernetesContainersRequest, OrganizationService_ListKubernetesContainersToCSVServer) error
 	ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error)
+	GetKubernetesResourceDiff(context.Context, *GetKubernetesResourceDiffRequest) (*GetKubernetesResourceDiffResponse, error)
 	GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error)
 	DeleteKubernetesResource(context.Context, *DeleteKubernetesResourceRequest) (*DeleteKubernetesResourceResponse, error)
 	GetKubernetesLogs(*GetKubernetesLogsRequest, OrganizationService_GetKubernetesLogsServer) error
@@ -2160,6 +2172,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesContainersToCSV(*Lis
 }
 func (UnimplementedOrganizationServiceServer) ListKubernetesEnabledClusters(context.Context, *ListKubernetesEnabledClustersRequest) (*ListKubernetesEnabledClustersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesEnabledClusters not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetKubernetesResourceDiff(context.Context, *GetKubernetesResourceDiffRequest) (*GetKubernetesResourceDiffResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesResourceDiff not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetKubernetesManifest(context.Context, *GetKubernetesManifestRequest) (*GetKubernetesManifestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesManifest not implemented")
@@ -3854,6 +3869,24 @@ func _OrganizationService_ListKubernetesEnabledClusters_Handler(srv interface{},
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetKubernetesResourceDiff_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesResourceDiffRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesResourceDiff(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesResourceDiff_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesResourceDiff(ctx, req.(*GetKubernetesResourceDiffRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetKubernetesManifest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetKubernetesManifestRequest)
 	if err := dec(in); err != nil {
@@ -5128,6 +5161,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListKubernetesEnabledClusters",
 			Handler:    _OrganizationService_ListKubernetesEnabledClusters_Handler,
+		},
+		{
+			MethodName: "GetKubernetesResourceDiff",
+			Handler:    _OrganizationService_GetKubernetesResourceDiff_Handler,
 		},
 		{
 			MethodName: "GetKubernetesManifest",

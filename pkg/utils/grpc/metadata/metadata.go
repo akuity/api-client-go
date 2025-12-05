@@ -16,6 +16,7 @@ const (
 	requestIDMetadataKey    = "x-request-id"
 	requestURLMetadataKey   = "x-request-url"
 	refreshTokenMetadataKey = "x-refresh-token"
+	trustedPlatformHeader   = "x-trusted-platform-header"
 )
 
 var allowedHeaders = map[string]bool{
@@ -54,6 +55,10 @@ func GetPlatform(md metadata.MD) (Platform, bool) {
 
 func SetPlatform(md metadata.MD, platform string) {
 	md.Set(platformMetadataKey, platform)
+}
+
+func SetTrustedPlatformHeader(md metadata.MD, platform string) {
+	md.Set(trustedPlatformHeader, platform)
 }
 
 func GetAPIKey(md metadata.MD) (id, secret string, ok bool) {
@@ -143,6 +148,11 @@ func GetRequestURL(md metadata.MD) (string, bool) {
 }
 
 func GetClientIP(md metadata.MD) (string, bool) {
+	// if trusted platform header is set use that first
+	if len(md.Get(trustedPlatformHeader)) > 0 && md.Get(trustedPlatformHeader)[0] != "" {
+		return md.Get(trustedPlatformHeader)[0], true
+	}
+
 	if len(md.Get("x-forwarded-for")) == 0 {
 		return "", false
 	}
