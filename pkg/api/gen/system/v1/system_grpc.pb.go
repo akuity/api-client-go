@@ -30,6 +30,7 @@ const (
 	SystemService_ListArgoCDExtensions_FullMethodName           = "/akuity.system.v1.SystemService/ListArgoCDExtensions"
 	SystemService_GetAnnouncement_FullMethodName                = "/akuity.system.v1.SystemService/GetAnnouncement"
 	SystemService_ListValidWebhookEvents_FullMethodName         = "/akuity.system.v1.SystemService/ListValidWebhookEvents"
+	SystemService_ListValidEmailEvents_FullMethodName           = "/akuity.system.v1.SystemService/ListValidEmailEvents"
 	SystemService_GetArgoCDAgentSizeSpec_FullMethodName         = "/akuity.system.v1.SystemService/GetArgoCDAgentSizeSpec"
 	SystemService_GetKargoAgentSizeSpec_FullMethodName          = "/akuity.system.v1.SystemService/GetKargoAgentSizeSpec"
 	SystemService_ListArgoCDImageUpadterVersions_FullMethodName = "/akuity.system.v1.SystemService/ListArgoCDImageUpadterVersions"
@@ -61,6 +62,7 @@ type SystemServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAnnouncementResponse, error)
 	ListValidWebhookEvents(ctx context.Context, in *ListValidWebhookEventsRequest, opts ...grpc.CallOption) (*ListValidWebhookEventsResponse, error)
+	ListValidEmailEvents(ctx context.Context, in *ListValidEmailEventsRequest, opts ...grpc.CallOption) (*ListValidEmailEventsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetArgoCDAgentSizeSpec(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetArgoCDAgentSizeSpecResponse, error)
@@ -170,6 +172,15 @@ func (c *systemServiceClient) ListValidWebhookEvents(ctx context.Context, in *Li
 	return out, nil
 }
 
+func (c *systemServiceClient) ListValidEmailEvents(ctx context.Context, in *ListValidEmailEventsRequest, opts ...grpc.CallOption) (*ListValidEmailEventsResponse, error) {
+	out := new(ListValidEmailEventsResponse)
+	err := c.cc.Invoke(ctx, SystemService_ListValidEmailEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemServiceClient) GetArgoCDAgentSizeSpec(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetArgoCDAgentSizeSpecResponse, error) {
 	out := new(GetArgoCDAgentSizeSpecResponse)
 	err := c.cc.Invoke(ctx, SystemService_GetArgoCDAgentSizeSpec_FullMethodName, in, out, opts...)
@@ -223,6 +234,7 @@ type SystemServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
 	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
+	ListValidEmailEvents(context.Context, *ListValidEmailEventsRequest) (*ListValidEmailEventsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error)
@@ -268,6 +280,9 @@ func (UnimplementedSystemServiceServer) GetAnnouncement(context.Context, *emptyp
 }
 func (UnimplementedSystemServiceServer) ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListValidWebhookEvents not implemented")
+}
+func (UnimplementedSystemServiceServer) ListValidEmailEvents(context.Context, *ListValidEmailEventsRequest) (*ListValidEmailEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListValidEmailEvents not implemented")
 }
 func (UnimplementedSystemServiceServer) GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetArgoCDAgentSizeSpec not implemented")
@@ -471,6 +486,24 @@ func _SystemService_ListValidWebhookEvents_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_ListValidEmailEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListValidEmailEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListValidEmailEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListValidEmailEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListValidEmailEvents(ctx, req.(*ListValidEmailEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemService_GetArgoCDAgentSizeSpec_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
@@ -571,6 +604,10 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListValidWebhookEvents",
 			Handler:    _SystemService_ListValidWebhookEvents_Handler,
+		},
+		{
+			MethodName: "ListValidEmailEvents",
+			Handler:    _SystemService_ListValidEmailEvents_Handler,
 		},
 		{
 			MethodName: "GetArgoCDAgentSizeSpec",

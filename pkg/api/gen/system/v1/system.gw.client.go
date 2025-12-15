@@ -33,6 +33,7 @@ type SystemServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
 	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
+	ListValidEmailEvents(context.Context, *ListValidEmailEventsRequest) (*ListValidEmailEventsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error)
@@ -102,6 +103,11 @@ func (c *systemServiceGatewayClient) GetAnnouncement(ctx context.Context, req *e
 func (c *systemServiceGatewayClient) ListValidWebhookEvents(ctx context.Context, req *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/webhook/valid-events")
 	return gateway.DoRequest[ListValidWebhookEventsResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) ListValidEmailEvents(ctx context.Context, req *ListValidEmailEventsRequest) (*ListValidEmailEventsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/email/valid-events")
+	return gateway.DoRequest[ListValidEmailEventsResponse](ctx, gwReq)
 }
 
 func (c *systemServiceGatewayClient) GetArgoCDAgentSizeSpec(ctx context.Context, req *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error) {
