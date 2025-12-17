@@ -891,6 +891,35 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 			q.Add("filters.workspaceMember.includeChildObjects", fmt.Sprintf("%v", *req.Filters.WorkspaceMember.IncludeChildObjects))
 		}
 	}
+	if req.Filters.Organization != nil {
+		for _, v := range req.Filters.Organization.ObjectName {
+			q.Add("filters.organization.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectKind {
+			q.Add("filters.organization.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectGroup {
+			q.Add("filters.organization.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentName {
+			q.Add("filters.organization.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentParentName {
+			q.Add("filters.organization.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentApplicationName {
+			q.Add("filters.organization.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Organization.Enabled != nil {
+			q.Add("filters.organization.enabled", fmt.Sprintf("%v", *req.Filters.Organization.Enabled))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentKargoProjectName {
+			q.Add("filters.organization.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Organization.IncludeChildObjects != nil {
+			q.Add("filters.organization.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Organization.IncludeChildObjects))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
@@ -1489,6 +1518,35 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		if req.Filters.WorkspaceMember.IncludeChildObjects != nil {
 			q.Add("filters.workspaceMember.includeChildObjects", fmt.Sprintf("%v", *req.Filters.WorkspaceMember.IncludeChildObjects))
+		}
+	}
+	if req.Filters.Organization != nil {
+		for _, v := range req.Filters.Organization.ObjectName {
+			q.Add("filters.organization.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectKind {
+			q.Add("filters.organization.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectGroup {
+			q.Add("filters.organization.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentName {
+			q.Add("filters.organization.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentParentName {
+			q.Add("filters.organization.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentApplicationName {
+			q.Add("filters.organization.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Organization.Enabled != nil {
+			q.Add("filters.organization.enabled", fmt.Sprintf("%v", *req.Filters.Organization.Enabled))
+		}
+		for _, v := range req.Filters.Organization.ObjectParentKargoProjectName {
+			q.Add("filters.organization.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.Organization.IncludeChildObjects != nil {
+			q.Add("filters.organization.includeChildObjects", fmt.Sprintf("%v", *req.Filters.Organization.IncludeChildObjects))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
