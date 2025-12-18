@@ -155,6 +155,8 @@ type OrganizationServiceGatewayClient interface {
 	ListOrganizationDomains(context.Context, *ListOrganizationDomainsRequest) (*ListOrganizationDomainsResponse, error)
 	DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
+	GetAIModels(context.Context, *GetAIModelsRequest) (*GetAIModelsResponse, error)
+	GetAIProviderModels(context.Context, *GetAIProviderModelsRequest) (*GetAIProviderModelsResponse, error)
 	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
 	CreateIncident(context.Context, *CreateIncidentRequest) (*CreateIncidentResponse, error)
 	ResolveIncidents(context.Context, *ResolveIncidentsRequest) (*ResolveIncidentsResponse, error)
@@ -2868,6 +2870,37 @@ func (c *organizationServiceGatewayClient) VerifyOrganizationDomains(ctx context
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[VerifyOrganizationDomainsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetAIModels(ctx context.Context, req *GetAIModelsRequest) (*GetAIModelsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/models")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetAIModelsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetAIProviderModels(ctx context.Context, req *GetAIProviderModelsRequest) (*GetAIProviderModelsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/provider-models/{provider}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("provider", fmt.Sprintf("%v", req.Provider))
+	q := url.Values{}
+	if req.InstanceId != nil {
+		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
+	}
+	if req.KargoInstanceId != nil {
+		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
+	q.Add("apiBase", fmt.Sprintf("%v", req.ApiBase))
+	q.Add("apiKey", fmt.Sprintf("%v", req.ApiKey))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetAIProviderModelsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) CreateAIConversation(ctx context.Context, req *CreateAIConversationRequest) (*CreateAIConversationResponse, error) {

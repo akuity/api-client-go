@@ -139,6 +139,8 @@ const (
 	OrganizationService_ListOrganizationDomains_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationDomains"
 	OrganizationService_DeleteOrganizationDomain_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteOrganizationDomain"
 	OrganizationService_VerifyOrganizationDomains_FullMethodName              = "/akuity.organization.v1.OrganizationService/VerifyOrganizationDomains"
+	OrganizationService_GetAIModels_FullMethodName                            = "/akuity.organization.v1.OrganizationService/GetAIModels"
+	OrganizationService_GetAIProviderModels_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetAIProviderModels"
 	OrganizationService_CreateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateAIConversation"
 	OrganizationService_CreateIncident_FullMethodName                         = "/akuity.organization.v1.OrganizationService/CreateIncident"
 	OrganizationService_ResolveIncidents_FullMethodName                       = "/akuity.organization.v1.OrganizationService/ResolveIncidents"
@@ -305,6 +307,8 @@ type OrganizationServiceClient interface {
 	ListOrganizationDomains(ctx context.Context, in *ListOrganizationDomainsRequest, opts ...grpc.CallOption) (*ListOrganizationDomainsResponse, error)
 	DeleteOrganizationDomain(ctx context.Context, in *DeleteOrganizationDomainRequest, opts ...grpc.CallOption) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(ctx context.Context, in *VerifyOrganizationDomainsRequest, opts ...grpc.CallOption) (*VerifyOrganizationDomainsResponse, error)
+	GetAIModels(ctx context.Context, in *GetAIModelsRequest, opts ...grpc.CallOption) (*GetAIModelsResponse, error)
+	GetAIProviderModels(ctx context.Context, in *GetAIProviderModelsRequest, opts ...grpc.CallOption) (*GetAIProviderModelsResponse, error)
 	CreateAIConversation(ctx context.Context, in *CreateAIConversationRequest, opts ...grpc.CallOption) (*CreateAIConversationResponse, error)
 	CreateIncident(ctx context.Context, in *CreateIncidentRequest, opts ...grpc.CallOption) (*CreateIncidentResponse, error)
 	ResolveIncidents(ctx context.Context, in *ResolveIncidentsRequest, opts ...grpc.CallOption) (*ResolveIncidentsResponse, error)
@@ -1565,6 +1569,24 @@ func (c *organizationServiceClient) VerifyOrganizationDomains(ctx context.Contex
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetAIModels(ctx context.Context, in *GetAIModelsRequest, opts ...grpc.CallOption) (*GetAIModelsResponse, error) {
+	out := new(GetAIModelsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetAIModels_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetAIProviderModels(ctx context.Context, in *GetAIProviderModelsRequest, opts ...grpc.CallOption) (*GetAIProviderModelsResponse, error) {
+	out := new(GetAIProviderModelsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetAIProviderModels_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) CreateAIConversation(ctx context.Context, in *CreateAIConversationRequest, opts ...grpc.CallOption) (*CreateAIConversationResponse, error) {
 	out := new(CreateAIConversationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_CreateAIConversation_FullMethodName, in, out, opts...)
@@ -1896,6 +1918,8 @@ type OrganizationServiceServer interface {
 	ListOrganizationDomains(context.Context, *ListOrganizationDomainsRequest) (*ListOrganizationDomainsResponse, error)
 	DeleteOrganizationDomain(context.Context, *DeleteOrganizationDomainRequest) (*DeleteOrganizationDomainResponse, error)
 	VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error)
+	GetAIModels(context.Context, *GetAIModelsRequest) (*GetAIModelsResponse, error)
+	GetAIProviderModels(context.Context, *GetAIProviderModelsRequest) (*GetAIProviderModelsResponse, error)
 	CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error)
 	CreateIncident(context.Context, *CreateIncidentRequest) (*CreateIncidentResponse, error)
 	ResolveIncidents(context.Context, *ResolveIncidentsRequest) (*ResolveIncidentsResponse, error)
@@ -2277,6 +2301,12 @@ func (UnimplementedOrganizationServiceServer) DeleteOrganizationDomain(context.C
 }
 func (UnimplementedOrganizationServiceServer) VerifyOrganizationDomains(context.Context, *VerifyOrganizationDomainsRequest) (*VerifyOrganizationDomainsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyOrganizationDomains not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetAIModels(context.Context, *GetAIModelsRequest) (*GetAIModelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAIModels not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetAIProviderModels(context.Context, *GetAIProviderModelsRequest) (*GetAIProviderModelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAIProviderModels not implemented")
 }
 func (UnimplementedOrganizationServiceServer) CreateAIConversation(context.Context, *CreateAIConversationRequest) (*CreateAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAIConversation not implemented")
@@ -4508,6 +4538,42 @@ func _OrganizationService_VerifyOrganizationDomains_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetAIModels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAIModelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetAIModels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetAIModels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetAIModels(ctx, req.(*GetAIModelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetAIProviderModels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAIProviderModelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetAIProviderModels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetAIProviderModels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetAIProviderModels(ctx, req.(*GetAIProviderModelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_CreateAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateAIConversationRequest)
 	if err := dec(in); err != nil {
@@ -5289,6 +5355,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyOrganizationDomains",
 			Handler:    _OrganizationService_VerifyOrganizationDomains_Handler,
+		},
+		{
+			MethodName: "GetAIModels",
+			Handler:    _OrganizationService_GetAIModels_Handler,
+		},
+		{
+			MethodName: "GetAIProviderModels",
+			Handler:    _OrganizationService_GetAIProviderModels_Handler,
 		},
 		{
 			MethodName: "CreateAIConversation",
