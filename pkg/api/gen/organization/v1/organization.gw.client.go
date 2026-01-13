@@ -2026,6 +2026,12 @@ func (c *organizationServiceGatewayClient) ListKubernetesResources(ctx context.C
 	for _, v := range req.HealthStatuses {
 		q.Add("healthStatuses", v.String())
 	}
+	for _, v := range req.Labels {
+		q.Add("labels", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Annotations {
+		q.Add("annotations", fmt.Sprintf("%v", v))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesResourcesResponse](ctx, gwReq)
 }
@@ -2084,6 +2090,12 @@ func (c *organizationServiceGatewayClient) ListKubernetesResourcesToCSV(ctx cont
 	}
 	for _, v := range req.HealthStatuses {
 		q.Add("healthStatuses", v.String())
+	}
+	for _, v := range req.Labels {
+		q.Add("labels", fmt.Sprintf("%v", v))
+	}
+	for _, v := range req.Annotations {
+		q.Add("annotations", fmt.Sprintf("%v", v))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
