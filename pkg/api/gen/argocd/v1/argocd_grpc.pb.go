@@ -60,6 +60,7 @@ const (
 	ArgoCDService_GetInstanceClusterInfo_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterInfo"
 	ArgoCDService_GetInstanceClusterManifests_FullMethodName           = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterManifests"
 	ArgoCDService_UpdateInstanceCluster_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCluster"
+	ArgoCDService_UpdateInstanceClusterSupportAccess_FullMethodName    = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusterSupportAccess"
 	ArgoCDService_UpdateInstanceClusters_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusters"
 	ArgoCDService_UpdateInstanceClustersAgentVersion_FullMethodName    = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClustersAgentVersion"
 	ArgoCDService_RotateInstanceClusterCredentials_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/RotateInstanceClusterCredentials"
@@ -147,6 +148,7 @@ type ArgoCDServiceClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (ArgoCDService_GetInstanceClusterManifestsClient, error)
 	UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error)
+	UpdateInstanceClusterSupportAccess(ctx context.Context, in *UpdateInstanceClusterSupportAccessRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -631,6 +633,15 @@ func (c *argoCDServiceClient) UpdateInstanceCluster(ctx context.Context, in *Upd
 	return out, nil
 }
 
+func (c *argoCDServiceClient) UpdateInstanceClusterSupportAccess(ctx context.Context, in *UpdateInstanceClusterSupportAccessRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterSupportAccessResponse, error) {
+	out := new(UpdateInstanceClusterSupportAccessResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceClusterSupportAccess_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error) {
 	out := new(UpdateInstanceClustersResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceClusters_FullMethodName, in, out, opts...)
@@ -1081,6 +1092,7 @@ type ArgoCDServiceServer interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetInstanceClusterManifests(*GetInstanceClusterManifestsRequest, ArgoCDService_GetInstanceClusterManifestsServer) error
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
+	UpdateInstanceClusterSupportAccess(context.Context, *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -1258,6 +1270,9 @@ func (UnimplementedArgoCDServiceServer) GetInstanceClusterManifests(*GetInstance
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceClusterSupportAccess(context.Context, *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClusterSupportAccess not implemented")
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClusters not implemented")
@@ -2094,6 +2109,24 @@ func _ArgoCDService_UpdateInstanceCluster_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_UpdateInstanceClusterSupportAccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceClusterSupportAccessRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceClusterSupportAccess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateInstanceClusterSupportAccess_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceClusterSupportAccess(ctx, req.(*UpdateInstanceClusterSupportAccessRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_UpdateInstanceClusters_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateInstanceClustersRequest)
 	if err := dec(in); err != nil {
@@ -2919,6 +2952,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateInstanceCluster",
 			Handler:    _ArgoCDService_UpdateInstanceCluster_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceClusterSupportAccess",
+			Handler:    _ArgoCDService_UpdateInstanceClusterSupportAccess_Handler,
 		},
 		{
 			MethodName: "UpdateInstanceClusters",
