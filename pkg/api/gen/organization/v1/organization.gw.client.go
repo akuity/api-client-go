@@ -163,6 +163,7 @@ type OrganizationServiceGatewayClient interface {
 	UpdateAIConversation(context.Context, *UpdateAIConversationRequest) (*UpdateAIConversationResponse, error)
 	ShareAIConversation(context.Context, *ShareAIConversationRequest) (*ShareAIConversationResponse, error)
 	UnshareAIConversation(context.Context, *UnshareAIConversationRequest) (*UnshareAIConversationResponse, error)
+	SuspendAIConversation(context.Context, *SuspendAIConversationRequest) (*SuspendAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	GetAIConversationStream(context.Context, *GetAIConversationStreamRequest) (<-chan *GetAIConversationStreamResponse, <-chan error, error)
@@ -2958,6 +2959,14 @@ func (c *organizationServiceGatewayClient) UnshareAIConversation(ctx context.Con
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UnshareAIConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) SuspendAIConversation(ctx context.Context, req *SuspendAIConversationRequest) (*SuspendAIConversationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/{id}/suspend")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[SuspendAIConversationResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) DeleteAIConversation(ctx context.Context, req *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error) {
