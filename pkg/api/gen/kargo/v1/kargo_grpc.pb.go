@@ -37,6 +37,7 @@ const (
 	KargoService_DeleteInstance_FullMethodName                 = "/akuity.kargo.v1.KargoService/DeleteInstance"
 	KargoService_DeleteInstanceAgent_FullMethodName            = "/akuity.kargo.v1.KargoService/DeleteInstanceAgent"
 	KargoService_RotateInstanceAgentCredentials_FullMethodName = "/akuity.kargo.v1.KargoService/RotateInstanceAgentCredentials"
+	KargoService_RegenerateManifests_FullMethodName            = "/akuity.kargo.v1.KargoService/RegenerateManifests"
 	KargoService_UpdateInstanceAgentVersion_FullMethodName     = "/akuity.kargo.v1.KargoService/UpdateInstanceAgentVersion"
 	KargoService_GetPromotionStats_FullMethodName              = "/akuity.kargo.v1.KargoService/GetPromotionStats"
 	KargoService_GetPromotionEvents_FullMethodName             = "/akuity.kargo.v1.KargoService/GetPromotionEvents"
@@ -70,8 +71,7 @@ type KargoServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceAgentCredentials(ctx context.Context, in *RotateInstanceAgentCredentialsRequest, opts ...grpc.CallOption) (*RotateInstanceAgentCredentialsResponse, error)
-	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	RegenerateManifests(ctx context.Context, in *RegenerateManifestsRequest, opts ...grpc.CallOption) (*RegenerateManifestsResponse, error)
 	UpdateInstanceAgentVersion(ctx context.Context, in *UpdateInstanceAgentVersionRequest, opts ...grpc.CallOption) (*UpdateInstanceAgentVersionResponse, error)
 	GetPromotionStats(ctx context.Context, in *GetPromotionStatsRequest, opts ...grpc.CallOption) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(ctx context.Context, in *GetPromotionEventsRequest, opts ...grpc.CallOption) (*GetPromotionEventsResponse, error)
@@ -310,6 +310,15 @@ func (c *kargoServiceClient) RotateInstanceAgentCredentials(ctx context.Context,
 	return out, nil
 }
 
+func (c *kargoServiceClient) RegenerateManifests(ctx context.Context, in *RegenerateManifestsRequest, opts ...grpc.CallOption) (*RegenerateManifestsResponse, error) {
+	out := new(RegenerateManifestsResponse)
+	err := c.cc.Invoke(ctx, KargoService_RegenerateManifests_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *kargoServiceClient) UpdateInstanceAgentVersion(ctx context.Context, in *UpdateInstanceAgentVersionRequest, opts ...grpc.CallOption) (*UpdateInstanceAgentVersionResponse, error) {
 	out := new(UpdateInstanceAgentVersionResponse)
 	err := c.cc.Invoke(ctx, KargoService_UpdateInstanceAgentVersion_FullMethodName, in, out, opts...)
@@ -389,8 +398,7 @@ type KargoServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceAgentCredentials(context.Context, *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error)
-	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error)
 	UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error)
 	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
@@ -454,6 +462,9 @@ func (UnimplementedKargoServiceServer) DeleteInstanceAgent(context.Context, *Del
 }
 func (UnimplementedKargoServiceServer) RotateInstanceAgentCredentials(context.Context, *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RotateInstanceAgentCredentials not implemented")
+}
+func (UnimplementedKargoServiceServer) RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegenerateManifests not implemented")
 }
 func (UnimplementedKargoServiceServer) UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceAgentVersion not implemented")
@@ -801,6 +812,24 @@ func _KargoService_RotateInstanceAgentCredentials_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KargoService_RegenerateManifests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegenerateManifestsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).RegenerateManifests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_RegenerateManifests_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).RegenerateManifests(ctx, req.(*RegenerateManifestsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _KargoService_UpdateInstanceAgentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateInstanceAgentVersionRequest)
 	if err := dec(in); err != nil {
@@ -971,6 +1000,10 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RotateInstanceAgentCredentials",
 			Handler:    _KargoService_RotateInstanceAgentCredentials_Handler,
+		},
+		{
+			MethodName: "RegenerateManifests",
+			Handler:    _KargoService_RegenerateManifests_Handler,
 		},
 		{
 			MethodName: "UpdateInstanceAgentVersion",

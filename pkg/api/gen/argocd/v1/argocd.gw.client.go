@@ -66,6 +66,7 @@ type ArgoCDServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceClusterCredentials(context.Context, *RotateInstanceClusterCredentialsRequest) (*RotateInstanceClusterCredentialsResponse, error)
+	RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
 	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
@@ -609,6 +610,14 @@ func (c *argoCDServiceGatewayClient) RotateInstanceClusterCredentials(ctx contex
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RotateInstanceClusterCredentialsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) RegenerateManifests(ctx context.Context, req *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/regenerate-manifests")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RegenerateManifestsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) DeleteInstanceCluster(ctx context.Context, req *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {

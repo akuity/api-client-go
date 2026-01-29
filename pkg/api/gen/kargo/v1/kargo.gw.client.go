@@ -34,8 +34,7 @@ type KargoServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceAgentCredentials(context.Context, *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error)
-	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error)
 	UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error)
 	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
@@ -310,6 +309,14 @@ func (c *kargoServiceGatewayClient) RotateInstanceAgentCredentials(ctx context.C
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RotateInstanceAgentCredentialsResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) RegenerateManifests(ctx context.Context, req *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/regenerate-manifests")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RegenerateManifestsResponse](ctx, gwReq)
 }
 
 func (c *kargoServiceGatewayClient) UpdateInstanceAgentVersion(ctx context.Context, req *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error) {
