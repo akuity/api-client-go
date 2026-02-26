@@ -2279,6 +2279,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesContainers(ctx context.
 	if req.Namespace != nil {
 		q.Add("namespace", fmt.Sprintf("%v", *req.Namespace))
 	}
+	if req.PodName != nil {
+		q.Add("podName", fmt.Sprintf("%v", *req.PodName))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesContainersResponse](ctx, gwReq)
 }
@@ -2325,6 +2328,9 @@ func (c *organizationServiceGatewayClient) ListKubernetesContainersToCSV(ctx con
 	}
 	if req.Namespace != nil {
 		q.Add("namespace", fmt.Sprintf("%v", *req.Namespace))
+	}
+	if req.PodName != nil {
+		q.Add("podName", fmt.Sprintf("%v", *req.PodName))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)

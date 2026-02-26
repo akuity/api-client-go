@@ -63,10 +63,9 @@ type ArgoCDServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
-	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceClusterCredentials(context.Context, *RotateInstanceClusterCredentialsRequest) (*RotateInstanceClusterCredentialsResponse, error)
 	RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error)
+	SetClusterMaintenanceMode(context.Context, *SetClusterMaintenanceModeRequest) (*SetClusterMaintenanceModeResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
 	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
@@ -618,6 +617,14 @@ func (c *argoCDServiceGatewayClient) RegenerateManifests(ctx context.Context, re
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RegenerateManifestsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) SetClusterMaintenanceMode(ctx context.Context, req *SetClusterMaintenanceModeRequest) (*SetClusterMaintenanceModeResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/set-maintenance-mode")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[SetClusterMaintenanceModeResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) DeleteInstanceCluster(ctx context.Context, req *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {

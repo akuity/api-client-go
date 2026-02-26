@@ -65,6 +65,7 @@ const (
 	ArgoCDService_UpdateInstanceClustersAgentVersion_FullMethodName    = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClustersAgentVersion"
 	ArgoCDService_RotateInstanceClusterCredentials_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/RotateInstanceClusterCredentials"
 	ArgoCDService_RegenerateManifests_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/RegenerateManifests"
+	ArgoCDService_SetClusterMaintenanceMode_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/SetClusterMaintenanceMode"
 	ArgoCDService_DeleteInstanceCluster_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/DeleteInstanceCluster"
 	ArgoCDService_GetInstanceClusterCommand_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterCommand"
 	ArgoCDService_GetAIAssistantUsageStats_FullMethodName              = "/akuity.argocd.v1.ArgoCDService/GetAIAssistantUsageStats"
@@ -154,10 +155,9 @@ type ArgoCDServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceClustersAgentVersion(ctx context.Context, in *UpdateInstanceClustersAgentVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceClusterCredentials(ctx context.Context, in *RotateInstanceClusterCredentialsRequest, opts ...grpc.CallOption) (*RotateInstanceClusterCredentialsResponse, error)
 	RegenerateManifests(ctx context.Context, in *RegenerateManifestsRequest, opts ...grpc.CallOption) (*RegenerateManifestsResponse, error)
+	SetClusterMaintenanceMode(ctx context.Context, in *SetClusterMaintenanceModeRequest, opts ...grpc.CallOption) (*SetClusterMaintenanceModeResponse, error)
 	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
 	GetInstanceClusterCommand(ctx context.Context, in *GetInstanceClusterCommandRequest, opts ...grpc.CallOption) (*GetInstanceClusterCommandResponse, error)
 	GetAIAssistantUsageStats(ctx context.Context, in *GetAIAssistantUsageStatsRequest, opts ...grpc.CallOption) (*GetAIAssistantUsageStatsResponse, error)
@@ -680,6 +680,15 @@ func (c *argoCDServiceClient) RegenerateManifests(ctx context.Context, in *Regen
 	return out, nil
 }
 
+func (c *argoCDServiceClient) SetClusterMaintenanceMode(ctx context.Context, in *SetClusterMaintenanceModeRequest, opts ...grpc.CallOption) (*SetClusterMaintenanceModeResponse, error) {
+	out := new(SetClusterMaintenanceModeResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_SetClusterMaintenanceMode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error) {
 	out := new(DeleteInstanceClusterResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_DeleteInstanceCluster_FullMethodName, in, out, opts...)
@@ -1108,10 +1117,9 @@ type ArgoCDServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
-	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceClusterCredentials(context.Context, *RotateInstanceClusterCredentialsRequest) (*RotateInstanceClusterCredentialsResponse, error)
 	RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error)
+	SetClusterMaintenanceMode(context.Context, *SetClusterMaintenanceModeRequest) (*SetClusterMaintenanceModeResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
 	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
@@ -1297,6 +1305,9 @@ func (UnimplementedArgoCDServiceServer) RotateInstanceClusterCredentials(context
 }
 func (UnimplementedArgoCDServiceServer) RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegenerateManifests not implemented")
+}
+func (UnimplementedArgoCDServiceServer) SetClusterMaintenanceMode(context.Context, *SetClusterMaintenanceModeRequest) (*SetClusterMaintenanceModeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetClusterMaintenanceMode not implemented")
 }
 func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstanceCluster not implemented")
@@ -2214,6 +2225,24 @@ func _ArgoCDService_RegenerateManifests_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_SetClusterMaintenanceMode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetClusterMaintenanceModeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).SetClusterMaintenanceMode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_SetClusterMaintenanceMode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).SetClusterMaintenanceMode(ctx, req.(*SetClusterMaintenanceModeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_DeleteInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteInstanceClusterRequest)
 	if err := dec(in); err != nil {
@@ -3005,6 +3034,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegenerateManifests",
 			Handler:    _ArgoCDService_RegenerateManifests_Handler,
+		},
+		{
+			MethodName: "SetClusterMaintenanceMode",
+			Handler:    _ArgoCDService_SetClusterMaintenanceMode_Handler,
 		},
 		{
 			MethodName: "DeleteInstanceCluster",

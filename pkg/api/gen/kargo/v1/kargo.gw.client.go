@@ -31,10 +31,9 @@ type KargoServiceGatewayClient interface {
 	GetInstanceAgentCommand(context.Context, *GetInstanceAgentCommandRequest) (*GetInstanceAgentCommandResponse, error)
 	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
 	DeleteInstanceAgent(context.Context, *DeleteInstanceAgentRequest) (*DeleteInstanceAgentResponse, error)
-	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	RotateInstanceAgentCredentials(context.Context, *RotateInstanceAgentCredentialsRequest) (*RotateInstanceAgentCredentialsResponse, error)
 	RegenerateManifests(context.Context, *RegenerateManifestsRequest) (*RegenerateManifestsResponse, error)
+	SetAgentMaintenanceMode(context.Context, *SetAgentMaintenanceModeRequest) (*SetAgentMaintenanceModeResponse, error)
 	UpdateInstanceAgentVersion(context.Context, *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error)
 	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
@@ -317,6 +316,14 @@ func (c *kargoServiceGatewayClient) RegenerateManifests(ctx context.Context, req
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RegenerateManifestsResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) SetAgentMaintenanceMode(ctx context.Context, req *SetAgentMaintenanceModeRequest) (*SetAgentMaintenanceModeResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/set-maintenance-mode")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[SetAgentMaintenanceModeResponse](ctx, gwReq)
 }
 
 func (c *kargoServiceGatewayClient) UpdateInstanceAgentVersion(ctx context.Context, req *UpdateInstanceAgentVersionRequest) (*UpdateInstanceAgentVersionResponse, error) {
