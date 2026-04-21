@@ -31,9 +31,11 @@ const (
 	SystemService_GetAnnouncement_FullMethodName                = "/akuity.system.v1.SystemService/GetAnnouncement"
 	SystemService_ListValidWebhookEvents_FullMethodName         = "/akuity.system.v1.SystemService/ListValidWebhookEvents"
 	SystemService_ListValidEmailEvents_FullMethodName           = "/akuity.system.v1.SystemService/ListValidEmailEvents"
+	SystemService_ListValidNotificationEvents_FullMethodName    = "/akuity.system.v1.SystemService/ListValidNotificationEvents"
 	SystemService_GetArgoCDAgentSizeSpec_FullMethodName         = "/akuity.system.v1.SystemService/GetArgoCDAgentSizeSpec"
 	SystemService_GetKargoAgentSizeSpec_FullMethodName          = "/akuity.system.v1.SystemService/GetKargoAgentSizeSpec"
 	SystemService_ListArgoCDImageUpadterVersions_FullMethodName = "/akuity.system.v1.SystemService/ListArgoCDImageUpadterVersions"
+	SystemService_ListArgoCDToolVersions_FullMethodName         = "/akuity.system.v1.SystemService/ListArgoCDToolVersions"
 )
 
 // SystemServiceClient is the client API for SystemService service.
@@ -61,8 +63,13 @@ type SystemServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAnnouncementResponse, error)
+	// Deprecated: Do not use.
+	// Deprecated: Use ListValidNotificationEvents instead to get all valid events for different notification types in one call.
 	ListValidWebhookEvents(ctx context.Context, in *ListValidWebhookEventsRequest, opts ...grpc.CallOption) (*ListValidWebhookEventsResponse, error)
+	// Deprecated: Do not use.
+	// Deprecated: Use ListValidNotificationEvents instead to get all valid events for different notification types in one call.
 	ListValidEmailEvents(ctx context.Context, in *ListValidEmailEventsRequest, opts ...grpc.CallOption) (*ListValidEmailEventsResponse, error)
+	ListValidNotificationEvents(ctx context.Context, in *ListValidNotificationEventsRequest, opts ...grpc.CallOption) (*ListValidNotificationEventsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetArgoCDAgentSizeSpec(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetArgoCDAgentSizeSpecResponse, error)
@@ -72,6 +79,7 @@ type SystemServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDImageUpadterVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDImageUpadterVersionsResponse, error)
+	ListArgoCDToolVersions(ctx context.Context, in *ListArgoCDToolVersionsRequest, opts ...grpc.CallOption) (*ListArgoCDToolVersionsResponse, error)
 }
 
 type systemServiceClient struct {
@@ -163,6 +171,7 @@ func (c *systemServiceClient) GetAnnouncement(ctx context.Context, in *emptypb.E
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *systemServiceClient) ListValidWebhookEvents(ctx context.Context, in *ListValidWebhookEventsRequest, opts ...grpc.CallOption) (*ListValidWebhookEventsResponse, error) {
 	out := new(ListValidWebhookEventsResponse)
 	err := c.cc.Invoke(ctx, SystemService_ListValidWebhookEvents_FullMethodName, in, out, opts...)
@@ -172,9 +181,19 @@ func (c *systemServiceClient) ListValidWebhookEvents(ctx context.Context, in *Li
 	return out, nil
 }
 
+// Deprecated: Do not use.
 func (c *systemServiceClient) ListValidEmailEvents(ctx context.Context, in *ListValidEmailEventsRequest, opts ...grpc.CallOption) (*ListValidEmailEventsResponse, error) {
 	out := new(ListValidEmailEventsResponse)
 	err := c.cc.Invoke(ctx, SystemService_ListValidEmailEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemServiceClient) ListValidNotificationEvents(ctx context.Context, in *ListValidNotificationEventsRequest, opts ...grpc.CallOption) (*ListValidNotificationEventsResponse, error) {
+	out := new(ListValidNotificationEventsResponse)
+	err := c.cc.Invoke(ctx, SystemService_ListValidNotificationEvents_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -208,6 +227,15 @@ func (c *systemServiceClient) ListArgoCDImageUpadterVersions(ctx context.Context
 	return out, nil
 }
 
+func (c *systemServiceClient) ListArgoCDToolVersions(ctx context.Context, in *ListArgoCDToolVersionsRequest, opts ...grpc.CallOption) (*ListArgoCDToolVersionsResponse, error) {
+	out := new(ListArgoCDToolVersionsResponse)
+	err := c.cc.Invoke(ctx, SystemService_ListArgoCDToolVersions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemServiceServer is the server API for SystemService service.
 // All implementations must embed UnimplementedSystemServiceServer
 // for forward compatibility
@@ -233,8 +261,13 @@ type SystemServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
+	// Deprecated: Do not use.
+	// Deprecated: Use ListValidNotificationEvents instead to get all valid events for different notification types in one call.
 	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
+	// Deprecated: Do not use.
+	// Deprecated: Use ListValidNotificationEvents instead to get all valid events for different notification types in one call.
 	ListValidEmailEvents(context.Context, *ListValidEmailEventsRequest) (*ListValidEmailEventsResponse, error)
+	ListValidNotificationEvents(context.Context, *ListValidNotificationEventsRequest) (*ListValidNotificationEventsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error)
@@ -244,6 +277,7 @@ type SystemServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error)
+	ListArgoCDToolVersions(context.Context, *ListArgoCDToolVersionsRequest) (*ListArgoCDToolVersionsResponse, error)
 	mustEmbedUnimplementedSystemServiceServer()
 }
 
@@ -284,6 +318,9 @@ func (UnimplementedSystemServiceServer) ListValidWebhookEvents(context.Context, 
 func (UnimplementedSystemServiceServer) ListValidEmailEvents(context.Context, *ListValidEmailEventsRequest) (*ListValidEmailEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListValidEmailEvents not implemented")
 }
+func (UnimplementedSystemServiceServer) ListValidNotificationEvents(context.Context, *ListValidNotificationEventsRequest) (*ListValidNotificationEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListValidNotificationEvents not implemented")
+}
 func (UnimplementedSystemServiceServer) GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetArgoCDAgentSizeSpec not implemented")
 }
@@ -292,6 +329,9 @@ func (UnimplementedSystemServiceServer) GetKargoAgentSizeSpec(context.Context, *
 }
 func (UnimplementedSystemServiceServer) ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDImageUpadterVersions not implemented")
+}
+func (UnimplementedSystemServiceServer) ListArgoCDToolVersions(context.Context, *ListArgoCDToolVersionsRequest) (*ListArgoCDToolVersionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDToolVersions not implemented")
 }
 func (UnimplementedSystemServiceServer) mustEmbedUnimplementedSystemServiceServer() {}
 
@@ -504,6 +544,24 @@ func _SystemService_ListValidEmailEvents_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_ListValidNotificationEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListValidNotificationEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListValidNotificationEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListValidNotificationEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListValidNotificationEvents(ctx, req.(*ListValidNotificationEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemService_GetArgoCDAgentSizeSpec_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
@@ -554,6 +612,24 @@ func _SystemService_ListArgoCDImageUpadterVersions_Handler(srv interface{}, ctx 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SystemServiceServer).ListArgoCDImageUpadterVersions(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemService_ListArgoCDToolVersions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListArgoCDToolVersionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).ListArgoCDToolVersions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_ListArgoCDToolVersions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).ListArgoCDToolVersions(ctx, req.(*ListArgoCDToolVersionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -610,6 +686,10 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemService_ListValidEmailEvents_Handler,
 		},
 		{
+			MethodName: "ListValidNotificationEvents",
+			Handler:    _SystemService_ListValidNotificationEvents_Handler,
+		},
+		{
 			MethodName: "GetArgoCDAgentSizeSpec",
 			Handler:    _SystemService_GetArgoCDAgentSizeSpec_Handler,
 		},
@@ -620,6 +700,10 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListArgoCDImageUpadterVersions",
 			Handler:    _SystemService_ListArgoCDImageUpadterVersions_Handler,
+		},
+		{
+			MethodName: "ListArgoCDToolVersions",
+			Handler:    _SystemService_ListArgoCDToolVersions_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

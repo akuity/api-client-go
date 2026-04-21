@@ -47,6 +47,7 @@ const (
 	ArgoCDService_UpdateInstanceResourceCustomizations_FullMethodName  = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceResourceCustomizations"
 	ArgoCDService_UpdateInstanceConfigManagementPlugins_FullMethodName = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceConfigManagementPlugins"
 	ArgoCDService_DeleteInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/DeleteInstance"
+	ArgoCDService_RefreshInstanceRunbookRepo_FullMethodName            = "/akuity.argocd.v1.ArgoCDService/RefreshInstanceRunbookRepo"
 	ArgoCDService_ListInstanceAccounts_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/ListInstanceAccounts"
 	ArgoCDService_UpsertInstanceAccount_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/UpsertInstanceAccount"
 	ArgoCDService_UpdateInstanceAccountPassword_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceAccountPassword"
@@ -132,6 +133,7 @@ type ArgoCDServiceClient interface {
 	UpdateInstanceResourceCustomizations(ctx context.Context, in *UpdateInstanceResourceCustomizationsRequest, opts ...grpc.CallOption) (*UpdateInstanceResourceCustomizationsResponse, error)
 	UpdateInstanceConfigManagementPlugins(ctx context.Context, in *UpdateInstanceConfigManagementPluginsRequest, opts ...grpc.CallOption) (*UpdateInstanceConfigManagementPluginsResponse, error)
 	DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error)
+	RefreshInstanceRunbookRepo(ctx context.Context, in *RefreshInstanceRunbookRepoRequest, opts ...grpc.CallOption) (*RefreshInstanceRunbookRepoResponse, error)
 	ListInstanceAccounts(ctx context.Context, in *ListInstanceAccountsRequest, opts ...grpc.CallOption) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(ctx context.Context, in *UpsertInstanceAccountRequest, opts ...grpc.CallOption) (*UpsertInstanceAccountResponse, error)
 	UpdateInstanceAccountPassword(ctx context.Context, in *UpdateInstanceAccountPasswordRequest, opts ...grpc.CallOption) (*UpdateInstanceAccountPasswordResponse, error)
@@ -466,6 +468,15 @@ func (c *argoCDServiceClient) UpdateInstanceConfigManagementPlugins(ctx context.
 func (c *argoCDServiceClient) DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error) {
 	out := new(DeleteInstanceResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_DeleteInstance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) RefreshInstanceRunbookRepo(ctx context.Context, in *RefreshInstanceRunbookRepoRequest, opts ...grpc.CallOption) (*RefreshInstanceRunbookRepoResponse, error) {
+	out := new(RefreshInstanceRunbookRepoResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_RefreshInstanceRunbookRepo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1094,6 +1105,7 @@ type ArgoCDServiceServer interface {
 	UpdateInstanceResourceCustomizations(context.Context, *UpdateInstanceResourceCustomizationsRequest) (*UpdateInstanceResourceCustomizationsResponse, error)
 	UpdateInstanceConfigManagementPlugins(context.Context, *UpdateInstanceConfigManagementPluginsRequest) (*UpdateInstanceConfigManagementPluginsResponse, error)
 	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
+	RefreshInstanceRunbookRepo(context.Context, *RefreshInstanceRunbookRepoRequest) (*RefreshInstanceRunbookRepoResponse, error)
 	ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error)
 	UpdateInstanceAccountPassword(context.Context, *UpdateInstanceAccountPasswordRequest) (*UpdateInstanceAccountPasswordResponse, error)
@@ -1251,6 +1263,9 @@ func (UnimplementedArgoCDServiceServer) UpdateInstanceConfigManagementPlugins(co
 }
 func (UnimplementedArgoCDServiceServer) DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteInstance not implemented")
+}
+func (UnimplementedArgoCDServiceServer) RefreshInstanceRunbookRepo(context.Context, *RefreshInstanceRunbookRepoRequest) (*RefreshInstanceRunbookRepoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshInstanceRunbookRepo not implemented")
 }
 func (UnimplementedArgoCDServiceServer) ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceAccounts not implemented")
@@ -1891,6 +1906,24 @@ func _ArgoCDService_DeleteInstance_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).DeleteInstance(ctx, req.(*DeleteInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_RefreshInstanceRunbookRepo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshInstanceRunbookRepoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).RefreshInstanceRunbookRepo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_RefreshInstanceRunbookRepo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).RefreshInstanceRunbookRepo(ctx, req.(*RefreshInstanceRunbookRepoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2970,6 +3003,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteInstance",
 			Handler:    _ArgoCDService_DeleteInstance_Handler,
+		},
+		{
+			MethodName: "RefreshInstanceRunbookRepo",
+			Handler:    _ArgoCDService_RefreshInstanceRunbookRepo_Handler,
 		},
 		{
 			MethodName: "ListInstanceAccounts",

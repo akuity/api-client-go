@@ -40,6 +40,7 @@ type ArgoCDServiceGatewayClient interface {
 	UpdateInstanceResourceCustomizations(context.Context, *UpdateInstanceResourceCustomizationsRequest) (*UpdateInstanceResourceCustomizationsResponse, error)
 	UpdateInstanceConfigManagementPlugins(context.Context, *UpdateInstanceConfigManagementPluginsRequest) (*UpdateInstanceConfigManagementPluginsResponse, error)
 	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
+	RefreshInstanceRunbookRepo(context.Context, *RefreshInstanceRunbookRepoRequest) (*RefreshInstanceRunbookRepoResponse, error)
 	ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error)
 	UpdateInstanceAccountPassword(context.Context, *UpdateInstanceAccountPasswordRequest) (*UpdateInstanceAccountPasswordResponse, error)
@@ -349,6 +350,14 @@ func (c *argoCDServiceGatewayClient) DeleteInstance(ctx context.Context, req *De
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[DeleteInstanceResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) RefreshInstanceRunbookRepo(ctx context.Context, req *RefreshInstanceRunbookRepoRequest) (*RefreshInstanceRunbookRepoResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/runbook-repos/refresh")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RefreshInstanceRunbookRepoResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) ListInstanceAccounts(ctx context.Context, req *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error) {

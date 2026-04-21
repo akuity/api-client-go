@@ -5,8 +5,10 @@ package systemv1
 
 import (
 	context "context"
+	fmt "fmt"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	url "net/url"
 )
 
 // SystemServiceGatewayClient is the interface for SystemService service client.
@@ -32,8 +34,11 @@ type SystemServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetAnnouncement(context.Context, *emptypb.Empty) (*GetAnnouncementResponse, error)
+	// Deprecated: Use ListValidNotificationEvents instead to get all valid events for different notification types in one call.
 	ListValidWebhookEvents(context.Context, *ListValidWebhookEventsRequest) (*ListValidWebhookEventsResponse, error)
+	// Deprecated: Use ListValidNotificationEvents instead to get all valid events for different notification types in one call.
 	ListValidEmailEvents(context.Context, *ListValidEmailEventsRequest) (*ListValidEmailEventsResponse, error)
+	ListValidNotificationEvents(context.Context, *ListValidNotificationEventsRequest) (*ListValidNotificationEventsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	GetArgoCDAgentSizeSpec(context.Context, *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error)
@@ -43,6 +48,7 @@ type SystemServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error)
+	ListArgoCDToolVersions(context.Context, *ListArgoCDToolVersionsRequest) (*ListArgoCDToolVersionsResponse, error)
 }
 
 func NewSystemServiceGatewayClient(c gateway.Client) SystemServiceGatewayClient {
@@ -110,6 +116,11 @@ func (c *systemServiceGatewayClient) ListValidEmailEvents(ctx context.Context, r
 	return gateway.DoRequest[ListValidEmailEventsResponse](ctx, gwReq)
 }
 
+func (c *systemServiceGatewayClient) ListValidNotificationEvents(ctx context.Context, req *ListValidNotificationEventsRequest) (*ListValidNotificationEventsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/notification/valid-events")
+	return gateway.DoRequest[ListValidNotificationEventsResponse](ctx, gwReq)
+}
+
 func (c *systemServiceGatewayClient) GetArgoCDAgentSizeSpec(ctx context.Context, req *emptypb.Empty) (*GetArgoCDAgentSizeSpecResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/cd/agent-size-spec")
 	return gateway.DoRequest[GetArgoCDAgentSizeSpecResponse](ctx, gwReq)
@@ -123,4 +134,12 @@ func (c *systemServiceGatewayClient) GetKargoAgentSizeSpec(ctx context.Context, 
 func (c *systemServiceGatewayClient) ListArgoCDImageUpadterVersions(ctx context.Context, req *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/image-updater/versions")
 	return gateway.DoRequest[ListArgoCDImageUpadterVersionsResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) ListArgoCDToolVersions(ctx context.Context, req *ListArgoCDToolVersionsRequest) (*ListArgoCDToolVersionsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/cd/tool-versions")
+	q := url.Values{}
+	q.Add("version", fmt.Sprintf("%v", req.Version))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListArgoCDToolVersionsResponse](ctx, gwReq)
 }

@@ -27,6 +27,7 @@ const (
 	OrganizationService_UpdateOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
 	OrganizationService_DeleteOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
 	OrganizationService_ListOrganizationMembers_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationMembers"
+	OrganizationService_ListOrganizationMembersAndInvitees_FullMethodName     = "/akuity.organization.v1.OrganizationService/ListOrganizationMembersAndInvitees"
 	OrganizationService_ListOrganizationInvitees_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees"
 	OrganizationService_GetUserRoleInOrganization_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization"
 	OrganizationService_InviteMembers_FullMethodName                          = "/akuity.organization.v1.OrganizationService/InviteMembers"
@@ -101,6 +102,7 @@ const (
 	OrganizationService_ListKubernetesImages_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListKubernetesImages"
 	OrganizationService_ListKubernetesImagesToCSV_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesImagesToCSV"
 	OrganizationService_GetKubernetesImageDetail_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetKubernetesImageDetail"
+	OrganizationService_GetKubernetesImagesCVESummary_FullMethodName          = "/akuity.organization.v1.OrganizationService/GetKubernetesImagesCVESummary"
 	OrganizationService_ListKubernetesContainers_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
 	OrganizationService_ListKubernetesContainersToCSV_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesContainersToCSV"
 	OrganizationService_ListKubernetesEnabledClusters_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
@@ -116,6 +118,7 @@ const (
 	OrganizationService_GetKubernetesNamespaceDetail_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetKubernetesNamespaceDetail"
 	OrganizationService_GetKubernetesClusterDetail_FullMethodName             = "/akuity.organization.v1.OrganizationService/GetKubernetesClusterDetail"
 	OrganizationService_GetKubernetesSummary_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetKubernetesSummary"
+	OrganizationService_GetClusterLocations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetClusterLocations"
 	OrganizationService_ListKubernetesPods_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
 	OrganizationService_GetKubernetesPod_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
 	OrganizationService_ListArgoCDApplications_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListArgoCDApplications"
@@ -173,6 +176,7 @@ type OrganizationServiceClient interface {
 	UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*UpdateOrganizationResponse, error)
 	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*DeleteOrganizationResponse, error)
 	ListOrganizationMembers(ctx context.Context, in *ListOrganizationMembersRequest, opts ...grpc.CallOption) (*ListOrganizationMembersResponse, error)
+	ListOrganizationMembersAndInvitees(ctx context.Context, in *ListOrganizationMembersAndInviteesRequest, opts ...grpc.CallOption) (*ListOrganizationMembersAndInviteesResponse, error)
 	ListOrganizationInvitees(ctx context.Context, in *ListOrganizationInviteesRequest, opts ...grpc.CallOption) (*ListOrganizationInviteesResponse, error)
 	GetUserRoleInOrganization(ctx context.Context, in *GetUserRoleInOrganizationRequest, opts ...grpc.CallOption) (*GetUserRoleInOrganizationResponse, error)
 	InviteMembers(ctx context.Context, in *InviteMembersRequest, opts ...grpc.CallOption) (*InviteMembersResponse, error)
@@ -257,6 +261,7 @@ type OrganizationServiceClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesImagesToCSV(ctx context.Context, in *ListKubernetesImagesRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesImagesToCSVClient, error)
 	GetKubernetesImageDetail(ctx context.Context, in *GetKubernetesImageDetailRequest, opts ...grpc.CallOption) (*GetKubernetesImageDetailResponse, error)
+	GetKubernetesImagesCVESummary(ctx context.Context, in *GetKubernetesImagesCVESummaryRequest, opts ...grpc.CallOption) (*GetKubernetesImagesCVESummaryResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -276,6 +281,7 @@ type OrganizationServiceClient interface {
 	GetKubernetesNamespaceDetail(ctx context.Context, in *GetKubernetesNamespaceDetailRequest, opts ...grpc.CallOption) (*GetKubernetesNamespaceDetailResponse, error)
 	GetKubernetesClusterDetail(ctx context.Context, in *GetKubernetesClusterDetailRequest, opts ...grpc.CallOption) (*GetKubernetesClusterDetailResponse, error)
 	GetKubernetesSummary(ctx context.Context, in *GetKubernetesSummaryRequest, opts ...grpc.CallOption) (*GetKubernetesSummaryResponse, error)
+	GetClusterLocations(ctx context.Context, in *GetClusterLocationsRequest, opts ...grpc.CallOption) (*GetClusterLocationsResponse, error)
 	ListKubernetesPods(ctx context.Context, in *ListKubernetesPodsRequest, opts ...grpc.CallOption) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(ctx context.Context, in *GetKubernetesPodRequest, opts ...grpc.CallOption) (*GetKubernetesPodResponse, error)
 	ListArgoCDApplications(ctx context.Context, in *ListArgoCDApplicationsRequest, opts ...grpc.CallOption) (*ListArgoCDApplicationsResponse, error)
@@ -396,6 +402,15 @@ func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, in *
 func (c *organizationServiceClient) ListOrganizationMembers(ctx context.Context, in *ListOrganizationMembersRequest, opts ...grpc.CallOption) (*ListOrganizationMembersResponse, error) {
 	out := new(ListOrganizationMembersResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListOrganizationMembers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListOrganizationMembersAndInvitees(ctx context.Context, in *ListOrganizationMembersAndInviteesRequest, opts ...grpc.CallOption) (*ListOrganizationMembersAndInviteesResponse, error) {
+	out := new(ListOrganizationMembersAndInviteesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListOrganizationMembersAndInvitees_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1137,6 +1152,15 @@ func (c *organizationServiceClient) GetKubernetesImageDetail(ctx context.Context
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetKubernetesImagesCVESummary(ctx context.Context, in *GetKubernetesImagesCVESummaryRequest, opts ...grpc.CallOption) (*GetKubernetesImagesCVESummaryResponse, error) {
+	out := new(GetKubernetesImagesCVESummaryResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesImagesCVESummary_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) ListKubernetesContainers(ctx context.Context, in *ListKubernetesContainersRequest, opts ...grpc.CallOption) (*ListKubernetesContainersResponse, error) {
 	out := new(ListKubernetesContainersResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesContainers_FullMethodName, in, out, opts...)
@@ -1312,6 +1336,15 @@ func (c *organizationServiceClient) GetKubernetesClusterDetail(ctx context.Conte
 func (c *organizationServiceClient) GetKubernetesSummary(ctx context.Context, in *GetKubernetesSummaryRequest, opts ...grpc.CallOption) (*GetKubernetesSummaryResponse, error) {
 	out := new(GetKubernetesSummaryResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesSummary_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetClusterLocations(ctx context.Context, in *GetClusterLocationsRequest, opts ...grpc.CallOption) (*GetClusterLocationsResponse, error) {
+	out := new(GetClusterLocationsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetClusterLocations_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1794,6 +1827,7 @@ type OrganizationServiceServer interface {
 	UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*UpdateOrganizationResponse, error)
 	DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*DeleteOrganizationResponse, error)
 	ListOrganizationMembers(context.Context, *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error)
+	ListOrganizationMembersAndInvitees(context.Context, *ListOrganizationMembersAndInviteesRequest) (*ListOrganizationMembersAndInviteesResponse, error)
 	ListOrganizationInvitees(context.Context, *ListOrganizationInviteesRequest) (*ListOrganizationInviteesResponse, error)
 	GetUserRoleInOrganization(context.Context, *GetUserRoleInOrganizationRequest) (*GetUserRoleInOrganizationResponse, error)
 	InviteMembers(context.Context, *InviteMembersRequest) (*InviteMembersResponse, error)
@@ -1878,6 +1912,7 @@ type OrganizationServiceServer interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesImagesToCSV(*ListKubernetesImagesRequest, OrganizationService_ListKubernetesImagesToCSVServer) error
 	GetKubernetesImageDetail(context.Context, *GetKubernetesImageDetailRequest) (*GetKubernetesImageDetailResponse, error)
+	GetKubernetesImagesCVESummary(context.Context, *GetKubernetesImagesCVESummaryRequest) (*GetKubernetesImagesCVESummaryResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1897,6 +1932,7 @@ type OrganizationServiceServer interface {
 	GetKubernetesNamespaceDetail(context.Context, *GetKubernetesNamespaceDetailRequest) (*GetKubernetesNamespaceDetailResponse, error)
 	GetKubernetesClusterDetail(context.Context, *GetKubernetesClusterDetailRequest) (*GetKubernetesClusterDetailResponse, error)
 	GetKubernetesSummary(context.Context, *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error)
+	GetClusterLocations(context.Context, *GetClusterLocationsRequest) (*GetClusterLocationsResponse, error)
 	ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error)
 	GetKubernetesPod(context.Context, *GetKubernetesPodRequest) (*GetKubernetesPodResponse, error)
 	ListArgoCDApplications(context.Context, *ListArgoCDApplicationsRequest) (*ListArgoCDApplicationsResponse, error)
@@ -1977,6 +2013,9 @@ func (UnimplementedOrganizationServiceServer) DeleteOrganization(context.Context
 }
 func (UnimplementedOrganizationServiceServer) ListOrganizationMembers(context.Context, *ListOrganizationMembersRequest) (*ListOrganizationMembersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationMembers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListOrganizationMembersAndInvitees(context.Context, *ListOrganizationMembersAndInviteesRequest) (*ListOrganizationMembersAndInviteesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationMembersAndInvitees not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListOrganizationInvitees(context.Context, *ListOrganizationInviteesRequest) (*ListOrganizationInviteesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizationInvitees not implemented")
@@ -2200,6 +2239,9 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesImagesToCSV(*ListKub
 func (UnimplementedOrganizationServiceServer) GetKubernetesImageDetail(context.Context, *GetKubernetesImageDetailRequest) (*GetKubernetesImageDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesImageDetail not implemented")
 }
+func (UnimplementedOrganizationServiceServer) GetKubernetesImagesCVESummary(context.Context, *GetKubernetesImagesCVESummaryRequest) (*GetKubernetesImagesCVESummaryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesImagesCVESummary not implemented")
+}
 func (UnimplementedOrganizationServiceServer) ListKubernetesContainers(context.Context, *ListKubernetesContainersRequest) (*ListKubernetesContainersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesContainers not implemented")
 }
@@ -2244,6 +2286,9 @@ func (UnimplementedOrganizationServiceServer) GetKubernetesClusterDetail(context
 }
 func (UnimplementedOrganizationServiceServer) GetKubernetesSummary(context.Context, *GetKubernetesSummaryRequest) (*GetKubernetesSummaryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesSummary not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetClusterLocations(context.Context, *GetClusterLocationsRequest) (*GetClusterLocationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClusterLocations not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListKubernetesPods(context.Context, *ListKubernetesPodsRequest) (*ListKubernetesPodsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesPods not implemented")
@@ -2512,6 +2557,24 @@ func _OrganizationService_ListOrganizationMembers_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).ListOrganizationMembers(ctx, req.(*ListOrganizationMembersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListOrganizationMembersAndInvitees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrganizationMembersAndInviteesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListOrganizationMembersAndInvitees(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListOrganizationMembersAndInvitees_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListOrganizationMembersAndInvitees(ctx, req.(*ListOrganizationMembersAndInviteesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3857,6 +3920,24 @@ func _OrganizationService_GetKubernetesImageDetail_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetKubernetesImagesCVESummary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKubernetesImagesCVESummaryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetKubernetesImagesCVESummary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetKubernetesImagesCVESummary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetKubernetesImagesCVESummary(ctx, req.(*GetKubernetesImagesCVESummaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_ListKubernetesContainers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesContainersRequest)
 	if err := dec(in); err != nil {
@@ -4129,6 +4210,24 @@ func _OrganizationService_GetKubernetesSummary_Handler(srv interface{}, ctx cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).GetKubernetesSummary(ctx, req.(*GetKubernetesSummaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetClusterLocations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetClusterLocationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetClusterLocations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetClusterLocations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetClusterLocations(ctx, req.(*GetClusterLocationsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4970,6 +5069,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_ListOrganizationMembers_Handler,
 		},
 		{
+			MethodName: "ListOrganizationMembersAndInvitees",
+			Handler:    _OrganizationService_ListOrganizationMembersAndInvitees_Handler,
+		},
+		{
 			MethodName: "ListOrganizationInvitees",
 			Handler:    _OrganizationService_ListOrganizationInvitees_Handler,
 		},
@@ -5254,6 +5357,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrganizationService_GetKubernetesImageDetail_Handler,
 		},
 		{
+			MethodName: "GetKubernetesImagesCVESummary",
+			Handler:    _OrganizationService_GetKubernetesImagesCVESummary_Handler,
+		},
+		{
 			MethodName: "ListKubernetesContainers",
 			Handler:    _OrganizationService_ListKubernetesContainers_Handler,
 		},
@@ -5304,6 +5411,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetKubernetesSummary",
 			Handler:    _OrganizationService_GetKubernetesSummary_Handler,
+		},
+		{
+			MethodName: "GetClusterLocations",
+			Handler:    _OrganizationService_GetClusterLocations_Handler,
 		},
 		{
 			MethodName: "ListKubernetesPods",
