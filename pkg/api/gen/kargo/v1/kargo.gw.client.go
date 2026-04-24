@@ -152,6 +152,9 @@ func (c *kargoServiceGatewayClient) ListKargoInstanceAgents(ctx context.Context,
 		if req.Filter.NeedReapply != nil {
 			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
 		}
+		if req.Filter.MaintenanceMode != nil {
+			q.Add("filter.maintenanceMode", fmt.Sprintf("%v", *req.Filter.MaintenanceMode))
+		}
 	}
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
@@ -212,6 +215,9 @@ func (c *kargoServiceGatewayClient) WatchKargoInstanceAgents(ctx context.Context
 		}
 		if req.Filter.NeedReapply != nil {
 			q.Add("filter.needReapply", fmt.Sprintf("%v", *req.Filter.NeedReapply))
+		}
+		if req.Filter.MaintenanceMode != nil {
+			q.Add("filter.maintenanceMode", fmt.Sprintf("%v", *req.Filter.MaintenanceMode))
 		}
 	}
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))

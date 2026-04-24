@@ -17,6 +17,8 @@ const (
 	requestURLMetadataKey   = "x-request-url"
 	refreshTokenMetadataKey = "x-refresh-token"
 	trustedPlatformHeader   = "x-trusted-platform-header"
+
+	UserTokenHeader = userTokenMetadataKey
 )
 
 var allowedHeaders = map[string]bool{

@@ -452,6 +452,9 @@ func (c *argoCDServiceGatewayClient) ListInstanceClusters(ctx context.Context, r
 		if req.Filter.ExcludeDirectCluster != nil {
 			q.Add("filter.excludeDirectCluster", fmt.Sprintf("%v", *req.Filter.ExcludeDirectCluster))
 		}
+		if req.Filter.MaintenanceMode != nil {
+			q.Add("filter.maintenanceMode", fmt.Sprintf("%v", *req.Filter.MaintenanceMode))
+		}
 	}
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
@@ -512,6 +515,9 @@ func (c *argoCDServiceGatewayClient) WatchInstanceClusters(ctx context.Context, 
 		}
 		if req.Filter.ExcludeDirectCluster != nil {
 			q.Add("filter.excludeDirectCluster", fmt.Sprintf("%v", *req.Filter.ExcludeDirectCluster))
+		}
+		if req.Filter.MaintenanceMode != nil {
+			q.Add("filter.maintenanceMode", fmt.Sprintf("%v", *req.Filter.MaintenanceMode))
 		}
 	}
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))

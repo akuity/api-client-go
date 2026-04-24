@@ -20,6 +20,9 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// FeatureStatus is the tri-state result of evaluating a feature gate:
+// unspecified (unknown), not-available (gated off at the platform level
+// so no org can have it), enabled, or disabled.
 type FeatureStatus int32
 
 const (
@@ -72,22 +75,45 @@ func (FeatureStatus) EnumDescriptor() ([]byte, []int) {
 	return file_types_features_v1_features_proto_rawDescGZIP(), []int{0}
 }
 
+// SystemFeatureGates are the platform-wide feature flags (not scoped to a
+// specific organization). They gate system-level capabilities that affect
+// every tenant at once.
 type SystemFeatureGates struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sso                      bool `protobuf:"varint,1,opt,name=sso,proto3" json:"sso,omitempty"`
-	Kargo                    bool `protobuf:"varint,2,opt,name=kargo,proto3" json:"kargo,omitempty"`
-	Autoscaler               bool `protobuf:"varint,3,opt,name=autoscaler,proto3" json:"autoscaler,omitempty"`
-	AiAssistantStats         bool `protobuf:"varint,5,opt,name=ai_assistant_stats,json=aiAssistantStats,proto3" json:"ai_assistant_stats,omitempty"`
+	// Whether SSO (Auth0 enterprise connections, SAML, OIDC) is enabled
+	// platform-wide.
+	Sso bool `protobuf:"varint,1,opt,name=sso,proto3" json:"sso,omitempty"`
+	// Whether the Kargo product is enabled platform-wide.
+	Kargo bool `protobuf:"varint,2,opt,name=kargo,proto3" json:"kargo,omitempty"`
+	// Whether controller autoscaling (app-controller / repo-server replica
+	// and resource scaling) is enabled platform-wide.
+	Autoscaler bool `protobuf:"varint,3,opt,name=autoscaler,proto3" json:"autoscaler,omitempty"`
+	// Whether the AI Assistant analytics dashboard is enabled
+	// platform-wide.
+	AiAssistantStats bool `protobuf:"varint,5,opt,name=ai_assistant_stats,json=aiAssistantStats,proto3" json:"ai_assistant_stats,omitempty"`
+	// Whether the KubeVision multi-cluster Kubernetes dashboard is enabled
+	// platform-wide.
 	MultiClusterK8SDashboard bool `protobuf:"varint,11,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3" json:"multi_cluster_k8s_dashboard,omitempty"`
-	AiSupportEngineer        bool `protobuf:"varint,14,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3" json:"ai_support_engineer,omitempty"`
-	SecretManagement         bool `protobuf:"varint,15,opt,name=secret_management,json=secretManagement,proto3" json:"secret_management,omitempty"`
-	KargoEnterprise          bool `protobuf:"varint,16,opt,name=kargo_enterprise,json=kargoEnterprise,proto3" json:"kargo_enterprise,omitempty"`
-	AkiPermissionModel       bool `protobuf:"varint,17,opt,name=aki_permission_model,json=akiPermissionModel,proto3" json:"aki_permission_model,omitempty"`
-	DragonflyDb              bool `protobuf:"varint,18,opt,name=dragonfly_db,json=dragonflyDb,proto3" json:"dragonfly_db,omitempty"`
-	K3SDbCredRotation        bool `protobuf:"varint,20,opt,name=k3s_db_cred_rotation,json=k3sDbCredRotation,proto3" json:"k3s_db_cred_rotation,omitempty"`
+	// Whether the AI Support Engineer (AKI) experience is enabled
+	// platform-wide.
+	AiSupportEngineer bool `protobuf:"varint,14,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3" json:"ai_support_engineer,omitempty"`
+	// Whether the secret-management feature (cross-cluster secret sync) is
+	// enabled platform-wide.
+	SecretManagement bool `protobuf:"varint,15,opt,name=secret_management,json=secretManagement,proto3" json:"secret_management,omitempty"`
+	// Whether Kargo Enterprise features (advanced stages, analysis, etc.)
+	// are enabled platform-wide.
+	KargoEnterprise bool `protobuf:"varint,16,opt,name=kargo_enterprise,json=kargoEnterprise,proto3" json:"kargo_enterprise,omitempty"`
+	// Whether the new Akuity Intelligence permission model is enabled
+	// platform-wide.
+	AkiPermissionModel bool `protobuf:"varint,17,opt,name=aki_permission_model,json=akiPermissionModel,proto3" json:"aki_permission_model,omitempty"`
+	// Whether DragonflyDB is used as the Redis replacement platform-wide.
+	DragonflyDb bool `protobuf:"varint,18,opt,name=dragonfly_db,json=dragonflyDb,proto3" json:"dragonfly_db,omitempty"`
+	// Whether automatic K3s database credential rotation is enabled
+	// platform-wide.
+	K3SDbCredRotation bool `protobuf:"varint,20,opt,name=k3s_db_cred_rotation,json=k3sDbCredRotation,proto3" json:"k3s_db_cred_rotation,omitempty"`
 }
 
 func (x *SystemFeatureGates) Reset() {
@@ -199,55 +225,104 @@ func (x *SystemFeatureGates) GetK3SDbCredRotation() bool {
 	return false
 }
 
+// OrganizationFeatureGates are the per-organization feature flags. Each
+// field is an `optional bool` so the absence of a value means "inherit
+// default"; true / false are explicit enable / disable.
 type OrganizationFeatureGates struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sso                            *bool    `protobuf:"varint,1,opt,name=sso,proto3,oneof" json:"sso,omitempty"`
-	Shards                         []string `protobuf:"bytes,2,rep,name=shards,proto3" json:"shards,omitempty"`
-	Kargo                          *bool    `protobuf:"varint,3,opt,name=kargo,proto3,oneof" json:"kargo,omitempty"`
-	K3SProxyInformers              *bool    `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,oneof" json:"k3s_proxy_informers,omitempty"`
-	Team                           *bool    `protobuf:"varint,5,opt,name=team,proto3,oneof" json:"team,omitempty"`
-	AuditRecordExport              *bool    `protobuf:"varint,6,opt,name=audit_record_export,json=auditRecordExport,proto3,oneof" json:"audit_record_export,omitempty"`
-	Workspaces                     *bool    `protobuf:"varint,7,opt,name=workspaces,proto3,oneof" json:"workspaces,omitempty"`
-	CustomRoles                    *bool    `protobuf:"varint,8,opt,name=custom_roles,json=customRoles,proto3,oneof" json:"custom_roles,omitempty"`
-	ScopedApiKeys                  *bool    `protobuf:"varint,9,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,oneof" json:"scoped_api_keys,omitempty"`
-	ArgocdSso                      *bool    `protobuf:"varint,10,opt,name=argocd_sso,json=argocdSso,proto3,oneof" json:"argocd_sso,omitempty"`
-	ArgocdHaControlPlane           *bool    `protobuf:"varint,11,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,oneof" json:"argocd_ha_control_plane,omitempty"`
-	AkuityArgocdExtensions         *bool    `protobuf:"varint,12,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,oneof" json:"akuity_argocd_extensions,omitempty"`
-	AppOfApps                      *bool    `protobuf:"varint,13,opt,name=app_of_apps,json=appOfApps,proto3,oneof" json:"app_of_apps,omitempty"`
-	ApplicationSetController       *bool    `protobuf:"varint,14,opt,name=application_set_controller,json=applicationSetController,proto3,oneof" json:"application_set_controller,omitempty"`
-	ArgocdCustomSubdomain          *bool    `protobuf:"varint,15,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,oneof" json:"argocd_custom_subdomain,omitempty"`
-	ArgocdCustomDomain             *bool    `protobuf:"varint,16,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,oneof" json:"argocd_custom_domain,omitempty"`
-	ArgocdFlexibleArchitecture     *bool    `protobuf:"varint,17,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,oneof" json:"argocd_flexible_architecture,omitempty"`
-	ArgocdAgentStateReplication    *bool    `protobuf:"varint,18,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,oneof" json:"argocd_agent_state_replication,omitempty"`
-	ArgocdDeepLinks                *bool    `protobuf:"varint,19,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,oneof" json:"argocd_deep_links,omitempty"`
-	ArgocdCustomStyles             *bool    `protobuf:"varint,20,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,oneof" json:"argocd_custom_styles,omitempty"`
-	ConfigManagementPlugins        *bool    `protobuf:"varint,21,opt,name=config_management_plugins,json=configManagementPlugins,proto3,oneof" json:"config_management_plugins,omitempty"`
-	AuditArchive                   *bool    `protobuf:"varint,22,opt,name=audit_archive,json=auditArchive,proto3,oneof" json:"audit_archive,omitempty"`
-	MultiClusterK8SDashboard       *bool    `protobuf:"varint,23,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,oneof" json:"multi_cluster_k8s_dashboard,omitempty"`
-	ArgocdClusterIntegration       *bool    `protobuf:"varint,24,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,oneof" json:"argocd_cluster_integration,omitempty"`
-	Notification                   *bool    `protobuf:"varint,25,opt,name=notification,proto3,oneof" json:"notification,omitempty"`
-	FleetManagement                *bool    `protobuf:"varint,27,opt,name=fleet_management,json=fleetManagement,proto3,oneof" json:"fleet_management,omitempty"`
-	Pgpool                         *bool    `protobuf:"varint,28,opt,name=pgpool,proto3,oneof" json:"pgpool,omitempty"`
-	AiSupportEngineer              *bool    `protobuf:"varint,29,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,oneof" json:"ai_support_engineer,omitempty"`
-	Pgbouncer                      *bool    `protobuf:"varint,30,opt,name=pgbouncer,proto3,oneof" json:"pgbouncer,omitempty"`
-	MultiFactorAuth                *bool    `protobuf:"varint,31,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,oneof" json:"multi_factor_auth,omitempty"`
-	KargoAnalysisLogs              *bool    `protobuf:"varint,32,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,oneof" json:"kargo_analysis_logs,omitempty"`
-	KargoEnterprise                *bool    `protobuf:"varint,33,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,oneof" json:"kargo_enterprise,omitempty"`
-	OidcMap                        *bool    `protobuf:"varint,34,opt,name=oidc_map,json=oidcMap,proto3,oneof" json:"oidc_map,omitempty"`
-	EksAddon                       *bool    `protobuf:"varint,35,opt,name=eks_addon,json=eksAddon,proto3,oneof" json:"eks_addon,omitempty"`
-	K3STrafficReduction            *bool    `protobuf:"varint,36,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,oneof" json:"k3s_traffic_reduction,omitempty"`
-	RedisTrafficReduction          *bool    `protobuf:"varint,37,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,oneof" json:"redis_traffic_reduction,omitempty"`
-	DragonflyDb                    *bool    `protobuf:"varint,38,opt,name=dragonfly_db,json=dragonflyDb,proto3,oneof" json:"dragonfly_db,omitempty"`
-	AkiAiModelSelection            *bool    `protobuf:"varint,39,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,oneof" json:"aki_ai_model_selection,omitempty"`
-	RelaxedClusterNameValidation   *bool    `protobuf:"varint,40,opt,name=relaxed_cluster_name_validation,json=relaxedClusterNameValidation,proto3,oneof" json:"relaxed_cluster_name_validation,omitempty"`
-	K3SDbCredRotation              *bool    `protobuf:"varint,41,opt,name=k3s_db_cred_rotation,json=k3sDbCredRotation,proto3,oneof" json:"k3s_db_cred_rotation,omitempty"`
-	ArgocdUpboundIntegration       *bool    `protobuf:"varint,42,opt,name=argocd_upbound_integration,json=argocdUpboundIntegration,proto3,oneof" json:"argocd_upbound_integration,omitempty"`
-	ControllerProcessorAutoscaling *bool    `protobuf:"varint,43,opt,name=controller_processor_autoscaling,json=controllerProcessorAutoscaling,proto3,oneof" json:"controller_processor_autoscaling,omitempty"`
-	AgentAppControllerAutoscaler   *bool    `protobuf:"varint,44,opt,name=agent_app_controller_autoscaler,json=agentAppControllerAutoscaler,proto3,oneof" json:"agent_app_controller_autoscaler,omitempty"`
-	ClusterLevelRepoAccess         *bool    `protobuf:"varint,45,opt,name=cluster_level_repo_access,json=clusterLevelRepoAccess,proto3,oneof" json:"cluster_level_repo_access,omitempty"`
+	// Enables Single Sign-On (SAML / OIDC) for the organization.
+	Sso *bool `protobuf:"varint,1,opt,name=sso,proto3,oneof" json:"sso,omitempty"`
+	// List of workload-cluster shard names the organization is pinned to.
+	Shards []string `protobuf:"bytes,2,rep,name=shards,proto3" json:"shards,omitempty"`
+	// Enables the Kargo product for this organization.
+	Kargo *bool `protobuf:"varint,3,opt,name=kargo,proto3,oneof" json:"kargo,omitempty"`
+	// Enables the K3s proxy informers optimization.
+	K3SProxyInformers *bool `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,oneof" json:"k3s_proxy_informers,omitempty"`
+	// Enables organization Teams (group-of-users) functionality.
+	Team *bool `protobuf:"varint,5,opt,name=team,proto3,oneof" json:"team,omitempty"`
+	// Enables exporting archived audit records to customer storage.
+	AuditRecordExport *bool `protobuf:"varint,6,opt,name=audit_record_export,json=auditRecordExport,proto3,oneof" json:"audit_record_export,omitempty"`
+	// Enables workspaces (sub-organization scoping of instances and members).
+	Workspaces *bool `protobuf:"varint,7,opt,name=workspaces,proto3,oneof" json:"workspaces,omitempty"`
+	// Enables user-defined custom roles in addition to built-in org roles.
+	CustomRoles *bool `protobuf:"varint,8,opt,name=custom_roles,json=customRoles,proto3,oneof" json:"custom_roles,omitempty"`
+	// Enables scoping API keys to specific resources instead of the whole org.
+	ScopedApiKeys *bool `protobuf:"varint,9,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,oneof" json:"scoped_api_keys,omitempty"`
+	// Enables configuring SSO directly on Argo CD instances.
+	ArgocdSso *bool `protobuf:"varint,10,opt,name=argocd_sso,json=argocdSso,proto3,oneof" json:"argocd_sso,omitempty"`
+	// Enables HA Argo CD control plane (multi-replica api/application/repo).
+	ArgocdHaControlPlane *bool `protobuf:"varint,11,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,oneof" json:"argocd_ha_control_plane,omitempty"`
+	// Enables the Akuity-built Argo CD UI extensions bundle.
+	AkuityArgocdExtensions *bool `protobuf:"varint,12,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,oneof" json:"akuity_argocd_extensions,omitempty"`
+	// Enables App-of-Apps patterns (root applications managing child apps).
+	AppOfApps *bool `protobuf:"varint,13,opt,name=app_of_apps,json=appOfApps,proto3,oneof" json:"app_of_apps,omitempty"`
+	// Enables the Argo CD ApplicationSet controller.
+	ApplicationSetController *bool `protobuf:"varint,14,opt,name=application_set_controller,json=applicationSetController,proto3,oneof" json:"application_set_controller,omitempty"`
+	// Enables custom Argo CD subdomains under akuity.cloud.
+	ArgocdCustomSubdomain *bool `protobuf:"varint,15,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,oneof" json:"argocd_custom_subdomain,omitempty"`
+	// Enables attaching a fully custom DNS domain to an Argo CD instance.
+	ArgocdCustomDomain *bool `protobuf:"varint,16,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,oneof" json:"argocd_custom_domain,omitempty"`
+	// Enables the flexible control-plane architecture (delegated components).
+	ArgocdFlexibleArchitecture *bool `protobuf:"varint,17,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,oneof" json:"argocd_flexible_architecture,omitempty"`
+	// Enables replicating Argo CD agent state to the control plane for faster
+	// UI reads.
+	ArgocdAgentStateReplication *bool `protobuf:"varint,18,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,oneof" json:"argocd_agent_state_replication,omitempty"`
+	// Enables Argo CD Deep Links (custom links on application / project views).
+	ArgocdDeepLinks *bool `protobuf:"varint,19,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,oneof" json:"argocd_deep_links,omitempty"`
+	// Enables uploading custom CSS / branding for the Argo CD UI.
+	ArgocdCustomStyles *bool `protobuf:"varint,20,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,oneof" json:"argocd_custom_styles,omitempty"`
+	// Enables Argo CD Config Management Plugins.
+	ConfigManagementPlugins *bool `protobuf:"varint,21,opt,name=config_management_plugins,json=configManagementPlugins,proto3,oneof" json:"config_management_plugins,omitempty"`
+	// Enables long-term archival of audit records.
+	AuditArchive *bool `protobuf:"varint,22,opt,name=audit_archive,json=auditArchive,proto3,oneof" json:"audit_archive,omitempty"`
+	// Enables the KubeVision multi-cluster Kubernetes dashboard for this org.
+	MultiClusterK8SDashboard *bool `protobuf:"varint,23,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,oneof" json:"multi_cluster_k8s_dashboard,omitempty"`
+	// Enables the Argo CD cluster integration surface (managed clusters UX).
+	ArgocdClusterIntegration *bool `protobuf:"varint,24,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,oneof" json:"argocd_cluster_integration,omitempty"`
+	// Enables the notification pipeline (Slack, email, webhooks).
+	Notification *bool `protobuf:"varint,25,opt,name=notification,proto3,oneof" json:"notification,omitempty"`
+	// Enables multi-instance fleet-management features.
+	FleetManagement *bool `protobuf:"varint,27,opt,name=fleet_management,json=fleetManagement,proto3,oneof" json:"fleet_management,omitempty"`
+	// Enables pgpool connection pooling in front of the database.
+	Pgpool *bool `protobuf:"varint,28,opt,name=pgpool,proto3,oneof" json:"pgpool,omitempty"`
+	// Enables the AI Support Engineer (AKI) experience for this org.
+	AiSupportEngineer *bool `protobuf:"varint,29,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,oneof" json:"ai_support_engineer,omitempty"`
+	// Enables pgbouncer connection pooling in front of the database.
+	Pgbouncer *bool `protobuf:"varint,30,opt,name=pgbouncer,proto3,oneof" json:"pgbouncer,omitempty"`
+	// Enforces MFA for all organization members.
+	MultiFactorAuth *bool `protobuf:"varint,31,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,oneof" json:"multi_factor_auth,omitempty"`
+	// Enables Kargo analysis-run log streaming.
+	KargoAnalysisLogs *bool `protobuf:"varint,32,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,oneof" json:"kargo_analysis_logs,omitempty"`
+	// Enables Kargo Enterprise features for this organization.
+	KargoEnterprise *bool `protobuf:"varint,33,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,oneof" json:"kargo_enterprise,omitempty"`
+	// Enables mapping OIDC claims to Akuity organization roles.
+	OidcMap *bool `protobuf:"varint,34,opt,name=oidc_map,json=oidcMap,proto3,oneof" json:"oidc_map,omitempty"`
+	// Enables the AWS EKS add-on integration.
+	EksAddon *bool `protobuf:"varint,35,opt,name=eks_addon,json=eksAddon,proto3,oneof" json:"eks_addon,omitempty"`
+	// Enables the K3s traffic-reduction optimization.
+	K3STrafficReduction *bool `protobuf:"varint,36,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,oneof" json:"k3s_traffic_reduction,omitempty"`
+	// Enables the Redis traffic-reduction optimization.
+	RedisTrafficReduction *bool `protobuf:"varint,37,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,oneof" json:"redis_traffic_reduction,omitempty"`
+	// Enables DragonflyDB as the Redis replacement for this org's instances.
+	DragonflyDb *bool `protobuf:"varint,38,opt,name=dragonfly_db,json=dragonflyDb,proto3,oneof" json:"dragonfly_db,omitempty"`
+	// Enables choosing which AI model version AKI uses per-org.
+	AkiAiModelSelection *bool `protobuf:"varint,39,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,oneof" json:"aki_ai_model_selection,omitempty"`
+	// Relaxes cluster-name validation rules (allows names that would
+	// otherwise be rejected).
+	RelaxedClusterNameValidation *bool `protobuf:"varint,40,opt,name=relaxed_cluster_name_validation,json=relaxedClusterNameValidation,proto3,oneof" json:"relaxed_cluster_name_validation,omitempty"`
+	// Enables automatic K3s DB credential rotation for this org.
+	K3SDbCredRotation *bool `protobuf:"varint,41,opt,name=k3s_db_cred_rotation,json=k3sDbCredRotation,proto3,oneof" json:"k3s_db_cred_rotation,omitempty"`
+	// Enables the Upbound integration exposed through Argo CD.
+	ArgocdUpboundIntegration *bool `protobuf:"varint,42,opt,name=argocd_upbound_integration,json=argocdUpboundIntegration,proto3,oneof" json:"argocd_upbound_integration,omitempty"`
+	// Enables autoscaling for controller processors (worker pools) in the
+	// control plane.
+	ControllerProcessorAutoscaling *bool `protobuf:"varint,43,opt,name=controller_processor_autoscaling,json=controllerProcessorAutoscaling,proto3,oneof" json:"controller_processor_autoscaling,omitempty"`
+	// Enables Argo CD application-controller autoscaling on managed agents.
+	AgentAppControllerAutoscaler *bool `protobuf:"varint,44,opt,name=agent_app_controller_autoscaler,json=agentAppControllerAutoscaler,proto3,oneof" json:"agent_app_controller_autoscaler,omitempty"`
+	ClusterLevelRepoAccess       *bool `protobuf:"varint,45,opt,name=cluster_level_repo_access,json=clusterLevelRepoAccess,proto3,oneof" json:"cluster_level_repo_access,omitempty"`
 }
 
 func (x *OrganizationFeatureGates) Reset() {
@@ -590,59 +665,110 @@ func (x *OrganizationFeatureGates) GetClusterLevelRepoAccess() bool {
 	return false
 }
 
+// FeatureStatuses is the resolved per-feature status for an organization —
+// the result of folding platform-level availability and per-org overrides
+// into a tri-state. Field semantics mirror OrganizationFeatureGates above;
+// see that message for per-field descriptions.
 type FeatureStatuses struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Sso                            FeatureStatus `protobuf:"varint,1,opt,name=sso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"sso,omitempty"`
-	Kargo                          FeatureStatus `protobuf:"varint,2,opt,name=kargo,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo,omitempty"`
-	Autoscaler                     FeatureStatus `protobuf:"varint,3,opt,name=autoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"autoscaler,omitempty"`
-	K3SProxyInformers              FeatureStatus `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_proxy_informers,omitempty"`
-	AiAssistantStats               FeatureStatus `protobuf:"varint,5,opt,name=ai_assistant_stats,json=aiAssistantStats,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_assistant_stats,omitempty"`
-	Team                           FeatureStatus `protobuf:"varint,7,opt,name=team,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"team,omitempty"`
-	Notification                   FeatureStatus `protobuf:"varint,10,opt,name=notification,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"notification,omitempty"`
-	MultiClusterK8SDashboard       FeatureStatus `protobuf:"varint,11,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_cluster_k8s_dashboard,omitempty"`
-	FleetManagement                FeatureStatus `protobuf:"varint,13,opt,name=fleet_management,json=fleetManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"fleet_management,omitempty"`
-	AiSupportEngineer              FeatureStatus `protobuf:"varint,14,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_support_engineer,omitempty"`
-	SecretManagement               FeatureStatus `protobuf:"varint,15,opt,name=secret_management,json=secretManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"secret_management,omitempty"`
-	Shards                         []string      `protobuf:"bytes,16,rep,name=shards,proto3" json:"shards,omitempty"`
-	AuditRecordExport              FeatureStatus `protobuf:"varint,17,opt,name=audit_record_export,json=auditRecordExport,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_record_export,omitempty"`
-	Workspaces                     FeatureStatus `protobuf:"varint,18,opt,name=workspaces,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"workspaces,omitempty"`
-	CustomRoles                    FeatureStatus `protobuf:"varint,19,opt,name=custom_roles,json=customRoles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"custom_roles,omitempty"`
-	ScopedApiKeys                  FeatureStatus `protobuf:"varint,20,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"scoped_api_keys,omitempty"`
-	ArgocdSso                      FeatureStatus `protobuf:"varint,21,opt,name=argocd_sso,json=argocdSso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_sso,omitempty"`
-	ArgocdHaControlPlane           FeatureStatus `protobuf:"varint,22,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_ha_control_plane,omitempty"`
-	AkuityArgocdExtensions         FeatureStatus `protobuf:"varint,23,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"akuity_argocd_extensions,omitempty"`
-	AppOfApps                      FeatureStatus `protobuf:"varint,24,opt,name=app_of_apps,json=appOfApps,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"app_of_apps,omitempty"`
-	ApplicationSetController       FeatureStatus `protobuf:"varint,25,opt,name=application_set_controller,json=applicationSetController,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"application_set_controller,omitempty"`
-	ArgocdCustomSubdomain          FeatureStatus `protobuf:"varint,26,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_subdomain,omitempty"`
-	ArgocdCustomDomain             FeatureStatus `protobuf:"varint,27,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_domain,omitempty"`
-	ArgocdFlexibleArchitecture     FeatureStatus `protobuf:"varint,28,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_flexible_architecture,omitempty"`
-	ArgocdAgentStateReplication    FeatureStatus `protobuf:"varint,29,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_agent_state_replication,omitempty"`
-	ArgocdDeepLinks                FeatureStatus `protobuf:"varint,30,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_deep_links,omitempty"`
-	ArgocdCustomStyles             FeatureStatus `protobuf:"varint,31,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_styles,omitempty"`
-	ConfigManagementPlugins        FeatureStatus `protobuf:"varint,32,opt,name=config_management_plugins,json=configManagementPlugins,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"config_management_plugins,omitempty"`
-	AuditArchive                   FeatureStatus `protobuf:"varint,33,opt,name=audit_archive,json=auditArchive,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_archive,omitempty"`
-	ArgocdClusterIntegration       FeatureStatus `protobuf:"varint,34,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_cluster_integration,omitempty"`
-	Pgpool                         FeatureStatus `protobuf:"varint,35,opt,name=pgpool,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgpool,omitempty"`
-	Pgbouncer                      FeatureStatus `protobuf:"varint,36,opt,name=pgbouncer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgbouncer,omitempty"`
-	MultiFactorAuth                FeatureStatus `protobuf:"varint,37,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_factor_auth,omitempty"`
-	KargoAnalysisLogs              FeatureStatus `protobuf:"varint,38,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_analysis_logs,omitempty"`
-	KargoEnterprise                FeatureStatus `protobuf:"varint,39,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_enterprise,omitempty"`
-	OidcMap                        FeatureStatus `protobuf:"varint,40,opt,name=oidc_map,json=oidcMap,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"oidc_map,omitempty"`
-	EksAddon                       FeatureStatus `protobuf:"varint,41,opt,name=eks_addon,json=eksAddon,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"eks_addon,omitempty"`
-	K3STrafficReduction            FeatureStatus `protobuf:"varint,42,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_traffic_reduction,omitempty"`
-	RedisTrafficReduction          FeatureStatus `protobuf:"varint,43,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"redis_traffic_reduction,omitempty"`
-	AkiPermissionModel             FeatureStatus `protobuf:"varint,44,opt,name=aki_permission_model,json=akiPermissionModel,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_permission_model,omitempty"`
-	DragonflyDb                    FeatureStatus `protobuf:"varint,45,opt,name=dragonfly_db,json=dragonflyDb,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"dragonfly_db,omitempty"`
-	AkiAiModelSelection            FeatureStatus `protobuf:"varint,46,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_ai_model_selection,omitempty"`
-	RelaxedClusterNameValidation   FeatureStatus `protobuf:"varint,47,opt,name=relaxed_cluster_name_validation,json=relaxedClusterNameValidation,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"relaxed_cluster_name_validation,omitempty"`
-	K3SDbCredRotation              FeatureStatus `protobuf:"varint,48,opt,name=k3s_db_cred_rotation,json=k3sDbCredRotation,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_db_cred_rotation,omitempty"`
-	ArgocdUpboundIntegration       FeatureStatus `protobuf:"varint,49,opt,name=argocd_upbound_integration,json=argocdUpboundIntegration,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_upbound_integration,omitempty"`
+	// Resolved status of SSO for this organization.
+	Sso FeatureStatus `protobuf:"varint,1,opt,name=sso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"sso,omitempty"`
+	// Resolved status of Kargo for this organization.
+	Kargo FeatureStatus `protobuf:"varint,2,opt,name=kargo,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo,omitempty"`
+	// Resolved status of the controller autoscaling feature.
+	Autoscaler FeatureStatus `protobuf:"varint,3,opt,name=autoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"autoscaler,omitempty"`
+	// Resolved status of the K3s proxy-informers optimization.
+	K3SProxyInformers FeatureStatus `protobuf:"varint,4,opt,name=k3s_proxy_informers,json=k3sProxyInformers,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_proxy_informers,omitempty"`
+	// Resolved status of the AI Assistant analytics dashboard.
+	AiAssistantStats FeatureStatus `protobuf:"varint,5,opt,name=ai_assistant_stats,json=aiAssistantStats,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_assistant_stats,omitempty"`
+	// Resolved status of the Teams feature.
+	Team FeatureStatus `protobuf:"varint,7,opt,name=team,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"team,omitempty"`
+	// Resolved status of the notification pipeline.
+	Notification FeatureStatus `protobuf:"varint,10,opt,name=notification,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"notification,omitempty"`
+	// Resolved status of the KubeVision multi-cluster k8s dashboard.
+	MultiClusterK8SDashboard FeatureStatus `protobuf:"varint,11,opt,name=multi_cluster_k8s_dashboard,json=multiClusterK8sDashboard,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_cluster_k8s_dashboard,omitempty"`
+	// Resolved status of multi-instance fleet management.
+	FleetManagement FeatureStatus `protobuf:"varint,13,opt,name=fleet_management,json=fleetManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"fleet_management,omitempty"`
+	// Resolved status of the AI Support Engineer (AKI).
+	AiSupportEngineer FeatureStatus `protobuf:"varint,14,opt,name=ai_support_engineer,json=aiSupportEngineer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"ai_support_engineer,omitempty"`
+	// Resolved status of the secret-management feature.
+	SecretManagement FeatureStatus `protobuf:"varint,15,opt,name=secret_management,json=secretManagement,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"secret_management,omitempty"`
+	// Workload-cluster shard names the organization is pinned to.
+	Shards []string `protobuf:"bytes,16,rep,name=shards,proto3" json:"shards,omitempty"`
+	// Resolved status of audit-record export.
+	AuditRecordExport FeatureStatus `protobuf:"varint,17,opt,name=audit_record_export,json=auditRecordExport,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_record_export,omitempty"`
+	// Resolved status of workspaces.
+	Workspaces FeatureStatus `protobuf:"varint,18,opt,name=workspaces,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"workspaces,omitempty"`
+	// Resolved status of custom roles.
+	CustomRoles FeatureStatus `protobuf:"varint,19,opt,name=custom_roles,json=customRoles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"custom_roles,omitempty"`
+	// Resolved status of scoped API keys.
+	ScopedApiKeys FeatureStatus `protobuf:"varint,20,opt,name=scoped_api_keys,json=scopedApiKeys,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"scoped_api_keys,omitempty"`
+	// Resolved status of Argo CD SSO (per-instance).
+	ArgocdSso FeatureStatus `protobuf:"varint,21,opt,name=argocd_sso,json=argocdSso,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_sso,omitempty"`
+	// Resolved status of the HA Argo CD control plane.
+	ArgocdHaControlPlane FeatureStatus `protobuf:"varint,22,opt,name=argocd_ha_control_plane,json=argocdHaControlPlane,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_ha_control_plane,omitempty"`
+	// Resolved status of the Akuity Argo CD UI extensions bundle.
+	AkuityArgocdExtensions FeatureStatus `protobuf:"varint,23,opt,name=akuity_argocd_extensions,json=akuityArgocdExtensions,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"akuity_argocd_extensions,omitempty"`
+	// Resolved status of app-of-apps patterns.
+	AppOfApps FeatureStatus `protobuf:"varint,24,opt,name=app_of_apps,json=appOfApps,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"app_of_apps,omitempty"`
+	// Resolved status of the Argo CD ApplicationSet controller.
+	ApplicationSetController FeatureStatus `protobuf:"varint,25,opt,name=application_set_controller,json=applicationSetController,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"application_set_controller,omitempty"`
+	// Resolved status of custom Argo CD subdomains.
+	ArgocdCustomSubdomain FeatureStatus `protobuf:"varint,26,opt,name=argocd_custom_subdomain,json=argocdCustomSubdomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_subdomain,omitempty"`
+	// Resolved status of fully-custom Argo CD domains.
+	ArgocdCustomDomain FeatureStatus `protobuf:"varint,27,opt,name=argocd_custom_domain,json=argocdCustomDomain,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_domain,omitempty"`
+	// Resolved status of the flexible control-plane architecture.
+	ArgocdFlexibleArchitecture FeatureStatus `protobuf:"varint,28,opt,name=argocd_flexible_architecture,json=argocdFlexibleArchitecture,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_flexible_architecture,omitempty"`
+	// Resolved status of Argo CD agent state replication.
+	ArgocdAgentStateReplication FeatureStatus `protobuf:"varint,29,opt,name=argocd_agent_state_replication,json=argocdAgentStateReplication,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_agent_state_replication,omitempty"`
+	// Resolved status of Argo CD Deep Links.
+	ArgocdDeepLinks FeatureStatus `protobuf:"varint,30,opt,name=argocd_deep_links,json=argocdDeepLinks,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_deep_links,omitempty"`
+	// Resolved status of Argo CD custom styles.
+	ArgocdCustomStyles FeatureStatus `protobuf:"varint,31,opt,name=argocd_custom_styles,json=argocdCustomStyles,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_custom_styles,omitempty"`
+	// Resolved status of Argo CD Config Management Plugins.
+	ConfigManagementPlugins FeatureStatus `protobuf:"varint,32,opt,name=config_management_plugins,json=configManagementPlugins,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"config_management_plugins,omitempty"`
+	// Resolved status of long-term audit-record archival.
+	AuditArchive FeatureStatus `protobuf:"varint,33,opt,name=audit_archive,json=auditArchive,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"audit_archive,omitempty"`
+	// Resolved status of the Argo CD cluster-integration surface.
+	ArgocdClusterIntegration FeatureStatus `protobuf:"varint,34,opt,name=argocd_cluster_integration,json=argocdClusterIntegration,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_cluster_integration,omitempty"`
+	// Resolved status of pgpool connection pooling.
+	Pgpool FeatureStatus `protobuf:"varint,35,opt,name=pgpool,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgpool,omitempty"`
+	// Resolved status of pgbouncer connection pooling.
+	Pgbouncer FeatureStatus `protobuf:"varint,36,opt,name=pgbouncer,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"pgbouncer,omitempty"`
+	// Resolved status of enforced MFA.
+	MultiFactorAuth FeatureStatus `protobuf:"varint,37,opt,name=multi_factor_auth,json=multiFactorAuth,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"multi_factor_auth,omitempty"`
+	// Resolved status of Kargo analysis-run logs.
+	KargoAnalysisLogs FeatureStatus `protobuf:"varint,38,opt,name=kargo_analysis_logs,json=kargoAnalysisLogs,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_analysis_logs,omitempty"`
+	// Resolved status of Kargo Enterprise features.
+	KargoEnterprise FeatureStatus `protobuf:"varint,39,opt,name=kargo_enterprise,json=kargoEnterprise,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"kargo_enterprise,omitempty"`
+	// Resolved status of OIDC-to-org-role claim mapping.
+	OidcMap FeatureStatus `protobuf:"varint,40,opt,name=oidc_map,json=oidcMap,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"oidc_map,omitempty"`
+	// Resolved status of the AWS EKS add-on integration.
+	EksAddon FeatureStatus `protobuf:"varint,41,opt,name=eks_addon,json=eksAddon,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"eks_addon,omitempty"`
+	// Resolved status of K3s traffic reduction.
+	K3STrafficReduction FeatureStatus `protobuf:"varint,42,opt,name=k3s_traffic_reduction,json=k3sTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_traffic_reduction,omitempty"`
+	// Resolved status of Redis traffic reduction.
+	RedisTrafficReduction FeatureStatus `protobuf:"varint,43,opt,name=redis_traffic_reduction,json=redisTrafficReduction,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"redis_traffic_reduction,omitempty"`
+	// Resolved status of the new AKI permission model.
+	AkiPermissionModel FeatureStatus `protobuf:"varint,44,opt,name=aki_permission_model,json=akiPermissionModel,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_permission_model,omitempty"`
+	// Resolved status of DragonflyDB as Redis replacement.
+	DragonflyDb FeatureStatus `protobuf:"varint,45,opt,name=dragonfly_db,json=dragonflyDb,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"dragonfly_db,omitempty"`
+	// Resolved status of AKI AI model selection.
+	AkiAiModelSelection FeatureStatus `protobuf:"varint,46,opt,name=aki_ai_model_selection,json=akiAiModelSelection,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"aki_ai_model_selection,omitempty"`
+	// Resolved status of relaxed cluster-name validation.
+	RelaxedClusterNameValidation FeatureStatus `protobuf:"varint,47,opt,name=relaxed_cluster_name_validation,json=relaxedClusterNameValidation,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"relaxed_cluster_name_validation,omitempty"`
+	// Resolved status of K3s DB credential rotation.
+	K3SDbCredRotation FeatureStatus `protobuf:"varint,48,opt,name=k3s_db_cred_rotation,json=k3sDbCredRotation,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"k3s_db_cred_rotation,omitempty"`
+	// Resolved status of the Argo CD Upbound integration.
+	ArgocdUpboundIntegration FeatureStatus `protobuf:"varint,49,opt,name=argocd_upbound_integration,json=argocdUpboundIntegration,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"argocd_upbound_integration,omitempty"`
+	// Resolved status of controller processor autoscaling.
 	ControllerProcessorAutoscaling FeatureStatus `protobuf:"varint,51,opt,name=controller_processor_autoscaling,json=controllerProcessorAutoscaling,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"controller_processor_autoscaling,omitempty"`
-	AgentAppControllerAutoscaler   FeatureStatus `protobuf:"varint,52,opt,name=agent_app_controller_autoscaler,json=agentAppControllerAutoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"agent_app_controller_autoscaler,omitempty"`
-	ClusterLevelRepoAccess         FeatureStatus `protobuf:"varint,53,opt,name=cluster_level_repo_access,json=clusterLevelRepoAccess,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"cluster_level_repo_access,omitempty"`
+	// Resolved status of the agent application-controller autoscaler.
+	AgentAppControllerAutoscaler FeatureStatus `protobuf:"varint,52,opt,name=agent_app_controller_autoscaler,json=agentAppControllerAutoscaler,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"agent_app_controller_autoscaler,omitempty"`
+	ClusterLevelRepoAccess       FeatureStatus `protobuf:"varint,53,opt,name=cluster_level_repo_access,json=clusterLevelRepoAccess,proto3,enum=akuity.types.features.v1.FeatureStatus" json:"cluster_level_repo_access,omitempty"`
 }
 
 func (x *FeatureStatuses) Reset() {
@@ -1021,19 +1147,30 @@ type OrganizationQuota struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MaxInstances             int64   `protobuf:"varint,1,opt,name=max_instances,json=maxInstances,proto3" json:"max_instances,omitempty"`
-	MaxClusters              int64   `protobuf:"varint,2,opt,name=max_clusters,json=maxClusters,proto3" json:"max_clusters,omitempty"`
-	MaxApplications          int64   `protobuf:"varint,3,opt,name=max_applications,json=maxApplications,proto3" json:"max_applications,omitempty"`
-	MaxKargoInstances        int64   `protobuf:"varint,4,opt,name=max_kargo_instances,json=maxKargoInstances,proto3" json:"max_kargo_instances,omitempty"`
-	MaxKargoProjects         int64   `protobuf:"varint,5,opt,name=max_kargo_projects,json=maxKargoProjects,proto3" json:"max_kargo_projects,omitempty"` // Deprecated: we use stages now
-	MaxKargoAgents           int64   `protobuf:"varint,6,opt,name=max_kargo_agents,json=maxKargoAgents,proto3" json:"max_kargo_agents,omitempty"`
-	AuditRecordMonths        int64   `protobuf:"varint,7,opt,name=audit_record_months,json=auditRecordMonths,proto3" json:"audit_record_months,omitempty"`
-	AuditRecordArchiveMonths int64   `protobuf:"varint,8,opt,name=audit_record_archive_months,json=auditRecordArchiveMonths,proto3" json:"audit_record_archive_months,omitempty"`
-	MaxOrgMembers            int64   `protobuf:"varint,9,opt,name=max_org_members,json=maxOrgMembers,proto3" json:"max_org_members,omitempty"`
-	MaxWorkspaces            int64   `protobuf:"varint,10,opt,name=max_workspaces,json=maxWorkspaces,proto3" json:"max_workspaces,omitempty"`
-	MaxKargoStages           int64   `protobuf:"varint,11,opt,name=max_kargo_stages,json=maxKargoStages,proto3" json:"max_kargo_stages,omitempty"`
-	MaxAiCostPerMonth        float64 `protobuf:"fixed64,12,opt,name=max_ai_cost_per_month,json=maxAiCostPerMonth,proto3" json:"max_ai_cost_per_month,omitempty"`
-	MaxAiTokensPerMonth      int64   `protobuf:"varint,13,opt,name=max_ai_tokens_per_month,json=maxAiTokensPerMonth,proto3" json:"max_ai_tokens_per_month,omitempty"` // Calculated field based on ai cost per month
+	// Maximum number of Argo CD instances the org may create.
+	MaxInstances int64 `protobuf:"varint,1,opt,name=max_instances,json=maxInstances,proto3" json:"max_instances,omitempty"`
+	// Maximum number of managed clusters (across all instances) the org may attach.
+	MaxClusters int64 `protobuf:"varint,2,opt,name=max_clusters,json=maxClusters,proto3" json:"max_clusters,omitempty"`
+	// Maximum number of Argo CD applications (across all instances).
+	MaxApplications int64 `protobuf:"varint,3,opt,name=max_applications,json=maxApplications,proto3" json:"max_applications,omitempty"`
+	// Maximum number of Kargo instances the org may create.
+	MaxKargoInstances int64 `protobuf:"varint,4,opt,name=max_kargo_instances,json=maxKargoInstances,proto3" json:"max_kargo_instances,omitempty"`
+	MaxKargoProjects  int64 `protobuf:"varint,5,opt,name=max_kargo_projects,json=maxKargoProjects,proto3" json:"max_kargo_projects,omitempty"` // Deprecated: we use stages now
+	// Maximum number of Kargo agents (across all Kargo instances).
+	MaxKargoAgents int64 `protobuf:"varint,6,opt,name=max_kargo_agents,json=maxKargoAgents,proto3" json:"max_kargo_agents,omitempty"`
+	// Number of months of audit records retained online.
+	AuditRecordMonths int64 `protobuf:"varint,7,opt,name=audit_record_months,json=auditRecordMonths,proto3" json:"audit_record_months,omitempty"`
+	// Number of months of audit records retained in cold archive storage.
+	AuditRecordArchiveMonths int64 `protobuf:"varint,8,opt,name=audit_record_archive_months,json=auditRecordArchiveMonths,proto3" json:"audit_record_archive_months,omitempty"`
+	// Maximum number of organization members.
+	MaxOrgMembers int64 `protobuf:"varint,9,opt,name=max_org_members,json=maxOrgMembers,proto3" json:"max_org_members,omitempty"`
+	// Maximum number of workspaces.
+	MaxWorkspaces int64 `protobuf:"varint,10,opt,name=max_workspaces,json=maxWorkspaces,proto3" json:"max_workspaces,omitempty"`
+	// Maximum number of Kargo stages across all projects.
+	MaxKargoStages int64 `protobuf:"varint,11,opt,name=max_kargo_stages,json=maxKargoStages,proto3" json:"max_kargo_stages,omitempty"`
+	// Maximum monthly AI cost budget in USD.
+	MaxAiCostPerMonth   float64 `protobuf:"fixed64,12,opt,name=max_ai_cost_per_month,json=maxAiCostPerMonth,proto3" json:"max_ai_cost_per_month,omitempty"`
+	MaxAiTokensPerMonth int64   `protobuf:"varint,13,opt,name=max_ai_tokens_per_month,json=maxAiTokensPerMonth,proto3" json:"max_ai_tokens_per_month,omitempty"` // Calculated field based on ai cost per month
 }
 
 func (x *OrganizationQuota) Reset() {
@@ -1165,17 +1302,27 @@ type OrganizationUsage struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CurrentInstances        int64   `protobuf:"varint,1,opt,name=current_instances,json=currentInstances,proto3" json:"current_instances,omitempty"`
-	CurrentClusters         int64   `protobuf:"varint,2,opt,name=current_clusters,json=currentClusters,proto3" json:"current_clusters,omitempty"`
-	CurrentApplications     int64   `protobuf:"varint,3,opt,name=current_applications,json=currentApplications,proto3" json:"current_applications,omitempty"`
-	CurrentKargoInstances   int64   `protobuf:"varint,4,opt,name=current_kargo_instances,json=currentKargoInstances,proto3" json:"current_kargo_instances,omitempty"`
-	CurrentKargoProjects    int64   `protobuf:"varint,5,opt,name=current_kargo_projects,json=currentKargoProjects,proto3" json:"current_kargo_projects,omitempty"` // Deprecated: we use stages now
-	CurrentKargoAgents      int64   `protobuf:"varint,6,opt,name=current_kargo_agents,json=currentKargoAgents,proto3" json:"current_kargo_agents,omitempty"`
-	CurrentOrgMembers       int64   `protobuf:"varint,7,opt,name=current_org_members,json=currentOrgMembers,proto3" json:"current_org_members,omitempty"`
-	CurrentWorkspaces       int64   `protobuf:"varint,8,opt,name=current_workspaces,json=currentWorkspaces,proto3" json:"current_workspaces,omitempty"`
-	CurrentKargoStages      int64   `protobuf:"varint,9,opt,name=current_kargo_stages,json=currentKargoStages,proto3" json:"current_kargo_stages,omitempty"`
-	CurrentAiTokensPerMonth int64   `protobuf:"varint,10,opt,name=current_ai_tokens_per_month,json=currentAiTokensPerMonth,proto3" json:"current_ai_tokens_per_month,omitempty"`
-	CurrentAiCostPerMonth   float64 `protobuf:"fixed64,11,opt,name=current_ai_cost_per_month,json=currentAiCostPerMonth,proto3" json:"current_ai_cost_per_month,omitempty"`
+	// Current Argo CD instance count for the org.
+	CurrentInstances int64 `protobuf:"varint,1,opt,name=current_instances,json=currentInstances,proto3" json:"current_instances,omitempty"`
+	// Current managed cluster count for the org (across all instances).
+	CurrentClusters int64 `protobuf:"varint,2,opt,name=current_clusters,json=currentClusters,proto3" json:"current_clusters,omitempty"`
+	// Current Argo CD application count for the org (across all instances).
+	CurrentApplications int64 `protobuf:"varint,3,opt,name=current_applications,json=currentApplications,proto3" json:"current_applications,omitempty"`
+	// Current Kargo instance count for the org.
+	CurrentKargoInstances int64 `protobuf:"varint,4,opt,name=current_kargo_instances,json=currentKargoInstances,proto3" json:"current_kargo_instances,omitempty"`
+	CurrentKargoProjects  int64 `protobuf:"varint,5,opt,name=current_kargo_projects,json=currentKargoProjects,proto3" json:"current_kargo_projects,omitempty"` // Deprecated: we use stages now
+	// Current Kargo agent count for the org (across all Kargo instances).
+	CurrentKargoAgents int64 `protobuf:"varint,6,opt,name=current_kargo_agents,json=currentKargoAgents,proto3" json:"current_kargo_agents,omitempty"`
+	// Current organization member count.
+	CurrentOrgMembers int64 `protobuf:"varint,7,opt,name=current_org_members,json=currentOrgMembers,proto3" json:"current_org_members,omitempty"`
+	// Current workspace count for the org.
+	CurrentWorkspaces int64 `protobuf:"varint,8,opt,name=current_workspaces,json=currentWorkspaces,proto3" json:"current_workspaces,omitempty"`
+	// Current Kargo stage count across all projects.
+	CurrentKargoStages int64 `protobuf:"varint,9,opt,name=current_kargo_stages,json=currentKargoStages,proto3" json:"current_kargo_stages,omitempty"`
+	// Total AI tokens consumed so far in the current month.
+	CurrentAiTokensPerMonth int64 `protobuf:"varint,10,opt,name=current_ai_tokens_per_month,json=currentAiTokensPerMonth,proto3" json:"current_ai_tokens_per_month,omitempty"`
+	// Total AI cost (USD) consumed so far in the current month.
+	CurrentAiCostPerMonth float64 `protobuf:"fixed64,11,opt,name=current_ai_cost_per_month,json=currentAiCostPerMonth,proto3" json:"current_ai_cost_per_month,omitempty"`
 }
 
 func (x *OrganizationUsage) Reset() {

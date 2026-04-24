@@ -29,7 +29,7 @@ func (a APIKeyCredential) Scheme() string {
 }
 
 func (a APIKeyCredential) Credential() string {
-	return base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", a.ID, a.Secret)))
+	return base64.StdEncoding.EncodeToString(fmt.Appendf(nil, "%s:%s", a.ID, a.Secret))
 }
 
 type UserCredential struct {

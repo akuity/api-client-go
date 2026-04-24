@@ -24873,24 +24873,40 @@ type ListAIConversationsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OrganizationId      string               `protobuf:"bytes,1,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
-	InstanceId          *string              `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3,oneof" json:"instance_id,omitempty"`
-	IncidentOnly        *bool                `protobuf:"varint,3,opt,name=incident_only,json=incidentOnly,proto3,oneof" json:"incident_only,omitempty"`
-	IncidentStatus      *IncidentStatus      `protobuf:"varint,4,opt,name=incident_status,json=incidentStatus,proto3,enum=akuity.organization.v1.IncidentStatus,oneof" json:"incident_status,omitempty"`
-	Application         *string              `protobuf:"bytes,5,opt,name=application,proto3,oneof" json:"application,omitempty"`
-	Namespace           *string              `protobuf:"bytes,6,opt,name=namespace,proto3,oneof" json:"namespace,omitempty"`
-	TitleContains       *string              `protobuf:"bytes,7,opt,name=title_contains,json=titleContains,proto3,oneof" json:"title_contains,omitempty"`
-	Offset              *uint32              `protobuf:"varint,8,opt,name=offset,proto3,oneof" json:"offset,omitempty"`
-	Limit               *uint32              `protobuf:"varint,9,opt,name=limit,proto3,oneof" json:"limit,omitempty"`
-	ClusterId           *string              `protobuf:"bytes,10,opt,name=cluster_id,json=clusterId,proto3,oneof" json:"cluster_id,omitempty"`
-	KargoProject        *string              `protobuf:"bytes,11,opt,name=kargo_project,json=kargoProject,proto3,oneof" json:"kargo_project,omitempty"`
-	KargoInstanceId     *string              `protobuf:"bytes,12,opt,name=kargo_instance_id,json=kargoInstanceId,proto3,oneof" json:"kargo_instance_id,omitempty"`
-	ScheduledTaskOnly   *bool                `protobuf:"varint,13,opt,name=scheduled_task_only,json=scheduledTaskOnly,proto3,oneof" json:"scheduled_task_only,omitempty"`
+	// Organization whose AI conversations should be listed.
+	OrganizationId string `protobuf:"bytes,1,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
+	// If set, scopes results to conversations opened against this ArgoCD instance.
+	InstanceId *string `protobuf:"bytes,2,opt,name=instance_id,json=instanceId,proto3,oneof" json:"instance_id,omitempty"`
+	// If true, return only conversations linked to an incident investigation.
+	IncidentOnly *bool `protobuf:"varint,3,opt,name=incident_only,json=incidentOnly,proto3,oneof" json:"incident_only,omitempty"`
+	// Filter by incident status (e.g. OPEN, RESOLVED). Only meaningful together with incident_only.
+	IncidentStatus *IncidentStatus `protobuf:"varint,4,opt,name=incident_status,json=incidentStatus,proto3,enum=akuity.organization.v1.IncidentStatus,oneof" json:"incident_status,omitempty"`
+	// Filter by ArgoCD application name the conversation operates on.
+	Application *string `protobuf:"bytes,5,opt,name=application,proto3,oneof" json:"application,omitempty"`
+	// Filter by Kubernetes namespace the conversation operates on.
+	Namespace *string `protobuf:"bytes,6,opt,name=namespace,proto3,oneof" json:"namespace,omitempty"`
+	// Case-insensitive substring match on the conversation title.
+	TitleContains *string `protobuf:"bytes,7,opt,name=title_contains,json=titleContains,proto3,oneof" json:"title_contains,omitempty"`
+	// Pagination offset. Combined with limit to page through the result set.
+	Offset *uint32 `protobuf:"varint,8,opt,name=offset,proto3,oneof" json:"offset,omitempty"`
+	// Maximum number of conversations to return in one page.
+	Limit *uint32 `protobuf:"varint,9,opt,name=limit,proto3,oneof" json:"limit,omitempty"`
+	// Filter by cluster ID the conversation operates on.
+	ClusterId *string `protobuf:"bytes,10,opt,name=cluster_id,json=clusterId,proto3,oneof" json:"cluster_id,omitempty"`
+	// Filter by Kargo project name.
+	KargoProject *string `protobuf:"bytes,11,opt,name=kargo_project,json=kargoProject,proto3,oneof" json:"kargo_project,omitempty"`
+	// If set, scopes results to conversations opened against this Kargo instance.
+	KargoInstanceId *string `protobuf:"bytes,12,opt,name=kargo_instance_id,json=kargoInstanceId,proto3,oneof" json:"kargo_instance_id,omitempty"`
+	// If true, return only conversations created by a scheduled task.
+	ScheduledTaskOnly *bool `protobuf:"varint,13,opt,name=scheduled_task_only,json=scheduledTaskOnly,proto3,oneof" json:"scheduled_task_only,omitempty"`
+	// Filter by scheduled-task status. Only meaningful together with scheduled_task_only.
 	ScheduledTaskStatus *ScheduledTaskStatus `protobuf:"varint,14,opt,name=scheduled_task_status,json=scheduledTaskStatus,proto3,enum=akuity.organization.v1.ScheduledTaskStatus,oneof" json:"scheduled_task_status,omitempty"`
-	// Optional time range filters in RFC3339 format, applied on last_update_time
+	// Inclusive lower bound on last_update_time. RFC3339 format.
 	StartTime *string `protobuf:"bytes,15,opt,name=start_time,json=startTime,proto3,oneof" json:"start_time,omitempty"`
-	EndTime   *string `protobuf:"bytes,16,opt,name=end_time,json=endTime,proto3,oneof" json:"end_time,omitempty"`
-	// Optional filter: only conversations that have at least one user message
+	// Inclusive upper bound on last_update_time. RFC3339 format.
+	EndTime *string `protobuf:"bytes,16,opt,name=end_time,json=endTime,proto3,oneof" json:"end_time,omitempty"`
+	// If true, return only conversations where a human user has sent at least one message
+	// (as opposed to purely server-generated investigations).
 	HasUserInteractions *bool `protobuf:"varint,17,opt,name=has_user_interactions,json=hasUserInteractions,proto3,oneof" json:"has_user_interactions,omitempty"`
 }
 
@@ -25050,8 +25066,10 @@ type ListAIConversationsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// Conversations matching the request filters, ordered by last_update_time descending.
 	Conversations []*AIConversation `protobuf:"bytes,1,rep,name=conversations,proto3" json:"conversations,omitempty"`
-	Count         uint32            `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	// Total number of conversations matching the filters, across all pages.
+	Count uint32 `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
 }
 
 func (x *ListAIConversationsResponse) Reset() {
@@ -26829,33 +26847,69 @@ func (x *SlackInfo) GetPermalink() string {
 	return ""
 }
 
+// AIConversation is one session between a user (or scheduled task) and the
+// Akuity AI assistant. It carries the full message history, resource context,
+// and any incident / Kargo-promotion analysis the conversation is tied to.
 type AIConversation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id                  string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Title               string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	CreateTime          *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	LastUpdateTime      *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_update_time,json=lastUpdateTime,proto3" json:"last_update_time,omitempty"`
-	Messages            []*AIMessage           `protobuf:"bytes,5,rep,name=messages,proto3" json:"messages,omitempty"`
-	Processing          bool                   `protobuf:"varint,6,opt,name=processing,proto3" json:"processing,omitempty"`
-	Public              bool                   `protobuf:"varint,7,opt,name=public,proto3" json:"public,omitempty"`
-	OwnedByMe           bool                   `protobuf:"varint,8,opt,name=owned_by_me,json=ownedByMe,proto3" json:"owned_by_me,omitempty"`
-	Contexts            []*AIMessageContext    `protobuf:"bytes,9,rep,name=contexts,proto3" json:"contexts,omitempty"`
-	ProcessingError     string                 `protobuf:"bytes,10,opt,name=processing_error,json=processingError,proto3" json:"processing_error,omitempty"`
-	Incident            *Incident              `protobuf:"bytes,11,opt,name=incident,proto3,oneof" json:"incident,omitempty"`
-	Feedbacks           []string               `protobuf:"bytes,12,rep,name=feedbacks,proto3" json:"feedbacks,omitempty"`
-	PromotionAnalysis   *PromotionAnalysis     `protobuf:"bytes,13,opt,name=promotion_analysis,json=promotionAnalysis,proto3,oneof" json:"promotion_analysis,omitempty"`
-	InstanceId          string                 `protobuf:"bytes,14,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
-	Runbooks            []*AIMessageRunbook    `protobuf:"bytes,15,rep,name=runbooks,proto3" json:"runbooks,omitempty"`
-	HasUserInteractions bool                   `protobuf:"varint,16,opt,name=has_user_interactions,json=hasUserInteractions,proto3" json:"has_user_interactions,omitempty"`
-	SlackInfo           *SlackInfo             `protobuf:"bytes,17,opt,name=slack_info,json=slackInfo,proto3,oneof" json:"slack_info,omitempty"`
-	KargoInstanceId     string                 `protobuf:"bytes,18,opt,name=kargo_instance_id,json=kargoInstanceId,proto3" json:"kargo_instance_id,omitempty"`
-	ScheduledTask       *ScheduledTask         `protobuf:"bytes,19,opt,name=scheduled_task,json=scheduledTask,proto3,oneof" json:"scheduled_task,omitempty"`
-	// if processing_error is fatal error, user interactions will be blocked
+	// Server-assigned conversation ID.
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	// Human-readable title of the conversation; server-generated from the first
+	// user message or the incident/scheduled-task that opened it.
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// Time the conversation was created.
+	CreateTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	// Time the conversation was last updated — covers new messages, status
+	// changes, and metadata edits. Used as the primary sort key.
+	LastUpdateTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_update_time,json=lastUpdateTime,proto3" json:"last_update_time,omitempty"`
+	// Chronological message history (oldest first). May be empty for conversations
+	// that were created but never processed.
+	Messages []*AIMessage `protobuf:"bytes,5,rep,name=messages,proto3" json:"messages,omitempty"`
+	// True while the server is still generating a response; the caller should
+	// poll or subscribe to the streaming endpoint rather than treat the
+	// conversation as complete.
+	Processing bool `protobuf:"varint,6,opt,name=processing,proto3" json:"processing,omitempty"`
+	// True if the conversation is visible to other organization members; false
+	// if it is private to the creator.
+	Public bool `protobuf:"varint,7,opt,name=public,proto3" json:"public,omitempty"`
+	// True when the current caller is the user who created this conversation.
+	// Server-computed per-request; different callers will see different values.
+	OwnedByMe bool `protobuf:"varint,8,opt,name=owned_by_me,json=ownedByMe,proto3" json:"owned_by_me,omitempty"`
+	// Resource references (application, namespace, cluster, etc.) the
+	// conversation is scoped to.
+	Contexts []*AIMessageContext `protobuf:"bytes,9,rep,name=contexts,proto3" json:"contexts,omitempty"`
+	// Populated with a human-readable error message when processing failed.
+	// Empty when the conversation is healthy.
+	ProcessingError string `protobuf:"bytes,10,opt,name=processing_error,json=processingError,proto3" json:"processing_error,omitempty"`
+	// Incident metadata when the conversation is linked to an incident
+	// investigation.
+	Incident *Incident `protobuf:"bytes,11,opt,name=incident,proto3,oneof" json:"incident,omitempty"`
+	// IDs of user-submitted feedback records attached to this conversation.
+	Feedbacks []string `protobuf:"bytes,12,rep,name=feedbacks,proto3" json:"feedbacks,omitempty"`
+	// Kargo-specific: populated when the conversation analyzes a promotion.
+	PromotionAnalysis *PromotionAnalysis `protobuf:"bytes,13,opt,name=promotion_analysis,json=promotionAnalysis,proto3,oneof" json:"promotion_analysis,omitempty"`
+	// The ArgoCD instance this conversation is scoped to, if any.
+	InstanceId string `protobuf:"bytes,14,opt,name=instance_id,json=instanceId,proto3" json:"instance_id,omitempty"`
+	// Runbooks attached to the conversation, if any.
+	Runbooks []*AIMessageRunbook `protobuf:"bytes,15,rep,name=runbooks,proto3" json:"runbooks,omitempty"`
+	// True when at least one user-authored message exists. False for purely
+	// server-generated investigations that no human has engaged with.
+	HasUserInteractions bool `protobuf:"varint,16,opt,name=has_user_interactions,json=hasUserInteractions,proto3" json:"has_user_interactions,omitempty"`
+	// Origin metadata when the conversation was opened from Slack.
+	SlackInfo *SlackInfo `protobuf:"bytes,17,opt,name=slack_info,json=slackInfo,proto3,oneof" json:"slack_info,omitempty"`
+	// The Kargo instance this conversation is scoped to, if any.
+	KargoInstanceId string `protobuf:"bytes,18,opt,name=kargo_instance_id,json=kargoInstanceId,proto3" json:"kargo_instance_id,omitempty"`
+	// Scheduled-task origin when the conversation was opened by one.
+	ScheduledTask *ScheduledTask `protobuf:"bytes,19,opt,name=scheduled_task,json=scheduledTask,proto3,oneof" json:"scheduled_task,omitempty"`
+	// If true, the processing_error is terminal — further user input to this
+	// conversation is blocked.
 	ProcessingErrorIsFatal bool `protobuf:"varint,20,opt,name=processing_error_is_fatal,json=processingErrorIsFatal,proto3" json:"processing_error_is_fatal,omitempty"`
-	Suspended              bool `protobuf:"varint,21,opt,name=suspended,proto3" json:"suspended,omitempty"`
+	// True when an AIMS operator has suspended the conversation; user
+	// interactions are halted until it is un-suspended.
+	Suspended bool `protobuf:"varint,21,opt,name=suspended,proto3" json:"suspended,omitempty"`
 }
 
 func (x *AIConversation) Reset() {
