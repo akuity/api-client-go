@@ -31,7 +31,7 @@ func TestSetGet(t *testing.T) {
 			testKey := "testKey"
 			expectedValue := "testValue"
 			ctx := testSet.ctxFn()
-			newCtx := Set[string](ctx, testKey, expectedValue)
+			newCtx := Set(ctx, testKey, expectedValue)
 			if testSet.newCtxExpected {
 				require.Equal(t, ctx, newCtx)
 			} else {

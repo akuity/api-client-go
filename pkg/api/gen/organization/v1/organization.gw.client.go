@@ -179,6 +179,13 @@ type OrganizationServiceGatewayClient interface {
 	ListAITools(context.Context, *ListAIToolsRequest) (*ListAIToolsResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
 	UpdateAIConversationFeedback(context.Context, *UpdateAIConversationFeedbackRequest) (*UpdateAIConversationFeedbackResponse, error)
+	InstallMCPServer(context.Context, *InstallMCPServerRequest) (*InstallMCPServerResponse, error)
+	GetMCPServer(context.Context, *GetMCPServerRequest) (*GetMCPServerResponse, error)
+	ListMCPServers(context.Context, *ListMCPServersRequest) (*ListMCPServersResponse, error)
+	UpdateMCPServer(context.Context, *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error)
+	UninstallMCPServer(context.Context, *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error)
+	ListManagedMCPServers(context.Context, *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error)
+	DiscoverMCPServerTools(context.Context, *DiscoverMCPServerToolsRequest) (*DiscoverMCPServerToolsResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -3326,4 +3333,61 @@ func (c *organizationServiceGatewayClient) UpdateAIConversationFeedback(ctx cont
 	gwReq.SetPathParam("conversation_id", fmt.Sprintf("%v", req.ConversationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateAIConversationFeedbackResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) InstallMCPServer(ctx context.Context, req *InstallMCPServerRequest) (*InstallMCPServerResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/mcp-servers")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[InstallMCPServerResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetMCPServer(ctx context.Context, req *GetMCPServerRequest) (*GetMCPServerResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/mcp-servers/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	return gateway.DoRequest[GetMCPServerResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListMCPServers(ctx context.Context, req *ListMCPServersRequest) (*ListMCPServersResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/mcp-servers")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	q := url.Values{}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[ListMCPServersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateMCPServer(ctx context.Context, req *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/mcp-servers/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateMCPServerResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UninstallMCPServer(ctx context.Context, req *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/mcp-servers/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UninstallMCPServerResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListManagedMCPServers(ctx context.Context, req *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/mcp-marketplace")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListManagedMCPServersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DiscoverMCPServerTools(ctx context.Context, req *DiscoverMCPServerToolsRequest) (*DiscoverMCPServerToolsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/mcp-servers/discover-tools")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DiscoverMCPServerToolsResponse](ctx, gwReq)
 }

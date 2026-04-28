@@ -163,6 +163,13 @@ const (
 	OrganizationService_ListAITools_FullMethodName                            = "/akuity.organization.v1.OrganizationService/ListAITools"
 	OrganizationService_UpdateAIMessageFeedback_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateAIMessageFeedback"
 	OrganizationService_UpdateAIConversationFeedback_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateAIConversationFeedback"
+	OrganizationService_InstallMCPServer_FullMethodName                       = "/akuity.organization.v1.OrganizationService/InstallMCPServer"
+	OrganizationService_GetMCPServer_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetMCPServer"
+	OrganizationService_ListMCPServers_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListMCPServers"
+	OrganizationService_UpdateMCPServer_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateMCPServer"
+	OrganizationService_UninstallMCPServer_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UninstallMCPServer"
+	OrganizationService_ListManagedMCPServers_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListManagedMCPServers"
+	OrganizationService_DiscoverMCPServerTools_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DiscoverMCPServerTools"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -335,6 +342,13 @@ type OrganizationServiceClient interface {
 	ListAITools(ctx context.Context, in *ListAIToolsRequest, opts ...grpc.CallOption) (*ListAIToolsResponse, error)
 	UpdateAIMessageFeedback(ctx context.Context, in *UpdateAIMessageFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIMessageFeedbackResponse, error)
 	UpdateAIConversationFeedback(ctx context.Context, in *UpdateAIConversationFeedbackRequest, opts ...grpc.CallOption) (*UpdateAIConversationFeedbackResponse, error)
+	InstallMCPServer(ctx context.Context, in *InstallMCPServerRequest, opts ...grpc.CallOption) (*InstallMCPServerResponse, error)
+	GetMCPServer(ctx context.Context, in *GetMCPServerRequest, opts ...grpc.CallOption) (*GetMCPServerResponse, error)
+	ListMCPServers(ctx context.Context, in *ListMCPServersRequest, opts ...grpc.CallOption) (*ListMCPServersResponse, error)
+	UpdateMCPServer(ctx context.Context, in *UpdateMCPServerRequest, opts ...grpc.CallOption) (*UpdateMCPServerResponse, error)
+	UninstallMCPServer(ctx context.Context, in *UninstallMCPServerRequest, opts ...grpc.CallOption) (*UninstallMCPServerResponse, error)
+	ListManagedMCPServers(ctx context.Context, in *ListManagedMCPServersRequest, opts ...grpc.CallOption) (*ListManagedMCPServersResponse, error)
+	DiscoverMCPServerTools(ctx context.Context, in *DiscoverMCPServerToolsRequest, opts ...grpc.CallOption) (*DiscoverMCPServerToolsResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -1816,6 +1830,69 @@ func (c *organizationServiceClient) UpdateAIConversationFeedback(ctx context.Con
 	return out, nil
 }
 
+func (c *organizationServiceClient) InstallMCPServer(ctx context.Context, in *InstallMCPServerRequest, opts ...grpc.CallOption) (*InstallMCPServerResponse, error) {
+	out := new(InstallMCPServerResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_InstallMCPServer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) GetMCPServer(ctx context.Context, in *GetMCPServerRequest, opts ...grpc.CallOption) (*GetMCPServerResponse, error) {
+	out := new(GetMCPServerResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetMCPServer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListMCPServers(ctx context.Context, in *ListMCPServersRequest, opts ...grpc.CallOption) (*ListMCPServersResponse, error) {
+	out := new(ListMCPServersResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListMCPServers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateMCPServer(ctx context.Context, in *UpdateMCPServerRequest, opts ...grpc.CallOption) (*UpdateMCPServerResponse, error) {
+	out := new(UpdateMCPServerResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateMCPServer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UninstallMCPServer(ctx context.Context, in *UninstallMCPServerRequest, opts ...grpc.CallOption) (*UninstallMCPServerResponse, error) {
+	out := new(UninstallMCPServerResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UninstallMCPServer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListManagedMCPServers(ctx context.Context, in *ListManagedMCPServersRequest, opts ...grpc.CallOption) (*ListManagedMCPServersResponse, error) {
+	out := new(ListManagedMCPServersResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListManagedMCPServers_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) DiscoverMCPServerTools(ctx context.Context, in *DiscoverMCPServerToolsRequest, opts ...grpc.CallOption) (*DiscoverMCPServerToolsResponse, error) {
+	out := new(DiscoverMCPServerToolsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DiscoverMCPServerTools_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -1986,6 +2063,13 @@ type OrganizationServiceServer interface {
 	ListAITools(context.Context, *ListAIToolsRequest) (*ListAIToolsResponse, error)
 	UpdateAIMessageFeedback(context.Context, *UpdateAIMessageFeedbackRequest) (*UpdateAIMessageFeedbackResponse, error)
 	UpdateAIConversationFeedback(context.Context, *UpdateAIConversationFeedbackRequest) (*UpdateAIConversationFeedbackResponse, error)
+	InstallMCPServer(context.Context, *InstallMCPServerRequest) (*InstallMCPServerResponse, error)
+	GetMCPServer(context.Context, *GetMCPServerRequest) (*GetMCPServerResponse, error)
+	ListMCPServers(context.Context, *ListMCPServersRequest) (*ListMCPServersResponse, error)
+	UpdateMCPServer(context.Context, *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error)
+	UninstallMCPServer(context.Context, *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error)
+	ListManagedMCPServers(context.Context, *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error)
+	DiscoverMCPServerTools(context.Context, *DiscoverMCPServerToolsRequest) (*DiscoverMCPServerToolsResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -2421,6 +2505,27 @@ func (UnimplementedOrganizationServiceServer) UpdateAIMessageFeedback(context.Co
 }
 func (UnimplementedOrganizationServiceServer) UpdateAIConversationFeedback(context.Context, *UpdateAIConversationFeedbackRequest) (*UpdateAIConversationFeedbackResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAIConversationFeedback not implemented")
+}
+func (UnimplementedOrganizationServiceServer) InstallMCPServer(context.Context, *InstallMCPServerRequest) (*InstallMCPServerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InstallMCPServer not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetMCPServer(context.Context, *GetMCPServerRequest) (*GetMCPServerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMCPServer not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListMCPServers(context.Context, *ListMCPServersRequest) (*ListMCPServersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMCPServers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateMCPServer(context.Context, *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateMCPServer not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UninstallMCPServer(context.Context, *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UninstallMCPServer not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListManagedMCPServers(context.Context, *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListManagedMCPServers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DiscoverMCPServerTools(context.Context, *DiscoverMCPServerToolsRequest) (*DiscoverMCPServerToolsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DiscoverMCPServerTools not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -5033,6 +5138,132 @@ func _OrganizationService_UpdateAIConversationFeedback_Handler(srv interface{}, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_InstallMCPServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InstallMCPServerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).InstallMCPServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_InstallMCPServer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).InstallMCPServer(ctx, req.(*InstallMCPServerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_GetMCPServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMCPServerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetMCPServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetMCPServer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetMCPServer(ctx, req.(*GetMCPServerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListMCPServers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMCPServersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListMCPServers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListMCPServers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListMCPServers(ctx, req.(*ListMCPServersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateMCPServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateMCPServerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateMCPServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateMCPServer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateMCPServer(ctx, req.(*UpdateMCPServerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UninstallMCPServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UninstallMCPServerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UninstallMCPServer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UninstallMCPServer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UninstallMCPServer(ctx, req.(*UninstallMCPServerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListManagedMCPServers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListManagedMCPServersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListManagedMCPServers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListManagedMCPServers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListManagedMCPServers(ctx, req.(*ListManagedMCPServersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_DiscoverMCPServerTools_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DiscoverMCPServerToolsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DiscoverMCPServerTools(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DiscoverMCPServerTools_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DiscoverMCPServerTools(ctx, req.(*DiscoverMCPServerToolsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -5579,6 +5810,34 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAIConversationFeedback",
 			Handler:    _OrganizationService_UpdateAIConversationFeedback_Handler,
+		},
+		{
+			MethodName: "InstallMCPServer",
+			Handler:    _OrganizationService_InstallMCPServer_Handler,
+		},
+		{
+			MethodName: "GetMCPServer",
+			Handler:    _OrganizationService_GetMCPServer_Handler,
+		},
+		{
+			MethodName: "ListMCPServers",
+			Handler:    _OrganizationService_ListMCPServers_Handler,
+		},
+		{
+			MethodName: "UpdateMCPServer",
+			Handler:    _OrganizationService_UpdateMCPServer_Handler,
+		},
+		{
+			MethodName: "UninstallMCPServer",
+			Handler:    _OrganizationService_UninstallMCPServer_Handler,
+		},
+		{
+			MethodName: "ListManagedMCPServers",
+			Handler:    _OrganizationService_ListManagedMCPServers_Handler,
+		},
+		{
+			MethodName: "DiscoverMCPServerTools",
+			Handler:    _OrganizationService_DiscoverMCPServerTools_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
