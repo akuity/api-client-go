@@ -71,6 +71,7 @@ const (
 	ArgoCDService_GetInstanceClusterCommand_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterCommand"
 	ArgoCDService_GetAIAssistantUsageStats_FullMethodName              = "/akuity.argocd.v1.ArgoCDService/GetAIAssistantUsageStats"
 	ArgoCDService_GetSyncOperationsStats_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsStats"
+	ArgoCDService_GetApplicationDeploymentStats_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/GetApplicationDeploymentStats"
 	ArgoCDService_GetSyncOperationsEvents_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsEvents"
 	ArgoCDService_ApplyInstance_FullMethodName                         = "/akuity.argocd.v1.ArgoCDService/ApplyInstance"
 	ArgoCDService_ExportInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/ExportInstance"
@@ -107,6 +108,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ArgoCDServiceClient interface {
+	// Deprecated: Do not use.
+	// Deprecated: use akuity.system.v1.SystemService.ListArgoCDVersions.
 	ListInstanceVersions(ctx context.Context, in *ListInstanceVersionsRequest, opts ...grpc.CallOption) (*ListInstanceVersionsResponse, error)
 	ListInstances(ctx context.Context, in *ListInstancesRequest, opts ...grpc.CallOption) (*ListInstancesResponse, error)
 	WatchInstances(ctx context.Context, in *WatchInstancesRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstancesClient, error)
@@ -164,6 +167,7 @@ type ArgoCDServiceClient interface {
 	GetInstanceClusterCommand(ctx context.Context, in *GetInstanceClusterCommandRequest, opts ...grpc.CallOption) (*GetInstanceClusterCommandResponse, error)
 	GetAIAssistantUsageStats(ctx context.Context, in *GetAIAssistantUsageStatsRequest, opts ...grpc.CallOption) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error)
+	GetApplicationDeploymentStats(ctx context.Context, in *GetApplicationDeploymentStatsRequest, opts ...grpc.CallOption) (*GetApplicationDeploymentStatsResponse, error)
 	GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error)
 	ExportInstance(ctx context.Context, in *ExportInstanceRequest, opts ...grpc.CallOption) (*ExportInstanceResponse, error)
@@ -217,6 +221,7 @@ func NewArgoCDServiceClient(cc grpc.ClientConnInterface) ArgoCDServiceClient {
 	return &argoCDServiceClient{cc}
 }
 
+// Deprecated: Do not use.
 func (c *argoCDServiceClient) ListInstanceVersions(ctx context.Context, in *ListInstanceVersionsRequest, opts ...grpc.CallOption) (*ListInstanceVersionsResponse, error) {
 	out := new(ListInstanceVersionsResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceVersions_FullMethodName, in, out, opts...)
@@ -736,6 +741,15 @@ func (c *argoCDServiceClient) GetSyncOperationsStats(ctx context.Context, in *Ge
 	return out, nil
 }
 
+func (c *argoCDServiceClient) GetApplicationDeploymentStats(ctx context.Context, in *GetApplicationDeploymentStatsRequest, opts ...grpc.CallOption) (*GetApplicationDeploymentStatsResponse, error) {
+	out := new(GetApplicationDeploymentStatsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetApplicationDeploymentStats_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error) {
 	out := new(GetSyncOperationsEventsResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_GetSyncOperationsEvents_FullMethodName, in, out, opts...)
@@ -1079,6 +1093,8 @@ func (c *argoCDServiceClient) PatchManagedSecret(ctx context.Context, in *PatchM
 // All implementations must embed UnimplementedArgoCDServiceServer
 // for forward compatibility
 type ArgoCDServiceServer interface {
+	// Deprecated: Do not use.
+	// Deprecated: use akuity.system.v1.SystemService.ListArgoCDVersions.
 	ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error)
 	ListInstances(context.Context, *ListInstancesRequest) (*ListInstancesResponse, error)
 	WatchInstances(*WatchInstancesRequest, ArgoCDService_WatchInstancesServer) error
@@ -1136,6 +1152,7 @@ type ArgoCDServiceServer interface {
 	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
 	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
+	GetApplicationDeploymentStats(context.Context, *GetApplicationDeploymentStatsRequest) (*GetApplicationDeploymentStatsResponse, error)
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error)
@@ -1335,6 +1352,9 @@ func (UnimplementedArgoCDServiceServer) GetAIAssistantUsageStats(context.Context
 }
 func (UnimplementedArgoCDServiceServer) GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsStats not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetApplicationDeploymentStats(context.Context, *GetApplicationDeploymentStatsRequest) (*GetApplicationDeploymentStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetApplicationDeploymentStats not implemented")
 }
 func (UnimplementedArgoCDServiceServer) GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsEvents not implemented")
@@ -2348,6 +2368,24 @@ func _ArgoCDService_GetSyncOperationsStats_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_GetApplicationDeploymentStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetApplicationDeploymentStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetApplicationDeploymentStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetApplicationDeploymentStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetApplicationDeploymentStats(ctx, req.(*GetApplicationDeploymentStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_GetSyncOperationsEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSyncOperationsEventsRequest)
 	if err := dec(in); err != nil {
@@ -3091,6 +3129,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSyncOperationsStats",
 			Handler:    _ArgoCDService_GetSyncOperationsStats_Handler,
+		},
+		{
+			MethodName: "GetApplicationDeploymentStats",
+			Handler:    _ArgoCDService_GetApplicationDeploymentStats_Handler,
 		},
 		{
 			MethodName: "GetSyncOperationsEvents",

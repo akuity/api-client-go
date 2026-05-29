@@ -14,6 +14,7 @@ import (
 type ExtensionServiceGatewayClient interface {
 	ListAuditRecordForApplication(context.Context, *ListAuditRecordForApplicationRequest) (*ListAuditRecordForApplicationResponse, error)
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
+	GetApplicationDeploymentStatsForApplication(context.Context, *GetApplicationDeploymentStatsForApplicationRequest) (*GetApplicationDeploymentStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
 	GetExtensionSettings(context.Context, *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -43,6 +44,12 @@ func (c *extensionServiceGatewayClient) GetSyncOperationsStatsForApplication(ctx
 	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/sync-operations-stats")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetSyncOperationsStatsForApplicationResponse](ctx, gwReq)
+}
+
+func (c *extensionServiceGatewayClient) GetApplicationDeploymentStatsForApplication(ctx context.Context, req *GetApplicationDeploymentStatsForApplicationRequest) (*GetApplicationDeploymentStatsForApplicationResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/ext-api/v1/argocd/extensions/application-deployment-stats")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetApplicationDeploymentStatsForApplicationResponse](ctx, gwReq)
 }
 
 func (c *extensionServiceGatewayClient) GetSyncOperationsEventsForApplication(ctx context.Context, req *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error) {

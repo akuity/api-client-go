@@ -14,6 +14,7 @@ import (
 
 // ArgoCDServiceGatewayClient is the interface for ArgoCDService service client.
 type ArgoCDServiceGatewayClient interface {
+	// Deprecated: use akuity.system.v1.SystemService.ListArgoCDVersions.
 	ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error)
 	ListInstances(context.Context, *ListInstancesRequest) (*ListInstancesResponse, error)
 	WatchInstances(context.Context, *WatchInstancesRequest) (<-chan *WatchInstancesResponse, <-chan error, error)
@@ -71,6 +72,7 @@ type ArgoCDServiceGatewayClient interface {
 	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
 	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
+	GetApplicationDeploymentStats(context.Context, *GetApplicationDeploymentStatsRequest) (*GetApplicationDeploymentStatsResponse, error)
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error)
@@ -683,6 +685,13 @@ func (c *argoCDServiceGatewayClient) GetSyncOperationsStats(ctx context.Context,
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetSyncOperationsStatsResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetApplicationDeploymentStats(ctx context.Context, req *GetApplicationDeploymentStatsRequest) (*GetApplicationDeploymentStatsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/application-deployment-stats")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetApplicationDeploymentStatsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) GetSyncOperationsEvents(ctx context.Context, req *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error) {
