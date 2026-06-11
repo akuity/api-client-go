@@ -152,6 +152,8 @@ const (
 	OrganizationService_UnshareAIConversation_FullMethodName                  = "/akuity.organization.v1.OrganizationService/UnshareAIConversation"
 	OrganizationService_SuspendAIConversation_FullMethodName                  = "/akuity.organization.v1.OrganizationService/SuspendAIConversation"
 	OrganizationService_DeleteAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteAIConversation"
+	OrganizationService_DeleteAIConversations_FullMethodName                  = "/akuity.organization.v1.OrganizationService/DeleteAIConversations"
+	OrganizationService_UpdateScheduledTaskStatuses_FullMethodName            = "/akuity.organization.v1.OrganizationService/UpdateScheduledTaskStatuses"
 	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
 	OrganizationService_GetAIConversationStream_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetAIConversationStream"
 	OrganizationService_ListAIConversations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListAIConversations"
@@ -331,6 +333,8 @@ type OrganizationServiceClient interface {
 	UnshareAIConversation(ctx context.Context, in *UnshareAIConversationRequest, opts ...grpc.CallOption) (*UnshareAIConversationResponse, error)
 	SuspendAIConversation(ctx context.Context, in *SuspendAIConversationRequest, opts ...grpc.CallOption) (*SuspendAIConversationResponse, error)
 	DeleteAIConversation(ctx context.Context, in *DeleteAIConversationRequest, opts ...grpc.CallOption) (*DeleteAIConversationResponse, error)
+	DeleteAIConversations(ctx context.Context, in *DeleteAIConversationsRequest, opts ...grpc.CallOption) (*DeleteAIConversationsResponse, error)
+	UpdateScheduledTaskStatuses(ctx context.Context, in *UpdateScheduledTaskStatusesRequest, opts ...grpc.CallOption) (*UpdateScheduledTaskStatusesResponse, error)
 	GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error)
 	GetAIConversationStream(ctx context.Context, in *GetAIConversationStreamRequest, opts ...grpc.CallOption) (OrganizationService_GetAIConversationStreamClient, error)
 	ListAIConversations(ctx context.Context, in *ListAIConversationsRequest, opts ...grpc.CallOption) (*ListAIConversationsResponse, error)
@@ -1708,6 +1712,24 @@ func (c *organizationServiceClient) DeleteAIConversation(ctx context.Context, in
 	return out, nil
 }
 
+func (c *organizationServiceClient) DeleteAIConversations(ctx context.Context, in *DeleteAIConversationsRequest, opts ...grpc.CallOption) (*DeleteAIConversationsResponse, error) {
+	out := new(DeleteAIConversationsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_DeleteAIConversations_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) UpdateScheduledTaskStatuses(ctx context.Context, in *UpdateScheduledTaskStatusesRequest, opts ...grpc.CallOption) (*UpdateScheduledTaskStatusesResponse, error) {
+	out := new(UpdateScheduledTaskStatusesResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_UpdateScheduledTaskStatuses_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) GetAIConversation(ctx context.Context, in *GetAIConversationRequest, opts ...grpc.CallOption) (*GetAIConversationResponse, error) {
 	out := new(GetAIConversationResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_GetAIConversation_FullMethodName, in, out, opts...)
@@ -2052,6 +2074,8 @@ type OrganizationServiceServer interface {
 	UnshareAIConversation(context.Context, *UnshareAIConversationRequest) (*UnshareAIConversationResponse, error)
 	SuspendAIConversation(context.Context, *SuspendAIConversationRequest) (*SuspendAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
+	DeleteAIConversations(context.Context, *DeleteAIConversationsRequest) (*DeleteAIConversationsResponse, error)
+	UpdateScheduledTaskStatuses(context.Context, *UpdateScheduledTaskStatusesRequest) (*UpdateScheduledTaskStatusesResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	GetAIConversationStream(*GetAIConversationStreamRequest, OrganizationService_GetAIConversationStreamServer) error
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
@@ -2472,6 +2496,12 @@ func (UnimplementedOrganizationServiceServer) SuspendAIConversation(context.Cont
 }
 func (UnimplementedOrganizationServiceServer) DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAIConversation not implemented")
+}
+func (UnimplementedOrganizationServiceServer) DeleteAIConversations(context.Context, *DeleteAIConversationsRequest) (*DeleteAIConversationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAIConversations not implemented")
+}
+func (UnimplementedOrganizationServiceServer) UpdateScheduledTaskStatuses(context.Context, *UpdateScheduledTaskStatusesRequest) (*UpdateScheduledTaskStatusesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateScheduledTaskStatuses not implemented")
 }
 func (UnimplementedOrganizationServiceServer) GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAIConversation not implemented")
@@ -4937,6 +4967,42 @@ func _OrganizationService_DeleteAIConversation_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_DeleteAIConversations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAIConversationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).DeleteAIConversations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_DeleteAIConversations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).DeleteAIConversations(ctx, req.(*DeleteAIConversationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_UpdateScheduledTaskStatuses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateScheduledTaskStatusesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).UpdateScheduledTaskStatuses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_UpdateScheduledTaskStatuses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).UpdateScheduledTaskStatuses(ctx, req.(*UpdateScheduledTaskStatusesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_GetAIConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAIConversationRequest)
 	if err := dec(in); err != nil {
@@ -5770,6 +5836,14 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAIConversation",
 			Handler:    _OrganizationService_DeleteAIConversation_Handler,
+		},
+		{
+			MethodName: "DeleteAIConversations",
+			Handler:    _OrganizationService_DeleteAIConversations_Handler,
+		},
+		{
+			MethodName: "UpdateScheduledTaskStatuses",
+			Handler:    _OrganizationService_UpdateScheduledTaskStatuses_Handler,
 		},
 		{
 			MethodName: "GetAIConversation",

@@ -168,6 +168,8 @@ type OrganizationServiceGatewayClient interface {
 	UnshareAIConversation(context.Context, *UnshareAIConversationRequest) (*UnshareAIConversationResponse, error)
 	SuspendAIConversation(context.Context, *SuspendAIConversationRequest) (*SuspendAIConversationResponse, error)
 	DeleteAIConversation(context.Context, *DeleteAIConversationRequest) (*DeleteAIConversationResponse, error)
+	DeleteAIConversations(context.Context, *DeleteAIConversationsRequest) (*DeleteAIConversationsResponse, error)
+	UpdateScheduledTaskStatuses(context.Context, *UpdateScheduledTaskStatusesRequest) (*UpdateScheduledTaskStatusesResponse, error)
 	GetAIConversation(context.Context, *GetAIConversationRequest) (*GetAIConversationResponse, error)
 	GetAIConversationStream(context.Context, *GetAIConversationStreamRequest) (<-chan *GetAIConversationStreamResponse, <-chan error, error)
 	ListAIConversations(context.Context, *ListAIConversationsRequest) (*ListAIConversationsResponse, error)
@@ -3186,6 +3188,20 @@ func (c *organizationServiceGatewayClient) DeleteAIConversation(ctx context.Cont
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[DeleteAIConversationResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) DeleteAIConversations(ctx context.Context, req *DeleteAIConversationsRequest) (*DeleteAIConversationsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/bulk-delete")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[DeleteAIConversationsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) UpdateScheduledTaskStatuses(ctx context.Context, req *UpdateScheduledTaskStatusesRequest) (*UpdateScheduledTaskStatusesResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/conversations/tasks/bulk-update-status")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateScheduledTaskStatusesResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) GetAIConversation(ctx context.Context, req *GetAIConversationRequest) (*GetAIConversationResponse, error) {
