@@ -27,6 +27,7 @@ const (
 	ExtensionService_GetExtensionSettings_FullMethodName                        = "/akuity.extension.v1.ExtensionService/GetExtensionSettings"
 	ExtensionService_GetKargoAnalysisLogs_FullMethodName                        = "/akuity.extension.v1.ExtensionService/GetKargoAnalysisLogs"
 	ExtensionService_ListAuditRecordForKargoProjects_FullMethodName             = "/akuity.extension.v1.ExtensionService/ListAuditRecordForKargoProjects"
+	ExtensionService_ListFreightHistory_FullMethodName                          = "/akuity.extension.v1.ExtensionService/ListFreightHistory"
 )
 
 // ExtensionServiceClient is the client API for ExtensionService service.
@@ -43,6 +44,7 @@ type ExtensionServiceClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetKargoAnalysisLogs(ctx context.Context, in *GetKargoAnalysisLogsRequest, opts ...grpc.CallOption) (ExtensionService_GetKargoAnalysisLogsClient, error)
 	ListAuditRecordForKargoProjects(ctx context.Context, in *ListAuditRecordForKargoProjectsRequest, opts ...grpc.CallOption) (*ListAuditRecordForKargoProjectsResponse, error)
+	ListFreightHistory(ctx context.Context, in *ListFreightHistoryRequest, opts ...grpc.CallOption) (*ListFreightHistoryResponse, error)
 }
 
 type extensionServiceClient struct {
@@ -139,6 +141,15 @@ func (c *extensionServiceClient) ListAuditRecordForKargoProjects(ctx context.Con
 	return out, nil
 }
 
+func (c *extensionServiceClient) ListFreightHistory(ctx context.Context, in *ListFreightHistoryRequest, opts ...grpc.CallOption) (*ListFreightHistoryResponse, error) {
+	out := new(ListFreightHistoryResponse)
+	err := c.cc.Invoke(ctx, ExtensionService_ListFreightHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ExtensionServiceServer is the server API for ExtensionService service.
 // All implementations must embed UnimplementedExtensionServiceServer
 // for forward compatibility
@@ -153,6 +164,7 @@ type ExtensionServiceServer interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetKargoAnalysisLogs(*GetKargoAnalysisLogsRequest, ExtensionService_GetKargoAnalysisLogsServer) error
 	ListAuditRecordForKargoProjects(context.Context, *ListAuditRecordForKargoProjectsRequest) (*ListAuditRecordForKargoProjectsResponse, error)
+	ListFreightHistory(context.Context, *ListFreightHistoryRequest) (*ListFreightHistoryResponse, error)
 	mustEmbedUnimplementedExtensionServiceServer()
 }
 
@@ -180,6 +192,9 @@ func (UnimplementedExtensionServiceServer) GetKargoAnalysisLogs(*GetKargoAnalysi
 }
 func (UnimplementedExtensionServiceServer) ListAuditRecordForKargoProjects(context.Context, *ListAuditRecordForKargoProjectsRequest) (*ListAuditRecordForKargoProjectsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAuditRecordForKargoProjects not implemented")
+}
+func (UnimplementedExtensionServiceServer) ListFreightHistory(context.Context, *ListFreightHistoryRequest) (*ListFreightHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListFreightHistory not implemented")
 }
 func (UnimplementedExtensionServiceServer) mustEmbedUnimplementedExtensionServiceServer() {}
 
@@ -323,6 +338,24 @@ func _ExtensionService_ListAuditRecordForKargoProjects_Handler(srv interface{}, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExtensionService_ListFreightHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListFreightHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExtensionServiceServer).ListFreightHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExtensionService_ListFreightHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExtensionServiceServer).ListFreightHistory(ctx, req.(*ListFreightHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ExtensionService_ServiceDesc is the grpc.ServiceDesc for ExtensionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -353,6 +386,10 @@ var ExtensionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListAuditRecordForKargoProjects",
 			Handler:    _ExtensionService_ListAuditRecordForKargoProjects_Handler,
+		},
+		{
+			MethodName: "ListFreightHistory",
+			Handler:    _ExtensionService_ListFreightHistory_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
