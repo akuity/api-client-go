@@ -75,6 +75,9 @@ type OrganizationServiceGatewayClient interface {
 	ListArgocdInstancesQuota(context.Context, *ListArgocdInstancesQuotaRequest) (*ListArgocdInstancesQuotaResponse, error)
 	UpdateKargoInstancesQuota(context.Context, *UpdateKargoInstancesQuotaRequest) (*UpdateKargoInstancesQuotaResponse, error)
 	ListKargoInstancesQuota(context.Context, *ListKargoInstancesQuotaRequest) (*ListKargoInstancesQuotaResponse, error)
+	ListPrivateLinkAccounts(context.Context, *ListPrivateLinkAccountsRequest) (*ListPrivateLinkAccountsResponse, error)
+	AddPrivateLinkAccount(context.Context, *AddPrivateLinkAccountRequest) (*AddPrivateLinkAccountResponse, error)
+	RemovePrivateLinkAccount(context.Context, *RemovePrivateLinkAccountRequest) (*RemovePrivateLinkAccountResponse, error)
 	CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error)
 	ListWorkspaces(context.Context, *ListWorkspacesRequest) (*ListWorkspacesResponse, error)
 	GetWorkspace(context.Context, *GetWorkspaceRequest) (*GetWorkspaceResponse, error)
@@ -2015,6 +2018,27 @@ func (c *organizationServiceGatewayClient) ListKargoInstancesQuota(ctx context.C
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo-instances/quota")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	return gateway.DoRequest[ListKargoInstancesQuotaResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListPrivateLinkAccounts(ctx context.Context, req *ListPrivateLinkAccountsRequest) (*ListPrivateLinkAccountsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/private-link/accounts")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListPrivateLinkAccountsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) AddPrivateLinkAccount(ctx context.Context, req *AddPrivateLinkAccountRequest) (*AddPrivateLinkAccountResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/private-link/accounts")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[AddPrivateLinkAccountResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) RemovePrivateLinkAccount(ctx context.Context, req *RemovePrivateLinkAccountRequest) (*RemovePrivateLinkAccountResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/orgs/{organization_id}/private-link/accounts/{consumer_id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("consumer_id", fmt.Sprintf("%v", req.ConsumerId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RemovePrivateLinkAccountResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) CreateWorkspace(ctx context.Context, req *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error) {

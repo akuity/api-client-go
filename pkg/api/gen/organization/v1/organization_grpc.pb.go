@@ -80,6 +80,9 @@ const (
 	OrganizationService_ListArgocdInstancesQuota_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListArgocdInstancesQuota"
 	OrganizationService_UpdateKargoInstancesQuota_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateKargoInstancesQuota"
 	OrganizationService_ListKargoInstancesQuota_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKargoInstancesQuota"
+	OrganizationService_ListPrivateLinkAccounts_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListPrivateLinkAccounts"
+	OrganizationService_AddPrivateLinkAccount_FullMethodName                  = "/akuity.organization.v1.OrganizationService/AddPrivateLinkAccount"
+	OrganizationService_RemovePrivateLinkAccount_FullMethodName               = "/akuity.organization.v1.OrganizationService/RemovePrivateLinkAccount"
 	OrganizationService_CreateWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
 	OrganizationService_ListWorkspaces_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
 	OrganizationService_GetWorkspace_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetWorkspace"
@@ -240,6 +243,9 @@ type OrganizationServiceClient interface {
 	ListArgocdInstancesQuota(ctx context.Context, in *ListArgocdInstancesQuotaRequest, opts ...grpc.CallOption) (*ListArgocdInstancesQuotaResponse, error)
 	UpdateKargoInstancesQuota(ctx context.Context, in *UpdateKargoInstancesQuotaRequest, opts ...grpc.CallOption) (*UpdateKargoInstancesQuotaResponse, error)
 	ListKargoInstancesQuota(ctx context.Context, in *ListKargoInstancesQuotaRequest, opts ...grpc.CallOption) (*ListKargoInstancesQuotaResponse, error)
+	ListPrivateLinkAccounts(ctx context.Context, in *ListPrivateLinkAccountsRequest, opts ...grpc.CallOption) (*ListPrivateLinkAccountsResponse, error)
+	AddPrivateLinkAccount(ctx context.Context, in *AddPrivateLinkAccountRequest, opts ...grpc.CallOption) (*AddPrivateLinkAccountResponse, error)
+	RemovePrivateLinkAccount(ctx context.Context, in *RemovePrivateLinkAccountRequest, opts ...grpc.CallOption) (*RemovePrivateLinkAccountResponse, error)
 	CreateWorkspace(ctx context.Context, in *CreateWorkspaceRequest, opts ...grpc.CallOption) (*CreateWorkspaceResponse, error)
 	ListWorkspaces(ctx context.Context, in *ListWorkspacesRequest, opts ...grpc.CallOption) (*ListWorkspacesResponse, error)
 	GetWorkspace(ctx context.Context, in *GetWorkspaceRequest, opts ...grpc.CallOption) (*GetWorkspaceResponse, error)
@@ -920,6 +926,33 @@ func (c *organizationServiceClient) UpdateKargoInstancesQuota(ctx context.Contex
 func (c *organizationServiceClient) ListKargoInstancesQuota(ctx context.Context, in *ListKargoInstancesQuotaRequest, opts ...grpc.CallOption) (*ListKargoInstancesQuotaResponse, error) {
 	out := new(ListKargoInstancesQuotaResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKargoInstancesQuota_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) ListPrivateLinkAccounts(ctx context.Context, in *ListPrivateLinkAccountsRequest, opts ...grpc.CallOption) (*ListPrivateLinkAccountsResponse, error) {
+	out := new(ListPrivateLinkAccountsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListPrivateLinkAccounts_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) AddPrivateLinkAccount(ctx context.Context, in *AddPrivateLinkAccountRequest, opts ...grpc.CallOption) (*AddPrivateLinkAccountResponse, error) {
+	out := new(AddPrivateLinkAccountResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_AddPrivateLinkAccount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *organizationServiceClient) RemovePrivateLinkAccount(ctx context.Context, in *RemovePrivateLinkAccountRequest, opts ...grpc.CallOption) (*RemovePrivateLinkAccountResponse, error) {
+	out := new(RemovePrivateLinkAccountResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_RemovePrivateLinkAccount_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1981,6 +2014,9 @@ type OrganizationServiceServer interface {
 	ListArgocdInstancesQuota(context.Context, *ListArgocdInstancesQuotaRequest) (*ListArgocdInstancesQuotaResponse, error)
 	UpdateKargoInstancesQuota(context.Context, *UpdateKargoInstancesQuotaRequest) (*UpdateKargoInstancesQuotaResponse, error)
 	ListKargoInstancesQuota(context.Context, *ListKargoInstancesQuotaRequest) (*ListKargoInstancesQuotaResponse, error)
+	ListPrivateLinkAccounts(context.Context, *ListPrivateLinkAccountsRequest) (*ListPrivateLinkAccountsResponse, error)
+	AddPrivateLinkAccount(context.Context, *AddPrivateLinkAccountRequest) (*AddPrivateLinkAccountResponse, error)
+	RemovePrivateLinkAccount(context.Context, *RemovePrivateLinkAccountRequest) (*RemovePrivateLinkAccountResponse, error)
 	CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error)
 	ListWorkspaces(context.Context, *ListWorkspacesRequest) (*ListWorkspacesResponse, error)
 	GetWorkspace(context.Context, *GetWorkspaceRequest) (*GetWorkspaceResponse, error)
@@ -2280,6 +2316,15 @@ func (UnimplementedOrganizationServiceServer) UpdateKargoInstancesQuota(context.
 }
 func (UnimplementedOrganizationServiceServer) ListKargoInstancesQuota(context.Context, *ListKargoInstancesQuotaRequest) (*ListKargoInstancesQuotaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKargoInstancesQuota not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListPrivateLinkAccounts(context.Context, *ListPrivateLinkAccountsRequest) (*ListPrivateLinkAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPrivateLinkAccounts not implemented")
+}
+func (UnimplementedOrganizationServiceServer) AddPrivateLinkAccount(context.Context, *AddPrivateLinkAccountRequest) (*AddPrivateLinkAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPrivateLinkAccount not implemented")
+}
+func (UnimplementedOrganizationServiceServer) RemovePrivateLinkAccount(context.Context, *RemovePrivateLinkAccountRequest) (*RemovePrivateLinkAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemovePrivateLinkAccount not implemented")
 }
 func (UnimplementedOrganizationServiceServer) CreateWorkspace(context.Context, *CreateWorkspaceRequest) (*CreateWorkspaceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkspace not implemented")
@@ -3649,6 +3694,60 @@ func _OrganizationService_ListKargoInstancesQuota_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrganizationServiceServer).ListKargoInstancesQuota(ctx, req.(*ListKargoInstancesQuotaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_ListPrivateLinkAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPrivateLinkAccountsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListPrivateLinkAccounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListPrivateLinkAccounts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListPrivateLinkAccounts(ctx, req.(*ListPrivateLinkAccountsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_AddPrivateLinkAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPrivateLinkAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).AddPrivateLinkAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_AddPrivateLinkAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).AddPrivateLinkAccount(ctx, req.(*AddPrivateLinkAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrganizationService_RemovePrivateLinkAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemovePrivateLinkAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).RemovePrivateLinkAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_RemovePrivateLinkAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).RemovePrivateLinkAccount(ctx, req.(*RemovePrivateLinkAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5572,6 +5671,18 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListKargoInstancesQuota",
 			Handler:    _OrganizationService_ListKargoInstancesQuota_Handler,
+		},
+		{
+			MethodName: "ListPrivateLinkAccounts",
+			Handler:    _OrganizationService_ListPrivateLinkAccounts_Handler,
+		},
+		{
+			MethodName: "AddPrivateLinkAccount",
+			Handler:    _OrganizationService_AddPrivateLinkAccount_Handler,
+		},
+		{
+			MethodName: "RemovePrivateLinkAccount",
+			Handler:    _OrganizationService_RemovePrivateLinkAccount_Handler,
 		},
 		{
 			MethodName: "CreateWorkspace",
