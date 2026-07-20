@@ -76,6 +76,12 @@ type ArgoCDServiceGatewayClient interface {
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error)
+	// ExportInstanceStream is the streaming variant of ExportInstance. It emits the
+	// same set of resources, one resource per message, so neither the server nor
+	// the wire has to hold the entire export in memory at once. This is the
+	// preferred API for large instances; ExportInstance is kept for backward
+	// compatibility. See https://github.com/akuityio/akuity-platform/issues/3754
+	ExportInstanceStream(context.Context, *ExportInstanceStreamRequest) (<-chan *ExportInstanceStreamResponse, <-chan error, error)
 	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
 	CreateInstanceAddonRepo(context.Context, *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error)
@@ -718,6 +724,17 @@ func (c *argoCDServiceGatewayClient) ExportInstance(ctx context.Context, req *Ex
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ExportInstanceResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ExportInstanceStream(ctx context.Context, req *ExportInstanceStreamRequest) (<-chan *ExportInstanceStreamResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/argocd/instances/{id}/export")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("idType", req.IdType.String())
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[ExportInstanceStreamResponse](ctx, c.gwc, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) ListInstanceAddonRepos(ctx context.Context, req *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error) {

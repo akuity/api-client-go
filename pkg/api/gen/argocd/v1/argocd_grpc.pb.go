@@ -75,6 +75,7 @@ const (
 	ArgoCDService_GetSyncOperationsEvents_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsEvents"
 	ArgoCDService_ApplyInstance_FullMethodName                         = "/akuity.argocd.v1.ArgoCDService/ApplyInstance"
 	ArgoCDService_ExportInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/ExportInstance"
+	ArgoCDService_ExportInstanceStream_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/ExportInstanceStream"
 	ArgoCDService_ListInstanceAddonRepos_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/ListInstanceAddonRepos"
 	ArgoCDService_GetInstanceAddonRepo_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/GetInstanceAddonRepo"
 	ArgoCDService_CreateInstanceAddonRepo_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/CreateInstanceAddonRepo"
@@ -171,6 +172,12 @@ type ArgoCDServiceClient interface {
 	GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(ctx context.Context, in *ApplyInstanceRequest, opts ...grpc.CallOption) (*ApplyInstanceResponse, error)
 	ExportInstance(ctx context.Context, in *ExportInstanceRequest, opts ...grpc.CallOption) (*ExportInstanceResponse, error)
+	// ExportInstanceStream is the streaming variant of ExportInstance. It emits the
+	// same set of resources, one resource per message, so neither the server nor
+	// the wire has to hold the entire export in memory at once. This is the
+	// preferred API for large instances; ExportInstance is kept for backward
+	// compatibility. See https://github.com/akuityio/akuity-platform/issues/3754
+	ExportInstanceStream(ctx context.Context, in *ExportInstanceStreamRequest, opts ...grpc.CallOption) (ArgoCDService_ExportInstanceStreamClient, error)
 	ListInstanceAddonRepos(ctx context.Context, in *ListInstanceAddonReposRequest, opts ...grpc.CallOption) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(ctx context.Context, in *GetInstanceAddonRepoRequest, opts ...grpc.CallOption) (*GetInstanceAddonRepoResponse, error)
 	CreateInstanceAddonRepo(ctx context.Context, in *CreateInstanceAddonRepoRequest, opts ...grpc.CallOption) (*CreateInstanceAddonRepoResponse, error)
@@ -777,6 +784,38 @@ func (c *argoCDServiceClient) ExportInstance(ctx context.Context, in *ExportInst
 	return out, nil
 }
 
+func (c *argoCDServiceClient) ExportInstanceStream(ctx context.Context, in *ExportInstanceStreamRequest, opts ...grpc.CallOption) (ArgoCDService_ExportInstanceStreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[3], ArgoCDService_ExportInstanceStream_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &argoCDServiceExportInstanceStreamClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_ExportInstanceStreamClient interface {
+	Recv() (*ExportInstanceStreamResponse, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceExportInstanceStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceExportInstanceStreamClient) Recv() (*ExportInstanceStreamResponse, error) {
+	m := new(ExportInstanceStreamResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *argoCDServiceClient) ListInstanceAddonRepos(ctx context.Context, in *ListInstanceAddonReposRequest, opts ...grpc.CallOption) (*ListInstanceAddonReposResponse, error) {
 	out := new(ListInstanceAddonReposResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceAddonRepos_FullMethodName, in, out, opts...)
@@ -895,7 +934,7 @@ func (c *argoCDServiceClient) ClearAddonStatusSourceHistory(ctx context.Context,
 }
 
 func (c *argoCDServiceClient) WatchInstanceAddons(ctx context.Context, in *WatchInstanceAddonsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[3], ArgoCDService_WatchInstanceAddons_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[4], ArgoCDService_WatchInstanceAddons_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -927,7 +966,7 @@ func (x *argoCDServiceWatchInstanceAddonsClient) Recv() (*WatchInstanceAddonsRes
 }
 
 func (c *argoCDServiceClient) WatchInstanceAddonRepos(ctx context.Context, in *WatchInstanceAddonReposRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonReposClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[4], ArgoCDService_WatchInstanceAddonRepos_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[5], ArgoCDService_WatchInstanceAddonRepos_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -977,7 +1016,7 @@ func (c *argoCDServiceClient) ListAddonMarketplaceInstalls(ctx context.Context, 
 }
 
 func (c *argoCDServiceClient) WatchAddonMarketplaceInstalls(ctx context.Context, in *WatchAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchAddonMarketplaceInstallsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[5], ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[6], ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1156,6 +1195,12 @@ type ArgoCDServiceServer interface {
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
 	ApplyInstance(context.Context, *ApplyInstanceRequest) (*ApplyInstanceResponse, error)
 	ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error)
+	// ExportInstanceStream is the streaming variant of ExportInstance. It emits the
+	// same set of resources, one resource per message, so neither the server nor
+	// the wire has to hold the entire export in memory at once. This is the
+	// preferred API for large instances; ExportInstance is kept for backward
+	// compatibility. See https://github.com/akuityio/akuity-platform/issues/3754
+	ExportInstanceStream(*ExportInstanceStreamRequest, ArgoCDService_ExportInstanceStreamServer) error
 	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
 	CreateInstanceAddonRepo(context.Context, *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error)
@@ -1364,6 +1409,9 @@ func (UnimplementedArgoCDServiceServer) ApplyInstance(context.Context, *ApplyIns
 }
 func (UnimplementedArgoCDServiceServer) ExportInstance(context.Context, *ExportInstanceRequest) (*ExportInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExportInstance not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ExportInstanceStream(*ExportInstanceStreamRequest, ArgoCDService_ExportInstanceStreamServer) error {
+	return status.Errorf(codes.Unimplemented, "method ExportInstanceStream not implemented")
 }
 func (UnimplementedArgoCDServiceServer) ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceAddonRepos not implemented")
@@ -2440,6 +2488,27 @@ func _ArgoCDService_ExportInstance_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_ExportInstanceStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ExportInstanceStreamRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArgoCDServiceServer).ExportInstanceStream(m, &argoCDServiceExportInstanceStreamServer{stream})
+}
+
+type ArgoCDService_ExportInstanceStreamServer interface {
+	Send(*ExportInstanceStreamResponse) error
+	grpc.ServerStream
+}
+
+type argoCDServiceExportInstanceStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceExportInstanceStreamServer) Send(m *ExportInstanceStreamResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 func _ArgoCDService_ListInstanceAddonRepos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListInstanceAddonReposRequest)
 	if err := dec(in); err != nil {
@@ -3257,6 +3326,11 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetInstanceClusterManifests",
 			Handler:       _ArgoCDService_GetInstanceClusterManifests_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ExportInstanceStream",
+			Handler:       _ArgoCDService_ExportInstanceStream_Handler,
 			ServerStreams: true,
 		},
 		{

@@ -14785,6 +14785,80 @@ func (x *ExportInstanceRequest) GetWorkspaceId() string {
 	return ""
 }
 
+// ExportInstanceStreamRequest mirrors ExportInstanceRequest. It exists as a
+// distinct message so the streaming ExportInstanceStream RPC has its own
+// request type, per the repository's buf lint rules.
+type ExportInstanceStreamRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	OrganizationId string  `protobuf:"bytes,1,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
+	IdType         v1.Type `protobuf:"varint,2,opt,name=id_type,json=idType,proto3,enum=akuity.types.id.v1.Type" json:"id_type,omitempty"`
+	Id             string  `protobuf:"bytes,3,opt,name=id,proto3" json:"id,omitempty"`
+	WorkspaceId    string  `protobuf:"bytes,4,opt,name=workspace_id,json=workspaceId,proto3" json:"workspace_id,omitempty"`
+}
+
+func (x *ExportInstanceStreamRequest) Reset() {
+	*x = ExportInstanceStreamRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_argocd_v1_argocd_proto_msgTypes[201]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ExportInstanceStreamRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExportInstanceStreamRequest) ProtoMessage() {}
+
+func (x *ExportInstanceStreamRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_argocd_v1_argocd_proto_msgTypes[201]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExportInstanceStreamRequest.ProtoReflect.Descriptor instead.
+func (*ExportInstanceStreamRequest) Descriptor() ([]byte, []int) {
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{201}
+}
+
+func (x *ExportInstanceStreamRequest) GetOrganizationId() string {
+	if x != nil {
+		return x.OrganizationId
+	}
+	return ""
+}
+
+func (x *ExportInstanceStreamRequest) GetIdType() v1.Type {
+	if x != nil {
+		return x.IdType
+	}
+	return v1.Type(0)
+}
+
+func (x *ExportInstanceStreamRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ExportInstanceStreamRequest) GetWorkspaceId() string {
+	if x != nil {
+		return x.WorkspaceId
+	}
+	return ""
+}
+
 type ExportInstanceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -14809,7 +14883,7 @@ type ExportInstanceResponse struct {
 func (x *ExportInstanceResponse) Reset() {
 	*x = ExportInstanceResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[201]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[202]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -14822,7 +14896,7 @@ func (x *ExportInstanceResponse) String() string {
 func (*ExportInstanceResponse) ProtoMessage() {}
 
 func (x *ExportInstanceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[201]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[202]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14835,7 +14909,7 @@ func (x *ExportInstanceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExportInstanceResponse.ProtoReflect.Descriptor instead.
 func (*ExportInstanceResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{201}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{202}
 }
 
 func (x *ExportInstanceResponse) GetArgocd() *structpb.Struct {
@@ -14936,6 +15010,268 @@ func (x *ExportInstanceResponse) GetImageUpdaters() []*structpb.Struct {
 	return nil
 }
 
+// ExportInstanceStreamResponse carries a single exported resource. The field
+// numbers mirror ExportInstanceResponse: the singular fields (argocd spec and
+// the ConfigMaps) are sent exactly once, while the fields that are repeated in
+// ExportInstanceResponse are streamed one item per message (cluster,
+// config_management_plugin, application, application_set, app_project,
+// image_updater). A client reassembles an ExportInstanceResponse by setting the
+// singular fields and appending the repeated ones.
+type ExportInstanceStreamResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Resource:
+	//
+	//	*ExportInstanceStreamResponse_Argocd
+	//	*ExportInstanceStreamResponse_ArgocdConfigmap
+	//	*ExportInstanceStreamResponse_ArgocdRbacConfigmap
+	//	*ExportInstanceStreamResponse_NotificationsConfigmap
+	//	*ExportInstanceStreamResponse_ImageUpdaterConfigmap
+	//	*ExportInstanceStreamResponse_ImageUpdaterSshConfigmap
+	//	*ExportInstanceStreamResponse_Cluster
+	//	*ExportInstanceStreamResponse_ArgocdKnownHostsConfigmap
+	//	*ExportInstanceStreamResponse_ArgocdTlsCertsConfigmap
+	//	*ExportInstanceStreamResponse_ConfigManagementPlugin
+	//	*ExportInstanceStreamResponse_Application
+	//	*ExportInstanceStreamResponse_ApplicationSet
+	//	*ExportInstanceStreamResponse_AppProject
+	//	*ExportInstanceStreamResponse_ImageUpdater
+	Resource isExportInstanceStreamResponse_Resource `protobuf_oneof:"resource"`
+}
+
+func (x *ExportInstanceStreamResponse) Reset() {
+	*x = ExportInstanceStreamResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_argocd_v1_argocd_proto_msgTypes[203]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ExportInstanceStreamResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExportInstanceStreamResponse) ProtoMessage() {}
+
+func (x *ExportInstanceStreamResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_argocd_v1_argocd_proto_msgTypes[203]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExportInstanceStreamResponse.ProtoReflect.Descriptor instead.
+func (*ExportInstanceStreamResponse) Descriptor() ([]byte, []int) {
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{203}
+}
+
+func (m *ExportInstanceStreamResponse) GetResource() isExportInstanceStreamResponse_Resource {
+	if m != nil {
+		return m.Resource
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetArgocd() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_Argocd); ok {
+		return x.Argocd
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetArgocdConfigmap() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ArgocdConfigmap); ok {
+		return x.ArgocdConfigmap
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetArgocdRbacConfigmap() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ArgocdRbacConfigmap); ok {
+		return x.ArgocdRbacConfigmap
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetNotificationsConfigmap() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_NotificationsConfigmap); ok {
+		return x.NotificationsConfigmap
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetImageUpdaterConfigmap() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ImageUpdaterConfigmap); ok {
+		return x.ImageUpdaterConfigmap
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetImageUpdaterSshConfigmap() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ImageUpdaterSshConfigmap); ok {
+		return x.ImageUpdaterSshConfigmap
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetCluster() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_Cluster); ok {
+		return x.Cluster
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetArgocdKnownHostsConfigmap() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ArgocdKnownHostsConfigmap); ok {
+		return x.ArgocdKnownHostsConfigmap
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetArgocdTlsCertsConfigmap() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ArgocdTlsCertsConfigmap); ok {
+		return x.ArgocdTlsCertsConfigmap
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetConfigManagementPlugin() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ConfigManagementPlugin); ok {
+		return x.ConfigManagementPlugin
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetApplication() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_Application); ok {
+		return x.Application
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetApplicationSet() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ApplicationSet); ok {
+		return x.ApplicationSet
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetAppProject() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_AppProject); ok {
+		return x.AppProject
+	}
+	return nil
+}
+
+func (x *ExportInstanceStreamResponse) GetImageUpdater() *structpb.Struct {
+	if x, ok := x.GetResource().(*ExportInstanceStreamResponse_ImageUpdater); ok {
+		return x.ImageUpdater
+	}
+	return nil
+}
+
+type isExportInstanceStreamResponse_Resource interface {
+	isExportInstanceStreamResponse_Resource()
+}
+
+type ExportInstanceStreamResponse_Argocd struct {
+	Argocd *structpb.Struct `protobuf:"bytes,1,opt,name=argocd,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ArgocdConfigmap struct {
+	ArgocdConfigmap *structpb.Struct `protobuf:"bytes,2,opt,name=argocd_configmap,json=argocdConfigmap,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ArgocdRbacConfigmap struct {
+	ArgocdRbacConfigmap *structpb.Struct `protobuf:"bytes,3,opt,name=argocd_rbac_configmap,json=argocdRbacConfigmap,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_NotificationsConfigmap struct {
+	NotificationsConfigmap *structpb.Struct `protobuf:"bytes,4,opt,name=notifications_configmap,json=notificationsConfigmap,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ImageUpdaterConfigmap struct {
+	ImageUpdaterConfigmap *structpb.Struct `protobuf:"bytes,5,opt,name=image_updater_configmap,json=imageUpdaterConfigmap,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ImageUpdaterSshConfigmap struct {
+	ImageUpdaterSshConfigmap *structpb.Struct `protobuf:"bytes,6,opt,name=image_updater_ssh_configmap,json=imageUpdaterSshConfigmap,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_Cluster struct {
+	Cluster *structpb.Struct `protobuf:"bytes,7,opt,name=cluster,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ArgocdKnownHostsConfigmap struct {
+	ArgocdKnownHostsConfigmap *structpb.Struct `protobuf:"bytes,8,opt,name=argocd_known_hosts_configmap,json=argocdKnownHostsConfigmap,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ArgocdTlsCertsConfigmap struct {
+	ArgocdTlsCertsConfigmap *structpb.Struct `protobuf:"bytes,9,opt,name=argocd_tls_certs_configmap,json=argocdTlsCertsConfigmap,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ConfigManagementPlugin struct {
+	ConfigManagementPlugin *structpb.Struct `protobuf:"bytes,10,opt,name=config_management_plugin,json=configManagementPlugin,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_Application struct {
+	Application *structpb.Struct `protobuf:"bytes,11,opt,name=application,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ApplicationSet struct {
+	ApplicationSet *structpb.Struct `protobuf:"bytes,12,opt,name=application_set,json=applicationSet,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_AppProject struct {
+	AppProject *structpb.Struct `protobuf:"bytes,13,opt,name=app_project,json=appProject,proto3,oneof"`
+}
+
+type ExportInstanceStreamResponse_ImageUpdater struct {
+	ImageUpdater *structpb.Struct `protobuf:"bytes,14,opt,name=image_updater,json=imageUpdater,proto3,oneof"`
+}
+
+func (*ExportInstanceStreamResponse_Argocd) isExportInstanceStreamResponse_Resource() {}
+
+func (*ExportInstanceStreamResponse_ArgocdConfigmap) isExportInstanceStreamResponse_Resource() {}
+
+func (*ExportInstanceStreamResponse_ArgocdRbacConfigmap) isExportInstanceStreamResponse_Resource() {}
+
+func (*ExportInstanceStreamResponse_NotificationsConfigmap) isExportInstanceStreamResponse_Resource() {
+}
+
+func (*ExportInstanceStreamResponse_ImageUpdaterConfigmap) isExportInstanceStreamResponse_Resource() {
+}
+
+func (*ExportInstanceStreamResponse_ImageUpdaterSshConfigmap) isExportInstanceStreamResponse_Resource() {
+}
+
+func (*ExportInstanceStreamResponse_Cluster) isExportInstanceStreamResponse_Resource() {}
+
+func (*ExportInstanceStreamResponse_ArgocdKnownHostsConfigmap) isExportInstanceStreamResponse_Resource() {
+}
+
+func (*ExportInstanceStreamResponse_ArgocdTlsCertsConfigmap) isExportInstanceStreamResponse_Resource() {
+}
+
+func (*ExportInstanceStreamResponse_ConfigManagementPlugin) isExportInstanceStreamResponse_Resource() {
+}
+
+func (*ExportInstanceStreamResponse_Application) isExportInstanceStreamResponse_Resource() {}
+
+func (*ExportInstanceStreamResponse_ApplicationSet) isExportInstanceStreamResponse_Resource() {}
+
+func (*ExportInstanceStreamResponse_AppProject) isExportInstanceStreamResponse_Resource() {}
+
+func (*ExportInstanceStreamResponse_ImageUpdater) isExportInstanceStreamResponse_Resource() {}
+
 type GetInstanceClusterCommandRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -14955,7 +15291,7 @@ type GetInstanceClusterCommandRequest struct {
 func (x *GetInstanceClusterCommandRequest) Reset() {
 	*x = GetInstanceClusterCommandRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[202]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[204]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -14968,7 +15304,7 @@ func (x *GetInstanceClusterCommandRequest) String() string {
 func (*GetInstanceClusterCommandRequest) ProtoMessage() {}
 
 func (x *GetInstanceClusterCommandRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[202]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[204]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -14981,7 +15317,7 @@ func (x *GetInstanceClusterCommandRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetInstanceClusterCommandRequest.ProtoReflect.Descriptor instead.
 func (*GetInstanceClusterCommandRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{202}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{204}
 }
 
 func (x *GetInstanceClusterCommandRequest) GetOrganizationId() string {
@@ -15060,7 +15396,7 @@ type GetInstanceClusterCommandResponse struct {
 func (x *GetInstanceClusterCommandResponse) Reset() {
 	*x = GetInstanceClusterCommandResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[203]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[205]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15073,7 +15409,7 @@ func (x *GetInstanceClusterCommandResponse) String() string {
 func (*GetInstanceClusterCommandResponse) ProtoMessage() {}
 
 func (x *GetInstanceClusterCommandResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[203]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[205]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15086,7 +15422,7 @@ func (x *GetInstanceClusterCommandResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetInstanceClusterCommandResponse.ProtoReflect.Descriptor instead.
 func (*GetInstanceClusterCommandResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{203}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{205}
 }
 
 func (x *GetInstanceClusterCommandResponse) GetCommand() string {
@@ -15119,7 +15455,7 @@ type ConfigManagementPlugin struct {
 func (x *ConfigManagementPlugin) Reset() {
 	*x = ConfigManagementPlugin{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[204]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[206]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15132,7 +15468,7 @@ func (x *ConfigManagementPlugin) String() string {
 func (*ConfigManagementPlugin) ProtoMessage() {}
 
 func (x *ConfigManagementPlugin) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[204]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[206]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15145,7 +15481,7 @@ func (x *ConfigManagementPlugin) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfigManagementPlugin.ProtoReflect.Descriptor instead.
 func (*ConfigManagementPlugin) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{204}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{206}
 }
 
 func (x *ConfigManagementPlugin) GetName() string {
@@ -15194,7 +15530,7 @@ type PluginSpec struct {
 func (x *PluginSpec) Reset() {
 	*x = PluginSpec{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[205]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[207]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15207,7 +15543,7 @@ func (x *PluginSpec) String() string {
 func (*PluginSpec) ProtoMessage() {}
 
 func (x *PluginSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[205]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[207]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15220,7 +15556,7 @@ func (x *PluginSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PluginSpec.ProtoReflect.Descriptor instead.
 func (*PluginSpec) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{205}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{207}
 }
 
 func (x *PluginSpec) GetVersion() string {
@@ -15277,7 +15613,7 @@ type Command struct {
 func (x *Command) Reset() {
 	*x = Command{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[206]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[208]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15290,7 +15626,7 @@ func (x *Command) String() string {
 func (*Command) ProtoMessage() {}
 
 func (x *Command) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[206]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[208]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15303,7 +15639,7 @@ func (x *Command) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Command.ProtoReflect.Descriptor instead.
 func (*Command) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{206}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{208}
 }
 
 func (x *Command) GetCommand() []string {
@@ -15334,7 +15670,7 @@ type Discover struct {
 func (x *Discover) Reset() {
 	*x = Discover{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[207]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[209]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15347,7 +15683,7 @@ func (x *Discover) String() string {
 func (*Discover) ProtoMessage() {}
 
 func (x *Discover) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[207]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[209]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15360,7 +15696,7 @@ func (x *Discover) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Discover.ProtoReflect.Descriptor instead.
 func (*Discover) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{207}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{209}
 }
 
 func (x *Discover) GetFind() *Find {
@@ -15390,7 +15726,7 @@ type Find struct {
 func (x *Find) Reset() {
 	*x = Find{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[208]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[210]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15403,7 +15739,7 @@ func (x *Find) String() string {
 func (*Find) ProtoMessage() {}
 
 func (x *Find) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[208]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[210]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15416,7 +15752,7 @@ func (x *Find) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Find.ProtoReflect.Descriptor instead.
 func (*Find) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{208}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{210}
 }
 
 func (x *Find) GetCommand() []string {
@@ -15454,7 +15790,7 @@ type Parameters struct {
 func (x *Parameters) Reset() {
 	*x = Parameters{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[209]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[211]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15467,7 +15803,7 @@ func (x *Parameters) String() string {
 func (*Parameters) ProtoMessage() {}
 
 func (x *Parameters) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[209]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[211]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15480,7 +15816,7 @@ func (x *Parameters) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Parameters.ProtoReflect.Descriptor instead.
 func (*Parameters) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{209}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{211}
 }
 
 func (x *Parameters) GetStatic() []*ParameterAnnouncement {
@@ -15509,7 +15845,7 @@ type Dynamic struct {
 func (x *Dynamic) Reset() {
 	*x = Dynamic{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[210]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[212]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15522,7 +15858,7 @@ func (x *Dynamic) String() string {
 func (*Dynamic) ProtoMessage() {}
 
 func (x *Dynamic) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[210]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[212]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15535,7 +15871,7 @@ func (x *Dynamic) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Dynamic.ProtoReflect.Descriptor instead.
 func (*Dynamic) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{210}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{212}
 }
 
 func (x *Dynamic) GetCommand() []string {
@@ -15589,7 +15925,7 @@ type ParameterAnnouncement struct {
 func (x *ParameterAnnouncement) Reset() {
 	*x = ParameterAnnouncement{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[211]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[213]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15602,7 +15938,7 @@ func (x *ParameterAnnouncement) String() string {
 func (*ParameterAnnouncement) ProtoMessage() {}
 
 func (x *ParameterAnnouncement) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[211]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[213]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15615,7 +15951,7 @@ func (x *ParameterAnnouncement) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ParameterAnnouncement.ProtoReflect.Descriptor instead.
 func (*ParameterAnnouncement) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{211}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{213}
 }
 
 func (x *ParameterAnnouncement) GetName() string {
@@ -15694,7 +16030,7 @@ type GetInstanceConfigManagementPluginsRequest struct {
 func (x *GetInstanceConfigManagementPluginsRequest) Reset() {
 	*x = GetInstanceConfigManagementPluginsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[212]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[214]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15707,7 +16043,7 @@ func (x *GetInstanceConfigManagementPluginsRequest) String() string {
 func (*GetInstanceConfigManagementPluginsRequest) ProtoMessage() {}
 
 func (x *GetInstanceConfigManagementPluginsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[212]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[214]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15720,7 +16056,7 @@ func (x *GetInstanceConfigManagementPluginsRequest) ProtoReflect() protoreflect.
 
 // Deprecated: Use GetInstanceConfigManagementPluginsRequest.ProtoReflect.Descriptor instead.
 func (*GetInstanceConfigManagementPluginsRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{212}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{214}
 }
 
 func (x *GetInstanceConfigManagementPluginsRequest) GetOrganizationId() string {
@@ -15755,7 +16091,7 @@ type GetInstanceConfigManagementPluginsResponse struct {
 func (x *GetInstanceConfigManagementPluginsResponse) Reset() {
 	*x = GetInstanceConfigManagementPluginsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[213]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[215]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15768,7 +16104,7 @@ func (x *GetInstanceConfigManagementPluginsResponse) String() string {
 func (*GetInstanceConfigManagementPluginsResponse) ProtoMessage() {}
 
 func (x *GetInstanceConfigManagementPluginsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[213]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[215]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15781,7 +16117,7 @@ func (x *GetInstanceConfigManagementPluginsResponse) ProtoReflect() protoreflect
 
 // Deprecated: Use GetInstanceConfigManagementPluginsResponse.ProtoReflect.Descriptor instead.
 func (*GetInstanceConfigManagementPluginsResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{213}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{215}
 }
 
 func (x *GetInstanceConfigManagementPluginsResponse) GetPlugins() []*ConfigManagementPlugin {
@@ -15805,7 +16141,7 @@ type UpdateInstanceConfigManagementPluginsRequest struct {
 func (x *UpdateInstanceConfigManagementPluginsRequest) Reset() {
 	*x = UpdateInstanceConfigManagementPluginsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[214]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[216]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15818,7 +16154,7 @@ func (x *UpdateInstanceConfigManagementPluginsRequest) String() string {
 func (*UpdateInstanceConfigManagementPluginsRequest) ProtoMessage() {}
 
 func (x *UpdateInstanceConfigManagementPluginsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[214]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[216]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15831,7 +16167,7 @@ func (x *UpdateInstanceConfigManagementPluginsRequest) ProtoReflect() protorefle
 
 // Deprecated: Use UpdateInstanceConfigManagementPluginsRequest.ProtoReflect.Descriptor instead.
 func (*UpdateInstanceConfigManagementPluginsRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{214}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{216}
 }
 
 func (x *UpdateInstanceConfigManagementPluginsRequest) GetOrganizationId() string {
@@ -15871,7 +16207,7 @@ type UpdateInstanceConfigManagementPluginsResponse struct {
 func (x *UpdateInstanceConfigManagementPluginsResponse) Reset() {
 	*x = UpdateInstanceConfigManagementPluginsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[215]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[217]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15884,7 +16220,7 @@ func (x *UpdateInstanceConfigManagementPluginsResponse) String() string {
 func (*UpdateInstanceConfigManagementPluginsResponse) ProtoMessage() {}
 
 func (x *UpdateInstanceConfigManagementPluginsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[215]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[217]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15897,7 +16233,7 @@ func (x *UpdateInstanceConfigManagementPluginsResponse) ProtoReflect() protorefl
 
 // Deprecated: Use UpdateInstanceConfigManagementPluginsResponse.ProtoReflect.Descriptor instead.
 func (*UpdateInstanceConfigManagementPluginsResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{215}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{217}
 }
 
 type ListInstanceAddonReposRequest struct {
@@ -15915,7 +16251,7 @@ type ListInstanceAddonReposRequest struct {
 func (x *ListInstanceAddonReposRequest) Reset() {
 	*x = ListInstanceAddonReposRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[216]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[218]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -15928,7 +16264,7 @@ func (x *ListInstanceAddonReposRequest) String() string {
 func (*ListInstanceAddonReposRequest) ProtoMessage() {}
 
 func (x *ListInstanceAddonReposRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[216]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[218]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -15941,7 +16277,7 @@ func (x *ListInstanceAddonReposRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInstanceAddonReposRequest.ProtoReflect.Descriptor instead.
 func (*ListInstanceAddonReposRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{216}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{218}
 }
 
 func (x *ListInstanceAddonReposRequest) GetOrganizationId() string {
@@ -15990,7 +16326,7 @@ type ListInstanceAddonReposResponse struct {
 func (x *ListInstanceAddonReposResponse) Reset() {
 	*x = ListInstanceAddonReposResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[217]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[219]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16003,7 +16339,7 @@ func (x *ListInstanceAddonReposResponse) String() string {
 func (*ListInstanceAddonReposResponse) ProtoMessage() {}
 
 func (x *ListInstanceAddonReposResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[217]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[219]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16016,7 +16352,7 @@ func (x *ListInstanceAddonReposResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInstanceAddonReposResponse.ProtoReflect.Descriptor instead.
 func (*ListInstanceAddonReposResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{217}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{219}
 }
 
 func (x *ListInstanceAddonReposResponse) GetAddonRepos() []*AddonRepo {
@@ -16040,7 +16376,7 @@ type GetInstanceAddonRepoRequest struct {
 func (x *GetInstanceAddonRepoRequest) Reset() {
 	*x = GetInstanceAddonRepoRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[218]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[220]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16053,7 +16389,7 @@ func (x *GetInstanceAddonRepoRequest) String() string {
 func (*GetInstanceAddonRepoRequest) ProtoMessage() {}
 
 func (x *GetInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[218]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[220]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16066,7 +16402,7 @@ func (x *GetInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetInstanceAddonRepoRequest.ProtoReflect.Descriptor instead.
 func (*GetInstanceAddonRepoRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{218}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{220}
 }
 
 func (x *GetInstanceAddonRepoRequest) GetOrganizationId() string {
@@ -16108,7 +16444,7 @@ type GetInstanceAddonRepoResponse struct {
 func (x *GetInstanceAddonRepoResponse) Reset() {
 	*x = GetInstanceAddonRepoResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[219]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[221]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16121,7 +16457,7 @@ func (x *GetInstanceAddonRepoResponse) String() string {
 func (*GetInstanceAddonRepoResponse) ProtoMessage() {}
 
 func (x *GetInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[219]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[221]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16134,7 +16470,7 @@ func (x *GetInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetInstanceAddonRepoResponse.ProtoReflect.Descriptor instead.
 func (*GetInstanceAddonRepoResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{219}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{221}
 }
 
 func (x *GetInstanceAddonRepoResponse) GetAddonRepo() *AddonRepo {
@@ -16158,7 +16494,7 @@ type CreateInstanceAddonRepoRequest struct {
 func (x *CreateInstanceAddonRepoRequest) Reset() {
 	*x = CreateInstanceAddonRepoRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[220]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[222]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16171,7 +16507,7 @@ func (x *CreateInstanceAddonRepoRequest) String() string {
 func (*CreateInstanceAddonRepoRequest) ProtoMessage() {}
 
 func (x *CreateInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[220]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[222]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16184,7 +16520,7 @@ func (x *CreateInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateInstanceAddonRepoRequest.ProtoReflect.Descriptor instead.
 func (*CreateInstanceAddonRepoRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{220}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{222}
 }
 
 func (x *CreateInstanceAddonRepoRequest) GetOrganizationId() string {
@@ -16226,7 +16562,7 @@ type CreateInstanceAddonRepoResponse struct {
 func (x *CreateInstanceAddonRepoResponse) Reset() {
 	*x = CreateInstanceAddonRepoResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[221]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[223]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16239,7 +16575,7 @@ func (x *CreateInstanceAddonRepoResponse) String() string {
 func (*CreateInstanceAddonRepoResponse) ProtoMessage() {}
 
 func (x *CreateInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[221]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[223]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16252,7 +16588,7 @@ func (x *CreateInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateInstanceAddonRepoResponse.ProtoReflect.Descriptor instead.
 func (*CreateInstanceAddonRepoResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{221}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{223}
 }
 
 func (x *CreateInstanceAddonRepoResponse) GetAddonRepo() *AddonRepo {
@@ -16276,7 +16612,7 @@ type DeleteInstanceAddonRepoRequest struct {
 func (x *DeleteInstanceAddonRepoRequest) Reset() {
 	*x = DeleteInstanceAddonRepoRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[222]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[224]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16289,7 +16625,7 @@ func (x *DeleteInstanceAddonRepoRequest) String() string {
 func (*DeleteInstanceAddonRepoRequest) ProtoMessage() {}
 
 func (x *DeleteInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[222]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[224]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16302,7 +16638,7 @@ func (x *DeleteInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteInstanceAddonRepoRequest.ProtoReflect.Descriptor instead.
 func (*DeleteInstanceAddonRepoRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{222}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{224}
 }
 
 func (x *DeleteInstanceAddonRepoRequest) GetOrganizationId() string {
@@ -16342,7 +16678,7 @@ type DeleteInstanceAddonRepoResponse struct {
 func (x *DeleteInstanceAddonRepoResponse) Reset() {
 	*x = DeleteInstanceAddonRepoResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[223]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[225]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16355,7 +16691,7 @@ func (x *DeleteInstanceAddonRepoResponse) String() string {
 func (*DeleteInstanceAddonRepoResponse) ProtoMessage() {}
 
 func (x *DeleteInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[223]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[225]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16368,7 +16704,7 @@ func (x *DeleteInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteInstanceAddonRepoResponse.ProtoReflect.Descriptor instead.
 func (*DeleteInstanceAddonRepoResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{223}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{225}
 }
 
 type RefreshInstanceAddonRepoRequest struct {
@@ -16385,7 +16721,7 @@ type RefreshInstanceAddonRepoRequest struct {
 func (x *RefreshInstanceAddonRepoRequest) Reset() {
 	*x = RefreshInstanceAddonRepoRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[224]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[226]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16398,7 +16734,7 @@ func (x *RefreshInstanceAddonRepoRequest) String() string {
 func (*RefreshInstanceAddonRepoRequest) ProtoMessage() {}
 
 func (x *RefreshInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[224]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[226]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16411,7 +16747,7 @@ func (x *RefreshInstanceAddonRepoRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshInstanceAddonRepoRequest.ProtoReflect.Descriptor instead.
 func (*RefreshInstanceAddonRepoRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{224}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{226}
 }
 
 func (x *RefreshInstanceAddonRepoRequest) GetOrganizationId() string {
@@ -16453,7 +16789,7 @@ type RefreshInstanceAddonRepoResponse struct {
 func (x *RefreshInstanceAddonRepoResponse) Reset() {
 	*x = RefreshInstanceAddonRepoResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[225]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[227]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16466,7 +16802,7 @@ func (x *RefreshInstanceAddonRepoResponse) String() string {
 func (*RefreshInstanceAddonRepoResponse) ProtoMessage() {}
 
 func (x *RefreshInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[225]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[227]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16479,7 +16815,7 @@ func (x *RefreshInstanceAddonRepoResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshInstanceAddonRepoResponse.ProtoReflect.Descriptor instead.
 func (*RefreshInstanceAddonRepoResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{225}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{227}
 }
 
 func (x *RefreshInstanceAddonRepoResponse) GetAddonRepo() *AddonRepo {
@@ -16506,7 +16842,7 @@ type AddonRepo struct {
 func (x *AddonRepo) Reset() {
 	*x = AddonRepo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[226]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[228]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16519,7 +16855,7 @@ func (x *AddonRepo) String() string {
 func (*AddonRepo) ProtoMessage() {}
 
 func (x *AddonRepo) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[226]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[228]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16532,7 +16868,7 @@ func (x *AddonRepo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonRepo.ProtoReflect.Descriptor instead.
 func (*AddonRepo) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{226}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{228}
 }
 
 func (x *AddonRepo) GetId() string {
@@ -16596,7 +16932,7 @@ type RepoSpec struct {
 func (x *RepoSpec) Reset() {
 	*x = RepoSpec{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[227]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[229]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16609,7 +16945,7 @@ func (x *RepoSpec) String() string {
 func (*RepoSpec) ProtoMessage() {}
 
 func (x *RepoSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[227]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[229]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16622,7 +16958,7 @@ func (x *RepoSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RepoSpec.ProtoReflect.Descriptor instead.
 func (*RepoSpec) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{227}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{229}
 }
 
 func (x *RepoSpec) GetRepoUrl() string {
@@ -16654,7 +16990,7 @@ type RepoStatus struct {
 func (x *RepoStatus) Reset() {
 	*x = RepoStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[228]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[230]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16667,7 +17003,7 @@ func (x *RepoStatus) String() string {
 func (*RepoStatus) ProtoMessage() {}
 
 func (x *RepoStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[228]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[230]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16680,7 +17016,7 @@ func (x *RepoStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RepoStatus.ProtoReflect.Descriptor instead.
 func (*RepoStatus) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{228}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{230}
 }
 
 func (x *RepoStatus) GetLastSyncTime() string {
@@ -16733,7 +17069,7 @@ type GetInstanceAddonRequest struct {
 func (x *GetInstanceAddonRequest) Reset() {
 	*x = GetInstanceAddonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[229]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[231]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16746,7 +17082,7 @@ func (x *GetInstanceAddonRequest) String() string {
 func (*GetInstanceAddonRequest) ProtoMessage() {}
 
 func (x *GetInstanceAddonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[229]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[231]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16759,7 +17095,7 @@ func (x *GetInstanceAddonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetInstanceAddonRequest.ProtoReflect.Descriptor instead.
 func (*GetInstanceAddonRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{229}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{231}
 }
 
 func (x *GetInstanceAddonRequest) GetOrganizationId() string {
@@ -16808,7 +17144,7 @@ type GetInstanceAddonResponse struct {
 func (x *GetInstanceAddonResponse) Reset() {
 	*x = GetInstanceAddonResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[230]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[232]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16821,7 +17157,7 @@ func (x *GetInstanceAddonResponse) String() string {
 func (*GetInstanceAddonResponse) ProtoMessage() {}
 
 func (x *GetInstanceAddonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[230]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[232]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16834,7 +17170,7 @@ func (x *GetInstanceAddonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetInstanceAddonResponse.ProtoReflect.Descriptor instead.
 func (*GetInstanceAddonResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{230}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{232}
 }
 
 func (x *GetInstanceAddonResponse) GetAddon() *Addon {
@@ -16859,7 +17195,7 @@ type DeleteInstanceAddonRequest struct {
 func (x *DeleteInstanceAddonRequest) Reset() {
 	*x = DeleteInstanceAddonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[231]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[233]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16872,7 +17208,7 @@ func (x *DeleteInstanceAddonRequest) String() string {
 func (*DeleteInstanceAddonRequest) ProtoMessage() {}
 
 func (x *DeleteInstanceAddonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[231]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[233]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16885,7 +17221,7 @@ func (x *DeleteInstanceAddonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteInstanceAddonRequest.ProtoReflect.Descriptor instead.
 func (*DeleteInstanceAddonRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{231}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{233}
 }
 
 func (x *DeleteInstanceAddonRequest) GetOrganizationId() string {
@@ -16932,7 +17268,7 @@ type DeleteInstanceAddonResponse struct {
 func (x *DeleteInstanceAddonResponse) Reset() {
 	*x = DeleteInstanceAddonResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[232]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[234]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16945,7 +17281,7 @@ func (x *DeleteInstanceAddonResponse) String() string {
 func (*DeleteInstanceAddonResponse) ProtoMessage() {}
 
 func (x *DeleteInstanceAddonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[232]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[234]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -16958,7 +17294,7 @@ func (x *DeleteInstanceAddonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteInstanceAddonResponse.ProtoReflect.Descriptor instead.
 func (*DeleteInstanceAddonResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{232}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{234}
 }
 
 type AddonFilter struct {
@@ -16977,7 +17313,7 @@ type AddonFilter struct {
 func (x *AddonFilter) Reset() {
 	*x = AddonFilter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[233]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[235]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -16990,7 +17326,7 @@ func (x *AddonFilter) String() string {
 func (*AddonFilter) ProtoMessage() {}
 
 func (x *AddonFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[233]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[235]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17003,7 +17339,7 @@ func (x *AddonFilter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonFilter.ProtoReflect.Descriptor instead.
 func (*AddonFilter) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{233}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{235}
 }
 
 func (x *AddonFilter) GetSortBy() SortAddons {
@@ -17064,7 +17400,7 @@ type ListInstanceAddonsRequest struct {
 func (x *ListInstanceAddonsRequest) Reset() {
 	*x = ListInstanceAddonsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[234]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[236]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17077,7 +17413,7 @@ func (x *ListInstanceAddonsRequest) String() string {
 func (*ListInstanceAddonsRequest) ProtoMessage() {}
 
 func (x *ListInstanceAddonsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[234]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[236]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17090,7 +17426,7 @@ func (x *ListInstanceAddonsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInstanceAddonsRequest.ProtoReflect.Descriptor instead.
 func (*ListInstanceAddonsRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{234}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{236}
 }
 
 func (x *ListInstanceAddonsRequest) GetOrganizationId() string {
@@ -17147,7 +17483,7 @@ type ListInstanceAddonsResponse struct {
 func (x *ListInstanceAddonsResponse) Reset() {
 	*x = ListInstanceAddonsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[235]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[237]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17160,7 +17496,7 @@ func (x *ListInstanceAddonsResponse) String() string {
 func (*ListInstanceAddonsResponse) ProtoMessage() {}
 
 func (x *ListInstanceAddonsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[235]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[237]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17173,7 +17509,7 @@ func (x *ListInstanceAddonsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInstanceAddonsResponse.ProtoReflect.Descriptor instead.
 func (*ListInstanceAddonsResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{235}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{237}
 }
 
 func (x *ListInstanceAddonsResponse) GetAddons() []*Addon {
@@ -17205,7 +17541,7 @@ type UpdateInstanceAddonRequest struct {
 func (x *UpdateInstanceAddonRequest) Reset() {
 	*x = UpdateInstanceAddonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[236]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[238]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17218,7 +17554,7 @@ func (x *UpdateInstanceAddonRequest) String() string {
 func (*UpdateInstanceAddonRequest) ProtoMessage() {}
 
 func (x *UpdateInstanceAddonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[236]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[238]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17231,7 +17567,7 @@ func (x *UpdateInstanceAddonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateInstanceAddonRequest.ProtoReflect.Descriptor instead.
 func (*UpdateInstanceAddonRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{236}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{238}
 }
 
 func (x *UpdateInstanceAddonRequest) GetId() string {
@@ -17280,7 +17616,7 @@ type UpdateInstanceAddonResponse struct {
 func (x *UpdateInstanceAddonResponse) Reset() {
 	*x = UpdateInstanceAddonResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[237]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[239]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17293,7 +17629,7 @@ func (x *UpdateInstanceAddonResponse) String() string {
 func (*UpdateInstanceAddonResponse) ProtoMessage() {}
 
 func (x *UpdateInstanceAddonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[237]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[239]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17306,7 +17642,7 @@ func (x *UpdateInstanceAddonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateInstanceAddonResponse.ProtoReflect.Descriptor instead.
 func (*UpdateInstanceAddonResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{237}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{239}
 }
 
 func (x *UpdateInstanceAddonResponse) GetAddon() *Addon {
@@ -17331,7 +17667,7 @@ type PatchInstanceAddonRequest struct {
 func (x *PatchInstanceAddonRequest) Reset() {
 	*x = PatchInstanceAddonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[238]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[240]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17344,7 +17680,7 @@ func (x *PatchInstanceAddonRequest) String() string {
 func (*PatchInstanceAddonRequest) ProtoMessage() {}
 
 func (x *PatchInstanceAddonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[238]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[240]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17357,7 +17693,7 @@ func (x *PatchInstanceAddonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PatchInstanceAddonRequest.ProtoReflect.Descriptor instead.
 func (*PatchInstanceAddonRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{238}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{240}
 }
 
 func (x *PatchInstanceAddonRequest) GetId() string {
@@ -17406,7 +17742,7 @@ type PatchInstanceAddonResponse struct {
 func (x *PatchInstanceAddonResponse) Reset() {
 	*x = PatchInstanceAddonResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[239]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[241]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17419,7 +17755,7 @@ func (x *PatchInstanceAddonResponse) String() string {
 func (*PatchInstanceAddonResponse) ProtoMessage() {}
 
 func (x *PatchInstanceAddonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[239]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[241]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17432,7 +17768,7 @@ func (x *PatchInstanceAddonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PatchInstanceAddonResponse.ProtoReflect.Descriptor instead.
 func (*PatchInstanceAddonResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{239}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{241}
 }
 
 func (x *PatchInstanceAddonResponse) GetAddon() *Addon {
@@ -17456,7 +17792,7 @@ type ClearAddonStatusSourceHistoryRequest struct {
 func (x *ClearAddonStatusSourceHistoryRequest) Reset() {
 	*x = ClearAddonStatusSourceHistoryRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[240]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[242]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17469,7 +17805,7 @@ func (x *ClearAddonStatusSourceHistoryRequest) String() string {
 func (*ClearAddonStatusSourceHistoryRequest) ProtoMessage() {}
 
 func (x *ClearAddonStatusSourceHistoryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[240]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[242]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17482,7 +17818,7 @@ func (x *ClearAddonStatusSourceHistoryRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use ClearAddonStatusSourceHistoryRequest.ProtoReflect.Descriptor instead.
 func (*ClearAddonStatusSourceHistoryRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{240}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{242}
 }
 
 func (x *ClearAddonStatusSourceHistoryRequest) GetId() string {
@@ -17524,7 +17860,7 @@ type ClearAddonStatusSourceHistoryResponse struct {
 func (x *ClearAddonStatusSourceHistoryResponse) Reset() {
 	*x = ClearAddonStatusSourceHistoryResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[241]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[243]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17537,7 +17873,7 @@ func (x *ClearAddonStatusSourceHistoryResponse) String() string {
 func (*ClearAddonStatusSourceHistoryResponse) ProtoMessage() {}
 
 func (x *ClearAddonStatusSourceHistoryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[241]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[243]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17550,7 +17886,7 @@ func (x *ClearAddonStatusSourceHistoryResponse) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use ClearAddonStatusSourceHistoryResponse.ProtoReflect.Descriptor instead.
 func (*ClearAddonStatusSourceHistoryResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{241}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{243}
 }
 
 func (x *ClearAddonStatusSourceHistoryResponse) GetAddon() *Addon {
@@ -17574,7 +17910,7 @@ type RefreshInstanceAddonRequest struct {
 func (x *RefreshInstanceAddonRequest) Reset() {
 	*x = RefreshInstanceAddonRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[242]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[244]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17587,7 +17923,7 @@ func (x *RefreshInstanceAddonRequest) String() string {
 func (*RefreshInstanceAddonRequest) ProtoMessage() {}
 
 func (x *RefreshInstanceAddonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[242]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[244]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17600,7 +17936,7 @@ func (x *RefreshInstanceAddonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshInstanceAddonRequest.ProtoReflect.Descriptor instead.
 func (*RefreshInstanceAddonRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{242}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{244}
 }
 
 func (x *RefreshInstanceAddonRequest) GetId() string {
@@ -17642,7 +17978,7 @@ type RefreshInstanceAddonResponse struct {
 func (x *RefreshInstanceAddonResponse) Reset() {
 	*x = RefreshInstanceAddonResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[243]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[245]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17655,7 +17991,7 @@ func (x *RefreshInstanceAddonResponse) String() string {
 func (*RefreshInstanceAddonResponse) ProtoMessage() {}
 
 func (x *RefreshInstanceAddonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[243]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[245]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17668,7 +18004,7 @@ func (x *RefreshInstanceAddonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshInstanceAddonResponse.ProtoReflect.Descriptor instead.
 func (*RefreshInstanceAddonResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{243}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{245}
 }
 
 func (x *RefreshInstanceAddonResponse) GetAddon() *Addon {
@@ -17691,7 +18027,7 @@ type ManifestSource struct {
 func (x *ManifestSource) Reset() {
 	*x = ManifestSource{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[244]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[246]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17704,7 +18040,7 @@ func (x *ManifestSource) String() string {
 func (*ManifestSource) ProtoMessage() {}
 
 func (x *ManifestSource) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[244]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[246]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17717,7 +18053,7 @@ func (x *ManifestSource) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ManifestSource.ProtoReflect.Descriptor instead.
 func (*ManifestSource) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{244}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{246}
 }
 
 func (x *ManifestSource) GetKustomizeSource() *KustomizeSource {
@@ -17753,7 +18089,7 @@ type KustomizeSource struct {
 func (x *KustomizeSource) Reset() {
 	*x = KustomizeSource{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[245]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[247]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17766,7 +18102,7 @@ func (x *KustomizeSource) String() string {
 func (*KustomizeSource) ProtoMessage() {}
 
 func (x *KustomizeSource) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[245]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[247]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17779,7 +18115,7 @@ func (x *KustomizeSource) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KustomizeSource.ProtoReflect.Descriptor instead.
 func (*KustomizeSource) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{245}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{247}
 }
 
 func (x *KustomizeSource) GetImages() []*KustomizeImage {
@@ -17814,7 +18150,7 @@ type KustomizeImage struct {
 func (x *KustomizeImage) Reset() {
 	*x = KustomizeImage{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[246]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[248]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17827,7 +18163,7 @@ func (x *KustomizeImage) String() string {
 func (*KustomizeImage) ProtoMessage() {}
 
 func (x *KustomizeImage) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[246]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[248]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17840,7 +18176,7 @@ func (x *KustomizeImage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KustomizeImage.ProtoReflect.Descriptor instead.
 func (*KustomizeImage) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{246}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{248}
 }
 
 func (x *KustomizeImage) GetName() string {
@@ -17890,7 +18226,7 @@ type KustomizeHelmChart struct {
 func (x *KustomizeHelmChart) Reset() {
 	*x = KustomizeHelmChart{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[247]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[249]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17903,7 +18239,7 @@ func (x *KustomizeHelmChart) String() string {
 func (*KustomizeHelmChart) ProtoMessage() {}
 
 func (x *KustomizeHelmChart) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[247]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[249]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17916,7 +18252,7 @@ func (x *KustomizeHelmChart) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KustomizeHelmChart.ProtoReflect.Descriptor instead.
 func (*KustomizeHelmChart) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{247}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{249}
 }
 
 func (x *KustomizeHelmChart) GetName() string {
@@ -17945,7 +18281,7 @@ type HelmSource struct {
 func (x *HelmSource) Reset() {
 	*x = HelmSource{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[248]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[250]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -17958,7 +18294,7 @@ func (x *HelmSource) String() string {
 func (*HelmSource) ProtoMessage() {}
 
 func (x *HelmSource) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[248]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[250]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -17971,7 +18307,7 @@ func (x *HelmSource) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HelmSource.ProtoReflect.Descriptor instead.
 func (*HelmSource) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{248}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{250}
 }
 
 func (x *HelmSource) GetValues() map[string]string {
@@ -18000,7 +18336,7 @@ type ClusterSelector struct {
 func (x *ClusterSelector) Reset() {
 	*x = ClusterSelector{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[249]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[251]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18013,7 +18349,7 @@ func (x *ClusterSelector) String() string {
 func (*ClusterSelector) ProtoMessage() {}
 
 func (x *ClusterSelector) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[249]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[251]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18026,7 +18362,7 @@ func (x *ClusterSelector) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClusterSelector.ProtoReflect.Descriptor instead.
 func (*ClusterSelector) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{249}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{251}
 }
 
 func (x *ClusterSelector) GetNameFilters() []*Selector {
@@ -18056,7 +18392,7 @@ type Selector struct {
 func (x *Selector) Reset() {
 	*x = Selector{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[250]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[252]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18069,7 +18405,7 @@ func (x *Selector) String() string {
 func (*Selector) ProtoMessage() {}
 
 func (x *Selector) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[250]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[252]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18082,7 +18418,7 @@ func (x *Selector) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Selector.ProtoReflect.Descriptor instead.
 func (*Selector) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{250}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{252}
 }
 
 func (x *Selector) GetKey() string {
@@ -18126,7 +18462,7 @@ type AddonSpec struct {
 func (x *AddonSpec) Reset() {
 	*x = AddonSpec{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[251]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[253]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18139,7 +18475,7 @@ func (x *AddonSpec) String() string {
 func (*AddonSpec) ProtoMessage() {}
 
 func (x *AddonSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[251]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[253]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18152,7 +18488,7 @@ func (x *AddonSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonSpec.ProtoReflect.Descriptor instead.
 func (*AddonSpec) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{251}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{253}
 }
 
 func (x *AddonSpec) GetName() string {
@@ -18238,7 +18574,7 @@ type PatchCustomization struct {
 func (x *PatchCustomization) Reset() {
 	*x = PatchCustomization{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[252]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[254]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18251,7 +18587,7 @@ func (x *PatchCustomization) String() string {
 func (*PatchCustomization) ProtoMessage() {}
 
 func (x *PatchCustomization) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[252]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[254]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18264,7 +18600,7 @@ func (x *PatchCustomization) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PatchCustomization.ProtoReflect.Descriptor instead.
 func (*PatchCustomization) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{252}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{254}
 }
 
 func (x *PatchCustomization) GetClusterSelector() *ClusterSelector {
@@ -18299,7 +18635,7 @@ type HelmValues struct {
 func (x *HelmValues) Reset() {
 	*x = HelmValues{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[253]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[255]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18312,7 +18648,7 @@ func (x *HelmValues) String() string {
 func (*HelmValues) ProtoMessage() {}
 
 func (x *HelmValues) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[253]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[255]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18325,7 +18661,7 @@ func (x *HelmValues) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HelmValues.ProtoReflect.Descriptor instead.
 func (*HelmValues) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{253}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{255}
 }
 
 func (x *HelmValues) GetYamlPaths() []string {
@@ -18349,7 +18685,7 @@ type ChartDependency struct {
 func (x *ChartDependency) Reset() {
 	*x = ChartDependency{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[254]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[256]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18362,7 +18698,7 @@ func (x *ChartDependency) String() string {
 func (*ChartDependency) ProtoMessage() {}
 
 func (x *ChartDependency) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[254]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[256]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18375,7 +18711,7 @@ func (x *ChartDependency) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChartDependency.ProtoReflect.Descriptor instead.
 func (*ChartDependency) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{254}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{256}
 }
 
 func (x *ChartDependency) GetName() string {
@@ -18417,7 +18753,7 @@ type AppCreationOptions struct {
 func (x *AppCreationOptions) Reset() {
 	*x = AppCreationOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[255]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[257]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18430,7 +18766,7 @@ func (x *AppCreationOptions) String() string {
 func (*AppCreationOptions) ProtoMessage() {}
 
 func (x *AppCreationOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[255]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[257]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18443,7 +18779,7 @@ func (x *AppCreationOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AppCreationOptions.ProtoReflect.Descriptor instead.
 func (*AppCreationOptions) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{255}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{257}
 }
 
 func (x *AppCreationOptions) GetOnConflict() OnConflictAction {
@@ -18464,7 +18800,7 @@ type AppDeletionOptions struct {
 func (x *AppDeletionOptions) Reset() {
 	*x = AppDeletionOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[256]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[258]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18477,7 +18813,7 @@ func (x *AppDeletionOptions) String() string {
 func (*AppDeletionOptions) ProtoMessage() {}
 
 func (x *AppDeletionOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[256]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[258]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18490,7 +18826,7 @@ func (x *AppDeletionOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AppDeletionOptions.ProtoReflect.Descriptor instead.
 func (*AppDeletionOptions) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{256}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{258}
 }
 
 func (x *AppDeletionOptions) GetNonCascade() bool {
@@ -18514,7 +18850,7 @@ type AppSyncOptions struct {
 func (x *AppSyncOptions) Reset() {
 	*x = AppSyncOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[257]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[259]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18527,7 +18863,7 @@ func (x *AppSyncOptions) String() string {
 func (*AppSyncOptions) ProtoMessage() {}
 
 func (x *AppSyncOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[257]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[259]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18540,7 +18876,7 @@ func (x *AppSyncOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AppSyncOptions.ProtoReflect.Descriptor instead.
 func (*AppSyncOptions) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{257}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{259}
 }
 
 func (x *AppSyncOptions) GetAutoSync() bool {
@@ -18589,7 +18925,7 @@ type AppTemplate struct {
 func (x *AppTemplate) Reset() {
 	*x = AppTemplate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[258]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[260]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18602,7 +18938,7 @@ func (x *AppTemplate) String() string {
 func (*AppTemplate) ProtoMessage() {}
 
 func (x *AppTemplate) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[258]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[260]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18615,7 +18951,7 @@ func (x *AppTemplate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AppTemplate.ProtoReflect.Descriptor instead.
 func (*AppTemplate) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{258}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{260}
 }
 
 func (x *AppTemplate) GetNameTemplate() string {
@@ -18687,7 +19023,7 @@ type HelmOptions struct {
 func (x *HelmOptions) Reset() {
 	*x = HelmOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[259]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[261]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18700,7 +19036,7 @@ func (x *HelmOptions) String() string {
 func (*HelmOptions) ProtoMessage() {}
 
 func (x *HelmOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[259]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[261]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18713,7 +19049,7 @@ func (x *HelmOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HelmOptions.ProtoReflect.Descriptor instead.
 func (*HelmOptions) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{259}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{261}
 }
 
 func (x *HelmOptions) GetReleaseNameTemplate() string {
@@ -18749,7 +19085,7 @@ type KustomizeOptions struct {
 func (x *KustomizeOptions) Reset() {
 	*x = KustomizeOptions{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[260]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[262]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18762,7 +19098,7 @@ func (x *KustomizeOptions) String() string {
 func (*KustomizeOptions) ProtoMessage() {}
 
 func (x *KustomizeOptions) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[260]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[262]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18775,7 +19111,7 @@ func (x *KustomizeOptions) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use KustomizeOptions.ProtoReflect.Descriptor instead.
 func (*KustomizeOptions) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{260}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{262}
 }
 
 func (x *KustomizeOptions) GetNamePrefixTemplate() string {
@@ -18806,7 +19142,7 @@ type StatusSourceUpdate struct {
 func (x *StatusSourceUpdate) Reset() {
 	*x = StatusSourceUpdate{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[261]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[263]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18819,7 +19155,7 @@ func (x *StatusSourceUpdate) String() string {
 func (*StatusSourceUpdate) ProtoMessage() {}
 
 func (x *StatusSourceUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[261]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[263]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18832,7 +19168,7 @@ func (x *StatusSourceUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusSourceUpdate.ProtoReflect.Descriptor instead.
 func (*StatusSourceUpdate) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{261}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{263}
 }
 
 func (x *StatusSourceUpdate) GetStartTimestamp() *timestamppb.Timestamp {
@@ -18881,7 +19217,7 @@ type SourceUpdateResult struct {
 func (x *SourceUpdateResult) Reset() {
 	*x = SourceUpdateResult{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[262]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[264]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18894,7 +19230,7 @@ func (x *SourceUpdateResult) String() string {
 func (*SourceUpdateResult) ProtoMessage() {}
 
 func (x *SourceUpdateResult) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[262]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[264]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -18907,7 +19243,7 @@ func (x *SourceUpdateResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SourceUpdateResult.ProtoReflect.Descriptor instead.
 func (*SourceUpdateResult) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{262}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{264}
 }
 
 func (x *SourceUpdateResult) GetStartTimestamp() *timestamppb.Timestamp {
@@ -18979,7 +19315,7 @@ type SourceInfo struct {
 func (x *SourceInfo) Reset() {
 	*x = SourceInfo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[263]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[265]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -18992,7 +19328,7 @@ func (x *SourceInfo) String() string {
 func (*SourceInfo) ProtoMessage() {}
 
 func (x *SourceInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[263]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[265]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19005,7 +19341,7 @@ func (x *SourceInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SourceInfo.ProtoReflect.Descriptor instead.
 func (*SourceInfo) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{263}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{265}
 }
 
 func (x *SourceInfo) GetDefaultManifest() *ManifestSource {
@@ -19050,7 +19386,7 @@ type AddonStatus struct {
 func (x *AddonStatus) Reset() {
 	*x = AddonStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[264]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[266]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19063,7 +19399,7 @@ func (x *AddonStatus) String() string {
 func (*AddonStatus) ProtoMessage() {}
 
 func (x *AddonStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[264]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[266]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19076,7 +19412,7 @@ func (x *AddonStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonStatus.ProtoReflect.Descriptor instead.
 func (*AddonStatus) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{264}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{266}
 }
 
 func (x *AddonStatus) GetLastSyncTime() string {
@@ -19172,7 +19508,7 @@ type ListInstanceAddonErrorsRequest struct {
 func (x *ListInstanceAddonErrorsRequest) Reset() {
 	*x = ListInstanceAddonErrorsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[265]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[267]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19185,7 +19521,7 @@ func (x *ListInstanceAddonErrorsRequest) String() string {
 func (*ListInstanceAddonErrorsRequest) ProtoMessage() {}
 
 func (x *ListInstanceAddonErrorsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[265]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[267]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19198,7 +19534,7 @@ func (x *ListInstanceAddonErrorsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInstanceAddonErrorsRequest.ProtoReflect.Descriptor instead.
 func (*ListInstanceAddonErrorsRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{265}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{267}
 }
 
 func (x *ListInstanceAddonErrorsRequest) GetOrganizationId() string {
@@ -19255,7 +19591,7 @@ type ListInstanceAddonErrorsResponse struct {
 func (x *ListInstanceAddonErrorsResponse) Reset() {
 	*x = ListInstanceAddonErrorsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[266]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[268]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19268,7 +19604,7 @@ func (x *ListInstanceAddonErrorsResponse) String() string {
 func (*ListInstanceAddonErrorsResponse) ProtoMessage() {}
 
 func (x *ListInstanceAddonErrorsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[266]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[268]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19281,7 +19617,7 @@ func (x *ListInstanceAddonErrorsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListInstanceAddonErrorsResponse.ProtoReflect.Descriptor instead.
 func (*ListInstanceAddonErrorsResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{266}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{268}
 }
 
 func (x *ListInstanceAddonErrorsResponse) GetErrors() map[string]*AddonErrorList {
@@ -19309,7 +19645,7 @@ type AddonErrorList struct {
 func (x *AddonErrorList) Reset() {
 	*x = AddonErrorList{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[267]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[269]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19322,7 +19658,7 @@ func (x *AddonErrorList) String() string {
 func (*AddonErrorList) ProtoMessage() {}
 
 func (x *AddonErrorList) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[267]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[269]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19335,7 +19671,7 @@ func (x *AddonErrorList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonErrorList.ProtoReflect.Descriptor instead.
 func (*AddonErrorList) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{267}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{269}
 }
 
 func (x *AddonErrorList) GetErrors() []*AddonError {
@@ -19357,7 +19693,7 @@ type AddonError struct {
 func (x *AddonError) Reset() {
 	*x = AddonError{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[268]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[270]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19370,7 +19706,7 @@ func (x *AddonError) String() string {
 func (*AddonError) ProtoMessage() {}
 
 func (x *AddonError) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[268]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[270]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19383,7 +19719,7 @@ func (x *AddonError) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonError.ProtoReflect.Descriptor instead.
 func (*AddonError) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{268}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{270}
 }
 
 func (x *AddonError) GetType() string {
@@ -19412,7 +19748,7 @@ type AddonHealthStatus struct {
 func (x *AddonHealthStatus) Reset() {
 	*x = AddonHealthStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[269]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[271]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19425,7 +19761,7 @@ func (x *AddonHealthStatus) String() string {
 func (*AddonHealthStatus) ProtoMessage() {}
 
 func (x *AddonHealthStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[269]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[271]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19438,7 +19774,7 @@ func (x *AddonHealthStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonHealthStatus.ProtoReflect.Descriptor instead.
 func (*AddonHealthStatus) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{269}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{271}
 }
 
 func (x *AddonHealthStatus) GetHealth() *ApplicationsHealth {
@@ -19469,7 +19805,7 @@ type AddonCondition struct {
 func (x *AddonCondition) Reset() {
 	*x = AddonCondition{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[270]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[272]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19482,7 +19818,7 @@ func (x *AddonCondition) String() string {
 func (*AddonCondition) ProtoMessage() {}
 
 func (x *AddonCondition) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[270]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[272]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19495,7 +19831,7 @@ func (x *AddonCondition) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonCondition.ProtoReflect.Descriptor instead.
 func (*AddonCondition) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{270}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{272}
 }
 
 func (x *AddonCondition) GetMessage() string {
@@ -19540,7 +19876,7 @@ type ClusterAddonStatusOperation struct {
 func (x *ClusterAddonStatusOperation) Reset() {
 	*x = ClusterAddonStatusOperation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[271]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[273]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19553,7 +19889,7 @@ func (x *ClusterAddonStatusOperation) String() string {
 func (*ClusterAddonStatusOperation) ProtoMessage() {}
 
 func (x *ClusterAddonStatusOperation) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[271]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[273]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19566,7 +19902,7 @@ func (x *ClusterAddonStatusOperation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClusterAddonStatusOperation.ProtoReflect.Descriptor instead.
 func (*ClusterAddonStatusOperation) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{271}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{273}
 }
 
 func (x *ClusterAddonStatusOperation) GetRevision() string {
@@ -19609,7 +19945,7 @@ type StatusOperation struct {
 func (x *StatusOperation) Reset() {
 	*x = StatusOperation{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[272]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[274]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19622,7 +19958,7 @@ func (x *StatusOperation) String() string {
 func (*StatusOperation) ProtoMessage() {}
 
 func (x *StatusOperation) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[272]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[274]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19635,7 +19971,7 @@ func (x *StatusOperation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusOperation.ProtoReflect.Descriptor instead.
 func (*StatusOperation) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{272}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{274}
 }
 
 func (x *StatusOperation) GetClusterAddonStatusOperation() *ClusterAddonStatusOperation {
@@ -19675,7 +20011,7 @@ type Addon struct {
 func (x *Addon) Reset() {
 	*x = Addon{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[273]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[275]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19688,7 +20024,7 @@ func (x *Addon) String() string {
 func (*Addon) ProtoMessage() {}
 
 func (x *Addon) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[273]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[275]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19701,7 +20037,7 @@ func (x *Addon) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Addon.ProtoReflect.Descriptor instead.
 func (*Addon) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{273}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{275}
 }
 
 func (x *Addon) GetId() string {
@@ -19809,7 +20145,7 @@ type AddonMarketplaceInstallRequest struct {
 func (x *AddonMarketplaceInstallRequest) Reset() {
 	*x = AddonMarketplaceInstallRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[274]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[276]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19822,7 +20158,7 @@ func (x *AddonMarketplaceInstallRequest) String() string {
 func (*AddonMarketplaceInstallRequest) ProtoMessage() {}
 
 func (x *AddonMarketplaceInstallRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[274]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[276]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19835,7 +20171,7 @@ func (x *AddonMarketplaceInstallRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonMarketplaceInstallRequest.ProtoReflect.Descriptor instead.
 func (*AddonMarketplaceInstallRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{274}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{276}
 }
 
 func (x *AddonMarketplaceInstallRequest) GetOrganizationId() string {
@@ -19877,7 +20213,7 @@ type AddonMarketplaceInstallResponse struct {
 func (x *AddonMarketplaceInstallResponse) Reset() {
 	*x = AddonMarketplaceInstallResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[275]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[277]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19890,7 +20226,7 @@ func (x *AddonMarketplaceInstallResponse) String() string {
 func (*AddonMarketplaceInstallResponse) ProtoMessage() {}
 
 func (x *AddonMarketplaceInstallResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[275]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[277]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19903,7 +20239,7 @@ func (x *AddonMarketplaceInstallResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonMarketplaceInstallResponse.ProtoReflect.Descriptor instead.
 func (*AddonMarketplaceInstallResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{275}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{277}
 }
 
 func (x *AddonMarketplaceInstallResponse) GetAddonInstall() *AddonMarketplaceInstall {
@@ -19930,7 +20266,7 @@ type UpdateAddonMarketplaceInstallRequest struct {
 func (x *UpdateAddonMarketplaceInstallRequest) Reset() {
 	*x = UpdateAddonMarketplaceInstallRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[276]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[278]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -19943,7 +20279,7 @@ func (x *UpdateAddonMarketplaceInstallRequest) String() string {
 func (*UpdateAddonMarketplaceInstallRequest) ProtoMessage() {}
 
 func (x *UpdateAddonMarketplaceInstallRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[276]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[278]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -19956,7 +20292,7 @@ func (x *UpdateAddonMarketplaceInstallRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use UpdateAddonMarketplaceInstallRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAddonMarketplaceInstallRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{276}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{278}
 }
 
 func (x *UpdateAddonMarketplaceInstallRequest) GetOrganizationId() string {
@@ -20019,7 +20355,7 @@ type UpdateAddonMarketplaceInstallResponse struct {
 func (x *UpdateAddonMarketplaceInstallResponse) Reset() {
 	*x = UpdateAddonMarketplaceInstallResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[277]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[279]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20032,7 +20368,7 @@ func (x *UpdateAddonMarketplaceInstallResponse) String() string {
 func (*UpdateAddonMarketplaceInstallResponse) ProtoMessage() {}
 
 func (x *UpdateAddonMarketplaceInstallResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[277]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[279]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20045,7 +20381,7 @@ func (x *UpdateAddonMarketplaceInstallResponse) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use UpdateAddonMarketplaceInstallResponse.ProtoReflect.Descriptor instead.
 func (*UpdateAddonMarketplaceInstallResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{277}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{279}
 }
 
 func (x *UpdateAddonMarketplaceInstallResponse) GetAddonInstall() *AddonMarketplaceInstall {
@@ -20069,7 +20405,7 @@ type DeleteAddonMarketplaceInstallRequest struct {
 func (x *DeleteAddonMarketplaceInstallRequest) Reset() {
 	*x = DeleteAddonMarketplaceInstallRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[278]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[280]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20082,7 +20418,7 @@ func (x *DeleteAddonMarketplaceInstallRequest) String() string {
 func (*DeleteAddonMarketplaceInstallRequest) ProtoMessage() {}
 
 func (x *DeleteAddonMarketplaceInstallRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[278]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[280]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20095,7 +20431,7 @@ func (x *DeleteAddonMarketplaceInstallRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use DeleteAddonMarketplaceInstallRequest.ProtoReflect.Descriptor instead.
 func (*DeleteAddonMarketplaceInstallRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{278}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{280}
 }
 
 func (x *DeleteAddonMarketplaceInstallRequest) GetOrganizationId() string {
@@ -20135,7 +20471,7 @@ type DeleteAddonMarketplaceInstallResponse struct {
 func (x *DeleteAddonMarketplaceInstallResponse) Reset() {
 	*x = DeleteAddonMarketplaceInstallResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[279]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[281]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20148,7 +20484,7 @@ func (x *DeleteAddonMarketplaceInstallResponse) String() string {
 func (*DeleteAddonMarketplaceInstallResponse) ProtoMessage() {}
 
 func (x *DeleteAddonMarketplaceInstallResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[279]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[281]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20161,7 +20497,7 @@ func (x *DeleteAddonMarketplaceInstallResponse) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use DeleteAddonMarketplaceInstallResponse.ProtoReflect.Descriptor instead.
 func (*DeleteAddonMarketplaceInstallResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{279}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{281}
 }
 
 type ListAddonMarketplaceInstallsRequest struct {
@@ -20180,7 +20516,7 @@ type ListAddonMarketplaceInstallsRequest struct {
 func (x *ListAddonMarketplaceInstallsRequest) Reset() {
 	*x = ListAddonMarketplaceInstallsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[280]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[282]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20193,7 +20529,7 @@ func (x *ListAddonMarketplaceInstallsRequest) String() string {
 func (*ListAddonMarketplaceInstallsRequest) ProtoMessage() {}
 
 func (x *ListAddonMarketplaceInstallsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[280]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[282]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20206,7 +20542,7 @@ func (x *ListAddonMarketplaceInstallsRequest) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use ListAddonMarketplaceInstallsRequest.ProtoReflect.Descriptor instead.
 func (*ListAddonMarketplaceInstallsRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{280}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{282}
 }
 
 func (x *ListAddonMarketplaceInstallsRequest) GetOrganizationId() string {
@@ -20264,7 +20600,7 @@ type WatchAddonMarketplaceInstallsRequest struct {
 func (x *WatchAddonMarketplaceInstallsRequest) Reset() {
 	*x = WatchAddonMarketplaceInstallsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[281]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[283]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20277,7 +20613,7 @@ func (x *WatchAddonMarketplaceInstallsRequest) String() string {
 func (*WatchAddonMarketplaceInstallsRequest) ProtoMessage() {}
 
 func (x *WatchAddonMarketplaceInstallsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[281]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[283]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20290,7 +20626,7 @@ func (x *WatchAddonMarketplaceInstallsRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use WatchAddonMarketplaceInstallsRequest.ProtoReflect.Descriptor instead.
 func (*WatchAddonMarketplaceInstallsRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{281}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{283}
 }
 
 func (x *WatchAddonMarketplaceInstallsRequest) GetOrganizationId() string {
@@ -20326,7 +20662,7 @@ type WatchAddonMarketplaceInstallsResponse struct {
 func (x *WatchAddonMarketplaceInstallsResponse) Reset() {
 	*x = WatchAddonMarketplaceInstallsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[282]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[284]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20339,7 +20675,7 @@ func (x *WatchAddonMarketplaceInstallsResponse) String() string {
 func (*WatchAddonMarketplaceInstallsResponse) ProtoMessage() {}
 
 func (x *WatchAddonMarketplaceInstallsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[282]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[284]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20352,7 +20688,7 @@ func (x *WatchAddonMarketplaceInstallsResponse) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use WatchAddonMarketplaceInstallsResponse.ProtoReflect.Descriptor instead.
 func (*WatchAddonMarketplaceInstallsResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{282}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{284}
 }
 
 func (x *WatchAddonMarketplaceInstallsResponse) GetItem() *AddonMarketplaceInstall {
@@ -20385,7 +20721,7 @@ type AddonMarketplaceInstallFilter struct {
 func (x *AddonMarketplaceInstallFilter) Reset() {
 	*x = AddonMarketplaceInstallFilter{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[283]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[285]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20398,7 +20734,7 @@ func (x *AddonMarketplaceInstallFilter) String() string {
 func (*AddonMarketplaceInstallFilter) ProtoMessage() {}
 
 func (x *AddonMarketplaceInstallFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[283]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[285]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20411,7 +20747,7 @@ func (x *AddonMarketplaceInstallFilter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonMarketplaceInstallFilter.ProtoReflect.Descriptor instead.
 func (*AddonMarketplaceInstallFilter) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{283}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{285}
 }
 
 func (x *AddonMarketplaceInstallFilter) GetId() string {
@@ -20468,7 +20804,7 @@ type ListAddonMarketplaceInstallsResponse struct {
 func (x *ListAddonMarketplaceInstallsResponse) Reset() {
 	*x = ListAddonMarketplaceInstallsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[284]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[286]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20481,7 +20817,7 @@ func (x *ListAddonMarketplaceInstallsResponse) String() string {
 func (*ListAddonMarketplaceInstallsResponse) ProtoMessage() {}
 
 func (x *ListAddonMarketplaceInstallsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[284]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[286]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20494,7 +20830,7 @@ func (x *ListAddonMarketplaceInstallsResponse) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use ListAddonMarketplaceInstallsResponse.ProtoReflect.Descriptor instead.
 func (*ListAddonMarketplaceInstallsResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{284}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{286}
 }
 
 func (x *ListAddonMarketplaceInstallsResponse) GetAddonInstalls() []*AddonMarketplaceInstall {
@@ -20529,7 +20865,7 @@ type AddonMarketplaceInstall struct {
 func (x *AddonMarketplaceInstall) Reset() {
 	*x = AddonMarketplaceInstall{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[285]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[287]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20542,7 +20878,7 @@ func (x *AddonMarketplaceInstall) String() string {
 func (*AddonMarketplaceInstall) ProtoMessage() {}
 
 func (x *AddonMarketplaceInstall) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[285]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[287]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20555,7 +20891,7 @@ func (x *AddonMarketplaceInstall) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonMarketplaceInstall.ProtoReflect.Descriptor instead.
 func (*AddonMarketplaceInstall) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{285}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{287}
 }
 
 func (x *AddonMarketplaceInstall) GetId() string {
@@ -20630,7 +20966,7 @@ type AddonMarketplaceInstallConfig struct {
 func (x *AddonMarketplaceInstallConfig) Reset() {
 	*x = AddonMarketplaceInstallConfig{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[286]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[288]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20643,7 +20979,7 @@ func (x *AddonMarketplaceInstallConfig) String() string {
 func (*AddonMarketplaceInstallConfig) ProtoMessage() {}
 
 func (x *AddonMarketplaceInstallConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[286]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[288]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20656,7 +20992,7 @@ func (x *AddonMarketplaceInstallConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonMarketplaceInstallConfig.ProtoReflect.Descriptor instead.
 func (*AddonMarketplaceInstallConfig) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{286}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{288}
 }
 
 func (x *AddonMarketplaceInstallConfig) GetRepoUrl() string {
@@ -20713,7 +21049,7 @@ type AddonMarketplaceInstallOverrides struct {
 func (x *AddonMarketplaceInstallOverrides) Reset() {
 	*x = AddonMarketplaceInstallOverrides{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[287]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[289]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20726,7 +21062,7 @@ func (x *AddonMarketplaceInstallOverrides) String() string {
 func (*AddonMarketplaceInstallOverrides) ProtoMessage() {}
 
 func (x *AddonMarketplaceInstallOverrides) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[287]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[289]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20739,7 +21075,7 @@ func (x *AddonMarketplaceInstallOverrides) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonMarketplaceInstallOverrides.ProtoReflect.Descriptor instead.
 func (*AddonMarketplaceInstallOverrides) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{287}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{289}
 }
 
 func (x *AddonMarketplaceInstallOverrides) GetEnvs() []string {
@@ -20770,7 +21106,7 @@ type HelmChartInstallConfig struct {
 func (x *HelmChartInstallConfig) Reset() {
 	*x = HelmChartInstallConfig{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[288]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[290]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20783,7 +21119,7 @@ func (x *HelmChartInstallConfig) String() string {
 func (*HelmChartInstallConfig) ProtoMessage() {}
 
 func (x *HelmChartInstallConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[288]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[290]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20796,7 +21132,7 @@ func (x *HelmChartInstallConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HelmChartInstallConfig.ProtoReflect.Descriptor instead.
 func (*HelmChartInstallConfig) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{288}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{290}
 }
 
 func (x *HelmChartInstallConfig) GetDependencies() []*ChartDependency {
@@ -20840,7 +21176,7 @@ type AddonMarketplaceStatus struct {
 func (x *AddonMarketplaceStatus) Reset() {
 	*x = AddonMarketplaceStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[289]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[291]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20853,7 +21189,7 @@ func (x *AddonMarketplaceStatus) String() string {
 func (*AddonMarketplaceStatus) ProtoMessage() {}
 
 func (x *AddonMarketplaceStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[289]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[291]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20866,7 +21202,7 @@ func (x *AddonMarketplaceStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonMarketplaceStatus.ProtoReflect.Descriptor instead.
 func (*AddonMarketplaceStatus) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{289}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{291}
 }
 
 func (x *AddonMarketplaceStatus) GetEventList() []*AddonEvent {
@@ -20904,7 +21240,7 @@ type AddonEvent struct {
 func (x *AddonEvent) Reset() {
 	*x = AddonEvent{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[290]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[292]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20917,7 +21253,7 @@ func (x *AddonEvent) String() string {
 func (*AddonEvent) ProtoMessage() {}
 
 func (x *AddonEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[290]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[292]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -20930,7 +21266,7 @@ func (x *AddonEvent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddonEvent.ProtoReflect.Descriptor instead.
 func (*AddonEvent) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{290}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{292}
 }
 
 func (x *AddonEvent) GetType() string {
@@ -20975,7 +21311,7 @@ type RefreshInstanceRunbookRepoRequest struct {
 func (x *RefreshInstanceRunbookRepoRequest) Reset() {
 	*x = RefreshInstanceRunbookRepoRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[291]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[293]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -20988,7 +21324,7 @@ func (x *RefreshInstanceRunbookRepoRequest) String() string {
 func (*RefreshInstanceRunbookRepoRequest) ProtoMessage() {}
 
 func (x *RefreshInstanceRunbookRepoRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[291]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[293]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21001,7 +21337,7 @@ func (x *RefreshInstanceRunbookRepoRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use RefreshInstanceRunbookRepoRequest.ProtoReflect.Descriptor instead.
 func (*RefreshInstanceRunbookRepoRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{291}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{293}
 }
 
 func (x *RefreshInstanceRunbookRepoRequest) GetOrganizationId() string {
@@ -21041,7 +21377,7 @@ type RefreshInstanceRunbookRepoResponse struct {
 func (x *RefreshInstanceRunbookRepoResponse) Reset() {
 	*x = RefreshInstanceRunbookRepoResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[292]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[294]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21054,7 +21390,7 @@ func (x *RefreshInstanceRunbookRepoResponse) String() string {
 func (*RefreshInstanceRunbookRepoResponse) ProtoMessage() {}
 
 func (x *RefreshInstanceRunbookRepoResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[292]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[294]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21067,7 +21403,7 @@ func (x *RefreshInstanceRunbookRepoResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use RefreshInstanceRunbookRepoResponse.ProtoReflect.Descriptor instead.
 func (*RefreshInstanceRunbookRepoResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{292}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{294}
 }
 
 type ApplicationDeploymentStatsEntry struct {
@@ -21089,7 +21425,7 @@ type ApplicationDeploymentStatsEntry struct {
 func (x *ApplicationDeploymentStatsEntry) Reset() {
 	*x = ApplicationDeploymentStatsEntry{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[293]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[295]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21102,7 +21438,7 @@ func (x *ApplicationDeploymentStatsEntry) String() string {
 func (*ApplicationDeploymentStatsEntry) ProtoMessage() {}
 
 func (x *ApplicationDeploymentStatsEntry) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[293]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[295]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21115,7 +21451,7 @@ func (x *ApplicationDeploymentStatsEntry) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApplicationDeploymentStatsEntry.ProtoReflect.Descriptor instead.
 func (*ApplicationDeploymentStatsEntry) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{293}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{295}
 }
 
 func (x *ApplicationDeploymentStatsEntry) GetApplicationName() string {
@@ -21196,7 +21532,7 @@ type SyncPhaseSummary struct {
 func (x *SyncPhaseSummary) Reset() {
 	*x = SyncPhaseSummary{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[294]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[296]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21209,7 +21545,7 @@ func (x *SyncPhaseSummary) String() string {
 func (*SyncPhaseSummary) ProtoMessage() {}
 
 func (x *SyncPhaseSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[294]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[296]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21222,7 +21558,7 @@ func (x *SyncPhaseSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncPhaseSummary.ProtoReflect.Descriptor instead.
 func (*SyncPhaseSummary) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{294}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{296}
 }
 
 func (x *SyncPhaseSummary) GetSucceeded() uint32 {
@@ -21276,7 +21612,7 @@ type GetApplicationDeploymentStatsRequest struct {
 func (x *GetApplicationDeploymentStatsRequest) Reset() {
 	*x = GetApplicationDeploymentStatsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[295]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[297]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21289,7 +21625,7 @@ func (x *GetApplicationDeploymentStatsRequest) String() string {
 func (*GetApplicationDeploymentStatsRequest) ProtoMessage() {}
 
 func (x *GetApplicationDeploymentStatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[295]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[297]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21302,7 +21638,7 @@ func (x *GetApplicationDeploymentStatsRequest) ProtoReflect() protoreflect.Messa
 
 // Deprecated: Use GetApplicationDeploymentStatsRequest.ProtoReflect.Descriptor instead.
 func (*GetApplicationDeploymentStatsRequest) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{295}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{297}
 }
 
 func (x *GetApplicationDeploymentStatsRequest) GetOrganizationId() string {
@@ -21360,7 +21696,7 @@ type GetApplicationDeploymentStatsResponse struct {
 func (x *GetApplicationDeploymentStatsResponse) Reset() {
 	*x = GetApplicationDeploymentStatsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[296]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[298]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21373,7 +21709,7 @@ func (x *GetApplicationDeploymentStatsResponse) String() string {
 func (*GetApplicationDeploymentStatsResponse) ProtoMessage() {}
 
 func (x *GetApplicationDeploymentStatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[296]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[298]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21386,7 +21722,7 @@ func (x *GetApplicationDeploymentStatsResponse) ProtoReflect() protoreflect.Mess
 
 // Deprecated: Use GetApplicationDeploymentStatsResponse.ProtoReflect.Descriptor instead.
 func (*GetApplicationDeploymentStatsResponse) Descriptor() ([]byte, []int) {
-	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{296}
+	return file_argocd_v1_argocd_proto_rawDescGZIP(), []int{298}
 }
 
 func (x *GetApplicationDeploymentStatsResponse) GetEntries() []*ApplicationDeploymentStatsEntry {
@@ -21421,7 +21757,7 @@ type PatchInstanceSecretRequest_ValueField struct {
 func (x *PatchInstanceSecretRequest_ValueField) Reset() {
 	*x = PatchInstanceSecretRequest_ValueField{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[308]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[310]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21434,7 +21770,7 @@ func (x *PatchInstanceSecretRequest_ValueField) String() string {
 func (*PatchInstanceSecretRequest_ValueField) ProtoMessage() {}
 
 func (x *PatchInstanceSecretRequest_ValueField) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[308]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[310]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21468,7 +21804,7 @@ type PatchInstanceNotificationSecretRequest_ValueField struct {
 func (x *PatchInstanceNotificationSecretRequest_ValueField) Reset() {
 	*x = PatchInstanceNotificationSecretRequest_ValueField{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[310]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[312]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21481,7 +21817,7 @@ func (x *PatchInstanceNotificationSecretRequest_ValueField) String() string {
 func (*PatchInstanceNotificationSecretRequest_ValueField) ProtoMessage() {}
 
 func (x *PatchInstanceNotificationSecretRequest_ValueField) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[310]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[312]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21515,7 +21851,7 @@ type PatchInstanceImageUpdaterSecretRequest_ValueField struct {
 func (x *PatchInstanceImageUpdaterSecretRequest_ValueField) Reset() {
 	*x = PatchInstanceImageUpdaterSecretRequest_ValueField{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[312]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[314]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21528,7 +21864,7 @@ func (x *PatchInstanceImageUpdaterSecretRequest_ValueField) String() string {
 func (*PatchInstanceImageUpdaterSecretRequest_ValueField) ProtoMessage() {}
 
 func (x *PatchInstanceImageUpdaterSecretRequest_ValueField) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[312]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[314]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -21562,7 +21898,7 @@ type PatchInstanceAppsetSecretRequest_ValueField struct {
 func (x *PatchInstanceAppsetSecretRequest_ValueField) Reset() {
 	*x = PatchInstanceAppsetSecretRequest_ValueField{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_argocd_v1_argocd_proto_msgTypes[314]
+		mi := &file_argocd_v1_argocd_proto_msgTypes[316]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -21575,7 +21911,7 @@ func (x *PatchInstanceAppsetSecretRequest_ValueField) String() string {
 func (*PatchInstanceAppsetSecretRequest_ValueField) ProtoMessage() {}
 
 func (x *PatchInstanceAppsetSecretRequest_ValueField) ProtoReflect() protoreflect.Message {
-	mi := &file_argocd_v1_argocd_proto_msgTypes[314]
+	mi := &file_argocd_v1_argocd_proto_msgTypes[316]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -24437,72 +24773,150 @@ var file_argocd_v1_argocd_proto_rawDesc = []byte{
 	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12,
 	0x21, 0x0a, 0x0c, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18,
 	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x49, 0x64, 0x22, 0x8c, 0x08, 0x0a, 0x16, 0x45, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2f, 0x0a,
-	0x06, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e,
-	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
-	0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x06, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x12, 0x42,
-	0x0a, 0x10, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d,
-	0x61, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63,
-	0x74, 0x52, 0x0f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d,
-	0x61, 0x70, 0x12, 0x4b, 0x0a, 0x15, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x72, 0x62, 0x61,
-	0x63, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x13, 0x61, 0x72, 0x67, 0x6f,
-	0x63, 0x64, 0x52, 0x62, 0x61, 0x63, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12,
-	0x50, 0x0a, 0x17, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
-	0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x16, 0x6e, 0x6f, 0x74, 0x69, 0x66,
-	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61,
-	0x70, 0x12, 0x4f, 0x0a, 0x17, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x72, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x15, 0x69, 0x6d, 0x61,
-	0x67, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d,
-	0x61, 0x70, 0x12, 0x56, 0x0a, 0x1b, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x72, 0x5f, 0x73, 0x73, 0x68, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61,
-	0x70, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74,
-	0x52, 0x18, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x53, 0x73,
-	0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x33, 0x0a, 0x08, 0x63, 0x6c,
-	0x75, 0x73, 0x74, 0x65, 0x72, 0x73, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67,
+	0x49, 0x64, 0x22, 0xac, 0x01, 0x0a, 0x1b, 0x45, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x27, 0x0a, 0x0f, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x6f, 0x72, 0x67,
+	0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x31, 0x0a, 0x07, 0x69,
+	0x64, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x18, 0x2e, 0x61,
+	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x69, 0x64, 0x2e, 0x76,
+	0x31, 0x2e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x06, 0x69, 0x64, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0e,
+	0x0a, 0x02, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x21,
+	0x0a, 0x0c, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x49,
+	0x64, 0x22, 0x8c, 0x08, 0x0a, 0x16, 0x45, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2f, 0x0a, 0x06,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67,
 	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53,
-	0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x08, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x73, 0x12,
-	0x58, 0x0a, 0x1c, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x5f,
+	0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x06, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x12, 0x42, 0x0a,
+	0x10, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61,
+	0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74,
+	0x52, 0x0f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61,
+	0x70, 0x12, 0x4b, 0x0a, 0x15, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x72, 0x62, 0x61, 0x63,
+	0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x13, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x52, 0x62, 0x61, 0x63, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x50,
+	0x0a, 0x17, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x5f,
+	0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x16, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70,
+	0x12, 0x4f, 0x0a, 0x17, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x72, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x05, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x15, 0x69, 0x6d, 0x61, 0x67,
+	0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61,
+	0x70, 0x12, 0x56, 0x0a, 0x1b, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x72, 0x5f, 0x73, 0x73, 0x68, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70,
+	0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52,
+	0x18, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x53, 0x73, 0x68,
+	0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x33, 0x0a, 0x08, 0x63, 0x6c, 0x75,
+	0x73, 0x74, 0x65, 0x72, 0x73, 0x18, 0x07, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74,
+	0x72, 0x75, 0x63, 0x74, 0x52, 0x08, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x73, 0x12, 0x58,
+	0x0a, 0x1c, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x5f, 0x68,
+	0x6f, 0x73, 0x74, 0x73, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x08,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x19, 0x61,
+	0x72, 0x67, 0x6f, 0x63, 0x64, 0x4b, 0x6e, 0x6f, 0x77, 0x6e, 0x48, 0x6f, 0x73, 0x74, 0x73, 0x43,
+	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x54, 0x0a, 0x1a, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x5f, 0x74, 0x6c, 0x73, 0x5f, 0x63, 0x65, 0x72, 0x74, 0x73, 0x5f, 0x63, 0x6f, 0x6e,
+	0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53,
+	0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x17, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x54, 0x6c, 0x73,
+	0x43, 0x65, 0x72, 0x74, 0x73, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x53,
+	0x0a, 0x19, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d,
+	0x65, 0x6e, 0x74, 0x5f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x73, 0x18, 0x0a, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x17, 0x63, 0x6f, 0x6e, 0x66,
+	0x69, 0x67, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x50, 0x6c, 0x75, 0x67,
+	0x69, 0x6e, 0x73, 0x12, 0x3b, 0x0a, 0x0c, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x73, 0x18, 0x0b, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75,
+	0x63, 0x74, 0x52, 0x0c, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x12, 0x42, 0x0a, 0x10, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x73, 0x65, 0x74, 0x73, 0x18, 0x0c, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72,
+	0x75, 0x63, 0x74, 0x52, 0x0f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x53, 0x65, 0x74, 0x73, 0x12, 0x3a, 0x0a, 0x0c, 0x61, 0x70, 0x70, 0x5f, 0x70, 0x72, 0x6f, 0x6a,
+	0x65, 0x63, 0x74, 0x73, 0x18, 0x0d, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72,
+	0x75, 0x63, 0x74, 0x52, 0x0b, 0x61, 0x70, 0x70, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x73,
+	0x12, 0x3e, 0x0a, 0x0e, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x72, 0x73, 0x18, 0x0e, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63,
+	0x74, 0x52, 0x0d, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x73,
+	0x22, 0xae, 0x08, 0x0a, 0x1c, 0x45, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x31, 0x0a, 0x06, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x06, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x12, 0x44, 0x0a, 0x10, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x63,
+	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x0f, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x4d, 0x0a, 0x15, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x5f, 0x72, 0x62, 0x61, 0x63, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x6d, 0x61, 0x70, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75,
+	0x63, 0x74, 0x48, 0x00, 0x52, 0x13, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x52, 0x62, 0x61, 0x63,
+	0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x52, 0x0a, 0x17, 0x6e, 0x6f, 0x74,
+	0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69,
+	0x67, 0x6d, 0x61, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72,
+	0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x16, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x51, 0x0a,
+	0x17, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x5f, 0x63,
+	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x15, 0x69, 0x6d, 0x61, 0x67, 0x65,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70,
+	0x12, 0x58, 0x0a, 0x1b, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x72, 0x5f, 0x73, 0x73, 0x68, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18,
+	0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00,
+	0x52, 0x18, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x53, 0x73,
+	0x68, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x33, 0x0a, 0x07, 0x63, 0x6c,
+	0x75, 0x73, 0x74, 0x65, 0x72, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74,
+	0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x07, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x12,
+	0x5a, 0x0a, 0x1c, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x5f,
 	0x68, 0x6f, 0x73, 0x74, 0x73, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18,
 	0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x19,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x4b, 0x6e, 0x6f, 0x77, 0x6e, 0x48, 0x6f, 0x73, 0x74, 0x73,
-	0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x54, 0x0a, 0x1a, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x5f, 0x74, 0x6c, 0x73, 0x5f, 0x63, 0x65, 0x72, 0x74, 0x73, 0x5f, 0x63, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00,
+	0x52, 0x19, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x4b, 0x6e, 0x6f, 0x77, 0x6e, 0x48, 0x6f, 0x73,
+	0x74, 0x73, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12, 0x56, 0x0a, 0x1a, 0x61,
+	0x72, 0x67, 0x6f, 0x63, 0x64, 0x5f, 0x74, 0x6c, 0x73, 0x5f, 0x63, 0x65, 0x72, 0x74, 0x73, 0x5f,
+	0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x17, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x54, 0x6c, 0x73, 0x43, 0x65, 0x72, 0x74, 0x73, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67,
+	0x6d, 0x61, 0x70, 0x12, 0x53, 0x0a, 0x18, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x5f, 0x6d, 0x61,
+	0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x18,
+	0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00,
+	0x52, 0x16, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65,
+	0x6e, 0x74, 0x50, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x12, 0x3b, 0x0a, 0x0b, 0x61, 0x70, 0x70, 0x6c,
+	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
-	0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x17, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x54, 0x6c,
-	0x73, 0x43, 0x65, 0x72, 0x74, 0x73, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x6d, 0x61, 0x70, 0x12,
-	0x53, 0x0a, 0x19, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x5f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65,
-	0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x73, 0x18, 0x0a, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x52, 0x17, 0x63, 0x6f, 0x6e,
-	0x66, 0x69, 0x67, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x50, 0x6c, 0x75,
-	0x67, 0x69, 0x6e, 0x73, 0x12, 0x3b, 0x0a, 0x0c, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x73, 0x18, 0x0b, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f,
-	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72,
-	0x75, 0x63, 0x74, 0x52, 0x0c, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x73, 0x12, 0x42, 0x0a, 0x10, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x5f, 0x73, 0x65, 0x74, 0x73, 0x18, 0x0c, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f,
-	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74,
-	0x72, 0x75, 0x63, 0x74, 0x52, 0x0f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x53, 0x65, 0x74, 0x73, 0x12, 0x3a, 0x0a, 0x0c, 0x61, 0x70, 0x70, 0x5f, 0x70, 0x72, 0x6f,
-	0x6a, 0x65, 0x63, 0x74, 0x73, 0x18, 0x0d, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f,
-	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74,
-	0x72, 0x75, 0x63, 0x74, 0x52, 0x0b, 0x61, 0x70, 0x70, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74,
-	0x73, 0x12, 0x3e, 0x0a, 0x0e, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x72, 0x73, 0x18, 0x0e, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
-	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x75,
-	0x63, 0x74, 0x52, 0x0d, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x72,
-	0x73, 0x22, 0x90, 0x03, 0x0a, 0x20, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x0b, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x42, 0x0a, 0x0f, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x74, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x0e, 0x61, 0x70, 0x70, 0x6c, 0x69,
+	0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x12, 0x3a, 0x0a, 0x0b, 0x61, 0x70, 0x70,
+	0x5f, 0x70, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x53, 0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x0a, 0x61, 0x70, 0x70, 0x50, 0x72,
+	0x6f, 0x6a, 0x65, 0x63, 0x74, 0x12, 0x3e, 0x0a, 0x0d, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x75,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x72, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x17, 0x2e, 0x67,
+	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53,
+	0x74, 0x72, 0x75, 0x63, 0x74, 0x48, 0x00, 0x52, 0x0c, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x72, 0x42, 0x0a, 0x0a, 0x08, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x22, 0x90, 0x03, 0x0a, 0x20, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
 	0x65, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6d, 0x6d, 0x61, 0x6e, 0x64, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x27, 0x0a, 0x0f, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
 	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
@@ -25850,7 +26264,7 @@ var file_argocd_v1_argocd_proto_rawDesc = []byte{
 	0x55, 0x4e, 0x53, 0x50, 0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x13, 0x0a,
 	0x0f, 0x53, 0x4f, 0x52, 0x54, 0x5f, 0x4f, 0x52, 0x44, 0x45, 0x52, 0x5f, 0x44, 0x45, 0x53, 0x43,
 	0x10, 0x01, 0x12, 0x12, 0x0a, 0x0e, 0x53, 0x4f, 0x52, 0x54, 0x5f, 0x4f, 0x52, 0x44, 0x45, 0x52,
-	0x5f, 0x41, 0x53, 0x43, 0x10, 0x02, 0x32, 0x84, 0xd0, 0x01, 0x0a, 0x0d, 0x41, 0x72, 0x67, 0x6f,
+	0x5f, 0x41, 0x53, 0x43, 0x10, 0x02, 0x32, 0xac, 0xd2, 0x01, 0x0a, 0x0d, 0x41, 0x72, 0x67, 0x6f,
 	0x43, 0x44, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x99, 0x01, 0x0a, 0x14, 0x4c, 0x69,
 	0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
 	0x6e, 0x73, 0x12, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f,
@@ -26947,588 +27361,606 @@ var file_argocd_v1_argocd_proto_rawDesc = []byte{
 	0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74,
 	0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x65, 0x78, 0x70, 0x6f, 0x72,
-	0x74, 0x12, 0xd4, 0x02, 0x0a, 0x16, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x12, 0x2f, 0x2e, 0x61,
-	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e,
-	0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f,
-	0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e,
-	0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31,
-	0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64,
-	0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0xd6, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xcf, 0x01, 0x5a, 0x68, 0x12, 0x66, 0x2f, 0x65, 0x78,
-	0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e,
-	0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65,
-	0x70, 0x6f, 0x73, 0x12, 0x63, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67,
-	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b,
-	0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72,
-	0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b,
-	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64,
-	0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x12, 0xd8, 0x02, 0x0a, 0x14, 0x47, 0x65, 0x74,
-	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70,
-	0x6f, 0x12, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63,
-	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x2e, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41,
-	0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0xe0, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xd9, 0x01, 0x5a, 0x6d, 0x12, 0x6b, 0x2f, 0x65,
-	0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f,
-	0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72,
-	0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x68, 0x2f, 0x61, 0x70, 0x69, 0x2f,
-	0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
-	0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b,
-	0x69, 0x64, 0x7d, 0x12, 0xdd, 0x02, 0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x12,
-	0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e,
-	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63,
-	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0xdc, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xd5, 0x01, 0x3a, 0x01,
-	0x2a, 0x5a, 0x6b, 0x3a, 0x01, 0x2a, 0x22, 0x66, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69,
-	0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67,
-	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x22, 0x63,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72,
-	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77,
-	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65,
-	0x70, 0x6f, 0x73, 0x12, 0xfa, 0x02, 0x0a, 0x18, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f,
-	0x12, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x32, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xf6, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xef,
-	0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x78, 0x3a, 0x01, 0x2a, 0x22, 0x73, 0x2f, 0x65, 0x78, 0x74, 0x2d,
-	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78,
-	0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f,
-	0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f,
-	0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x22, 0x70,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72,
-	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77,
-	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65,
-	0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68,
-	0x12, 0xe1, 0x02, 0x0a, 0x17, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x12, 0x30, 0x2e, 0x61,
-	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64,
-	0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31,
-	0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76,
-	0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0xe0, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xd9, 0x01, 0x5a, 0x6d, 0x2a, 0x6b, 0x2f,
-	0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63,
-	0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64,
-	0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
+	0x74, 0x12, 0xa5, 0x02, 0x0a, 0x14, 0x45, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x12, 0x2d, 0x2e, 0x61, 0x6b, 0x75,
+	0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x78,
+	0x70, 0x6f, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x53, 0x74, 0x72, 0x65,
+	0x61, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x61, 0x6b, 0x75, 0x69,
+	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x78, 0x70,
+	0x6f, 0x72, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x53, 0x74, 0x72, 0x65, 0x61,
+	0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xab, 0x01, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0xa4, 0x01, 0x5a, 0x5e, 0x12, 0x5c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x73,
+	0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61,
+	0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72,
+	0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61,
+	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x65, 0x78, 0x70,
+	0x6f, 0x72, 0x74, 0x12, 0x42, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x74, 0x72,
+	0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
 	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63,
-	0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d,
-	0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2a, 0x68, 0x2f, 0x61, 0x70, 0x69,
-	0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
-	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f,
-	0x7b, 0x69, 0x64, 0x7d, 0x12, 0xbe, 0x02, 0x0a, 0x12, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0x2b, 0x2e, 0x61, 0x6b,
-	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
-	0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
-	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
-	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74,
-	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xcc, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xc5, 0x01,
-	0x5a, 0x63, 0x12, 0x61, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e,
-	0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f,
-	0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
-	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
-	0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0x5e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f,
-	0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73,
-	0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
-	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
-	0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0xe3, 0x02, 0x0a, 0x17, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72,
-	0x73, 0x12, 0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63,
-	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe2, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xdb, 0x01,
-	0x5a, 0x6e, 0x12, 0x6c, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e,
-	0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f,
-	0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
-	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
-	0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
-	0x12, 0x69, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b,
-	0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72,
-	0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63,
-	0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d,
-	0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x91, 0x03, 0x0a, 0x10,
-	0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
-	0x12, 0x29, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41,
-	0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2a, 0x2e, 0x61, 0x6b,
-	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47,
-	0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xa5, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x9e,
-	0x02, 0x5a, 0x4d, 0x12, 0x4b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67,
-	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x6e,
-	0x61, 0x6d, 0x65, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
-	0x5a, 0x68, 0x12, 0x66, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e,
-	0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f,
-	0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
-	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
-	0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x63, 0x2f, 0x61, 0x70, 0x69,
-	0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
-	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12,
-	0x9a, 0x03, 0x0a, 0x13, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79,
-	0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0xa5, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x9e, 0x02, 0x5a, 0x4d,
-	0x2a, 0x4b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b,
+	0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
+	0x2f, 0x65, 0x78, 0x70, 0x6f, 0x72, 0x74, 0x30, 0x01, 0x12, 0xd4, 0x02, 0x0a, 0x16, 0x4c, 0x69,
+	0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52,
+	0x65, 0x70, 0x6f, 0x73, 0x12, 0x2f, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61,
+	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xd6, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xcf,
+	0x01, 0x5a, 0x68, 0x12, 0x66, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31,
+	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f,
+	0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b,
 	0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d,
 	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65,
-	0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x5a, 0x68, 0x2a,
-	0x66, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61,
-	0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61,
-	0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f,
-	0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2a, 0x63, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31,
-	0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64,
+	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x12, 0x63, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
+	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b,
+	0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63,
+	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73,
+	0x12, 0xd8, 0x02, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x12, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69,
+	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70,
+	0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe0, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0xd9, 0x01, 0x5a, 0x6d, 0x12, 0x6b, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76,
+	0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69,
+	0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
+	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
 	0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
 	0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0xe4, 0x02, 0x0a,
-	0x14, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68,
-	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
-	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0xec, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xe5, 0x01, 0x3a, 0x01,
-	0x2a, 0x5a, 0x73, 0x3a, 0x01, 0x2a, 0x22, 0x6e, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69,
-	0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67,
-	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x72,
-	0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x22, 0x6b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
+	0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64,
+	0x7d, 0x12, 0x68, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
+	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
+	0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f,
+	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e,
+	0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0xdd, 0x02, 0x0a, 0x17,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64,
+	0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x12, 0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79,
+	0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65,
+	0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69,
+	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
+	0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xdc, 0x01, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0xd5, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x6b, 0x3a, 0x01, 0x2a, 0x22, 0x66,
+	0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64,
+	0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
+	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e,
+	0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x22, 0x63, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
 	0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
 	0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
 	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
 	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x66, 0x72,
-	0x65, 0x73, 0x68, 0x12, 0xd1, 0x02, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12, 0x2c, 0x2e, 0x61, 0x6b,
-	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64,
-	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69,
-	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xdc, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0xd5, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x6b, 0x3a, 0x01, 0x2a, 0x1a, 0x66, 0x2f, 0x65, 0x78, 0x74,
+	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x12, 0xfa, 0x02, 0x0a, 0x18,
+	0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41,
+	0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x12, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x66, 0x72,
+	0x65, 0x73, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
+	0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x32, 0x2e, 0x61, 0x6b,
+	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x52,
+	0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64,
+	0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0xf6, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xef, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x78, 0x3a, 0x01,
+	0x2a, 0x22, 0x73, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61,
+	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73,
+	0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72,
+	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
+	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f,
+	0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64,
+	0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x72,
+	0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x22, 0x70, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
+	0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
+	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
+	0x2f, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x12, 0xe1, 0x02, 0x0a, 0x17, 0x44, 0x65, 0x6c,
+	0x65, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
+	0x52, 0x65, 0x70, 0x6f, 0x12, 0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70,
+	0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe0, 0x01, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0xd9, 0x01, 0x5a, 0x6d, 0x2a, 0x6b, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73,
+	0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73,
+	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64,
+	0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69,
+	0x64, 0x7d, 0x2a, 0x68, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73,
+	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77,
+	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f,
+	0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0xbe, 0x02, 0x0a,
+	0x12, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64,
+	0x6f, 0x6e, 0x73, 0x12, 0x2b, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xcc,
+	0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xc5, 0x01, 0x5a, 0x63, 0x12, 0x61, 0x2f, 0x65, 0x78, 0x74,
+	0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65,
+	0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73,
+	0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0x5e, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67,
+	0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f,
+	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0xe3, 0x02,
+	0x0a, 0x17, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64,
+	0x64, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x12, 0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69,
+	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73,
+	0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x45, 0x72,
+	0x72, 0x6f, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6b,
+	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
+	0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
+	0x45, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe2,
+	0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xdb, 0x01, 0x5a, 0x6e, 0x12, 0x6c, 0x2f, 0x65, 0x78, 0x74,
+	0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65,
+	0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73,
+	0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x65, 0x72, 0x72,
+	0x6f, 0x72, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x69, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76,
+	0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61,
+	0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64,
+	0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x73, 0x2f, 0x7b,
+	0x69, 0x64, 0x7d, 0x12, 0x91, 0x03, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12, 0x29, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x2a, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0xa5, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x9e, 0x02, 0x5a, 0x4d, 0x12, 0x4b, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
+	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x2f, 0x61, 0x64, 0x64,
+	0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x5a, 0x68, 0x12, 0x66, 0x2f, 0x65, 0x78, 0x74,
 	0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65,
 	0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73,
 	0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74,
 	0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69,
 	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
 	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69,
-	0x64, 0x7d, 0x1a, 0x63, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73,
+	0x64, 0x7d, 0x12, 0x63, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73,
 	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
 	0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77,
 	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67,
 	0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69,
 	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f,
-	0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0xd6, 0x02, 0x0a, 0x12, 0x50, 0x61, 0x74, 0x63,
-	0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12, 0x2b,
-	0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76,
-	0x31, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41,
-	0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x61, 0x6b,
-	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x50,
-	0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f,
-	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe4, 0x01, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0xdd, 0x01, 0x3a, 0x05, 0x70, 0x61, 0x74, 0x63, 0x68, 0x5a, 0x6f, 0x3a, 0x05, 0x70, 0x61,
-	0x74, 0x63, 0x68, 0x32, 0x66, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31,
-	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f,
-	0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b,
-	0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x32, 0x63, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
-	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
-	0x12, 0xa0, 0x03, 0x0a, 0x1d, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x53,
-	0x74, 0x61, 0x74, 0x75, 0x73, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x48, 0x69, 0x73, 0x74, 0x6f,
-	0x72, 0x79, 0x12, 0x36, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f,
-	0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x64, 0x64, 0x6f, 0x6e,
-	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x48, 0x69, 0x73, 0x74,
-	0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x61, 0x6b, 0x75,
-	0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c,
-	0x65, 0x61, 0x72, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x53, 0x6f,
-	0x75, 0x72, 0x63, 0x65, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x8d, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x86, 0x02, 0x3a, 0x01, 0x2a,
-	0x5a, 0x83, 0x01, 0x3a, 0x01, 0x2a, 0x32, 0x7e, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69,
-	0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e,
-	0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67,
-	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x63,
-	0x6c, 0x65, 0x61, 0x72, 0x2d, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2d, 0x68,
-	0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x32, 0x7b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
-	0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x63, 0x6c, 0x65, 0x61,
-	0x72, 0x2d, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2d, 0x68, 0x69, 0x73, 0x74,
-	0x6f, 0x72, 0x79, 0x12, 0xd1, 0x02, 0x0a, 0x13, 0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0x2c, 0x2e, 0x61, 0x6b,
-	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57,
-	0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f,
-	0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69,
-	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74,
-	0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xda, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0xd3, 0x01, 0x5a, 0x6a, 0x12, 0x68, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76,
-	0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69,
-	0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61,
-	0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0x65,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f,
-	0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73,
-	0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
-	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
-	0x64, 0x64, 0x6f, 0x6e, 0x73, 0x30, 0x01, 0x12, 0xe7, 0x02, 0x0a, 0x17, 0x57, 0x61, 0x74, 0x63,
-	0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65,
-	0x70, 0x6f, 0x73, 0x12, 0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xe4, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0xdd, 0x01, 0x5a, 0x6f, 0x12, 0x6d, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76,
-	0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69,
-	0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61,
-	0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65,
-	0x70, 0x6f, 0x73, 0x12, 0x6a, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x74, 0x72,
-	0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
-	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
-	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x30,
-	0x01, 0x12, 0xfb, 0x02, 0x0a, 0x17, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65,
-	0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x12, 0x30, 0x2e,
+	0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0x9a, 0x03, 0x0a, 0x13, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12,
+	0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e,
+	0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e,
 	0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31,
-	0x2e, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63,
-	0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e,
-	0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c,
-	0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0xfa, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xf3, 0x01, 0x3a, 0x01, 0x2a, 0x5a,
-	0x7a, 0x3a, 0x01, 0x2a, 0x22, 0x75, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76,
-	0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69,
-	0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
-	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
-	0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61,
-	0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x22, 0x72, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
-	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65,
-	0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x12,
-	0x94, 0x03, 0x0a, 0x1c, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72,
-	0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73,
-	0x12, 0x35, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72,
-	0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x36, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79,
-	0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x41,
-	0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49,
-	0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x84, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xfd, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x7f, 0x3a, 0x01,
-	0x2a, 0x22, 0x7a, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73,
-	0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72,
-	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f,
-	0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6c, 0x69,
-	0x73, 0x74, 0x2d, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70,
-	0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x22, 0x77, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67,
-	0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f,
-	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
-	0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x2d, 0x61, 0x64, 0x64, 0x6f,
-	0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x12, 0x97, 0x03, 0x0a, 0x1d, 0x57, 0x61, 0x74, 0x63, 0x68,
-	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65,
-	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x12, 0x36, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
-	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63,
-	0x68, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63,
-	0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x37, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61,
-	0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c,
-	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x82, 0x02, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0xfb, 0x01, 0x5a, 0x7e, 0x12, 0x7c, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f,
-	0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73,
-	0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x73, 0x74, 0x72, 0x65,
-	0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d,
-	0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6c, 0x6c, 0x73, 0x12, 0x79, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x74, 0x72,
-	0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
-	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41,
+	0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xa5, 0x02, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x9e, 0x02, 0x5a, 0x4d, 0x2a, 0x4b, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76,
+	0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73,
+	0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x5a, 0x68, 0x2a, 0x66, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65,
+	0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72,
+	0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74,
 	0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
-	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74,
-	0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x30, 0x01,
-	0x12, 0x97, 0x03, 0x0a, 0x1d, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e,
-	0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6c, 0x6c, 0x12, 0x36, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f,
-	0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f,
-	0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74,
-	0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x61, 0x6b, 0x75,
-	0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70,
-	0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x84, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xfd, 0x01, 0x3a, 0x01, 0x2a,
-	0x5a, 0x7f, 0x3a, 0x01, 0x2a, 0x22, 0x7a, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f,
-	0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73,
-	0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73,
-	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64,
-	0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c,
-	0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x2f, 0x7b, 0x69, 0x64,
-	0x7d, 0x22, 0x77, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
-	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
-	0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f,
-	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2a,
+	0x63, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f,
+	0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b,
+	0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f,
+	0x7b, 0x69, 0x64, 0x7d, 0x12, 0xe4, 0x02, 0x0a, 0x14, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12, 0x2d, 0x2e,
+	0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31,
+	0x2e, 0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2e, 0x2e, 0x61,
+	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e,
+	0x52, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41,
+	0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xec, 0x01, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0xe5, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x73, 0x3a, 0x01, 0x2a, 0x22, 0x6e,
+	0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64,
+	0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
+	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
 	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
 	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e,
-	0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6c, 0x6c, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0xd3, 0x01, 0x0a, 0x11, 0x4c,
-	0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x73,
-	0x12, 0x2a, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x61,
-	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e,
-	0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f,
-	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0x5f, 0x12, 0x5d, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
-	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
-	0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f,
-	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
-	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x70, 0x6f, 0x73,
-	0x12, 0xd9, 0x01, 0x0a, 0x12, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x12, 0x2b, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79,
-	0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
-	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x68, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x62, 0x3a, 0x01, 0x2a, 0x22, 0x5d, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67,
-	0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f,
-	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
-	0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x12, 0x91, 0x03, 0x0a,
-	0x1d, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b,
-	0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x12, 0x36,
-	0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76,
-	0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72,
-	0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e,
-	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
-	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65,
-	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0xfe, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xf7, 0x01, 0x5a, 0x7c, 0x2a, 0x7a, 0x2f, 0x65, 0x78,
-	0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e,
-	0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
-	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61,
-	0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c,
-	0x6c, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2a, 0x77, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31,
-	0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64,
-	0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
-	0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61,
-	0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d,
-	0x12, 0xf8, 0x01, 0x0a, 0x1a, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x12,
-	0x33, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e,
-	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x4d,
-	0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x34, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
-	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74,
-	0x61, 0x6e, 0x63, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65,
-	0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x6f, 0x82, 0xd3, 0xe4, 0x93,
-	0x02, 0x69, 0x12, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73,
-	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
-	0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77,
-	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61,
-	0x67, 0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x12, 0xe6, 0x01, 0x0a, 0x13,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63,
-	0x72, 0x65, 0x74, 0x12, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e,
-	0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63,
-	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67,
-	0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x72, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x6c, 0x3a, 0x01, 0x2a, 0x22, 0x67, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
-	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63,
-	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
-	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x2d, 0x73, 0x65, 0x63,
-	0x72, 0x65, 0x74, 0x73, 0x12, 0xea, 0x01, 0x0a, 0x13, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d,
-	0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x12, 0x2c, 0x2e, 0x61,
-	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63,
-	0x72, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75,
-	0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65,
-	0x6c, 0x65, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65,
-	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x76, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0x70, 0x2a, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
-	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
-	0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f,
-	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
-	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67,
-	0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x2f, 0x7b, 0x6e, 0x61, 0x6d, 0x65,
-	0x7d, 0x12, 0xed, 0x01, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61,
-	0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x12, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69,
-	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79,
-	0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x79, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x73, 0x3a, 0x01,
-	0x2a, 0x1a, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
-	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
-	0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f,
-	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
-	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
-	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67,
-	0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x2f, 0x7b, 0x6e, 0x61, 0x6d, 0x65,
-	0x7d, 0x12, 0xea, 0x01, 0x0a, 0x12, 0x50, 0x61, 0x74, 0x63, 0x68, 0x4d, 0x61, 0x6e, 0x61, 0x67,
-	0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x12, 0x2b, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
-	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x74, 0x63,
-	0x68, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61,
-	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x4d, 0x61,
-	0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x79, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x73, 0x3a, 0x01, 0x2a, 0x32, 0x6e,
+	0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x22, 0x6b,
 	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72,
 	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77,
 	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73,
 	0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
 	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x2d,
-	0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x2f, 0x7b, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x42, 0xc9,
-	0x01, 0x0a, 0x14, 0x63, 0x6f, 0x6d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
-	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x42, 0x0b, 0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x50,
-	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x42, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
-	0x6f, 0x6d, 0x2f, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x69, 0x6f, 0x2f, 0x61, 0x6b, 0x75, 0x69,
-	0x74, 0x79, 0x2d, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x2f, 0x70, 0x6b, 0x67, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x76,
-	0x31, 0x3b, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x76, 0x31, 0xa2, 0x02, 0x03, 0x41, 0x41, 0x58,
-	0xaa, 0x02, 0x10, 0x41, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x41, 0x72, 0x67, 0x6f, 0x63, 0x64,
-	0x2e, 0x56, 0x31, 0xca, 0x02, 0x10, 0x41, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x5c, 0x41, 0x72, 0x67,
-	0x6f, 0x63, 0x64, 0x5c, 0x56, 0x31, 0xe2, 0x02, 0x1c, 0x41, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x5c,
-	0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5c, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74,
-	0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x12, 0x41, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x3a, 0x3a,
-	0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b,
+	0x69, 0x64, 0x7d, 0x2f, 0x72, 0x65, 0x66, 0x72, 0x65, 0x73, 0x68, 0x12, 0xd1, 0x02, 0x0a, 0x13,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64,
+	0x64, 0x6f, 0x6e, 0x12, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0xdc, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xd5, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x6b, 0x3a,
+	0x01, 0x2a, 0x1a, 0x66, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e,
+	0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f,
+	0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
+	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61,
+	0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x1a, 0x63, 0x2f, 0x61, 0x70, 0x69,
+	0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
+	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73,
+	0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12,
+	0xd6, 0x02, 0x0a, 0x12, 0x50, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x12, 0x2b, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x49,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0xe4, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xdd, 0x01, 0x3a, 0x05, 0x70, 0x61, 0x74,
+	0x63, 0x68, 0x5a, 0x6f, 0x3a, 0x05, 0x70, 0x61, 0x74, 0x63, 0x68, 0x32, 0x66, 0x2f, 0x65, 0x78,
+	0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
+	0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e,
+	0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b,
+	0x69, 0x64, 0x7d, 0x32, 0x63, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67,
+	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b,
+	0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64,
+	0x6f, 0x6e, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0xa0, 0x03, 0x0a, 0x1d, 0x43, 0x6c, 0x65,
+	0x61, 0x72, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x53, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x36, 0x2e, 0x61, 0x6b, 0x75,
+	0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c,
+	0x65, 0x61, 0x72, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x53, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x37, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c, 0x65, 0x61, 0x72, 0x41, 0x64, 0x64, 0x6f, 0x6e,
+	0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x53, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x48, 0x69, 0x73, 0x74,
+	0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x8d, 0x02, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x86, 0x02, 0x3a, 0x01, 0x2a, 0x5a, 0x83, 0x01, 0x3a, 0x01, 0x2a, 0x32, 0x7e,
+	0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64,
+	0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e,
+	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e,
+	0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2f, 0x63, 0x6c, 0x65, 0x61, 0x72, 0x2d, 0x6f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2d, 0x68, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x32, 0x7b,
+	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72,
+	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77,
+	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73,
+	0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x7b,
+	0x69, 0x64, 0x7d, 0x2f, 0x63, 0x6c, 0x65, 0x61, 0x72, 0x2d, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x2d, 0x68, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x12, 0xd1, 0x02, 0x0a, 0x13,
+	0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64,
+	0x6f, 0x6e, 0x73, 0x12, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0xda, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xd3, 0x01, 0x5a, 0x6a, 0x12, 0x68, 0x2f, 0x65,
+	0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f,
+	0x6e, 0x73, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b,
+	0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d,
+	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x12, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
+	0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67,
+	0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f,
+	0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
+	0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x30, 0x01, 0x12,
+	0xe7, 0x02, 0x0a, 0x17, 0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x12, 0x30, 0x2e, 0x61, 0x6b,
+	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57,
+	0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64, 0x64, 0x6f,
+	0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e,
+	0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31,
+	0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x41, 0x64,
+	0x64, 0x6f, 0x6e, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0xe4, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xdd, 0x01, 0x5a, 0x6f, 0x12, 0x6d, 0x2f, 0x65,
+	0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f,
+	0x6e, 0x73, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b,
+	0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d,
+	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x12, 0x6a, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73,
+	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77,
+	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f,
+	0x6e, 0x2d, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x30, 0x01, 0x12, 0xfb, 0x02, 0x0a, 0x17, 0x41, 0x64,
+	0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e,
+	0x73, 0x74, 0x61, 0x6c, 0x6c, 0x12, 0x30, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61,
+	0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61,
+	0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x31, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79,
+	0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x64, 0x64, 0x6f, 0x6e,
+	0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xfa, 0x01, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0xf3, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x7a, 0x3a, 0x01, 0x2a, 0x22, 0x75, 0x2f, 0x65,
+	0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f,
+	0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d,
+	0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6c, 0x6c, 0x73, 0x22, 0x72, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67,
+	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b,
+	0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64,
+	0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x12, 0x94, 0x03, 0x0a, 0x1c, 0x4c, 0x69, 0x73, 0x74,
+	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x12, 0x35, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x36, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e,
+	0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b,
+	0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x84, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xfd,
+	0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x7f, 0x3a, 0x01, 0x2a, 0x22, 0x7a, 0x2f, 0x65, 0x78, 0x74, 0x2d,
+	0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78,
+	0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f,
+	0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x2d, 0x61, 0x64, 0x64, 0x6f, 0x6e,
+	0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73,
+	0x74, 0x61, 0x6c, 0x6c, 0x73, 0x22, 0x77, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f,
+	0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73,
+	0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
+	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6c,
+	0x69, 0x73, 0x74, 0x2d, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74,
+	0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x12, 0x97,
+	0x03, 0x0a, 0x1d, 0x57, 0x61, 0x74, 0x63, 0x68, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72,
+	0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73,
+	0x12, 0x36, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63, 0x68, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61,
+	0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c,
+	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x74, 0x63,
+	0x68, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63,
+	0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x82, 0x02, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xfb, 0x01, 0x5a, 0x7e, 0x12, 0x7c, 0x2f,
+	0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64,
+	0x6f, 0x6e, 0x73, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f,
+	0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
+	0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
+	0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61,
+	0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x12, 0x79, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x2f, 0x6f, 0x72, 0x67, 0x73,
+	0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77,
+	0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67,
+	0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f,
+	0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e,
+	0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x30, 0x01, 0x12, 0x97, 0x03, 0x0a, 0x1d, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c,
+	0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x12, 0x36, 0x2e, 0x61, 0x6b, 0x75,
+	0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70,
+	0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x37, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f,
+	0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6c, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x84, 0x02, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0xfd, 0x01, 0x3a, 0x01, 0x2a, 0x5a, 0x7f, 0x3a, 0x01, 0x2a, 0x22, 0x7a, 0x2f,
+	0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64,
+	0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
+	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73,
+	0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d,
+	0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6c, 0x6c, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x22, 0x77, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70,
+	0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x2f, 0x7b, 0x69,
+	0x64, 0x7d, 0x12, 0xd3, 0x01, 0x0a, 0x11, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x12, 0x2a, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x65, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x5f, 0x12, 0x5d, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x72, 0x65, 0x70, 0x6f, 0x73, 0x12, 0xd9, 0x01, 0x0a, 0x12, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x70, 0x6f, 0x12,
+	0x2b, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e,
+	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x52, 0x65, 0x70, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x61,
+	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65,
+	0x70, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x68, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x62, 0x3a, 0x01, 0x2a, 0x22, 0x5d, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f,
+	0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73,
+	0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73,
+	0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x72,
+	0x65, 0x70, 0x6f, 0x73, 0x12, 0x91, 0x03, 0x0a, 0x1d, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41,
+	0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49,
+	0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x12, 0x36, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x37,
+	0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76,
+	0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x64, 0x64, 0x6f, 0x6e, 0x4d, 0x61, 0x72,
+	0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xfe, 0x01, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0xf7,
+	0x01, 0x5a, 0x7c, 0x2a, 0x7a, 0x2f, 0x65, 0x78, 0x74, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31,
+	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x65, 0x78, 0x74, 0x65, 0x6e, 0x73, 0x69, 0x6f,
+	0x6e, 0x73, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x73, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b,
+	0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d,
+	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d, 0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63,
+	0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6c, 0x6c, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x2a,
+	0x77, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f,
+	0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b,
+	0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x64, 0x64, 0x6f, 0x6e, 0x2d, 0x6d,
+	0x61, 0x72, 0x6b, 0x65, 0x74, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x2d, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6c, 0x6c, 0x73, 0x2f, 0x7b, 0x69, 0x64, 0x7d, 0x12, 0xf8, 0x01, 0x0a, 0x1a, 0x4c, 0x69, 0x73,
+	0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64,
+	0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x12, 0x33, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79,
+	0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x49,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65,
+	0x63, 0x72, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x34, 0x2e, 0x61,
+	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e,
+	0x4c, 0x69, 0x73, 0x74, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x4d, 0x61, 0x6e, 0x61,
+	0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x6f, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x69, 0x12, 0x67, 0x2f, 0x61, 0x70, 0x69,
+	0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
+	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73,
+	0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74,
+	0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72,
+	0x65, 0x74, 0x73, 0x12, 0xe6, 0x01, 0x0a, 0x13, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x61,
+	0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x12, 0x2c, 0x2e, 0x61, 0x6b,
+	0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72,
+	0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69,
+	0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x72, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x6c,
+	0x3a, 0x01, 0x2a, 0x22, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67,
+	0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b,
+	0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e,
+	0x61, 0x67, 0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x12, 0xea, 0x01, 0x0a,
+	0x13, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65,
+	0x63, 0x72, 0x65, 0x74, 0x12, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72,
+	0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x61,
+	0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f,
+	0x63, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61,
+	0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x76, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x70, 0x2a, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72, 0x65,
+	0x74, 0x73, 0x2f, 0x7b, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x12, 0xed, 0x01, 0x0a, 0x13, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65,
+	0x74, 0x12, 0x2c, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63,
+	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67,
+	0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x2d, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e,
+	0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64,
+	0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x79,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x73, 0x3a, 0x01, 0x2a, 0x1a, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x76, 0x31, 0x2f, 0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70,
+	0x61, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f,
+	0x69, 0x64, 0x7d, 0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61,
+	0x6e, 0x63, 0x65, 0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69,
+	0x64, 0x7d, 0x2f, 0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72, 0x65,
+	0x74, 0x73, 0x2f, 0x7b, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x12, 0xea, 0x01, 0x0a, 0x12, 0x50, 0x61,
+	0x74, 0x63, 0x68, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74,
+	0x12, 0x2b, 0x2e, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64,
+	0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e,
+	0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31,
+	0x2e, 0x50, 0x61, 0x74, 0x63, 0x68, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x53, 0x65, 0x63,
+	0x72, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x79, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x73, 0x3a, 0x01, 0x2a, 0x32, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x76, 0x31, 0x2f,
+	0x6f, 0x72, 0x67, 0x73, 0x2f, 0x7b, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x7d, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x73, 0x2f, 0x7b, 0x77, 0x6f, 0x72, 0x6b, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d,
+	0x2f, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
+	0x73, 0x2f, 0x7b, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x7d, 0x2f,
+	0x6d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x64, 0x2d, 0x73, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x2f,
+	0x7b, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x42, 0xc9, 0x01, 0x0a, 0x14, 0x63, 0x6f, 0x6d, 0x2e, 0x61,
+	0x6b, 0x75, 0x69, 0x74, 0x79, 0x2e, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x76, 0x31, 0x42,
+	0x0b, 0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x42,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x61, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x69, 0x6f, 0x2f, 0x61, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x2d, 0x70, 0x6c, 0x61, 0x74, 0x66,
+	0x6f, 0x72, 0x6d, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x67, 0x65, 0x6e, 0x2f,
+	0x61, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2f, 0x76, 0x31, 0x3b, 0x61, 0x72, 0x67, 0x6f, 0x63, 0x64,
+	0x76, 0x31, 0xa2, 0x02, 0x03, 0x41, 0x41, 0x58, 0xaa, 0x02, 0x10, 0x41, 0x6b, 0x75, 0x69, 0x74,
+	0x79, 0x2e, 0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x2e, 0x56, 0x31, 0xca, 0x02, 0x10, 0x41, 0x6b,
+	0x75, 0x69, 0x74, 0x79, 0x5c, 0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5c, 0x56, 0x31, 0xe2, 0x02,
+	0x1c, 0x41, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x5c, 0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x5c, 0x56,
+	0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x12,
+	0x41, 0x6b, 0x75, 0x69, 0x74, 0x79, 0x3a, 0x3a, 0x41, 0x72, 0x67, 0x6f, 0x63, 0x64, 0x3a, 0x3a,
+	0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -27544,7 +27976,7 @@ func file_argocd_v1_argocd_proto_rawDescGZIP() []byte {
 }
 
 var file_argocd_v1_argocd_proto_enumTypes = make([]protoimpl.EnumInfo, 14)
-var file_argocd_v1_argocd_proto_msgTypes = make([]protoimpl.MessageInfo, 341)
+var file_argocd_v1_argocd_proto_msgTypes = make([]protoimpl.MessageInfo, 343)
 var file_argocd_v1_argocd_proto_goTypes = []interface{}{
 	(SyncOperationField)(0),                               // 0: akuity.argocd.v1.SyncOperationField
 	(SyncOperationGroupField)(0),                          // 1: akuity.argocd.v1.SyncOperationGroupField
@@ -27761,233 +28193,235 @@ var file_argocd_v1_argocd_proto_goTypes = []interface{}{
 	(*ApplyInstanceRequest)(nil),                          // 212: akuity.argocd.v1.ApplyInstanceRequest
 	(*ApplyInstanceResponse)(nil),                         // 213: akuity.argocd.v1.ApplyInstanceResponse
 	(*ExportInstanceRequest)(nil),                         // 214: akuity.argocd.v1.ExportInstanceRequest
-	(*ExportInstanceResponse)(nil),                        // 215: akuity.argocd.v1.ExportInstanceResponse
-	(*GetInstanceClusterCommandRequest)(nil),              // 216: akuity.argocd.v1.GetInstanceClusterCommandRequest
-	(*GetInstanceClusterCommandResponse)(nil),             // 217: akuity.argocd.v1.GetInstanceClusterCommandResponse
-	(*ConfigManagementPlugin)(nil),                        // 218: akuity.argocd.v1.ConfigManagementPlugin
-	(*PluginSpec)(nil),                                    // 219: akuity.argocd.v1.PluginSpec
-	(*Command)(nil),                                       // 220: akuity.argocd.v1.Command
-	(*Discover)(nil),                                      // 221: akuity.argocd.v1.Discover
-	(*Find)(nil),                                          // 222: akuity.argocd.v1.Find
-	(*Parameters)(nil),                                    // 223: akuity.argocd.v1.Parameters
-	(*Dynamic)(nil),                                       // 224: akuity.argocd.v1.Dynamic
-	(*ParameterAnnouncement)(nil),                         // 225: akuity.argocd.v1.ParameterAnnouncement
-	(*GetInstanceConfigManagementPluginsRequest)(nil),     // 226: akuity.argocd.v1.GetInstanceConfigManagementPluginsRequest
-	(*GetInstanceConfigManagementPluginsResponse)(nil),    // 227: akuity.argocd.v1.GetInstanceConfigManagementPluginsResponse
-	(*UpdateInstanceConfigManagementPluginsRequest)(nil),  // 228: akuity.argocd.v1.UpdateInstanceConfigManagementPluginsRequest
-	(*UpdateInstanceConfigManagementPluginsResponse)(nil), // 229: akuity.argocd.v1.UpdateInstanceConfigManagementPluginsResponse
-	(*ListInstanceAddonReposRequest)(nil),                 // 230: akuity.argocd.v1.ListInstanceAddonReposRequest
-	(*ListInstanceAddonReposResponse)(nil),                // 231: akuity.argocd.v1.ListInstanceAddonReposResponse
-	(*GetInstanceAddonRepoRequest)(nil),                   // 232: akuity.argocd.v1.GetInstanceAddonRepoRequest
-	(*GetInstanceAddonRepoResponse)(nil),                  // 233: akuity.argocd.v1.GetInstanceAddonRepoResponse
-	(*CreateInstanceAddonRepoRequest)(nil),                // 234: akuity.argocd.v1.CreateInstanceAddonRepoRequest
-	(*CreateInstanceAddonRepoResponse)(nil),               // 235: akuity.argocd.v1.CreateInstanceAddonRepoResponse
-	(*DeleteInstanceAddonRepoRequest)(nil),                // 236: akuity.argocd.v1.DeleteInstanceAddonRepoRequest
-	(*DeleteInstanceAddonRepoResponse)(nil),               // 237: akuity.argocd.v1.DeleteInstanceAddonRepoResponse
-	(*RefreshInstanceAddonRepoRequest)(nil),               // 238: akuity.argocd.v1.RefreshInstanceAddonRepoRequest
-	(*RefreshInstanceAddonRepoResponse)(nil),              // 239: akuity.argocd.v1.RefreshInstanceAddonRepoResponse
-	(*AddonRepo)(nil),                                     // 240: akuity.argocd.v1.AddonRepo
-	(*RepoSpec)(nil),                                      // 241: akuity.argocd.v1.RepoSpec
-	(*RepoStatus)(nil),                                    // 242: akuity.argocd.v1.RepoStatus
-	(*GetInstanceAddonRequest)(nil),                       // 243: akuity.argocd.v1.GetInstanceAddonRequest
-	(*GetInstanceAddonResponse)(nil),                      // 244: akuity.argocd.v1.GetInstanceAddonResponse
-	(*DeleteInstanceAddonRequest)(nil),                    // 245: akuity.argocd.v1.DeleteInstanceAddonRequest
-	(*DeleteInstanceAddonResponse)(nil),                   // 246: akuity.argocd.v1.DeleteInstanceAddonResponse
-	(*AddonFilter)(nil),                                   // 247: akuity.argocd.v1.AddonFilter
-	(*ListInstanceAddonsRequest)(nil),                     // 248: akuity.argocd.v1.ListInstanceAddonsRequest
-	(*ListInstanceAddonsResponse)(nil),                    // 249: akuity.argocd.v1.ListInstanceAddonsResponse
-	(*UpdateInstanceAddonRequest)(nil),                    // 250: akuity.argocd.v1.UpdateInstanceAddonRequest
-	(*UpdateInstanceAddonResponse)(nil),                   // 251: akuity.argocd.v1.UpdateInstanceAddonResponse
-	(*PatchInstanceAddonRequest)(nil),                     // 252: akuity.argocd.v1.PatchInstanceAddonRequest
-	(*PatchInstanceAddonResponse)(nil),                    // 253: akuity.argocd.v1.PatchInstanceAddonResponse
-	(*ClearAddonStatusSourceHistoryRequest)(nil),          // 254: akuity.argocd.v1.ClearAddonStatusSourceHistoryRequest
-	(*ClearAddonStatusSourceHistoryResponse)(nil),         // 255: akuity.argocd.v1.ClearAddonStatusSourceHistoryResponse
-	(*RefreshInstanceAddonRequest)(nil),                   // 256: akuity.argocd.v1.RefreshInstanceAddonRequest
-	(*RefreshInstanceAddonResponse)(nil),                  // 257: akuity.argocd.v1.RefreshInstanceAddonResponse
-	(*ManifestSource)(nil),                                // 258: akuity.argocd.v1.ManifestSource
-	(*KustomizeSource)(nil),                               // 259: akuity.argocd.v1.KustomizeSource
-	(*KustomizeImage)(nil),                                // 260: akuity.argocd.v1.KustomizeImage
-	(*KustomizeHelmChart)(nil),                            // 261: akuity.argocd.v1.KustomizeHelmChart
-	(*HelmSource)(nil),                                    // 262: akuity.argocd.v1.HelmSource
-	(*ClusterSelector)(nil),                               // 263: akuity.argocd.v1.ClusterSelector
-	(*Selector)(nil),                                      // 264: akuity.argocd.v1.Selector
-	(*AddonSpec)(nil),                                     // 265: akuity.argocd.v1.AddonSpec
-	(*PatchCustomization)(nil),                            // 266: akuity.argocd.v1.PatchCustomization
-	(*HelmValues)(nil),                                    // 267: akuity.argocd.v1.HelmValues
-	(*ChartDependency)(nil),                               // 268: akuity.argocd.v1.ChartDependency
-	(*AppCreationOptions)(nil),                            // 269: akuity.argocd.v1.AppCreationOptions
-	(*AppDeletionOptions)(nil),                            // 270: akuity.argocd.v1.AppDeletionOptions
-	(*AppSyncOptions)(nil),                                // 271: akuity.argocd.v1.AppSyncOptions
-	(*AppTemplate)(nil),                                   // 272: akuity.argocd.v1.AppTemplate
-	(*HelmOptions)(nil),                                   // 273: akuity.argocd.v1.HelmOptions
-	(*KustomizeOptions)(nil),                              // 274: akuity.argocd.v1.KustomizeOptions
-	(*StatusSourceUpdate)(nil),                            // 275: akuity.argocd.v1.StatusSourceUpdate
-	(*SourceUpdateResult)(nil),                            // 276: akuity.argocd.v1.SourceUpdateResult
-	(*SourceInfo)(nil),                                    // 277: akuity.argocd.v1.SourceInfo
-	(*AddonStatus)(nil),                                   // 278: akuity.argocd.v1.AddonStatus
-	(*ListInstanceAddonErrorsRequest)(nil),                // 279: akuity.argocd.v1.ListInstanceAddonErrorsRequest
-	(*ListInstanceAddonErrorsResponse)(nil),               // 280: akuity.argocd.v1.ListInstanceAddonErrorsResponse
-	(*AddonErrorList)(nil),                                // 281: akuity.argocd.v1.AddonErrorList
-	(*AddonError)(nil),                                    // 282: akuity.argocd.v1.AddonError
-	(*AddonHealthStatus)(nil),                             // 283: akuity.argocd.v1.AddonHealthStatus
-	(*AddonCondition)(nil),                                // 284: akuity.argocd.v1.AddonCondition
-	(*ClusterAddonStatusOperation)(nil),                   // 285: akuity.argocd.v1.ClusterAddonStatusOperation
-	(*StatusOperation)(nil),                               // 286: akuity.argocd.v1.StatusOperation
-	(*Addon)(nil),                                         // 287: akuity.argocd.v1.Addon
-	(*AddonMarketplaceInstallRequest)(nil),                // 288: akuity.argocd.v1.AddonMarketplaceInstallRequest
-	(*AddonMarketplaceInstallResponse)(nil),               // 289: akuity.argocd.v1.AddonMarketplaceInstallResponse
-	(*UpdateAddonMarketplaceInstallRequest)(nil),          // 290: akuity.argocd.v1.UpdateAddonMarketplaceInstallRequest
-	(*UpdateAddonMarketplaceInstallResponse)(nil),         // 291: akuity.argocd.v1.UpdateAddonMarketplaceInstallResponse
-	(*DeleteAddonMarketplaceInstallRequest)(nil),          // 292: akuity.argocd.v1.DeleteAddonMarketplaceInstallRequest
-	(*DeleteAddonMarketplaceInstallResponse)(nil),         // 293: akuity.argocd.v1.DeleteAddonMarketplaceInstallResponse
-	(*ListAddonMarketplaceInstallsRequest)(nil),           // 294: akuity.argocd.v1.ListAddonMarketplaceInstallsRequest
-	(*WatchAddonMarketplaceInstallsRequest)(nil),          // 295: akuity.argocd.v1.WatchAddonMarketplaceInstallsRequest
-	(*WatchAddonMarketplaceInstallsResponse)(nil),         // 296: akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse
-	(*AddonMarketplaceInstallFilter)(nil),                 // 297: akuity.argocd.v1.AddonMarketplaceInstallFilter
-	(*ListAddonMarketplaceInstallsResponse)(nil),          // 298: akuity.argocd.v1.ListAddonMarketplaceInstallsResponse
-	(*AddonMarketplaceInstall)(nil),                       // 299: akuity.argocd.v1.AddonMarketplaceInstall
-	(*AddonMarketplaceInstallConfig)(nil),                 // 300: akuity.argocd.v1.AddonMarketplaceInstallConfig
-	(*AddonMarketplaceInstallOverrides)(nil),              // 301: akuity.argocd.v1.AddonMarketplaceInstallOverrides
-	(*HelmChartInstallConfig)(nil),                        // 302: akuity.argocd.v1.HelmChartInstallConfig
-	(*AddonMarketplaceStatus)(nil),                        // 303: akuity.argocd.v1.AddonMarketplaceStatus
-	(*AddonEvent)(nil),                                    // 304: akuity.argocd.v1.AddonEvent
-	(*RefreshInstanceRunbookRepoRequest)(nil),             // 305: akuity.argocd.v1.RefreshInstanceRunbookRepoRequest
-	(*RefreshInstanceRunbookRepoResponse)(nil),            // 306: akuity.argocd.v1.RefreshInstanceRunbookRepoResponse
-	(*ApplicationDeploymentStatsEntry)(nil),               // 307: akuity.argocd.v1.ApplicationDeploymentStatsEntry
-	(*SyncPhaseSummary)(nil),                              // 308: akuity.argocd.v1.SyncPhaseSummary
-	(*GetApplicationDeploymentStatsRequest)(nil),          // 309: akuity.argocd.v1.GetApplicationDeploymentStatsRequest
-	(*GetApplicationDeploymentStatsResponse)(nil),         // 310: akuity.argocd.v1.GetApplicationDeploymentStatsResponse
-	nil, // 311: akuity.argocd.v1.CreateInstanceRepoRequest.DataEntry
-	nil, // 312: akuity.argocd.v1.CreateManagedSecretRequest.ManagedSecretDataEntry
-	nil, // 313: akuity.argocd.v1.UpdateManagedSecretRequest.ManagedSecretDataEntry
-	nil, // 314: akuity.argocd.v1.PatchManagedSecretRequest.ManagedSecretDataEntry
-	nil, // 315: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.SecretEntry
-	nil, // 316: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.ConfigEntry
-	nil, // 317: akuity.argocd.v1.GetInstanceNotificationCatalogResponse.CatalogEntry
-	nil, // 318: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SecretEntry
-	nil, // 319: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.ConfigEntry
-	nil, // 320: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SshConfigEntry
-	nil, // 321: akuity.argocd.v1.PatchInstanceSecretRequest.SecretEntry
-	(*PatchInstanceSecretRequest_ValueField)(nil), // 322: akuity.argocd.v1.PatchInstanceSecretRequest.ValueField
-	nil, // 323: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.SecretEntry
-	(*PatchInstanceNotificationSecretRequest_ValueField)(nil), // 324: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.ValueField
-	nil, // 325: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.SecretEntry
-	(*PatchInstanceImageUpdaterSecretRequest_ValueField)(nil), // 326: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.ValueField
-	nil, // 327: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.SecretEntry
-	(*PatchInstanceAppsetSecretRequest_ValueField)(nil), // 328: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.ValueField
-	nil,                           // 329: akuity.argocd.v1.GetInstanceAppsetSecretResponse.SecretEntry
-	nil,                           // 330: akuity.argocd.v1.UpdateInstanceNotificationConfigRequest.ConfigEntry
-	nil,                           // 331: akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest.ConfigEntry
-	nil,                           // 332: akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest.ConfigEntry
-	nil,                           // 333: akuity.argocd.v1.SyncOperationFilter.LabelsEntry
-	nil,                           // 334: akuity.argocd.v1.SyncOperationStat.CountMapEntry
-	nil,                           // 335: akuity.argocd.v1.SyncOperationStat.AverageMapEntry
-	nil,                           // 336: akuity.argocd.v1.SyncOperationEventDetails.LabelsEntry
-	nil,                           // 337: akuity.argocd.v1.ClusterFilter.LabelsEntry
-	nil,                           // 338: akuity.argocd.v1.Instance.SecretsEntry
-	nil,                           // 339: akuity.argocd.v1.RunbookRepo.AppliedForEntry
-	nil,                           // 340: akuity.argocd.v1.ObjectSelector.MatchLabelsEntry
-	nil,                           // 341: akuity.argocd.v1.ManagedSecret.LabelsEntry
-	nil,                           // 342: akuity.argocd.v1.ClusterData.LabelsEntry
-	nil,                           // 343: akuity.argocd.v1.ClusterData.AnnotationsEntry
-	nil,                           // 344: akuity.argocd.v1.GetInstanceClusterCommandResponse.VariablesEntry
-	nil,                           // 345: akuity.argocd.v1.ParameterAnnouncement.MapEntry
-	nil,                           // 346: akuity.argocd.v1.AddonFilter.ClusterLabelsEntry
-	nil,                           // 347: akuity.argocd.v1.HelmSource.ValuesEntry
-	nil,                           // 348: akuity.argocd.v1.AddonSpec.ClusterOverridesEntry
-	nil,                           // 349: akuity.argocd.v1.AddonSpec.EnvOverridesEntry
-	nil,                           // 350: akuity.argocd.v1.SourceInfo.ClusterOverridesEntry
-	nil,                           // 351: akuity.argocd.v1.SourceInfo.EnvOverridesEntry
-	nil,                           // 352: akuity.argocd.v1.AddonStatus.ClusterOverridesEntry
-	nil,                           // 353: akuity.argocd.v1.AddonStatus.EnvOverridesEntry
-	nil,                           // 354: akuity.argocd.v1.ListInstanceAddonErrorsResponse.ErrorsEntry
-	(v1.Type)(0),                  // 355: akuity.types.id.v1.Type
-	(*structpb.Struct)(nil),       // 356: google.protobuf.Struct
-	(v11.GroupByInterval)(0),      // 357: akuity.types.misc.v1.GroupByInterval
-	(v12.TenantPhase)(0),          // 358: akuity.types.status.health.v1.TenantPhase
-	(v13.EventType)(0),            // 359: akuity.types.events.v1.EventType
-	(*timestamppb.Timestamp)(nil), // 360: google.protobuf.Timestamp
-	(*v12.Status)(nil),            // 361: akuity.types.status.health.v1.Status
-	(*v14.Status)(nil),            // 362: akuity.types.status.reconciliation.v1.Status
-	(*v12.AgentAggregatedHealthResponse)(nil), // 363: akuity.types.status.health.v1.AgentAggregatedHealthResponse
-	(v14.AgentUpdateStatus)(0),                // 364: akuity.types.status.reconciliation.v1.AgentUpdateStatus
-	(*httpbody.HttpBody)(nil),                 // 365: google.api.HttpBody
-	(*emptypb.Empty)(nil),                     // 366: google.protobuf.Empty
+	(*ExportInstanceStreamRequest)(nil),                   // 215: akuity.argocd.v1.ExportInstanceStreamRequest
+	(*ExportInstanceResponse)(nil),                        // 216: akuity.argocd.v1.ExportInstanceResponse
+	(*ExportInstanceStreamResponse)(nil),                  // 217: akuity.argocd.v1.ExportInstanceStreamResponse
+	(*GetInstanceClusterCommandRequest)(nil),              // 218: akuity.argocd.v1.GetInstanceClusterCommandRequest
+	(*GetInstanceClusterCommandResponse)(nil),             // 219: akuity.argocd.v1.GetInstanceClusterCommandResponse
+	(*ConfigManagementPlugin)(nil),                        // 220: akuity.argocd.v1.ConfigManagementPlugin
+	(*PluginSpec)(nil),                                    // 221: akuity.argocd.v1.PluginSpec
+	(*Command)(nil),                                       // 222: akuity.argocd.v1.Command
+	(*Discover)(nil),                                      // 223: akuity.argocd.v1.Discover
+	(*Find)(nil),                                          // 224: akuity.argocd.v1.Find
+	(*Parameters)(nil),                                    // 225: akuity.argocd.v1.Parameters
+	(*Dynamic)(nil),                                       // 226: akuity.argocd.v1.Dynamic
+	(*ParameterAnnouncement)(nil),                         // 227: akuity.argocd.v1.ParameterAnnouncement
+	(*GetInstanceConfigManagementPluginsRequest)(nil),     // 228: akuity.argocd.v1.GetInstanceConfigManagementPluginsRequest
+	(*GetInstanceConfigManagementPluginsResponse)(nil),    // 229: akuity.argocd.v1.GetInstanceConfigManagementPluginsResponse
+	(*UpdateInstanceConfigManagementPluginsRequest)(nil),  // 230: akuity.argocd.v1.UpdateInstanceConfigManagementPluginsRequest
+	(*UpdateInstanceConfigManagementPluginsResponse)(nil), // 231: akuity.argocd.v1.UpdateInstanceConfigManagementPluginsResponse
+	(*ListInstanceAddonReposRequest)(nil),                 // 232: akuity.argocd.v1.ListInstanceAddonReposRequest
+	(*ListInstanceAddonReposResponse)(nil),                // 233: akuity.argocd.v1.ListInstanceAddonReposResponse
+	(*GetInstanceAddonRepoRequest)(nil),                   // 234: akuity.argocd.v1.GetInstanceAddonRepoRequest
+	(*GetInstanceAddonRepoResponse)(nil),                  // 235: akuity.argocd.v1.GetInstanceAddonRepoResponse
+	(*CreateInstanceAddonRepoRequest)(nil),                // 236: akuity.argocd.v1.CreateInstanceAddonRepoRequest
+	(*CreateInstanceAddonRepoResponse)(nil),               // 237: akuity.argocd.v1.CreateInstanceAddonRepoResponse
+	(*DeleteInstanceAddonRepoRequest)(nil),                // 238: akuity.argocd.v1.DeleteInstanceAddonRepoRequest
+	(*DeleteInstanceAddonRepoResponse)(nil),               // 239: akuity.argocd.v1.DeleteInstanceAddonRepoResponse
+	(*RefreshInstanceAddonRepoRequest)(nil),               // 240: akuity.argocd.v1.RefreshInstanceAddonRepoRequest
+	(*RefreshInstanceAddonRepoResponse)(nil),              // 241: akuity.argocd.v1.RefreshInstanceAddonRepoResponse
+	(*AddonRepo)(nil),                                     // 242: akuity.argocd.v1.AddonRepo
+	(*RepoSpec)(nil),                                      // 243: akuity.argocd.v1.RepoSpec
+	(*RepoStatus)(nil),                                    // 244: akuity.argocd.v1.RepoStatus
+	(*GetInstanceAddonRequest)(nil),                       // 245: akuity.argocd.v1.GetInstanceAddonRequest
+	(*GetInstanceAddonResponse)(nil),                      // 246: akuity.argocd.v1.GetInstanceAddonResponse
+	(*DeleteInstanceAddonRequest)(nil),                    // 247: akuity.argocd.v1.DeleteInstanceAddonRequest
+	(*DeleteInstanceAddonResponse)(nil),                   // 248: akuity.argocd.v1.DeleteInstanceAddonResponse
+	(*AddonFilter)(nil),                                   // 249: akuity.argocd.v1.AddonFilter
+	(*ListInstanceAddonsRequest)(nil),                     // 250: akuity.argocd.v1.ListInstanceAddonsRequest
+	(*ListInstanceAddonsResponse)(nil),                    // 251: akuity.argocd.v1.ListInstanceAddonsResponse
+	(*UpdateInstanceAddonRequest)(nil),                    // 252: akuity.argocd.v1.UpdateInstanceAddonRequest
+	(*UpdateInstanceAddonResponse)(nil),                   // 253: akuity.argocd.v1.UpdateInstanceAddonResponse
+	(*PatchInstanceAddonRequest)(nil),                     // 254: akuity.argocd.v1.PatchInstanceAddonRequest
+	(*PatchInstanceAddonResponse)(nil),                    // 255: akuity.argocd.v1.PatchInstanceAddonResponse
+	(*ClearAddonStatusSourceHistoryRequest)(nil),          // 256: akuity.argocd.v1.ClearAddonStatusSourceHistoryRequest
+	(*ClearAddonStatusSourceHistoryResponse)(nil),         // 257: akuity.argocd.v1.ClearAddonStatusSourceHistoryResponse
+	(*RefreshInstanceAddonRequest)(nil),                   // 258: akuity.argocd.v1.RefreshInstanceAddonRequest
+	(*RefreshInstanceAddonResponse)(nil),                  // 259: akuity.argocd.v1.RefreshInstanceAddonResponse
+	(*ManifestSource)(nil),                                // 260: akuity.argocd.v1.ManifestSource
+	(*KustomizeSource)(nil),                               // 261: akuity.argocd.v1.KustomizeSource
+	(*KustomizeImage)(nil),                                // 262: akuity.argocd.v1.KustomizeImage
+	(*KustomizeHelmChart)(nil),                            // 263: akuity.argocd.v1.KustomizeHelmChart
+	(*HelmSource)(nil),                                    // 264: akuity.argocd.v1.HelmSource
+	(*ClusterSelector)(nil),                               // 265: akuity.argocd.v1.ClusterSelector
+	(*Selector)(nil),                                      // 266: akuity.argocd.v1.Selector
+	(*AddonSpec)(nil),                                     // 267: akuity.argocd.v1.AddonSpec
+	(*PatchCustomization)(nil),                            // 268: akuity.argocd.v1.PatchCustomization
+	(*HelmValues)(nil),                                    // 269: akuity.argocd.v1.HelmValues
+	(*ChartDependency)(nil),                               // 270: akuity.argocd.v1.ChartDependency
+	(*AppCreationOptions)(nil),                            // 271: akuity.argocd.v1.AppCreationOptions
+	(*AppDeletionOptions)(nil),                            // 272: akuity.argocd.v1.AppDeletionOptions
+	(*AppSyncOptions)(nil),                                // 273: akuity.argocd.v1.AppSyncOptions
+	(*AppTemplate)(nil),                                   // 274: akuity.argocd.v1.AppTemplate
+	(*HelmOptions)(nil),                                   // 275: akuity.argocd.v1.HelmOptions
+	(*KustomizeOptions)(nil),                              // 276: akuity.argocd.v1.KustomizeOptions
+	(*StatusSourceUpdate)(nil),                            // 277: akuity.argocd.v1.StatusSourceUpdate
+	(*SourceUpdateResult)(nil),                            // 278: akuity.argocd.v1.SourceUpdateResult
+	(*SourceInfo)(nil),                                    // 279: akuity.argocd.v1.SourceInfo
+	(*AddonStatus)(nil),                                   // 280: akuity.argocd.v1.AddonStatus
+	(*ListInstanceAddonErrorsRequest)(nil),                // 281: akuity.argocd.v1.ListInstanceAddonErrorsRequest
+	(*ListInstanceAddonErrorsResponse)(nil),               // 282: akuity.argocd.v1.ListInstanceAddonErrorsResponse
+	(*AddonErrorList)(nil),                                // 283: akuity.argocd.v1.AddonErrorList
+	(*AddonError)(nil),                                    // 284: akuity.argocd.v1.AddonError
+	(*AddonHealthStatus)(nil),                             // 285: akuity.argocd.v1.AddonHealthStatus
+	(*AddonCondition)(nil),                                // 286: akuity.argocd.v1.AddonCondition
+	(*ClusterAddonStatusOperation)(nil),                   // 287: akuity.argocd.v1.ClusterAddonStatusOperation
+	(*StatusOperation)(nil),                               // 288: akuity.argocd.v1.StatusOperation
+	(*Addon)(nil),                                         // 289: akuity.argocd.v1.Addon
+	(*AddonMarketplaceInstallRequest)(nil),                // 290: akuity.argocd.v1.AddonMarketplaceInstallRequest
+	(*AddonMarketplaceInstallResponse)(nil),               // 291: akuity.argocd.v1.AddonMarketplaceInstallResponse
+	(*UpdateAddonMarketplaceInstallRequest)(nil),          // 292: akuity.argocd.v1.UpdateAddonMarketplaceInstallRequest
+	(*UpdateAddonMarketplaceInstallResponse)(nil),         // 293: akuity.argocd.v1.UpdateAddonMarketplaceInstallResponse
+	(*DeleteAddonMarketplaceInstallRequest)(nil),          // 294: akuity.argocd.v1.DeleteAddonMarketplaceInstallRequest
+	(*DeleteAddonMarketplaceInstallResponse)(nil),         // 295: akuity.argocd.v1.DeleteAddonMarketplaceInstallResponse
+	(*ListAddonMarketplaceInstallsRequest)(nil),           // 296: akuity.argocd.v1.ListAddonMarketplaceInstallsRequest
+	(*WatchAddonMarketplaceInstallsRequest)(nil),          // 297: akuity.argocd.v1.WatchAddonMarketplaceInstallsRequest
+	(*WatchAddonMarketplaceInstallsResponse)(nil),         // 298: akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse
+	(*AddonMarketplaceInstallFilter)(nil),                 // 299: akuity.argocd.v1.AddonMarketplaceInstallFilter
+	(*ListAddonMarketplaceInstallsResponse)(nil),          // 300: akuity.argocd.v1.ListAddonMarketplaceInstallsResponse
+	(*AddonMarketplaceInstall)(nil),                       // 301: akuity.argocd.v1.AddonMarketplaceInstall
+	(*AddonMarketplaceInstallConfig)(nil),                 // 302: akuity.argocd.v1.AddonMarketplaceInstallConfig
+	(*AddonMarketplaceInstallOverrides)(nil),              // 303: akuity.argocd.v1.AddonMarketplaceInstallOverrides
+	(*HelmChartInstallConfig)(nil),                        // 304: akuity.argocd.v1.HelmChartInstallConfig
+	(*AddonMarketplaceStatus)(nil),                        // 305: akuity.argocd.v1.AddonMarketplaceStatus
+	(*AddonEvent)(nil),                                    // 306: akuity.argocd.v1.AddonEvent
+	(*RefreshInstanceRunbookRepoRequest)(nil),             // 307: akuity.argocd.v1.RefreshInstanceRunbookRepoRequest
+	(*RefreshInstanceRunbookRepoResponse)(nil),            // 308: akuity.argocd.v1.RefreshInstanceRunbookRepoResponse
+	(*ApplicationDeploymentStatsEntry)(nil),               // 309: akuity.argocd.v1.ApplicationDeploymentStatsEntry
+	(*SyncPhaseSummary)(nil),                              // 310: akuity.argocd.v1.SyncPhaseSummary
+	(*GetApplicationDeploymentStatsRequest)(nil),          // 311: akuity.argocd.v1.GetApplicationDeploymentStatsRequest
+	(*GetApplicationDeploymentStatsResponse)(nil),         // 312: akuity.argocd.v1.GetApplicationDeploymentStatsResponse
+	nil, // 313: akuity.argocd.v1.CreateInstanceRepoRequest.DataEntry
+	nil, // 314: akuity.argocd.v1.CreateManagedSecretRequest.ManagedSecretDataEntry
+	nil, // 315: akuity.argocd.v1.UpdateManagedSecretRequest.ManagedSecretDataEntry
+	nil, // 316: akuity.argocd.v1.PatchManagedSecretRequest.ManagedSecretDataEntry
+	nil, // 317: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.SecretEntry
+	nil, // 318: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.ConfigEntry
+	nil, // 319: akuity.argocd.v1.GetInstanceNotificationCatalogResponse.CatalogEntry
+	nil, // 320: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SecretEntry
+	nil, // 321: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.ConfigEntry
+	nil, // 322: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SshConfigEntry
+	nil, // 323: akuity.argocd.v1.PatchInstanceSecretRequest.SecretEntry
+	(*PatchInstanceSecretRequest_ValueField)(nil), // 324: akuity.argocd.v1.PatchInstanceSecretRequest.ValueField
+	nil, // 325: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.SecretEntry
+	(*PatchInstanceNotificationSecretRequest_ValueField)(nil), // 326: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.ValueField
+	nil, // 327: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.SecretEntry
+	(*PatchInstanceImageUpdaterSecretRequest_ValueField)(nil), // 328: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.ValueField
+	nil, // 329: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.SecretEntry
+	(*PatchInstanceAppsetSecretRequest_ValueField)(nil), // 330: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.ValueField
+	nil,                           // 331: akuity.argocd.v1.GetInstanceAppsetSecretResponse.SecretEntry
+	nil,                           // 332: akuity.argocd.v1.UpdateInstanceNotificationConfigRequest.ConfigEntry
+	nil,                           // 333: akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest.ConfigEntry
+	nil,                           // 334: akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest.ConfigEntry
+	nil,                           // 335: akuity.argocd.v1.SyncOperationFilter.LabelsEntry
+	nil,                           // 336: akuity.argocd.v1.SyncOperationStat.CountMapEntry
+	nil,                           // 337: akuity.argocd.v1.SyncOperationStat.AverageMapEntry
+	nil,                           // 338: akuity.argocd.v1.SyncOperationEventDetails.LabelsEntry
+	nil,                           // 339: akuity.argocd.v1.ClusterFilter.LabelsEntry
+	nil,                           // 340: akuity.argocd.v1.Instance.SecretsEntry
+	nil,                           // 341: akuity.argocd.v1.RunbookRepo.AppliedForEntry
+	nil,                           // 342: akuity.argocd.v1.ObjectSelector.MatchLabelsEntry
+	nil,                           // 343: akuity.argocd.v1.ManagedSecret.LabelsEntry
+	nil,                           // 344: akuity.argocd.v1.ClusterData.LabelsEntry
+	nil,                           // 345: akuity.argocd.v1.ClusterData.AnnotationsEntry
+	nil,                           // 346: akuity.argocd.v1.GetInstanceClusterCommandResponse.VariablesEntry
+	nil,                           // 347: akuity.argocd.v1.ParameterAnnouncement.MapEntry
+	nil,                           // 348: akuity.argocd.v1.AddonFilter.ClusterLabelsEntry
+	nil,                           // 349: akuity.argocd.v1.HelmSource.ValuesEntry
+	nil,                           // 350: akuity.argocd.v1.AddonSpec.ClusterOverridesEntry
+	nil,                           // 351: akuity.argocd.v1.AddonSpec.EnvOverridesEntry
+	nil,                           // 352: akuity.argocd.v1.SourceInfo.ClusterOverridesEntry
+	nil,                           // 353: akuity.argocd.v1.SourceInfo.EnvOverridesEntry
+	nil,                           // 354: akuity.argocd.v1.AddonStatus.ClusterOverridesEntry
+	nil,                           // 355: akuity.argocd.v1.AddonStatus.EnvOverridesEntry
+	nil,                           // 356: akuity.argocd.v1.ListInstanceAddonErrorsResponse.ErrorsEntry
+	(v1.Type)(0),                  // 357: akuity.types.id.v1.Type
+	(*structpb.Struct)(nil),       // 358: google.protobuf.Struct
+	(v11.GroupByInterval)(0),      // 359: akuity.types.misc.v1.GroupByInterval
+	(v12.TenantPhase)(0),          // 360: akuity.types.status.health.v1.TenantPhase
+	(v13.EventType)(0),            // 361: akuity.types.events.v1.EventType
+	(*timestamppb.Timestamp)(nil), // 362: google.protobuf.Timestamp
+	(*v12.Status)(nil),            // 363: akuity.types.status.health.v1.Status
+	(*v14.Status)(nil),            // 364: akuity.types.status.reconciliation.v1.Status
+	(*v12.AgentAggregatedHealthResponse)(nil), // 365: akuity.types.status.health.v1.AgentAggregatedHealthResponse
+	(v14.AgentUpdateStatus)(0),                // 366: akuity.types.status.reconciliation.v1.AgentUpdateStatus
+	(*httpbody.HttpBody)(nil),                 // 367: google.api.HttpBody
+	(*emptypb.Empty)(nil),                     // 368: google.protobuf.Empty
 }
 var file_argocd_v1_argocd_proto_depIdxs = []int32{
-	311, // 0: akuity.argocd.v1.CreateInstanceRepoRequest.data:type_name -> akuity.argocd.v1.CreateInstanceRepoRequest.DataEntry
+	313, // 0: akuity.argocd.v1.CreateInstanceRepoRequest.data:type_name -> akuity.argocd.v1.CreateInstanceRepoRequest.DataEntry
 	14,  // 1: akuity.argocd.v1.CreateInstanceRepoResponse.repo:type_name -> akuity.argocd.v1.Repository
 	14,  // 2: akuity.argocd.v1.ListInstanceReposResponse.repos:type_name -> akuity.argocd.v1.Repository
 	178, // 3: akuity.argocd.v1.CreateManagedSecretRequest.managed_secret:type_name -> akuity.argocd.v1.ManagedSecret
-	312, // 4: akuity.argocd.v1.CreateManagedSecretRequest.managed_secret_data:type_name -> akuity.argocd.v1.CreateManagedSecretRequest.ManagedSecretDataEntry
+	314, // 4: akuity.argocd.v1.CreateManagedSecretRequest.managed_secret_data:type_name -> akuity.argocd.v1.CreateManagedSecretRequest.ManagedSecretDataEntry
 	178, // 5: akuity.argocd.v1.ListInstanceManagedSecretsResponse.managed_secrets:type_name -> akuity.argocd.v1.ManagedSecret
 	178, // 6: akuity.argocd.v1.UpdateManagedSecretRequest.managed_secret:type_name -> akuity.argocd.v1.ManagedSecret
-	313, // 7: akuity.argocd.v1.UpdateManagedSecretRequest.managed_secret_data:type_name -> akuity.argocd.v1.UpdateManagedSecretRequest.ManagedSecretDataEntry
+	315, // 7: akuity.argocd.v1.UpdateManagedSecretRequest.managed_secret_data:type_name -> akuity.argocd.v1.UpdateManagedSecretRequest.ManagedSecretDataEntry
 	178, // 8: akuity.argocd.v1.PatchManagedSecretRequest.managed_secret:type_name -> akuity.argocd.v1.ManagedSecret
-	314, // 9: akuity.argocd.v1.PatchManagedSecretRequest.managed_secret_data:type_name -> akuity.argocd.v1.PatchManagedSecretRequest.ManagedSecretDataEntry
+	316, // 9: akuity.argocd.v1.PatchManagedSecretRequest.managed_secret_data:type_name -> akuity.argocd.v1.PatchManagedSecretRequest.ManagedSecretDataEntry
 	194, // 10: akuity.argocd.v1.ListInstanceVersionsResponse.versions:type_name -> akuity.argocd.v1.InstanceVersion
 	150, // 11: akuity.argocd.v1.ListInstancesResponse.instances:type_name -> akuity.argocd.v1.Instance
 	150, // 12: akuity.argocd.v1.CreateInstanceResponse.instance:type_name -> akuity.argocd.v1.Instance
-	355, // 13: akuity.argocd.v1.GetInstanceRequest.id_type:type_name -> akuity.types.id.v1.Type
+	357, // 13: akuity.argocd.v1.GetInstanceRequest.id_type:type_name -> akuity.types.id.v1.Type
 	150, // 14: akuity.argocd.v1.GetInstanceResponse.instance:type_name -> akuity.argocd.v1.Instance
-	315, // 15: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.secret:type_name -> akuity.argocd.v1.GetInstanceNotificationSettingsResponse.SecretEntry
-	316, // 16: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.config:type_name -> akuity.argocd.v1.GetInstanceNotificationSettingsResponse.ConfigEntry
-	317, // 17: akuity.argocd.v1.GetInstanceNotificationCatalogResponse.catalog:type_name -> akuity.argocd.v1.GetInstanceNotificationCatalogResponse.CatalogEntry
-	318, // 18: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.secret:type_name -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SecretEntry
-	319, // 19: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.config:type_name -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.ConfigEntry
-	320, // 20: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.ssh_config:type_name -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SshConfigEntry
+	317, // 15: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.secret:type_name -> akuity.argocd.v1.GetInstanceNotificationSettingsResponse.SecretEntry
+	318, // 16: akuity.argocd.v1.GetInstanceNotificationSettingsResponse.config:type_name -> akuity.argocd.v1.GetInstanceNotificationSettingsResponse.ConfigEntry
+	319, // 17: akuity.argocd.v1.GetInstanceNotificationCatalogResponse.catalog:type_name -> akuity.argocd.v1.GetInstanceNotificationCatalogResponse.CatalogEntry
+	320, // 18: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.secret:type_name -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SecretEntry
+	321, // 19: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.config:type_name -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.ConfigEntry
+	322, // 20: akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.ssh_config:type_name -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse.SshConfigEntry
 	45,  // 21: akuity.argocd.v1.GetInstanceResourceCustomizationsResponse.resource_customizations:type_name -> akuity.argocd.v1.ResourceCustomizationConfig
-	356, // 22: akuity.argocd.v1.PatchInstanceRequest.patch:type_name -> google.protobuf.Struct
+	358, // 22: akuity.argocd.v1.PatchInstanceRequest.patch:type_name -> google.protobuf.Struct
 	150, // 23: akuity.argocd.v1.PatchInstanceResponse.instance:type_name -> akuity.argocd.v1.Instance
-	321, // 24: akuity.argocd.v1.PatchInstanceSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceSecretRequest.SecretEntry
-	323, // 25: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceNotificationSecretRequest.SecretEntry
-	325, // 26: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.SecretEntry
-	327, // 27: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceAppsetSecretRequest.SecretEntry
-	329, // 28: akuity.argocd.v1.GetInstanceAppsetSecretResponse.secret:type_name -> akuity.argocd.v1.GetInstanceAppsetSecretResponse.SecretEntry
+	323, // 24: akuity.argocd.v1.PatchInstanceSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceSecretRequest.SecretEntry
+	325, // 25: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceNotificationSecretRequest.SecretEntry
+	327, // 26: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.SecretEntry
+	329, // 27: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.secret:type_name -> akuity.argocd.v1.PatchInstanceAppsetSecretRequest.SecretEntry
+	331, // 28: akuity.argocd.v1.GetInstanceAppsetSecretResponse.secret:type_name -> akuity.argocd.v1.GetInstanceAppsetSecretResponse.SecretEntry
 	150, // 29: akuity.argocd.v1.UpdateInstanceRequest.instance:type_name -> akuity.argocd.v1.Instance
 	150, // 30: akuity.argocd.v1.UpdateInstanceResponse.instance:type_name -> akuity.argocd.v1.Instance
-	330, // 31: akuity.argocd.v1.UpdateInstanceNotificationConfigRequest.config:type_name -> akuity.argocd.v1.UpdateInstanceNotificationConfigRequest.ConfigEntry
-	331, // 32: akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest.config:type_name -> akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest.ConfigEntry
-	332, // 33: akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest.config:type_name -> akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest.ConfigEntry
+	332, // 31: akuity.argocd.v1.UpdateInstanceNotificationConfigRequest.config:type_name -> akuity.argocd.v1.UpdateInstanceNotificationConfigRequest.ConfigEntry
+	333, // 32: akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest.config:type_name -> akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest.ConfigEntry
+	334, // 33: akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest.config:type_name -> akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest.ConfigEntry
 	45,  // 34: akuity.argocd.v1.UpdateInstanceResourceCustomizationsRequest.resources:type_name -> akuity.argocd.v1.ResourceCustomizationConfig
 	151, // 35: akuity.argocd.v1.ListInstanceAccountsResponse.accounts:type_name -> akuity.argocd.v1.InstanceAccount
 	193, // 36: akuity.argocd.v1.UpsertInstanceAccountRequest.capabilities:type_name -> akuity.argocd.v1.InstanceAccountCapabilities
 	151, // 37: akuity.argocd.v1.UpsertInstanceAccountResponse.account:type_name -> akuity.argocd.v1.InstanceAccount
 	90,  // 38: akuity.argocd.v1.GetSyncOperationsStatsRequest.filter:type_name -> akuity.argocd.v1.SyncOperationFilter
-	357, // 39: akuity.argocd.v1.GetSyncOperationsStatsRequest.interval:type_name -> akuity.types.misc.v1.GroupByInterval
+	359, // 39: akuity.argocd.v1.GetSyncOperationsStatsRequest.interval:type_name -> akuity.types.misc.v1.GroupByInterval
 	1,   // 40: akuity.argocd.v1.GetSyncOperationsStatsRequest.group_by_field:type_name -> akuity.argocd.v1.SyncOperationGroupField
 	90,  // 41: akuity.argocd.v1.GetSyncOperationsEventsRequest.filter:type_name -> akuity.argocd.v1.SyncOperationFilter
 	0,   // 42: akuity.argocd.v1.GetSyncOperationsEventsRequest.field:type_name -> akuity.argocd.v1.SyncOperationField
-	333, // 43: akuity.argocd.v1.SyncOperationFilter.labels:type_name -> akuity.argocd.v1.SyncOperationFilter.LabelsEntry
-	334, // 44: akuity.argocd.v1.SyncOperationStat.count_map:type_name -> akuity.argocd.v1.SyncOperationStat.CountMapEntry
-	335, // 45: akuity.argocd.v1.SyncOperationStat.average_map:type_name -> akuity.argocd.v1.SyncOperationStat.AverageMapEntry
+	335, // 43: akuity.argocd.v1.SyncOperationFilter.labels:type_name -> akuity.argocd.v1.SyncOperationFilter.LabelsEntry
+	336, // 44: akuity.argocd.v1.SyncOperationStat.count_map:type_name -> akuity.argocd.v1.SyncOperationStat.CountMapEntry
+	337, // 45: akuity.argocd.v1.SyncOperationStat.average_map:type_name -> akuity.argocd.v1.SyncOperationStat.AverageMapEntry
 	94,  // 46: akuity.argocd.v1.SyncOperationEvent.details:type_name -> akuity.argocd.v1.SyncOperationEventDetails
-	336, // 47: akuity.argocd.v1.SyncOperationEventDetails.labels:type_name -> akuity.argocd.v1.SyncOperationEventDetails.LabelsEntry
+	338, // 47: akuity.argocd.v1.SyncOperationEventDetails.labels:type_name -> akuity.argocd.v1.SyncOperationEventDetails.LabelsEntry
 	95,  // 48: akuity.argocd.v1.SyncOperationEventDetails.initiated_by:type_name -> akuity.argocd.v1.OperationInitiator
 	92,  // 49: akuity.argocd.v1.GetSyncOperationsStatsResponse.sync_operation_stats:type_name -> akuity.argocd.v1.SyncOperationStat
 	93,  // 50: akuity.argocd.v1.GetSyncOperationsEventsResponse.sync_operation_events:type_name -> akuity.argocd.v1.SyncOperationEvent
-	358, // 51: akuity.argocd.v1.ClusterFilter.agent_status:type_name -> akuity.types.status.health.v1.TenantPhase
-	337, // 52: akuity.argocd.v1.ClusterFilter.labels:type_name -> akuity.argocd.v1.ClusterFilter.LabelsEntry
+	360, // 51: akuity.argocd.v1.ClusterFilter.agent_status:type_name -> akuity.types.status.health.v1.TenantPhase
+	339, // 52: akuity.argocd.v1.ClusterFilter.labels:type_name -> akuity.argocd.v1.ClusterFilter.LabelsEntry
 	98,  // 53: akuity.argocd.v1.ListInstanceClustersRequest.filter:type_name -> akuity.argocd.v1.ClusterFilter
 	98,  // 54: akuity.argocd.v1.WatchInstanceClustersRequest.filter:type_name -> akuity.argocd.v1.ClusterFilter
-	247, // 55: akuity.argocd.v1.WatchInstanceAddonsRequest.filter:type_name -> akuity.argocd.v1.AddonFilter
+	249, // 55: akuity.argocd.v1.WatchInstanceAddonsRequest.filter:type_name -> akuity.argocd.v1.AddonFilter
 	150, // 56: akuity.argocd.v1.WatchInstancesResponse.item:type_name -> akuity.argocd.v1.Instance
-	359, // 57: akuity.argocd.v1.WatchInstancesResponse.type:type_name -> akuity.types.events.v1.EventType
-	287, // 58: akuity.argocd.v1.WatchInstanceAddonsResponse.item:type_name -> akuity.argocd.v1.Addon
-	359, // 59: akuity.argocd.v1.WatchInstanceAddonsResponse.type:type_name -> akuity.types.events.v1.EventType
-	240, // 60: akuity.argocd.v1.WatchInstanceAddonReposResponse.item:type_name -> akuity.argocd.v1.AddonRepo
-	359, // 61: akuity.argocd.v1.WatchInstanceAddonReposResponse.type:type_name -> akuity.types.events.v1.EventType
+	361, // 57: akuity.argocd.v1.WatchInstancesResponse.type:type_name -> akuity.types.events.v1.EventType
+	289, // 58: akuity.argocd.v1.WatchInstanceAddonsResponse.item:type_name -> akuity.argocd.v1.Addon
+	361, // 59: akuity.argocd.v1.WatchInstanceAddonsResponse.type:type_name -> akuity.types.events.v1.EventType
+	242, // 60: akuity.argocd.v1.WatchInstanceAddonReposResponse.item:type_name -> akuity.argocd.v1.AddonRepo
+	361, // 61: akuity.argocd.v1.WatchInstanceAddonReposResponse.type:type_name -> akuity.types.events.v1.EventType
 	210, // 62: akuity.argocd.v1.WatchInstanceClustersResponse.item:type_name -> akuity.argocd.v1.Cluster
-	359, // 63: akuity.argocd.v1.WatchInstanceClustersResponse.type:type_name -> akuity.types.events.v1.EventType
+	361, // 63: akuity.argocd.v1.WatchInstanceClustersResponse.type:type_name -> akuity.types.events.v1.EventType
 	210, // 64: akuity.argocd.v1.ListInstanceClustersResponse.clusters:type_name -> akuity.argocd.v1.Cluster
 	209, // 65: akuity.argocd.v1.CreateInstanceClusterRequest.data:type_name -> akuity.argocd.v1.ClusterData
 	210, // 66: akuity.argocd.v1.CreateInstanceClusterResponse.cluster:type_name -> akuity.argocd.v1.Cluster
-	355, // 67: akuity.argocd.v1.GetInstanceClusterRequest.id_type:type_name -> akuity.types.id.v1.Type
+	357, // 67: akuity.argocd.v1.GetInstanceClusterRequest.id_type:type_name -> akuity.types.id.v1.Type
 	210, // 68: akuity.argocd.v1.GetInstanceClusterResponse.cluster:type_name -> akuity.argocd.v1.Cluster
 	209, // 69: akuity.argocd.v1.UpdateInstanceClusterRequest.data:type_name -> akuity.argocd.v1.ClusterData
 	210, // 70: akuity.argocd.v1.UpdateInstanceClusterResponse.cluster:type_name -> akuity.argocd.v1.Cluster
 	149, // 71: akuity.argocd.v1.UpdateInstanceClustersRequest.cluster_customizations:type_name -> akuity.argocd.v1.ClusterCustomization
-	360, // 72: akuity.argocd.v1.SetClusterMaintenanceModeRequest.expiry:type_name -> google.protobuf.Timestamp
+	362, // 72: akuity.argocd.v1.SetClusterMaintenanceModeRequest.expiry:type_name -> google.protobuf.Timestamp
 	132, // 73: akuity.argocd.v1.ApplicationsStatus.health:type_name -> akuity.argocd.v1.ApplicationsHealth
 	133, // 74: akuity.argocd.v1.ApplicationsStatus.sync_status:type_name -> akuity.argocd.v1.ApplicationsSyncStatus
 	144, // 75: akuity.argocd.v1.ArgoCDConfigMap.status_badge:type_name -> akuity.argocd.v1.ArgoCDStatusBadgeConfig
@@ -28003,19 +28437,19 @@ var file_argocd_v1_argocd_proto_depIdxs = []int32{
 	136, // 85: akuity.argocd.v1.ArgoCDDeepLinks.application_links:type_name -> akuity.argocd.v1.DeepLink
 	136, // 86: akuity.argocd.v1.ArgoCDDeepLinks.resource_links:type_name -> akuity.argocd.v1.DeepLink
 	146, // 87: akuity.argocd.v1.ArgoCDRBACConfigMap.overlay_policies:type_name -> akuity.argocd.v1.OverlayPolicy
-	356, // 88: akuity.argocd.v1.ClusterCustomization.kustomization:type_name -> google.protobuf.Struct
+	358, // 88: akuity.argocd.v1.ClusterCustomization.kustomization:type_name -> google.protobuf.Struct
 	3,   // 89: akuity.argocd.v1.ClusterCustomization.connectivity:type_name -> akuity.argocd.v1.Connectivity
-	338, // 90: akuity.argocd.v1.Instance.secrets:type_name -> akuity.argocd.v1.Instance.SecretsEntry
-	361, // 91: akuity.argocd.v1.Instance.health_status:type_name -> akuity.types.status.health.v1.Status
-	362, // 92: akuity.argocd.v1.Instance.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
-	360, // 93: akuity.argocd.v1.Instance.delete_time:type_name -> google.protobuf.Timestamp
+	340, // 90: akuity.argocd.v1.Instance.secrets:type_name -> akuity.argocd.v1.Instance.SecretsEntry
+	363, // 91: akuity.argocd.v1.Instance.health_status:type_name -> akuity.types.status.health.v1.Status
+	364, // 92: akuity.argocd.v1.Instance.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
+	362, // 93: akuity.argocd.v1.Instance.delete_time:type_name -> google.protobuf.Timestamp
 	187, // 94: akuity.argocd.v1.Instance.spec:type_name -> akuity.argocd.v1.InstanceSpec
 	135, // 95: akuity.argocd.v1.Instance.config:type_name -> akuity.argocd.v1.ArgoCDConfigMap
 	145, // 96: akuity.argocd.v1.Instance.rbac_config:type_name -> akuity.argocd.v1.ArgoCDRBACConfigMap
 	155, // 97: akuity.argocd.v1.Instance.info:type_name -> akuity.argocd.v1.InstanceInfo
 	193, // 98: akuity.argocd.v1.InstanceAccount.capabilities:type_name -> akuity.argocd.v1.InstanceAccountCapabilities
-	360, // 99: akuity.argocd.v1.CertificateStatus.cname_not_set_since:type_name -> google.protobuf.Timestamp
-	360, // 100: akuity.argocd.v1.GitOpsRunbookStatus.reconciled_at:type_name -> google.protobuf.Timestamp
+	362, // 99: akuity.argocd.v1.CertificateStatus.cname_not_set_since:type_name -> google.protobuf.Timestamp
+	362, // 100: akuity.argocd.v1.GitOpsRunbookStatus.reconciled_at:type_name -> google.protobuf.Timestamp
 	163, // 101: akuity.argocd.v1.GitOpsRunbookStatus.runbooks:type_name -> akuity.argocd.v1.Runbook
 	153, // 102: akuity.argocd.v1.GitOpsRunbooksStatus.repos:type_name -> akuity.argocd.v1.GitOpsRunbookStatus
 	134, // 103: akuity.argocd.v1.InstanceInfo.applications_status:type_name -> akuity.argocd.v1.ApplicationsStatus
@@ -28028,16 +28462,16 @@ var file_argocd_v1_argocd_proto_depIdxs = []int32{
 	164, // 110: akuity.argocd.v1.IncidentsConfig.webhooks:type_name -> akuity.argocd.v1.IncidentWebhookConfig
 	165, // 111: akuity.argocd.v1.IncidentsConfig.grouping:type_name -> akuity.argocd.v1.IncidentsGroupingConfig
 	167, // 112: akuity.argocd.v1.IncidentsConfig.investigation_approval:type_name -> akuity.argocd.v1.IncidentInvestigationApprovalConfig
-	339, // 113: akuity.argocd.v1.RunbookRepo.applied_for:type_name -> akuity.argocd.v1.RunbookRepo.AppliedForEntry
+	341, // 113: akuity.argocd.v1.RunbookRepo.applied_for:type_name -> akuity.argocd.v1.RunbookRepo.AppliedForEntry
 	163, // 114: akuity.argocd.v1.AIConfig.runbooks:type_name -> akuity.argocd.v1.Runbook
 	168, // 115: akuity.argocd.v1.AIConfig.incidents:type_name -> akuity.argocd.v1.IncidentsConfig
 	169, // 116: akuity.argocd.v1.AIConfig.runbook_repos:type_name -> akuity.argocd.v1.RunbookRepo
 	175, // 117: akuity.argocd.v1.KubeVisionConfig.cve_scan_config:type_name -> akuity.argocd.v1.CveScanConfig
 	170, // 118: akuity.argocd.v1.KubeVisionConfig.ai_config:type_name -> akuity.argocd.v1.AIConfig
 	171, // 119: akuity.argocd.v1.KubeVisionConfig.additional_attributes:type_name -> akuity.argocd.v1.AdditionalAttributeRule
-	340, // 120: akuity.argocd.v1.ObjectSelector.match_labels:type_name -> akuity.argocd.v1.ObjectSelector.MatchLabelsEntry
+	342, // 120: akuity.argocd.v1.ObjectSelector.match_labels:type_name -> akuity.argocd.v1.ObjectSelector.MatchLabelsEntry
 	177, // 121: akuity.argocd.v1.ObjectSelector.match_expressions:type_name -> akuity.argocd.v1.LabelSelectorRequirement
-	341, // 122: akuity.argocd.v1.ManagedSecret.labels:type_name -> akuity.argocd.v1.ManagedSecret.LabelsEntry
+	343, // 122: akuity.argocd.v1.ManagedSecret.labels:type_name -> akuity.argocd.v1.ManagedSecret.LabelsEntry
 	2,   // 123: akuity.argocd.v1.ManagedSecret.type:type_name -> akuity.argocd.v1.ManagedSecretType
 	176, // 124: akuity.argocd.v1.ManagedSecret.cluster_selector:type_name -> akuity.argocd.v1.ObjectSelector
 	176, // 125: akuity.argocd.v1.ClusterSecretMapping.clusters:type_name -> akuity.argocd.v1.ObjectSelector
@@ -28077,10 +28511,10 @@ var file_argocd_v1_argocd_proto_depIdxs = []int32{
 	197, // 159: akuity.argocd.v1.RepoServerResources.limits:type_name -> akuity.argocd.v1.Resources
 	198, // 160: akuity.argocd.v1.AgentResources.application_controller:type_name -> akuity.argocd.v1.ApplicationControllerResources
 	199, // 161: akuity.argocd.v1.AgentResources.repo_server:type_name -> akuity.argocd.v1.RepoServerResources
-	360, // 162: akuity.argocd.v1.AgentState.observe_time:type_name -> google.protobuf.Timestamp
-	363, // 163: akuity.argocd.v1.AgentState.status:type_name -> akuity.types.status.health.v1.AgentAggregatedHealthResponse
+	362, // 162: akuity.argocd.v1.AgentState.observe_time:type_name -> google.protobuf.Timestamp
+	365, // 163: akuity.argocd.v1.AgentState.status:type_name -> akuity.types.status.health.v1.AgentAggregatedHealthResponse
 	200, // 164: akuity.argocd.v1.AgentState.agent_resources:type_name -> akuity.argocd.v1.AgentResources
-	364, // 165: akuity.argocd.v1.AgentState.update_status:type_name -> akuity.types.status.reconciliation.v1.AgentUpdateStatus
+	366, // 165: akuity.argocd.v1.AgentState.update_status:type_name -> akuity.types.status.reconciliation.v1.AgentUpdateStatus
 	5,   // 166: akuity.argocd.v1.DirectClusterSpec.cluster_type:type_name -> akuity.argocd.v1.DirectClusterType
 	205, // 167: akuity.argocd.v1.AutoScalerConfig.application_controller:type_name -> akuity.argocd.v1.AppControllerAutoScalingConfig
 	206, // 168: akuity.argocd.v1.AutoScalerConfig.repo_server:type_name -> akuity.argocd.v1.RepoServerAutoScalingConfig
@@ -28089,347 +28523,364 @@ var file_argocd_v1_argocd_proto_depIdxs = []int32{
 	197, // 171: akuity.argocd.v1.RepoServerAutoScalingConfig.resource_minimum:type_name -> akuity.argocd.v1.Resources
 	197, // 172: akuity.argocd.v1.RepoServerAutoScalingConfig.resource_maximum:type_name -> akuity.argocd.v1.Resources
 	4,   // 173: akuity.argocd.v1.ClusterData.size:type_name -> akuity.argocd.v1.ClusterSize
-	342, // 174: akuity.argocd.v1.ClusterData.labels:type_name -> akuity.argocd.v1.ClusterData.LabelsEntry
-	343, // 175: akuity.argocd.v1.ClusterData.annotations:type_name -> akuity.argocd.v1.ClusterData.AnnotationsEntry
-	356, // 176: akuity.argocd.v1.ClusterData.kustomization:type_name -> google.protobuf.Struct
+	344, // 174: akuity.argocd.v1.ClusterData.labels:type_name -> akuity.argocd.v1.ClusterData.LabelsEntry
+	345, // 175: akuity.argocd.v1.ClusterData.annotations:type_name -> akuity.argocd.v1.ClusterData.AnnotationsEntry
+	358, // 176: akuity.argocd.v1.ClusterData.kustomization:type_name -> google.protobuf.Struct
 	202, // 177: akuity.argocd.v1.ClusterData.direct_cluster_spec:type_name -> akuity.argocd.v1.DirectClusterSpec
 	203, // 178: akuity.argocd.v1.ClusterData.managed_cluster_config:type_name -> akuity.argocd.v1.ManagedClusterConfig
 	204, // 179: akuity.argocd.v1.ClusterData.autoscaler_config:type_name -> akuity.argocd.v1.AutoScalerConfig
 	207, // 180: akuity.argocd.v1.ClusterData.compatibility:type_name -> akuity.argocd.v1.ClusterCompatibility
 	208, // 181: akuity.argocd.v1.ClusterData.argocd_notifications_settings:type_name -> akuity.argocd.v1.ClusterArgoCDNotificationsSettings
-	360, // 182: akuity.argocd.v1.ClusterData.maintenance_mode_expiry:type_name -> google.protobuf.Timestamp
+	362, // 182: akuity.argocd.v1.ClusterData.maintenance_mode_expiry:type_name -> google.protobuf.Timestamp
 	3,   // 183: akuity.argocd.v1.ClusterData.connectivity:type_name -> akuity.argocd.v1.Connectivity
 	209, // 184: akuity.argocd.v1.Cluster.data:type_name -> akuity.argocd.v1.ClusterData
-	360, // 185: akuity.argocd.v1.Cluster.delete_time:type_name -> google.protobuf.Timestamp
+	362, // 185: akuity.argocd.v1.Cluster.delete_time:type_name -> google.protobuf.Timestamp
 	201, // 186: akuity.argocd.v1.Cluster.agent_state:type_name -> akuity.argocd.v1.AgentState
-	361, // 187: akuity.argocd.v1.Cluster.health_status:type_name -> akuity.types.status.health.v1.Status
-	362, // 188: akuity.argocd.v1.Cluster.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
+	363, // 187: akuity.argocd.v1.Cluster.health_status:type_name -> akuity.types.status.health.v1.Status
+	364, // 188: akuity.argocd.v1.Cluster.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
 	211, // 189: akuity.argocd.v1.Cluster.k8s_status:type_name -> akuity.argocd.v1.ClusterKubernetesStatus
-	360, // 190: akuity.argocd.v1.Cluster.support_access_until:type_name -> google.protobuf.Timestamp
-	355, // 191: akuity.argocd.v1.ApplyInstanceRequest.id_type:type_name -> akuity.types.id.v1.Type
-	356, // 192: akuity.argocd.v1.ApplyInstanceRequest.argocd:type_name -> google.protobuf.Struct
-	356, // 193: akuity.argocd.v1.ApplyInstanceRequest.argocd_configmap:type_name -> google.protobuf.Struct
-	356, // 194: akuity.argocd.v1.ApplyInstanceRequest.argocd_rbac_configmap:type_name -> google.protobuf.Struct
-	356, // 195: akuity.argocd.v1.ApplyInstanceRequest.argocd_secret:type_name -> google.protobuf.Struct
-	356, // 196: akuity.argocd.v1.ApplyInstanceRequest.notifications_configmap:type_name -> google.protobuf.Struct
-	356, // 197: akuity.argocd.v1.ApplyInstanceRequest.notifications_secret:type_name -> google.protobuf.Struct
-	356, // 198: akuity.argocd.v1.ApplyInstanceRequest.image_updater_configmap:type_name -> google.protobuf.Struct
-	356, // 199: akuity.argocd.v1.ApplyInstanceRequest.image_updater_ssh_configmap:type_name -> google.protobuf.Struct
-	356, // 200: akuity.argocd.v1.ApplyInstanceRequest.image_updater_secret:type_name -> google.protobuf.Struct
-	356, // 201: akuity.argocd.v1.ApplyInstanceRequest.clusters:type_name -> google.protobuf.Struct
-	356, // 202: akuity.argocd.v1.ApplyInstanceRequest.argocd_known_hosts_configmap:type_name -> google.protobuf.Struct
-	356, // 203: akuity.argocd.v1.ApplyInstanceRequest.argocd_tls_certs_configmap:type_name -> google.protobuf.Struct
-	356, // 204: akuity.argocd.v1.ApplyInstanceRequest.repo_credential_secrets:type_name -> google.protobuf.Struct
-	356, // 205: akuity.argocd.v1.ApplyInstanceRequest.repo_template_credential_secrets:type_name -> google.protobuf.Struct
-	356, // 206: akuity.argocd.v1.ApplyInstanceRequest.config_management_plugins:type_name -> google.protobuf.Struct
+	362, // 190: akuity.argocd.v1.Cluster.support_access_until:type_name -> google.protobuf.Timestamp
+	357, // 191: akuity.argocd.v1.ApplyInstanceRequest.id_type:type_name -> akuity.types.id.v1.Type
+	358, // 192: akuity.argocd.v1.ApplyInstanceRequest.argocd:type_name -> google.protobuf.Struct
+	358, // 193: akuity.argocd.v1.ApplyInstanceRequest.argocd_configmap:type_name -> google.protobuf.Struct
+	358, // 194: akuity.argocd.v1.ApplyInstanceRequest.argocd_rbac_configmap:type_name -> google.protobuf.Struct
+	358, // 195: akuity.argocd.v1.ApplyInstanceRequest.argocd_secret:type_name -> google.protobuf.Struct
+	358, // 196: akuity.argocd.v1.ApplyInstanceRequest.notifications_configmap:type_name -> google.protobuf.Struct
+	358, // 197: akuity.argocd.v1.ApplyInstanceRequest.notifications_secret:type_name -> google.protobuf.Struct
+	358, // 198: akuity.argocd.v1.ApplyInstanceRequest.image_updater_configmap:type_name -> google.protobuf.Struct
+	358, // 199: akuity.argocd.v1.ApplyInstanceRequest.image_updater_ssh_configmap:type_name -> google.protobuf.Struct
+	358, // 200: akuity.argocd.v1.ApplyInstanceRequest.image_updater_secret:type_name -> google.protobuf.Struct
+	358, // 201: akuity.argocd.v1.ApplyInstanceRequest.clusters:type_name -> google.protobuf.Struct
+	358, // 202: akuity.argocd.v1.ApplyInstanceRequest.argocd_known_hosts_configmap:type_name -> google.protobuf.Struct
+	358, // 203: akuity.argocd.v1.ApplyInstanceRequest.argocd_tls_certs_configmap:type_name -> google.protobuf.Struct
+	358, // 204: akuity.argocd.v1.ApplyInstanceRequest.repo_credential_secrets:type_name -> google.protobuf.Struct
+	358, // 205: akuity.argocd.v1.ApplyInstanceRequest.repo_template_credential_secrets:type_name -> google.protobuf.Struct
+	358, // 206: akuity.argocd.v1.ApplyInstanceRequest.config_management_plugins:type_name -> google.protobuf.Struct
 	6,   // 207: akuity.argocd.v1.ApplyInstanceRequest.prune_resource_types:type_name -> akuity.argocd.v1.PruneResourceType
-	356, // 208: akuity.argocd.v1.ApplyInstanceRequest.application_set_secret:type_name -> google.protobuf.Struct
-	356, // 209: akuity.argocd.v1.ApplyInstanceRequest.applications:type_name -> google.protobuf.Struct
-	356, // 210: akuity.argocd.v1.ApplyInstanceRequest.application_sets:type_name -> google.protobuf.Struct
-	356, // 211: akuity.argocd.v1.ApplyInstanceRequest.app_projects:type_name -> google.protobuf.Struct
-	356, // 212: akuity.argocd.v1.ApplyInstanceRequest.image_updaters:type_name -> google.protobuf.Struct
-	355, // 213: akuity.argocd.v1.ExportInstanceRequest.id_type:type_name -> akuity.types.id.v1.Type
-	356, // 214: akuity.argocd.v1.ExportInstanceResponse.argocd:type_name -> google.protobuf.Struct
-	356, // 215: akuity.argocd.v1.ExportInstanceResponse.argocd_configmap:type_name -> google.protobuf.Struct
-	356, // 216: akuity.argocd.v1.ExportInstanceResponse.argocd_rbac_configmap:type_name -> google.protobuf.Struct
-	356, // 217: akuity.argocd.v1.ExportInstanceResponse.notifications_configmap:type_name -> google.protobuf.Struct
-	356, // 218: akuity.argocd.v1.ExportInstanceResponse.image_updater_configmap:type_name -> google.protobuf.Struct
-	356, // 219: akuity.argocd.v1.ExportInstanceResponse.image_updater_ssh_configmap:type_name -> google.protobuf.Struct
-	356, // 220: akuity.argocd.v1.ExportInstanceResponse.clusters:type_name -> google.protobuf.Struct
-	356, // 221: akuity.argocd.v1.ExportInstanceResponse.argocd_known_hosts_configmap:type_name -> google.protobuf.Struct
-	356, // 222: akuity.argocd.v1.ExportInstanceResponse.argocd_tls_certs_configmap:type_name -> google.protobuf.Struct
-	356, // 223: akuity.argocd.v1.ExportInstanceResponse.config_management_plugins:type_name -> google.protobuf.Struct
-	356, // 224: akuity.argocd.v1.ExportInstanceResponse.applications:type_name -> google.protobuf.Struct
-	356, // 225: akuity.argocd.v1.ExportInstanceResponse.application_sets:type_name -> google.protobuf.Struct
-	356, // 226: akuity.argocd.v1.ExportInstanceResponse.app_projects:type_name -> google.protobuf.Struct
-	356, // 227: akuity.argocd.v1.ExportInstanceResponse.image_updaters:type_name -> google.protobuf.Struct
-	7,   // 228: akuity.argocd.v1.GetInstanceClusterCommandRequest.command_for:type_name -> akuity.argocd.v1.ClusterCommandFor
-	344, // 229: akuity.argocd.v1.GetInstanceClusterCommandResponse.variables:type_name -> akuity.argocd.v1.GetInstanceClusterCommandResponse.VariablesEntry
-	219, // 230: akuity.argocd.v1.ConfigManagementPlugin.spec:type_name -> akuity.argocd.v1.PluginSpec
-	220, // 231: akuity.argocd.v1.PluginSpec.init:type_name -> akuity.argocd.v1.Command
-	220, // 232: akuity.argocd.v1.PluginSpec.generate:type_name -> akuity.argocd.v1.Command
-	221, // 233: akuity.argocd.v1.PluginSpec.discover:type_name -> akuity.argocd.v1.Discover
-	223, // 234: akuity.argocd.v1.PluginSpec.parameters:type_name -> akuity.argocd.v1.Parameters
-	222, // 235: akuity.argocd.v1.Discover.find:type_name -> akuity.argocd.v1.Find
-	225, // 236: akuity.argocd.v1.Parameters.static:type_name -> akuity.argocd.v1.ParameterAnnouncement
-	224, // 237: akuity.argocd.v1.Parameters.dynamic:type_name -> akuity.argocd.v1.Dynamic
-	345, // 238: akuity.argocd.v1.ParameterAnnouncement.map:type_name -> akuity.argocd.v1.ParameterAnnouncement.MapEntry
-	218, // 239: akuity.argocd.v1.GetInstanceConfigManagementPluginsResponse.plugins:type_name -> akuity.argocd.v1.ConfigManagementPlugin
-	218, // 240: akuity.argocd.v1.UpdateInstanceConfigManagementPluginsRequest.plugins:type_name -> akuity.argocd.v1.ConfigManagementPlugin
-	240, // 241: akuity.argocd.v1.ListInstanceAddonReposResponse.addon_repos:type_name -> akuity.argocd.v1.AddonRepo
-	240, // 242: akuity.argocd.v1.GetInstanceAddonRepoResponse.addon_repo:type_name -> akuity.argocd.v1.AddonRepo
-	241, // 243: akuity.argocd.v1.CreateInstanceAddonRepoRequest.spec:type_name -> akuity.argocd.v1.RepoSpec
-	240, // 244: akuity.argocd.v1.CreateInstanceAddonRepoResponse.addon_repo:type_name -> akuity.argocd.v1.AddonRepo
-	240, // 245: akuity.argocd.v1.RefreshInstanceAddonRepoResponse.addon_repo:type_name -> akuity.argocd.v1.AddonRepo
-	241, // 246: akuity.argocd.v1.AddonRepo.spec:type_name -> akuity.argocd.v1.RepoSpec
-	242, // 247: akuity.argocd.v1.AddonRepo.status:type_name -> akuity.argocd.v1.RepoStatus
-	360, // 248: akuity.argocd.v1.AddonRepo.delete_time:type_name -> google.protobuf.Timestamp
-	362, // 249: akuity.argocd.v1.RepoStatus.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
-	287, // 250: akuity.argocd.v1.GetInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
-	8,   // 251: akuity.argocd.v1.AddonFilter.sort_by:type_name -> akuity.argocd.v1.SortAddons
-	9,   // 252: akuity.argocd.v1.AddonFilter.addon_type:type_name -> akuity.argocd.v1.AddonType
-	346, // 253: akuity.argocd.v1.AddonFilter.cluster_labels:type_name -> akuity.argocd.v1.AddonFilter.ClusterLabelsEntry
-	247, // 254: akuity.argocd.v1.ListInstanceAddonsRequest.filter:type_name -> akuity.argocd.v1.AddonFilter
-	287, // 255: akuity.argocd.v1.ListInstanceAddonsResponse.addons:type_name -> akuity.argocd.v1.Addon
-	287, // 256: akuity.argocd.v1.UpdateInstanceAddonRequest.addon:type_name -> akuity.argocd.v1.Addon
-	287, // 257: akuity.argocd.v1.UpdateInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
-	356, // 258: akuity.argocd.v1.PatchInstanceAddonRequest.patch:type_name -> google.protobuf.Struct
-	287, // 259: akuity.argocd.v1.PatchInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
-	287, // 260: akuity.argocd.v1.ClearAddonStatusSourceHistoryResponse.addon:type_name -> akuity.argocd.v1.Addon
-	287, // 261: akuity.argocd.v1.RefreshInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
-	259, // 262: akuity.argocd.v1.ManifestSource.kustomize_source:type_name -> akuity.argocd.v1.KustomizeSource
-	262, // 263: akuity.argocd.v1.ManifestSource.helm_source:type_name -> akuity.argocd.v1.HelmSource
-	260, // 264: akuity.argocd.v1.KustomizeSource.images:type_name -> akuity.argocd.v1.KustomizeImage
-	261, // 265: akuity.argocd.v1.KustomizeSource.helm_charts:type_name -> akuity.argocd.v1.KustomizeHelmChart
-	347, // 266: akuity.argocd.v1.HelmSource.values:type_name -> akuity.argocd.v1.HelmSource.ValuesEntry
-	268, // 267: akuity.argocd.v1.HelmSource.dependencies:type_name -> akuity.argocd.v1.ChartDependency
-	264, // 268: akuity.argocd.v1.ClusterSelector.name_filters:type_name -> akuity.argocd.v1.Selector
-	264, // 269: akuity.argocd.v1.ClusterSelector.label_filters:type_name -> akuity.argocd.v1.Selector
-	10,  // 270: akuity.argocd.v1.Selector.selector_operator:type_name -> akuity.argocd.v1.SelectorOperator
-	348, // 271: akuity.argocd.v1.AddonSpec.cluster_overrides:type_name -> akuity.argocd.v1.AddonSpec.ClusterOverridesEntry
-	349, // 272: akuity.argocd.v1.AddonSpec.env_overrides:type_name -> akuity.argocd.v1.AddonSpec.EnvOverridesEntry
-	263, // 273: akuity.argocd.v1.AddonSpec.cluster_selector:type_name -> akuity.argocd.v1.ClusterSelector
-	272, // 274: akuity.argocd.v1.AddonSpec.app_template:type_name -> akuity.argocd.v1.AppTemplate
-	258, // 275: akuity.argocd.v1.AddonSpec.default_manifest:type_name -> akuity.argocd.v1.ManifestSource
-	267, // 276: akuity.argocd.v1.AddonSpec.helm_values:type_name -> akuity.argocd.v1.HelmValues
-	266, // 277: akuity.argocd.v1.AddonSpec.patch_customizations:type_name -> akuity.argocd.v1.PatchCustomization
-	263, // 278: akuity.argocd.v1.PatchCustomization.cluster_selector:type_name -> akuity.argocd.v1.ClusterSelector
-	356, // 279: akuity.argocd.v1.PatchCustomization.patch:type_name -> google.protobuf.Struct
-	11,  // 280: akuity.argocd.v1.AppCreationOptions.on_conflict:type_name -> akuity.argocd.v1.OnConflictAction
-	269, // 281: akuity.argocd.v1.AppTemplate.creation_options:type_name -> akuity.argocd.v1.AppCreationOptions
-	270, // 282: akuity.argocd.v1.AppTemplate.deletion_options:type_name -> akuity.argocd.v1.AppDeletionOptions
-	271, // 283: akuity.argocd.v1.AppTemplate.sync_options:type_name -> akuity.argocd.v1.AppSyncOptions
-	273, // 284: akuity.argocd.v1.AppTemplate.helm_options:type_name -> akuity.argocd.v1.HelmOptions
-	274, // 285: akuity.argocd.v1.AppTemplate.kustomize_options:type_name -> akuity.argocd.v1.KustomizeOptions
-	360, // 286: akuity.argocd.v1.StatusSourceUpdate.start_timestamp:type_name -> google.protobuf.Timestamp
-	277, // 287: akuity.argocd.v1.StatusSourceUpdate.sources:type_name -> akuity.argocd.v1.SourceInfo
-	360, // 288: akuity.argocd.v1.SourceUpdateResult.start_timestamp:type_name -> google.protobuf.Timestamp
-	360, // 289: akuity.argocd.v1.SourceUpdateResult.completed_timestamp:type_name -> google.protobuf.Timestamp
-	356, // 290: akuity.argocd.v1.SourceUpdateResult.changes:type_name -> google.protobuf.Struct
-	258, // 291: akuity.argocd.v1.SourceInfo.default_manifest:type_name -> akuity.argocd.v1.ManifestSource
-	350, // 292: akuity.argocd.v1.SourceInfo.cluster_overrides:type_name -> akuity.argocd.v1.SourceInfo.ClusterOverridesEntry
-	351, // 293: akuity.argocd.v1.SourceInfo.env_overrides:type_name -> akuity.argocd.v1.SourceInfo.EnvOverridesEntry
-	362, // 294: akuity.argocd.v1.AddonStatus.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
-	132, // 295: akuity.argocd.v1.AddonStatus.health:type_name -> akuity.argocd.v1.ApplicationsHealth
-	133, // 296: akuity.argocd.v1.AddonStatus.sync_status:type_name -> akuity.argocd.v1.ApplicationsSyncStatus
-	276, // 297: akuity.argocd.v1.AddonStatus.last_source_update_status:type_name -> akuity.argocd.v1.SourceUpdateResult
-	352, // 298: akuity.argocd.v1.AddonStatus.cluster_overrides:type_name -> akuity.argocd.v1.AddonStatus.ClusterOverridesEntry
-	353, // 299: akuity.argocd.v1.AddonStatus.env_overrides:type_name -> akuity.argocd.v1.AddonStatus.EnvOverridesEntry
-	354, // 300: akuity.argocd.v1.ListInstanceAddonErrorsResponse.errors:type_name -> akuity.argocd.v1.ListInstanceAddonErrorsResponse.ErrorsEntry
-	282, // 301: akuity.argocd.v1.AddonErrorList.errors:type_name -> akuity.argocd.v1.AddonError
-	132, // 302: akuity.argocd.v1.AddonHealthStatus.health:type_name -> akuity.argocd.v1.ApplicationsHealth
-	133, // 303: akuity.argocd.v1.AddonHealthStatus.sync_status:type_name -> akuity.argocd.v1.ApplicationsSyncStatus
-	360, // 304: akuity.argocd.v1.AddonCondition.last_transition_time:type_name -> google.protobuf.Timestamp
-	285, // 305: akuity.argocd.v1.StatusOperation.cluster_addon_status_operation:type_name -> akuity.argocd.v1.ClusterAddonStatusOperation
-	263, // 306: akuity.argocd.v1.StatusOperation.cluster_selector:type_name -> akuity.argocd.v1.ClusterSelector
-	265, // 307: akuity.argocd.v1.Addon.spec:type_name -> akuity.argocd.v1.AddonSpec
-	286, // 308: akuity.argocd.v1.Addon.status_operation:type_name -> akuity.argocd.v1.StatusOperation
-	278, // 309: akuity.argocd.v1.Addon.status:type_name -> akuity.argocd.v1.AddonStatus
-	360, // 310: akuity.argocd.v1.Addon.delete_time:type_name -> google.protobuf.Timestamp
-	275, // 311: akuity.argocd.v1.Addon.status_source_update:type_name -> akuity.argocd.v1.StatusSourceUpdate
-	303, // 312: akuity.argocd.v1.Addon.addon_marketplace_install_status_info:type_name -> akuity.argocd.v1.AddonMarketplaceStatus
-	300, // 313: akuity.argocd.v1.AddonMarketplaceInstallRequest.config:type_name -> akuity.argocd.v1.AddonMarketplaceInstallConfig
-	299, // 314: akuity.argocd.v1.AddonMarketplaceInstallResponse.addon_install:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
-	268, // 315: akuity.argocd.v1.UpdateAddonMarketplaceInstallRequest.dependencies:type_name -> akuity.argocd.v1.ChartDependency
-	299, // 316: akuity.argocd.v1.UpdateAddonMarketplaceInstallResponse.addon_install:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
-	297, // 317: akuity.argocd.v1.ListAddonMarketplaceInstallsRequest.filter:type_name -> akuity.argocd.v1.AddonMarketplaceInstallFilter
-	299, // 318: akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse.item:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
-	359, // 319: akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse.type:type_name -> akuity.types.events.v1.EventType
-	268, // 320: akuity.argocd.v1.AddonMarketplaceInstallFilter.dependency:type_name -> akuity.argocd.v1.ChartDependency
-	299, // 321: akuity.argocd.v1.ListAddonMarketplaceInstallsResponse.addon_installs:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
-	300, // 322: akuity.argocd.v1.AddonMarketplaceInstall.config:type_name -> akuity.argocd.v1.AddonMarketplaceInstallConfig
-	303, // 323: akuity.argocd.v1.AddonMarketplaceInstall.status_info:type_name -> akuity.argocd.v1.AddonMarketplaceStatus
-	360, // 324: akuity.argocd.v1.AddonMarketplaceInstall.delete_time:type_name -> google.protobuf.Timestamp
-	302, // 325: akuity.argocd.v1.AddonMarketplaceInstallConfig.helm_chart_config:type_name -> akuity.argocd.v1.HelmChartInstallConfig
-	301, // 326: akuity.argocd.v1.AddonMarketplaceInstallConfig.overrides:type_name -> akuity.argocd.v1.AddonMarketplaceInstallOverrides
-	268, // 327: akuity.argocd.v1.HelmChartInstallConfig.dependencies:type_name -> akuity.argocd.v1.ChartDependency
-	304, // 328: akuity.argocd.v1.AddonMarketplaceStatus.event_list:type_name -> akuity.argocd.v1.AddonEvent
-	360, // 329: akuity.argocd.v1.AddonEvent.time:type_name -> google.protobuf.Timestamp
-	268, // 330: akuity.argocd.v1.AddonEvent.dependencies:type_name -> akuity.argocd.v1.ChartDependency
-	90,  // 331: akuity.argocd.v1.GetApplicationDeploymentStatsRequest.filter:type_name -> akuity.argocd.v1.SyncOperationFilter
-	12,  // 332: akuity.argocd.v1.GetApplicationDeploymentStatsRequest.sort_by:type_name -> akuity.argocd.v1.ApplicationDeploymentStatsSortField
-	13,  // 333: akuity.argocd.v1.GetApplicationDeploymentStatsRequest.sort_order:type_name -> akuity.argocd.v1.SortOrder
-	307, // 334: akuity.argocd.v1.GetApplicationDeploymentStatsResponse.entries:type_name -> akuity.argocd.v1.ApplicationDeploymentStatsEntry
-	308, // 335: akuity.argocd.v1.GetApplicationDeploymentStatsResponse.phase_summary:type_name -> akuity.argocd.v1.SyncPhaseSummary
-	322, // 336: akuity.argocd.v1.PatchInstanceSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceSecretRequest.ValueField
-	324, // 337: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceNotificationSecretRequest.ValueField
-	326, // 338: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.ValueField
-	328, // 339: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceAppsetSecretRequest.ValueField
-	162, // 340: akuity.argocd.v1.RunbookRepo.AppliedForEntry.value:type_name -> akuity.argocd.v1.TargetSelector
-	258, // 341: akuity.argocd.v1.AddonSpec.ClusterOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
-	258, // 342: akuity.argocd.v1.AddonSpec.EnvOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
-	258, // 343: akuity.argocd.v1.SourceInfo.ClusterOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
-	258, // 344: akuity.argocd.v1.SourceInfo.EnvOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
-	283, // 345: akuity.argocd.v1.AddonStatus.ClusterOverridesEntry.value:type_name -> akuity.argocd.v1.AddonHealthStatus
-	283, // 346: akuity.argocd.v1.AddonStatus.EnvOverridesEntry.value:type_name -> akuity.argocd.v1.AddonHealthStatus
-	281, // 347: akuity.argocd.v1.ListInstanceAddonErrorsResponse.ErrorsEntry.value:type_name -> akuity.argocd.v1.AddonErrorList
-	29,  // 348: akuity.argocd.v1.ArgoCDService.ListInstanceVersions:input_type -> akuity.argocd.v1.ListInstanceVersionsRequest
-	31,  // 349: akuity.argocd.v1.ArgoCDService.ListInstances:input_type -> akuity.argocd.v1.ListInstancesRequest
-	101, // 350: akuity.argocd.v1.ArgoCDService.WatchInstances:input_type -> akuity.argocd.v1.WatchInstancesRequest
-	33,  // 351: akuity.argocd.v1.ArgoCDService.CreateInstance:input_type -> akuity.argocd.v1.CreateInstanceRequest
-	35,  // 352: akuity.argocd.v1.ArgoCDService.GetInstance:input_type -> akuity.argocd.v1.GetInstanceRequest
-	37,  // 353: akuity.argocd.v1.ArgoCDService.GetInstanceCSS:input_type -> akuity.argocd.v1.GetInstanceCSSRequest
-	39,  // 354: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationSettings:input_type -> akuity.argocd.v1.GetInstanceNotificationSettingsRequest
-	41,  // 355: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationCatalog:input_type -> akuity.argocd.v1.GetInstanceNotificationCatalogRequest
-	43,  // 356: akuity.argocd.v1.ArgoCDService.GetInstanceImageUpdaterSettings:input_type -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsRequest
-	46,  // 357: akuity.argocd.v1.ArgoCDService.GetInstanceResourceCustomizations:input_type -> akuity.argocd.v1.GetInstanceResourceCustomizationsRequest
-	226, // 358: akuity.argocd.v1.ArgoCDService.GetInstanceConfigManagementPlugins:input_type -> akuity.argocd.v1.GetInstanceConfigManagementPluginsRequest
-	48,  // 359: akuity.argocd.v1.ArgoCDService.PatchInstance:input_type -> akuity.argocd.v1.PatchInstanceRequest
-	50,  // 360: akuity.argocd.v1.ArgoCDService.PatchInstanceSecret:input_type -> akuity.argocd.v1.PatchInstanceSecretRequest
-	52,  // 361: akuity.argocd.v1.ArgoCDService.PatchInstanceNotificationSecret:input_type -> akuity.argocd.v1.PatchInstanceNotificationSecretRequest
-	54,  // 362: akuity.argocd.v1.ArgoCDService.PatchInstanceImageUpdaterSecret:input_type -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest
-	58,  // 363: akuity.argocd.v1.ArgoCDService.GetInstanceAppsetSecret:input_type -> akuity.argocd.v1.GetInstanceAppsetSecretRequest
-	56,  // 364: akuity.argocd.v1.ArgoCDService.PatchInstanceAppsetSecret:input_type -> akuity.argocd.v1.PatchInstanceAppsetSecretRequest
-	60,  // 365: akuity.argocd.v1.ArgoCDService.UpdateInstance:input_type -> akuity.argocd.v1.UpdateInstanceRequest
-	62,  // 366: akuity.argocd.v1.ArgoCDService.UpdateInstanceWorkspace:input_type -> akuity.argocd.v1.UpdateInstanceWorkspaceRequest
-	64,  // 367: akuity.argocd.v1.ArgoCDService.UpdateInstanceCSS:input_type -> akuity.argocd.v1.UpdateInstanceCSSRequest
-	66,  // 368: akuity.argocd.v1.ArgoCDService.UpdateInstanceNotificationConfig:input_type -> akuity.argocd.v1.UpdateInstanceNotificationConfigRequest
-	68,  // 369: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterConfig:input_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest
-	70,  // 370: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterSSHConfig:input_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest
-	72,  // 371: akuity.argocd.v1.ArgoCDService.UpdateInstanceResourceCustomizations:input_type -> akuity.argocd.v1.UpdateInstanceResourceCustomizationsRequest
-	228, // 372: akuity.argocd.v1.ArgoCDService.UpdateInstanceConfigManagementPlugins:input_type -> akuity.argocd.v1.UpdateInstanceConfigManagementPluginsRequest
-	74,  // 373: akuity.argocd.v1.ArgoCDService.DeleteInstance:input_type -> akuity.argocd.v1.DeleteInstanceRequest
-	305, // 374: akuity.argocd.v1.ArgoCDService.RefreshInstanceRunbookRepo:input_type -> akuity.argocd.v1.RefreshInstanceRunbookRepoRequest
-	76,  // 375: akuity.argocd.v1.ArgoCDService.ListInstanceAccounts:input_type -> akuity.argocd.v1.ListInstanceAccountsRequest
-	78,  // 376: akuity.argocd.v1.ArgoCDService.UpsertInstanceAccount:input_type -> akuity.argocd.v1.UpsertInstanceAccountRequest
-	80,  // 377: akuity.argocd.v1.ArgoCDService.UpdateInstanceAccountPassword:input_type -> akuity.argocd.v1.UpdateInstanceAccountPasswordRequest
-	82,  // 378: akuity.argocd.v1.ArgoCDService.RegenerateInstanceAccountPassword:input_type -> akuity.argocd.v1.RegenerateInstanceAccountPasswordRequest
-	84,  // 379: akuity.argocd.v1.ArgoCDService.DeleteInstanceAccount:input_type -> akuity.argocd.v1.DeleteInstanceAccountRequest
-	99,  // 380: akuity.argocd.v1.ArgoCDService.ListInstanceClusters:input_type -> akuity.argocd.v1.ListInstanceClustersRequest
-	100, // 381: akuity.argocd.v1.ArgoCDService.WatchInstanceClusters:input_type -> akuity.argocd.v1.WatchInstanceClustersRequest
-	109, // 382: akuity.argocd.v1.ArgoCDService.CreateInstanceCluster:input_type -> akuity.argocd.v1.CreateInstanceClusterRequest
-	111, // 383: akuity.argocd.v1.ArgoCDService.GetClusterAPIServerCAData:input_type -> akuity.argocd.v1.GetClusterAPIServerCADataRequest
-	113, // 384: akuity.argocd.v1.ArgoCDService.GetInstanceCluster:input_type -> akuity.argocd.v1.GetInstanceClusterRequest
-	113, // 385: akuity.argocd.v1.ArgoCDService.GetInstanceClusterInfo:input_type -> akuity.argocd.v1.GetInstanceClusterRequest
-	116, // 386: akuity.argocd.v1.ArgoCDService.GetInstanceClusterManifests:input_type -> akuity.argocd.v1.GetInstanceClusterManifestsRequest
-	117, // 387: akuity.argocd.v1.ArgoCDService.UpdateInstanceCluster:input_type -> akuity.argocd.v1.UpdateInstanceClusterRequest
-	118, // 388: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusterSupportAccess:input_type -> akuity.argocd.v1.UpdateInstanceClusterSupportAccessRequest
-	121, // 389: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusters:input_type -> akuity.argocd.v1.UpdateInstanceClustersRequest
-	123, // 390: akuity.argocd.v1.ArgoCDService.UpdateInstanceClustersAgentVersion:input_type -> akuity.argocd.v1.UpdateInstanceClustersAgentVersionRequest
-	128, // 391: akuity.argocd.v1.ArgoCDService.RotateInstanceClusterCredentials:input_type -> akuity.argocd.v1.RotateInstanceClusterCredentialsRequest
-	124, // 392: akuity.argocd.v1.ArgoCDService.RegenerateManifests:input_type -> akuity.argocd.v1.RegenerateManifestsRequest
-	126, // 393: akuity.argocd.v1.ArgoCDService.SetClusterMaintenanceMode:input_type -> akuity.argocd.v1.SetClusterMaintenanceModeRequest
-	130, // 394: akuity.argocd.v1.ArgoCDService.DeleteInstanceCluster:input_type -> akuity.argocd.v1.DeleteInstanceClusterRequest
-	216, // 395: akuity.argocd.v1.ArgoCDService.GetInstanceClusterCommand:input_type -> akuity.argocd.v1.GetInstanceClusterCommandRequest
-	86,  // 396: akuity.argocd.v1.ArgoCDService.GetAIAssistantUsageStats:input_type -> akuity.argocd.v1.GetAIAssistantUsageStatsRequest
-	88,  // 397: akuity.argocd.v1.ArgoCDService.GetSyncOperationsStats:input_type -> akuity.argocd.v1.GetSyncOperationsStatsRequest
-	309, // 398: akuity.argocd.v1.ArgoCDService.GetApplicationDeploymentStats:input_type -> akuity.argocd.v1.GetApplicationDeploymentStatsRequest
-	89,  // 399: akuity.argocd.v1.ArgoCDService.GetSyncOperationsEvents:input_type -> akuity.argocd.v1.GetSyncOperationsEventsRequest
-	212, // 400: akuity.argocd.v1.ArgoCDService.ApplyInstance:input_type -> akuity.argocd.v1.ApplyInstanceRequest
-	214, // 401: akuity.argocd.v1.ArgoCDService.ExportInstance:input_type -> akuity.argocd.v1.ExportInstanceRequest
-	230, // 402: akuity.argocd.v1.ArgoCDService.ListInstanceAddonRepos:input_type -> akuity.argocd.v1.ListInstanceAddonReposRequest
-	232, // 403: akuity.argocd.v1.ArgoCDService.GetInstanceAddonRepo:input_type -> akuity.argocd.v1.GetInstanceAddonRepoRequest
-	234, // 404: akuity.argocd.v1.ArgoCDService.CreateInstanceAddonRepo:input_type -> akuity.argocd.v1.CreateInstanceAddonRepoRequest
-	238, // 405: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddonRepo:input_type -> akuity.argocd.v1.RefreshInstanceAddonRepoRequest
-	236, // 406: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddonRepo:input_type -> akuity.argocd.v1.DeleteInstanceAddonRepoRequest
-	248, // 407: akuity.argocd.v1.ArgoCDService.ListInstanceAddons:input_type -> akuity.argocd.v1.ListInstanceAddonsRequest
-	279, // 408: akuity.argocd.v1.ArgoCDService.ListInstanceAddonErrors:input_type -> akuity.argocd.v1.ListInstanceAddonErrorsRequest
-	243, // 409: akuity.argocd.v1.ArgoCDService.GetInstanceAddon:input_type -> akuity.argocd.v1.GetInstanceAddonRequest
-	245, // 410: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddon:input_type -> akuity.argocd.v1.DeleteInstanceAddonRequest
-	256, // 411: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddon:input_type -> akuity.argocd.v1.RefreshInstanceAddonRequest
-	250, // 412: akuity.argocd.v1.ArgoCDService.UpdateInstanceAddon:input_type -> akuity.argocd.v1.UpdateInstanceAddonRequest
-	252, // 413: akuity.argocd.v1.ArgoCDService.PatchInstanceAddon:input_type -> akuity.argocd.v1.PatchInstanceAddonRequest
-	254, // 414: akuity.argocd.v1.ArgoCDService.ClearAddonStatusSourceHistory:input_type -> akuity.argocd.v1.ClearAddonStatusSourceHistoryRequest
-	102, // 415: akuity.argocd.v1.ArgoCDService.WatchInstanceAddons:input_type -> akuity.argocd.v1.WatchInstanceAddonsRequest
-	103, // 416: akuity.argocd.v1.ArgoCDService.WatchInstanceAddonRepos:input_type -> akuity.argocd.v1.WatchInstanceAddonReposRequest
-	288, // 417: akuity.argocd.v1.ArgoCDService.AddonMarketplaceInstall:input_type -> akuity.argocd.v1.AddonMarketplaceInstallRequest
-	294, // 418: akuity.argocd.v1.ArgoCDService.ListAddonMarketplaceInstalls:input_type -> akuity.argocd.v1.ListAddonMarketplaceInstallsRequest
-	295, // 419: akuity.argocd.v1.ArgoCDService.WatchAddonMarketplaceInstalls:input_type -> akuity.argocd.v1.WatchAddonMarketplaceInstallsRequest
-	290, // 420: akuity.argocd.v1.ArgoCDService.UpdateAddonMarketplaceInstall:input_type -> akuity.argocd.v1.UpdateAddonMarketplaceInstallRequest
-	17,  // 421: akuity.argocd.v1.ArgoCDService.ListInstanceRepos:input_type -> akuity.argocd.v1.ListInstanceReposRequest
-	15,  // 422: akuity.argocd.v1.ArgoCDService.CreateInstanceRepo:input_type -> akuity.argocd.v1.CreateInstanceRepoRequest
-	292, // 423: akuity.argocd.v1.ArgoCDService.DeleteAddonMarketplaceInstall:input_type -> akuity.argocd.v1.DeleteAddonMarketplaceInstallRequest
-	23,  // 424: akuity.argocd.v1.ArgoCDService.ListInstanceManagedSecrets:input_type -> akuity.argocd.v1.ListInstanceManagedSecretsRequest
-	19,  // 425: akuity.argocd.v1.ArgoCDService.CreateManagedSecret:input_type -> akuity.argocd.v1.CreateManagedSecretRequest
-	21,  // 426: akuity.argocd.v1.ArgoCDService.DeleteManagedSecret:input_type -> akuity.argocd.v1.DeleteManagedSecretRequest
-	25,  // 427: akuity.argocd.v1.ArgoCDService.UpdateManagedSecret:input_type -> akuity.argocd.v1.UpdateManagedSecretRequest
-	27,  // 428: akuity.argocd.v1.ArgoCDService.PatchManagedSecret:input_type -> akuity.argocd.v1.PatchManagedSecretRequest
-	30,  // 429: akuity.argocd.v1.ArgoCDService.ListInstanceVersions:output_type -> akuity.argocd.v1.ListInstanceVersionsResponse
-	32,  // 430: akuity.argocd.v1.ArgoCDService.ListInstances:output_type -> akuity.argocd.v1.ListInstancesResponse
-	104, // 431: akuity.argocd.v1.ArgoCDService.WatchInstances:output_type -> akuity.argocd.v1.WatchInstancesResponse
-	34,  // 432: akuity.argocd.v1.ArgoCDService.CreateInstance:output_type -> akuity.argocd.v1.CreateInstanceResponse
-	36,  // 433: akuity.argocd.v1.ArgoCDService.GetInstance:output_type -> akuity.argocd.v1.GetInstanceResponse
-	38,  // 434: akuity.argocd.v1.ArgoCDService.GetInstanceCSS:output_type -> akuity.argocd.v1.GetInstanceCSSResponse
-	40,  // 435: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationSettings:output_type -> akuity.argocd.v1.GetInstanceNotificationSettingsResponse
-	42,  // 436: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationCatalog:output_type -> akuity.argocd.v1.GetInstanceNotificationCatalogResponse
-	44,  // 437: akuity.argocd.v1.ArgoCDService.GetInstanceImageUpdaterSettings:output_type -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse
-	47,  // 438: akuity.argocd.v1.ArgoCDService.GetInstanceResourceCustomizations:output_type -> akuity.argocd.v1.GetInstanceResourceCustomizationsResponse
-	227, // 439: akuity.argocd.v1.ArgoCDService.GetInstanceConfigManagementPlugins:output_type -> akuity.argocd.v1.GetInstanceConfigManagementPluginsResponse
-	49,  // 440: akuity.argocd.v1.ArgoCDService.PatchInstance:output_type -> akuity.argocd.v1.PatchInstanceResponse
-	51,  // 441: akuity.argocd.v1.ArgoCDService.PatchInstanceSecret:output_type -> akuity.argocd.v1.PatchInstanceSecretResponse
-	53,  // 442: akuity.argocd.v1.ArgoCDService.PatchInstanceNotificationSecret:output_type -> akuity.argocd.v1.PatchInstanceNotificationSecretResponse
-	55,  // 443: akuity.argocd.v1.ArgoCDService.PatchInstanceImageUpdaterSecret:output_type -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretResponse
-	59,  // 444: akuity.argocd.v1.ArgoCDService.GetInstanceAppsetSecret:output_type -> akuity.argocd.v1.GetInstanceAppsetSecretResponse
-	57,  // 445: akuity.argocd.v1.ArgoCDService.PatchInstanceAppsetSecret:output_type -> akuity.argocd.v1.PatchInstanceAppsetSecretResponse
-	61,  // 446: akuity.argocd.v1.ArgoCDService.UpdateInstance:output_type -> akuity.argocd.v1.UpdateInstanceResponse
-	63,  // 447: akuity.argocd.v1.ArgoCDService.UpdateInstanceWorkspace:output_type -> akuity.argocd.v1.UpdateInstanceWorkspaceResponse
-	65,  // 448: akuity.argocd.v1.ArgoCDService.UpdateInstanceCSS:output_type -> akuity.argocd.v1.UpdateInstanceCSSResponse
-	67,  // 449: akuity.argocd.v1.ArgoCDService.UpdateInstanceNotificationConfig:output_type -> akuity.argocd.v1.UpdateInstanceNotificationConfigResponse
-	69,  // 450: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterConfig:output_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterConfigResponse
-	71,  // 451: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterSSHConfig:output_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigResponse
-	73,  // 452: akuity.argocd.v1.ArgoCDService.UpdateInstanceResourceCustomizations:output_type -> akuity.argocd.v1.UpdateInstanceResourceCustomizationsResponse
-	229, // 453: akuity.argocd.v1.ArgoCDService.UpdateInstanceConfigManagementPlugins:output_type -> akuity.argocd.v1.UpdateInstanceConfigManagementPluginsResponse
-	75,  // 454: akuity.argocd.v1.ArgoCDService.DeleteInstance:output_type -> akuity.argocd.v1.DeleteInstanceResponse
-	306, // 455: akuity.argocd.v1.ArgoCDService.RefreshInstanceRunbookRepo:output_type -> akuity.argocd.v1.RefreshInstanceRunbookRepoResponse
-	77,  // 456: akuity.argocd.v1.ArgoCDService.ListInstanceAccounts:output_type -> akuity.argocd.v1.ListInstanceAccountsResponse
-	79,  // 457: akuity.argocd.v1.ArgoCDService.UpsertInstanceAccount:output_type -> akuity.argocd.v1.UpsertInstanceAccountResponse
-	81,  // 458: akuity.argocd.v1.ArgoCDService.UpdateInstanceAccountPassword:output_type -> akuity.argocd.v1.UpdateInstanceAccountPasswordResponse
-	83,  // 459: akuity.argocd.v1.ArgoCDService.RegenerateInstanceAccountPassword:output_type -> akuity.argocd.v1.RegenerateInstanceAccountPasswordResponse
-	85,  // 460: akuity.argocd.v1.ArgoCDService.DeleteInstanceAccount:output_type -> akuity.argocd.v1.DeleteInstanceAccountResponse
-	108, // 461: akuity.argocd.v1.ArgoCDService.ListInstanceClusters:output_type -> akuity.argocd.v1.ListInstanceClustersResponse
-	107, // 462: akuity.argocd.v1.ArgoCDService.WatchInstanceClusters:output_type -> akuity.argocd.v1.WatchInstanceClustersResponse
-	110, // 463: akuity.argocd.v1.ArgoCDService.CreateInstanceCluster:output_type -> akuity.argocd.v1.CreateInstanceClusterResponse
-	112, // 464: akuity.argocd.v1.ArgoCDService.GetClusterAPIServerCAData:output_type -> akuity.argocd.v1.GetClusterAPIServerCADataResponse
-	114, // 465: akuity.argocd.v1.ArgoCDService.GetInstanceCluster:output_type -> akuity.argocd.v1.GetInstanceClusterResponse
-	115, // 466: akuity.argocd.v1.ArgoCDService.GetInstanceClusterInfo:output_type -> akuity.argocd.v1.GetInstanceClusterInfoResponse
-	365, // 467: akuity.argocd.v1.ArgoCDService.GetInstanceClusterManifests:output_type -> google.api.HttpBody
-	120, // 468: akuity.argocd.v1.ArgoCDService.UpdateInstanceCluster:output_type -> akuity.argocd.v1.UpdateInstanceClusterResponse
-	119, // 469: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusterSupportAccess:output_type -> akuity.argocd.v1.UpdateInstanceClusterSupportAccessResponse
-	122, // 470: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusters:output_type -> akuity.argocd.v1.UpdateInstanceClustersResponse
-	366, // 471: akuity.argocd.v1.ArgoCDService.UpdateInstanceClustersAgentVersion:output_type -> google.protobuf.Empty
-	129, // 472: akuity.argocd.v1.ArgoCDService.RotateInstanceClusterCredentials:output_type -> akuity.argocd.v1.RotateInstanceClusterCredentialsResponse
-	125, // 473: akuity.argocd.v1.ArgoCDService.RegenerateManifests:output_type -> akuity.argocd.v1.RegenerateManifestsResponse
-	127, // 474: akuity.argocd.v1.ArgoCDService.SetClusterMaintenanceMode:output_type -> akuity.argocd.v1.SetClusterMaintenanceModeResponse
-	131, // 475: akuity.argocd.v1.ArgoCDService.DeleteInstanceCluster:output_type -> akuity.argocd.v1.DeleteInstanceClusterResponse
-	217, // 476: akuity.argocd.v1.ArgoCDService.GetInstanceClusterCommand:output_type -> akuity.argocd.v1.GetInstanceClusterCommandResponse
-	87,  // 477: akuity.argocd.v1.ArgoCDService.GetAIAssistantUsageStats:output_type -> akuity.argocd.v1.GetAIAssistantUsageStatsResponse
-	96,  // 478: akuity.argocd.v1.ArgoCDService.GetSyncOperationsStats:output_type -> akuity.argocd.v1.GetSyncOperationsStatsResponse
-	310, // 479: akuity.argocd.v1.ArgoCDService.GetApplicationDeploymentStats:output_type -> akuity.argocd.v1.GetApplicationDeploymentStatsResponse
-	97,  // 480: akuity.argocd.v1.ArgoCDService.GetSyncOperationsEvents:output_type -> akuity.argocd.v1.GetSyncOperationsEventsResponse
-	213, // 481: akuity.argocd.v1.ArgoCDService.ApplyInstance:output_type -> akuity.argocd.v1.ApplyInstanceResponse
-	215, // 482: akuity.argocd.v1.ArgoCDService.ExportInstance:output_type -> akuity.argocd.v1.ExportInstanceResponse
-	231, // 483: akuity.argocd.v1.ArgoCDService.ListInstanceAddonRepos:output_type -> akuity.argocd.v1.ListInstanceAddonReposResponse
-	233, // 484: akuity.argocd.v1.ArgoCDService.GetInstanceAddonRepo:output_type -> akuity.argocd.v1.GetInstanceAddonRepoResponse
-	235, // 485: akuity.argocd.v1.ArgoCDService.CreateInstanceAddonRepo:output_type -> akuity.argocd.v1.CreateInstanceAddonRepoResponse
-	239, // 486: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddonRepo:output_type -> akuity.argocd.v1.RefreshInstanceAddonRepoResponse
-	237, // 487: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddonRepo:output_type -> akuity.argocd.v1.DeleteInstanceAddonRepoResponse
-	249, // 488: akuity.argocd.v1.ArgoCDService.ListInstanceAddons:output_type -> akuity.argocd.v1.ListInstanceAddonsResponse
-	280, // 489: akuity.argocd.v1.ArgoCDService.ListInstanceAddonErrors:output_type -> akuity.argocd.v1.ListInstanceAddonErrorsResponse
-	244, // 490: akuity.argocd.v1.ArgoCDService.GetInstanceAddon:output_type -> akuity.argocd.v1.GetInstanceAddonResponse
-	246, // 491: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddon:output_type -> akuity.argocd.v1.DeleteInstanceAddonResponse
-	257, // 492: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddon:output_type -> akuity.argocd.v1.RefreshInstanceAddonResponse
-	251, // 493: akuity.argocd.v1.ArgoCDService.UpdateInstanceAddon:output_type -> akuity.argocd.v1.UpdateInstanceAddonResponse
-	253, // 494: akuity.argocd.v1.ArgoCDService.PatchInstanceAddon:output_type -> akuity.argocd.v1.PatchInstanceAddonResponse
-	255, // 495: akuity.argocd.v1.ArgoCDService.ClearAddonStatusSourceHistory:output_type -> akuity.argocd.v1.ClearAddonStatusSourceHistoryResponse
-	105, // 496: akuity.argocd.v1.ArgoCDService.WatchInstanceAddons:output_type -> akuity.argocd.v1.WatchInstanceAddonsResponse
-	106, // 497: akuity.argocd.v1.ArgoCDService.WatchInstanceAddonRepos:output_type -> akuity.argocd.v1.WatchInstanceAddonReposResponse
-	289, // 498: akuity.argocd.v1.ArgoCDService.AddonMarketplaceInstall:output_type -> akuity.argocd.v1.AddonMarketplaceInstallResponse
-	298, // 499: akuity.argocd.v1.ArgoCDService.ListAddonMarketplaceInstalls:output_type -> akuity.argocd.v1.ListAddonMarketplaceInstallsResponse
-	296, // 500: akuity.argocd.v1.ArgoCDService.WatchAddonMarketplaceInstalls:output_type -> akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse
-	291, // 501: akuity.argocd.v1.ArgoCDService.UpdateAddonMarketplaceInstall:output_type -> akuity.argocd.v1.UpdateAddonMarketplaceInstallResponse
-	18,  // 502: akuity.argocd.v1.ArgoCDService.ListInstanceRepos:output_type -> akuity.argocd.v1.ListInstanceReposResponse
-	16,  // 503: akuity.argocd.v1.ArgoCDService.CreateInstanceRepo:output_type -> akuity.argocd.v1.CreateInstanceRepoResponse
-	293, // 504: akuity.argocd.v1.ArgoCDService.DeleteAddonMarketplaceInstall:output_type -> akuity.argocd.v1.DeleteAddonMarketplaceInstallResponse
-	24,  // 505: akuity.argocd.v1.ArgoCDService.ListInstanceManagedSecrets:output_type -> akuity.argocd.v1.ListInstanceManagedSecretsResponse
-	20,  // 506: akuity.argocd.v1.ArgoCDService.CreateManagedSecret:output_type -> akuity.argocd.v1.CreateManagedSecretResponse
-	22,  // 507: akuity.argocd.v1.ArgoCDService.DeleteManagedSecret:output_type -> akuity.argocd.v1.DeleteManagedSecretResponse
-	26,  // 508: akuity.argocd.v1.ArgoCDService.UpdateManagedSecret:output_type -> akuity.argocd.v1.UpdateManagedSecretResponse
-	28,  // 509: akuity.argocd.v1.ArgoCDService.PatchManagedSecret:output_type -> akuity.argocd.v1.PatchManagedSecretResponse
-	429, // [429:510] is the sub-list for method output_type
-	348, // [348:429] is the sub-list for method input_type
-	348, // [348:348] is the sub-list for extension type_name
-	348, // [348:348] is the sub-list for extension extendee
-	0,   // [0:348] is the sub-list for field type_name
+	358, // 208: akuity.argocd.v1.ApplyInstanceRequest.application_set_secret:type_name -> google.protobuf.Struct
+	358, // 209: akuity.argocd.v1.ApplyInstanceRequest.applications:type_name -> google.protobuf.Struct
+	358, // 210: akuity.argocd.v1.ApplyInstanceRequest.application_sets:type_name -> google.protobuf.Struct
+	358, // 211: akuity.argocd.v1.ApplyInstanceRequest.app_projects:type_name -> google.protobuf.Struct
+	358, // 212: akuity.argocd.v1.ApplyInstanceRequest.image_updaters:type_name -> google.protobuf.Struct
+	357, // 213: akuity.argocd.v1.ExportInstanceRequest.id_type:type_name -> akuity.types.id.v1.Type
+	357, // 214: akuity.argocd.v1.ExportInstanceStreamRequest.id_type:type_name -> akuity.types.id.v1.Type
+	358, // 215: akuity.argocd.v1.ExportInstanceResponse.argocd:type_name -> google.protobuf.Struct
+	358, // 216: akuity.argocd.v1.ExportInstanceResponse.argocd_configmap:type_name -> google.protobuf.Struct
+	358, // 217: akuity.argocd.v1.ExportInstanceResponse.argocd_rbac_configmap:type_name -> google.protobuf.Struct
+	358, // 218: akuity.argocd.v1.ExportInstanceResponse.notifications_configmap:type_name -> google.protobuf.Struct
+	358, // 219: akuity.argocd.v1.ExportInstanceResponse.image_updater_configmap:type_name -> google.protobuf.Struct
+	358, // 220: akuity.argocd.v1.ExportInstanceResponse.image_updater_ssh_configmap:type_name -> google.protobuf.Struct
+	358, // 221: akuity.argocd.v1.ExportInstanceResponse.clusters:type_name -> google.protobuf.Struct
+	358, // 222: akuity.argocd.v1.ExportInstanceResponse.argocd_known_hosts_configmap:type_name -> google.protobuf.Struct
+	358, // 223: akuity.argocd.v1.ExportInstanceResponse.argocd_tls_certs_configmap:type_name -> google.protobuf.Struct
+	358, // 224: akuity.argocd.v1.ExportInstanceResponse.config_management_plugins:type_name -> google.protobuf.Struct
+	358, // 225: akuity.argocd.v1.ExportInstanceResponse.applications:type_name -> google.protobuf.Struct
+	358, // 226: akuity.argocd.v1.ExportInstanceResponse.application_sets:type_name -> google.protobuf.Struct
+	358, // 227: akuity.argocd.v1.ExportInstanceResponse.app_projects:type_name -> google.protobuf.Struct
+	358, // 228: akuity.argocd.v1.ExportInstanceResponse.image_updaters:type_name -> google.protobuf.Struct
+	358, // 229: akuity.argocd.v1.ExportInstanceStreamResponse.argocd:type_name -> google.protobuf.Struct
+	358, // 230: akuity.argocd.v1.ExportInstanceStreamResponse.argocd_configmap:type_name -> google.protobuf.Struct
+	358, // 231: akuity.argocd.v1.ExportInstanceStreamResponse.argocd_rbac_configmap:type_name -> google.protobuf.Struct
+	358, // 232: akuity.argocd.v1.ExportInstanceStreamResponse.notifications_configmap:type_name -> google.protobuf.Struct
+	358, // 233: akuity.argocd.v1.ExportInstanceStreamResponse.image_updater_configmap:type_name -> google.protobuf.Struct
+	358, // 234: akuity.argocd.v1.ExportInstanceStreamResponse.image_updater_ssh_configmap:type_name -> google.protobuf.Struct
+	358, // 235: akuity.argocd.v1.ExportInstanceStreamResponse.cluster:type_name -> google.protobuf.Struct
+	358, // 236: akuity.argocd.v1.ExportInstanceStreamResponse.argocd_known_hosts_configmap:type_name -> google.protobuf.Struct
+	358, // 237: akuity.argocd.v1.ExportInstanceStreamResponse.argocd_tls_certs_configmap:type_name -> google.protobuf.Struct
+	358, // 238: akuity.argocd.v1.ExportInstanceStreamResponse.config_management_plugin:type_name -> google.protobuf.Struct
+	358, // 239: akuity.argocd.v1.ExportInstanceStreamResponse.application:type_name -> google.protobuf.Struct
+	358, // 240: akuity.argocd.v1.ExportInstanceStreamResponse.application_set:type_name -> google.protobuf.Struct
+	358, // 241: akuity.argocd.v1.ExportInstanceStreamResponse.app_project:type_name -> google.protobuf.Struct
+	358, // 242: akuity.argocd.v1.ExportInstanceStreamResponse.image_updater:type_name -> google.protobuf.Struct
+	7,   // 243: akuity.argocd.v1.GetInstanceClusterCommandRequest.command_for:type_name -> akuity.argocd.v1.ClusterCommandFor
+	346, // 244: akuity.argocd.v1.GetInstanceClusterCommandResponse.variables:type_name -> akuity.argocd.v1.GetInstanceClusterCommandResponse.VariablesEntry
+	221, // 245: akuity.argocd.v1.ConfigManagementPlugin.spec:type_name -> akuity.argocd.v1.PluginSpec
+	222, // 246: akuity.argocd.v1.PluginSpec.init:type_name -> akuity.argocd.v1.Command
+	222, // 247: akuity.argocd.v1.PluginSpec.generate:type_name -> akuity.argocd.v1.Command
+	223, // 248: akuity.argocd.v1.PluginSpec.discover:type_name -> akuity.argocd.v1.Discover
+	225, // 249: akuity.argocd.v1.PluginSpec.parameters:type_name -> akuity.argocd.v1.Parameters
+	224, // 250: akuity.argocd.v1.Discover.find:type_name -> akuity.argocd.v1.Find
+	227, // 251: akuity.argocd.v1.Parameters.static:type_name -> akuity.argocd.v1.ParameterAnnouncement
+	226, // 252: akuity.argocd.v1.Parameters.dynamic:type_name -> akuity.argocd.v1.Dynamic
+	347, // 253: akuity.argocd.v1.ParameterAnnouncement.map:type_name -> akuity.argocd.v1.ParameterAnnouncement.MapEntry
+	220, // 254: akuity.argocd.v1.GetInstanceConfigManagementPluginsResponse.plugins:type_name -> akuity.argocd.v1.ConfigManagementPlugin
+	220, // 255: akuity.argocd.v1.UpdateInstanceConfigManagementPluginsRequest.plugins:type_name -> akuity.argocd.v1.ConfigManagementPlugin
+	242, // 256: akuity.argocd.v1.ListInstanceAddonReposResponse.addon_repos:type_name -> akuity.argocd.v1.AddonRepo
+	242, // 257: akuity.argocd.v1.GetInstanceAddonRepoResponse.addon_repo:type_name -> akuity.argocd.v1.AddonRepo
+	243, // 258: akuity.argocd.v1.CreateInstanceAddonRepoRequest.spec:type_name -> akuity.argocd.v1.RepoSpec
+	242, // 259: akuity.argocd.v1.CreateInstanceAddonRepoResponse.addon_repo:type_name -> akuity.argocd.v1.AddonRepo
+	242, // 260: akuity.argocd.v1.RefreshInstanceAddonRepoResponse.addon_repo:type_name -> akuity.argocd.v1.AddonRepo
+	243, // 261: akuity.argocd.v1.AddonRepo.spec:type_name -> akuity.argocd.v1.RepoSpec
+	244, // 262: akuity.argocd.v1.AddonRepo.status:type_name -> akuity.argocd.v1.RepoStatus
+	362, // 263: akuity.argocd.v1.AddonRepo.delete_time:type_name -> google.protobuf.Timestamp
+	364, // 264: akuity.argocd.v1.RepoStatus.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
+	289, // 265: akuity.argocd.v1.GetInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
+	8,   // 266: akuity.argocd.v1.AddonFilter.sort_by:type_name -> akuity.argocd.v1.SortAddons
+	9,   // 267: akuity.argocd.v1.AddonFilter.addon_type:type_name -> akuity.argocd.v1.AddonType
+	348, // 268: akuity.argocd.v1.AddonFilter.cluster_labels:type_name -> akuity.argocd.v1.AddonFilter.ClusterLabelsEntry
+	249, // 269: akuity.argocd.v1.ListInstanceAddonsRequest.filter:type_name -> akuity.argocd.v1.AddonFilter
+	289, // 270: akuity.argocd.v1.ListInstanceAddonsResponse.addons:type_name -> akuity.argocd.v1.Addon
+	289, // 271: akuity.argocd.v1.UpdateInstanceAddonRequest.addon:type_name -> akuity.argocd.v1.Addon
+	289, // 272: akuity.argocd.v1.UpdateInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
+	358, // 273: akuity.argocd.v1.PatchInstanceAddonRequest.patch:type_name -> google.protobuf.Struct
+	289, // 274: akuity.argocd.v1.PatchInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
+	289, // 275: akuity.argocd.v1.ClearAddonStatusSourceHistoryResponse.addon:type_name -> akuity.argocd.v1.Addon
+	289, // 276: akuity.argocd.v1.RefreshInstanceAddonResponse.addon:type_name -> akuity.argocd.v1.Addon
+	261, // 277: akuity.argocd.v1.ManifestSource.kustomize_source:type_name -> akuity.argocd.v1.KustomizeSource
+	264, // 278: akuity.argocd.v1.ManifestSource.helm_source:type_name -> akuity.argocd.v1.HelmSource
+	262, // 279: akuity.argocd.v1.KustomizeSource.images:type_name -> akuity.argocd.v1.KustomizeImage
+	263, // 280: akuity.argocd.v1.KustomizeSource.helm_charts:type_name -> akuity.argocd.v1.KustomizeHelmChart
+	349, // 281: akuity.argocd.v1.HelmSource.values:type_name -> akuity.argocd.v1.HelmSource.ValuesEntry
+	270, // 282: akuity.argocd.v1.HelmSource.dependencies:type_name -> akuity.argocd.v1.ChartDependency
+	266, // 283: akuity.argocd.v1.ClusterSelector.name_filters:type_name -> akuity.argocd.v1.Selector
+	266, // 284: akuity.argocd.v1.ClusterSelector.label_filters:type_name -> akuity.argocd.v1.Selector
+	10,  // 285: akuity.argocd.v1.Selector.selector_operator:type_name -> akuity.argocd.v1.SelectorOperator
+	350, // 286: akuity.argocd.v1.AddonSpec.cluster_overrides:type_name -> akuity.argocd.v1.AddonSpec.ClusterOverridesEntry
+	351, // 287: akuity.argocd.v1.AddonSpec.env_overrides:type_name -> akuity.argocd.v1.AddonSpec.EnvOverridesEntry
+	265, // 288: akuity.argocd.v1.AddonSpec.cluster_selector:type_name -> akuity.argocd.v1.ClusterSelector
+	274, // 289: akuity.argocd.v1.AddonSpec.app_template:type_name -> akuity.argocd.v1.AppTemplate
+	260, // 290: akuity.argocd.v1.AddonSpec.default_manifest:type_name -> akuity.argocd.v1.ManifestSource
+	269, // 291: akuity.argocd.v1.AddonSpec.helm_values:type_name -> akuity.argocd.v1.HelmValues
+	268, // 292: akuity.argocd.v1.AddonSpec.patch_customizations:type_name -> akuity.argocd.v1.PatchCustomization
+	265, // 293: akuity.argocd.v1.PatchCustomization.cluster_selector:type_name -> akuity.argocd.v1.ClusterSelector
+	358, // 294: akuity.argocd.v1.PatchCustomization.patch:type_name -> google.protobuf.Struct
+	11,  // 295: akuity.argocd.v1.AppCreationOptions.on_conflict:type_name -> akuity.argocd.v1.OnConflictAction
+	271, // 296: akuity.argocd.v1.AppTemplate.creation_options:type_name -> akuity.argocd.v1.AppCreationOptions
+	272, // 297: akuity.argocd.v1.AppTemplate.deletion_options:type_name -> akuity.argocd.v1.AppDeletionOptions
+	273, // 298: akuity.argocd.v1.AppTemplate.sync_options:type_name -> akuity.argocd.v1.AppSyncOptions
+	275, // 299: akuity.argocd.v1.AppTemplate.helm_options:type_name -> akuity.argocd.v1.HelmOptions
+	276, // 300: akuity.argocd.v1.AppTemplate.kustomize_options:type_name -> akuity.argocd.v1.KustomizeOptions
+	362, // 301: akuity.argocd.v1.StatusSourceUpdate.start_timestamp:type_name -> google.protobuf.Timestamp
+	279, // 302: akuity.argocd.v1.StatusSourceUpdate.sources:type_name -> akuity.argocd.v1.SourceInfo
+	362, // 303: akuity.argocd.v1.SourceUpdateResult.start_timestamp:type_name -> google.protobuf.Timestamp
+	362, // 304: akuity.argocd.v1.SourceUpdateResult.completed_timestamp:type_name -> google.protobuf.Timestamp
+	358, // 305: akuity.argocd.v1.SourceUpdateResult.changes:type_name -> google.protobuf.Struct
+	260, // 306: akuity.argocd.v1.SourceInfo.default_manifest:type_name -> akuity.argocd.v1.ManifestSource
+	352, // 307: akuity.argocd.v1.SourceInfo.cluster_overrides:type_name -> akuity.argocd.v1.SourceInfo.ClusterOverridesEntry
+	353, // 308: akuity.argocd.v1.SourceInfo.env_overrides:type_name -> akuity.argocd.v1.SourceInfo.EnvOverridesEntry
+	364, // 309: akuity.argocd.v1.AddonStatus.reconciliation_status:type_name -> akuity.types.status.reconciliation.v1.Status
+	132, // 310: akuity.argocd.v1.AddonStatus.health:type_name -> akuity.argocd.v1.ApplicationsHealth
+	133, // 311: akuity.argocd.v1.AddonStatus.sync_status:type_name -> akuity.argocd.v1.ApplicationsSyncStatus
+	278, // 312: akuity.argocd.v1.AddonStatus.last_source_update_status:type_name -> akuity.argocd.v1.SourceUpdateResult
+	354, // 313: akuity.argocd.v1.AddonStatus.cluster_overrides:type_name -> akuity.argocd.v1.AddonStatus.ClusterOverridesEntry
+	355, // 314: akuity.argocd.v1.AddonStatus.env_overrides:type_name -> akuity.argocd.v1.AddonStatus.EnvOverridesEntry
+	356, // 315: akuity.argocd.v1.ListInstanceAddonErrorsResponse.errors:type_name -> akuity.argocd.v1.ListInstanceAddonErrorsResponse.ErrorsEntry
+	284, // 316: akuity.argocd.v1.AddonErrorList.errors:type_name -> akuity.argocd.v1.AddonError
+	132, // 317: akuity.argocd.v1.AddonHealthStatus.health:type_name -> akuity.argocd.v1.ApplicationsHealth
+	133, // 318: akuity.argocd.v1.AddonHealthStatus.sync_status:type_name -> akuity.argocd.v1.ApplicationsSyncStatus
+	362, // 319: akuity.argocd.v1.AddonCondition.last_transition_time:type_name -> google.protobuf.Timestamp
+	287, // 320: akuity.argocd.v1.StatusOperation.cluster_addon_status_operation:type_name -> akuity.argocd.v1.ClusterAddonStatusOperation
+	265, // 321: akuity.argocd.v1.StatusOperation.cluster_selector:type_name -> akuity.argocd.v1.ClusterSelector
+	267, // 322: akuity.argocd.v1.Addon.spec:type_name -> akuity.argocd.v1.AddonSpec
+	288, // 323: akuity.argocd.v1.Addon.status_operation:type_name -> akuity.argocd.v1.StatusOperation
+	280, // 324: akuity.argocd.v1.Addon.status:type_name -> akuity.argocd.v1.AddonStatus
+	362, // 325: akuity.argocd.v1.Addon.delete_time:type_name -> google.protobuf.Timestamp
+	277, // 326: akuity.argocd.v1.Addon.status_source_update:type_name -> akuity.argocd.v1.StatusSourceUpdate
+	305, // 327: akuity.argocd.v1.Addon.addon_marketplace_install_status_info:type_name -> akuity.argocd.v1.AddonMarketplaceStatus
+	302, // 328: akuity.argocd.v1.AddonMarketplaceInstallRequest.config:type_name -> akuity.argocd.v1.AddonMarketplaceInstallConfig
+	301, // 329: akuity.argocd.v1.AddonMarketplaceInstallResponse.addon_install:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
+	270, // 330: akuity.argocd.v1.UpdateAddonMarketplaceInstallRequest.dependencies:type_name -> akuity.argocd.v1.ChartDependency
+	301, // 331: akuity.argocd.v1.UpdateAddonMarketplaceInstallResponse.addon_install:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
+	299, // 332: akuity.argocd.v1.ListAddonMarketplaceInstallsRequest.filter:type_name -> akuity.argocd.v1.AddonMarketplaceInstallFilter
+	301, // 333: akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse.item:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
+	361, // 334: akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse.type:type_name -> akuity.types.events.v1.EventType
+	270, // 335: akuity.argocd.v1.AddonMarketplaceInstallFilter.dependency:type_name -> akuity.argocd.v1.ChartDependency
+	301, // 336: akuity.argocd.v1.ListAddonMarketplaceInstallsResponse.addon_installs:type_name -> akuity.argocd.v1.AddonMarketplaceInstall
+	302, // 337: akuity.argocd.v1.AddonMarketplaceInstall.config:type_name -> akuity.argocd.v1.AddonMarketplaceInstallConfig
+	305, // 338: akuity.argocd.v1.AddonMarketplaceInstall.status_info:type_name -> akuity.argocd.v1.AddonMarketplaceStatus
+	362, // 339: akuity.argocd.v1.AddonMarketplaceInstall.delete_time:type_name -> google.protobuf.Timestamp
+	304, // 340: akuity.argocd.v1.AddonMarketplaceInstallConfig.helm_chart_config:type_name -> akuity.argocd.v1.HelmChartInstallConfig
+	303, // 341: akuity.argocd.v1.AddonMarketplaceInstallConfig.overrides:type_name -> akuity.argocd.v1.AddonMarketplaceInstallOverrides
+	270, // 342: akuity.argocd.v1.HelmChartInstallConfig.dependencies:type_name -> akuity.argocd.v1.ChartDependency
+	306, // 343: akuity.argocd.v1.AddonMarketplaceStatus.event_list:type_name -> akuity.argocd.v1.AddonEvent
+	362, // 344: akuity.argocd.v1.AddonEvent.time:type_name -> google.protobuf.Timestamp
+	270, // 345: akuity.argocd.v1.AddonEvent.dependencies:type_name -> akuity.argocd.v1.ChartDependency
+	90,  // 346: akuity.argocd.v1.GetApplicationDeploymentStatsRequest.filter:type_name -> akuity.argocd.v1.SyncOperationFilter
+	12,  // 347: akuity.argocd.v1.GetApplicationDeploymentStatsRequest.sort_by:type_name -> akuity.argocd.v1.ApplicationDeploymentStatsSortField
+	13,  // 348: akuity.argocd.v1.GetApplicationDeploymentStatsRequest.sort_order:type_name -> akuity.argocd.v1.SortOrder
+	309, // 349: akuity.argocd.v1.GetApplicationDeploymentStatsResponse.entries:type_name -> akuity.argocd.v1.ApplicationDeploymentStatsEntry
+	310, // 350: akuity.argocd.v1.GetApplicationDeploymentStatsResponse.phase_summary:type_name -> akuity.argocd.v1.SyncPhaseSummary
+	324, // 351: akuity.argocd.v1.PatchInstanceSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceSecretRequest.ValueField
+	326, // 352: akuity.argocd.v1.PatchInstanceNotificationSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceNotificationSecretRequest.ValueField
+	328, // 353: akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest.ValueField
+	330, // 354: akuity.argocd.v1.PatchInstanceAppsetSecretRequest.SecretEntry.value:type_name -> akuity.argocd.v1.PatchInstanceAppsetSecretRequest.ValueField
+	162, // 355: akuity.argocd.v1.RunbookRepo.AppliedForEntry.value:type_name -> akuity.argocd.v1.TargetSelector
+	260, // 356: akuity.argocd.v1.AddonSpec.ClusterOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
+	260, // 357: akuity.argocd.v1.AddonSpec.EnvOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
+	260, // 358: akuity.argocd.v1.SourceInfo.ClusterOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
+	260, // 359: akuity.argocd.v1.SourceInfo.EnvOverridesEntry.value:type_name -> akuity.argocd.v1.ManifestSource
+	285, // 360: akuity.argocd.v1.AddonStatus.ClusterOverridesEntry.value:type_name -> akuity.argocd.v1.AddonHealthStatus
+	285, // 361: akuity.argocd.v1.AddonStatus.EnvOverridesEntry.value:type_name -> akuity.argocd.v1.AddonHealthStatus
+	283, // 362: akuity.argocd.v1.ListInstanceAddonErrorsResponse.ErrorsEntry.value:type_name -> akuity.argocd.v1.AddonErrorList
+	29,  // 363: akuity.argocd.v1.ArgoCDService.ListInstanceVersions:input_type -> akuity.argocd.v1.ListInstanceVersionsRequest
+	31,  // 364: akuity.argocd.v1.ArgoCDService.ListInstances:input_type -> akuity.argocd.v1.ListInstancesRequest
+	101, // 365: akuity.argocd.v1.ArgoCDService.WatchInstances:input_type -> akuity.argocd.v1.WatchInstancesRequest
+	33,  // 366: akuity.argocd.v1.ArgoCDService.CreateInstance:input_type -> akuity.argocd.v1.CreateInstanceRequest
+	35,  // 367: akuity.argocd.v1.ArgoCDService.GetInstance:input_type -> akuity.argocd.v1.GetInstanceRequest
+	37,  // 368: akuity.argocd.v1.ArgoCDService.GetInstanceCSS:input_type -> akuity.argocd.v1.GetInstanceCSSRequest
+	39,  // 369: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationSettings:input_type -> akuity.argocd.v1.GetInstanceNotificationSettingsRequest
+	41,  // 370: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationCatalog:input_type -> akuity.argocd.v1.GetInstanceNotificationCatalogRequest
+	43,  // 371: akuity.argocd.v1.ArgoCDService.GetInstanceImageUpdaterSettings:input_type -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsRequest
+	46,  // 372: akuity.argocd.v1.ArgoCDService.GetInstanceResourceCustomizations:input_type -> akuity.argocd.v1.GetInstanceResourceCustomizationsRequest
+	228, // 373: akuity.argocd.v1.ArgoCDService.GetInstanceConfigManagementPlugins:input_type -> akuity.argocd.v1.GetInstanceConfigManagementPluginsRequest
+	48,  // 374: akuity.argocd.v1.ArgoCDService.PatchInstance:input_type -> akuity.argocd.v1.PatchInstanceRequest
+	50,  // 375: akuity.argocd.v1.ArgoCDService.PatchInstanceSecret:input_type -> akuity.argocd.v1.PatchInstanceSecretRequest
+	52,  // 376: akuity.argocd.v1.ArgoCDService.PatchInstanceNotificationSecret:input_type -> akuity.argocd.v1.PatchInstanceNotificationSecretRequest
+	54,  // 377: akuity.argocd.v1.ArgoCDService.PatchInstanceImageUpdaterSecret:input_type -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretRequest
+	58,  // 378: akuity.argocd.v1.ArgoCDService.GetInstanceAppsetSecret:input_type -> akuity.argocd.v1.GetInstanceAppsetSecretRequest
+	56,  // 379: akuity.argocd.v1.ArgoCDService.PatchInstanceAppsetSecret:input_type -> akuity.argocd.v1.PatchInstanceAppsetSecretRequest
+	60,  // 380: akuity.argocd.v1.ArgoCDService.UpdateInstance:input_type -> akuity.argocd.v1.UpdateInstanceRequest
+	62,  // 381: akuity.argocd.v1.ArgoCDService.UpdateInstanceWorkspace:input_type -> akuity.argocd.v1.UpdateInstanceWorkspaceRequest
+	64,  // 382: akuity.argocd.v1.ArgoCDService.UpdateInstanceCSS:input_type -> akuity.argocd.v1.UpdateInstanceCSSRequest
+	66,  // 383: akuity.argocd.v1.ArgoCDService.UpdateInstanceNotificationConfig:input_type -> akuity.argocd.v1.UpdateInstanceNotificationConfigRequest
+	68,  // 384: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterConfig:input_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterConfigRequest
+	70,  // 385: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterSSHConfig:input_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigRequest
+	72,  // 386: akuity.argocd.v1.ArgoCDService.UpdateInstanceResourceCustomizations:input_type -> akuity.argocd.v1.UpdateInstanceResourceCustomizationsRequest
+	230, // 387: akuity.argocd.v1.ArgoCDService.UpdateInstanceConfigManagementPlugins:input_type -> akuity.argocd.v1.UpdateInstanceConfigManagementPluginsRequest
+	74,  // 388: akuity.argocd.v1.ArgoCDService.DeleteInstance:input_type -> akuity.argocd.v1.DeleteInstanceRequest
+	307, // 389: akuity.argocd.v1.ArgoCDService.RefreshInstanceRunbookRepo:input_type -> akuity.argocd.v1.RefreshInstanceRunbookRepoRequest
+	76,  // 390: akuity.argocd.v1.ArgoCDService.ListInstanceAccounts:input_type -> akuity.argocd.v1.ListInstanceAccountsRequest
+	78,  // 391: akuity.argocd.v1.ArgoCDService.UpsertInstanceAccount:input_type -> akuity.argocd.v1.UpsertInstanceAccountRequest
+	80,  // 392: akuity.argocd.v1.ArgoCDService.UpdateInstanceAccountPassword:input_type -> akuity.argocd.v1.UpdateInstanceAccountPasswordRequest
+	82,  // 393: akuity.argocd.v1.ArgoCDService.RegenerateInstanceAccountPassword:input_type -> akuity.argocd.v1.RegenerateInstanceAccountPasswordRequest
+	84,  // 394: akuity.argocd.v1.ArgoCDService.DeleteInstanceAccount:input_type -> akuity.argocd.v1.DeleteInstanceAccountRequest
+	99,  // 395: akuity.argocd.v1.ArgoCDService.ListInstanceClusters:input_type -> akuity.argocd.v1.ListInstanceClustersRequest
+	100, // 396: akuity.argocd.v1.ArgoCDService.WatchInstanceClusters:input_type -> akuity.argocd.v1.WatchInstanceClustersRequest
+	109, // 397: akuity.argocd.v1.ArgoCDService.CreateInstanceCluster:input_type -> akuity.argocd.v1.CreateInstanceClusterRequest
+	111, // 398: akuity.argocd.v1.ArgoCDService.GetClusterAPIServerCAData:input_type -> akuity.argocd.v1.GetClusterAPIServerCADataRequest
+	113, // 399: akuity.argocd.v1.ArgoCDService.GetInstanceCluster:input_type -> akuity.argocd.v1.GetInstanceClusterRequest
+	113, // 400: akuity.argocd.v1.ArgoCDService.GetInstanceClusterInfo:input_type -> akuity.argocd.v1.GetInstanceClusterRequest
+	116, // 401: akuity.argocd.v1.ArgoCDService.GetInstanceClusterManifests:input_type -> akuity.argocd.v1.GetInstanceClusterManifestsRequest
+	117, // 402: akuity.argocd.v1.ArgoCDService.UpdateInstanceCluster:input_type -> akuity.argocd.v1.UpdateInstanceClusterRequest
+	118, // 403: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusterSupportAccess:input_type -> akuity.argocd.v1.UpdateInstanceClusterSupportAccessRequest
+	121, // 404: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusters:input_type -> akuity.argocd.v1.UpdateInstanceClustersRequest
+	123, // 405: akuity.argocd.v1.ArgoCDService.UpdateInstanceClustersAgentVersion:input_type -> akuity.argocd.v1.UpdateInstanceClustersAgentVersionRequest
+	128, // 406: akuity.argocd.v1.ArgoCDService.RotateInstanceClusterCredentials:input_type -> akuity.argocd.v1.RotateInstanceClusterCredentialsRequest
+	124, // 407: akuity.argocd.v1.ArgoCDService.RegenerateManifests:input_type -> akuity.argocd.v1.RegenerateManifestsRequest
+	126, // 408: akuity.argocd.v1.ArgoCDService.SetClusterMaintenanceMode:input_type -> akuity.argocd.v1.SetClusterMaintenanceModeRequest
+	130, // 409: akuity.argocd.v1.ArgoCDService.DeleteInstanceCluster:input_type -> akuity.argocd.v1.DeleteInstanceClusterRequest
+	218, // 410: akuity.argocd.v1.ArgoCDService.GetInstanceClusterCommand:input_type -> akuity.argocd.v1.GetInstanceClusterCommandRequest
+	86,  // 411: akuity.argocd.v1.ArgoCDService.GetAIAssistantUsageStats:input_type -> akuity.argocd.v1.GetAIAssistantUsageStatsRequest
+	88,  // 412: akuity.argocd.v1.ArgoCDService.GetSyncOperationsStats:input_type -> akuity.argocd.v1.GetSyncOperationsStatsRequest
+	311, // 413: akuity.argocd.v1.ArgoCDService.GetApplicationDeploymentStats:input_type -> akuity.argocd.v1.GetApplicationDeploymentStatsRequest
+	89,  // 414: akuity.argocd.v1.ArgoCDService.GetSyncOperationsEvents:input_type -> akuity.argocd.v1.GetSyncOperationsEventsRequest
+	212, // 415: akuity.argocd.v1.ArgoCDService.ApplyInstance:input_type -> akuity.argocd.v1.ApplyInstanceRequest
+	214, // 416: akuity.argocd.v1.ArgoCDService.ExportInstance:input_type -> akuity.argocd.v1.ExportInstanceRequest
+	215, // 417: akuity.argocd.v1.ArgoCDService.ExportInstanceStream:input_type -> akuity.argocd.v1.ExportInstanceStreamRequest
+	232, // 418: akuity.argocd.v1.ArgoCDService.ListInstanceAddonRepos:input_type -> akuity.argocd.v1.ListInstanceAddonReposRequest
+	234, // 419: akuity.argocd.v1.ArgoCDService.GetInstanceAddonRepo:input_type -> akuity.argocd.v1.GetInstanceAddonRepoRequest
+	236, // 420: akuity.argocd.v1.ArgoCDService.CreateInstanceAddonRepo:input_type -> akuity.argocd.v1.CreateInstanceAddonRepoRequest
+	240, // 421: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddonRepo:input_type -> akuity.argocd.v1.RefreshInstanceAddonRepoRequest
+	238, // 422: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddonRepo:input_type -> akuity.argocd.v1.DeleteInstanceAddonRepoRequest
+	250, // 423: akuity.argocd.v1.ArgoCDService.ListInstanceAddons:input_type -> akuity.argocd.v1.ListInstanceAddonsRequest
+	281, // 424: akuity.argocd.v1.ArgoCDService.ListInstanceAddonErrors:input_type -> akuity.argocd.v1.ListInstanceAddonErrorsRequest
+	245, // 425: akuity.argocd.v1.ArgoCDService.GetInstanceAddon:input_type -> akuity.argocd.v1.GetInstanceAddonRequest
+	247, // 426: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddon:input_type -> akuity.argocd.v1.DeleteInstanceAddonRequest
+	258, // 427: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddon:input_type -> akuity.argocd.v1.RefreshInstanceAddonRequest
+	252, // 428: akuity.argocd.v1.ArgoCDService.UpdateInstanceAddon:input_type -> akuity.argocd.v1.UpdateInstanceAddonRequest
+	254, // 429: akuity.argocd.v1.ArgoCDService.PatchInstanceAddon:input_type -> akuity.argocd.v1.PatchInstanceAddonRequest
+	256, // 430: akuity.argocd.v1.ArgoCDService.ClearAddonStatusSourceHistory:input_type -> akuity.argocd.v1.ClearAddonStatusSourceHistoryRequest
+	102, // 431: akuity.argocd.v1.ArgoCDService.WatchInstanceAddons:input_type -> akuity.argocd.v1.WatchInstanceAddonsRequest
+	103, // 432: akuity.argocd.v1.ArgoCDService.WatchInstanceAddonRepos:input_type -> akuity.argocd.v1.WatchInstanceAddonReposRequest
+	290, // 433: akuity.argocd.v1.ArgoCDService.AddonMarketplaceInstall:input_type -> akuity.argocd.v1.AddonMarketplaceInstallRequest
+	296, // 434: akuity.argocd.v1.ArgoCDService.ListAddonMarketplaceInstalls:input_type -> akuity.argocd.v1.ListAddonMarketplaceInstallsRequest
+	297, // 435: akuity.argocd.v1.ArgoCDService.WatchAddonMarketplaceInstalls:input_type -> akuity.argocd.v1.WatchAddonMarketplaceInstallsRequest
+	292, // 436: akuity.argocd.v1.ArgoCDService.UpdateAddonMarketplaceInstall:input_type -> akuity.argocd.v1.UpdateAddonMarketplaceInstallRequest
+	17,  // 437: akuity.argocd.v1.ArgoCDService.ListInstanceRepos:input_type -> akuity.argocd.v1.ListInstanceReposRequest
+	15,  // 438: akuity.argocd.v1.ArgoCDService.CreateInstanceRepo:input_type -> akuity.argocd.v1.CreateInstanceRepoRequest
+	294, // 439: akuity.argocd.v1.ArgoCDService.DeleteAddonMarketplaceInstall:input_type -> akuity.argocd.v1.DeleteAddonMarketplaceInstallRequest
+	23,  // 440: akuity.argocd.v1.ArgoCDService.ListInstanceManagedSecrets:input_type -> akuity.argocd.v1.ListInstanceManagedSecretsRequest
+	19,  // 441: akuity.argocd.v1.ArgoCDService.CreateManagedSecret:input_type -> akuity.argocd.v1.CreateManagedSecretRequest
+	21,  // 442: akuity.argocd.v1.ArgoCDService.DeleteManagedSecret:input_type -> akuity.argocd.v1.DeleteManagedSecretRequest
+	25,  // 443: akuity.argocd.v1.ArgoCDService.UpdateManagedSecret:input_type -> akuity.argocd.v1.UpdateManagedSecretRequest
+	27,  // 444: akuity.argocd.v1.ArgoCDService.PatchManagedSecret:input_type -> akuity.argocd.v1.PatchManagedSecretRequest
+	30,  // 445: akuity.argocd.v1.ArgoCDService.ListInstanceVersions:output_type -> akuity.argocd.v1.ListInstanceVersionsResponse
+	32,  // 446: akuity.argocd.v1.ArgoCDService.ListInstances:output_type -> akuity.argocd.v1.ListInstancesResponse
+	104, // 447: akuity.argocd.v1.ArgoCDService.WatchInstances:output_type -> akuity.argocd.v1.WatchInstancesResponse
+	34,  // 448: akuity.argocd.v1.ArgoCDService.CreateInstance:output_type -> akuity.argocd.v1.CreateInstanceResponse
+	36,  // 449: akuity.argocd.v1.ArgoCDService.GetInstance:output_type -> akuity.argocd.v1.GetInstanceResponse
+	38,  // 450: akuity.argocd.v1.ArgoCDService.GetInstanceCSS:output_type -> akuity.argocd.v1.GetInstanceCSSResponse
+	40,  // 451: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationSettings:output_type -> akuity.argocd.v1.GetInstanceNotificationSettingsResponse
+	42,  // 452: akuity.argocd.v1.ArgoCDService.GetInstanceNotificationCatalog:output_type -> akuity.argocd.v1.GetInstanceNotificationCatalogResponse
+	44,  // 453: akuity.argocd.v1.ArgoCDService.GetInstanceImageUpdaterSettings:output_type -> akuity.argocd.v1.GetInstanceImageUpdaterSettingsResponse
+	47,  // 454: akuity.argocd.v1.ArgoCDService.GetInstanceResourceCustomizations:output_type -> akuity.argocd.v1.GetInstanceResourceCustomizationsResponse
+	229, // 455: akuity.argocd.v1.ArgoCDService.GetInstanceConfigManagementPlugins:output_type -> akuity.argocd.v1.GetInstanceConfigManagementPluginsResponse
+	49,  // 456: akuity.argocd.v1.ArgoCDService.PatchInstance:output_type -> akuity.argocd.v1.PatchInstanceResponse
+	51,  // 457: akuity.argocd.v1.ArgoCDService.PatchInstanceSecret:output_type -> akuity.argocd.v1.PatchInstanceSecretResponse
+	53,  // 458: akuity.argocd.v1.ArgoCDService.PatchInstanceNotificationSecret:output_type -> akuity.argocd.v1.PatchInstanceNotificationSecretResponse
+	55,  // 459: akuity.argocd.v1.ArgoCDService.PatchInstanceImageUpdaterSecret:output_type -> akuity.argocd.v1.PatchInstanceImageUpdaterSecretResponse
+	59,  // 460: akuity.argocd.v1.ArgoCDService.GetInstanceAppsetSecret:output_type -> akuity.argocd.v1.GetInstanceAppsetSecretResponse
+	57,  // 461: akuity.argocd.v1.ArgoCDService.PatchInstanceAppsetSecret:output_type -> akuity.argocd.v1.PatchInstanceAppsetSecretResponse
+	61,  // 462: akuity.argocd.v1.ArgoCDService.UpdateInstance:output_type -> akuity.argocd.v1.UpdateInstanceResponse
+	63,  // 463: akuity.argocd.v1.ArgoCDService.UpdateInstanceWorkspace:output_type -> akuity.argocd.v1.UpdateInstanceWorkspaceResponse
+	65,  // 464: akuity.argocd.v1.ArgoCDService.UpdateInstanceCSS:output_type -> akuity.argocd.v1.UpdateInstanceCSSResponse
+	67,  // 465: akuity.argocd.v1.ArgoCDService.UpdateInstanceNotificationConfig:output_type -> akuity.argocd.v1.UpdateInstanceNotificationConfigResponse
+	69,  // 466: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterConfig:output_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterConfigResponse
+	71,  // 467: akuity.argocd.v1.ArgoCDService.UpdateInstanceImageUpdaterSSHConfig:output_type -> akuity.argocd.v1.UpdateInstanceImageUpdaterSSHConfigResponse
+	73,  // 468: akuity.argocd.v1.ArgoCDService.UpdateInstanceResourceCustomizations:output_type -> akuity.argocd.v1.UpdateInstanceResourceCustomizationsResponse
+	231, // 469: akuity.argocd.v1.ArgoCDService.UpdateInstanceConfigManagementPlugins:output_type -> akuity.argocd.v1.UpdateInstanceConfigManagementPluginsResponse
+	75,  // 470: akuity.argocd.v1.ArgoCDService.DeleteInstance:output_type -> akuity.argocd.v1.DeleteInstanceResponse
+	308, // 471: akuity.argocd.v1.ArgoCDService.RefreshInstanceRunbookRepo:output_type -> akuity.argocd.v1.RefreshInstanceRunbookRepoResponse
+	77,  // 472: akuity.argocd.v1.ArgoCDService.ListInstanceAccounts:output_type -> akuity.argocd.v1.ListInstanceAccountsResponse
+	79,  // 473: akuity.argocd.v1.ArgoCDService.UpsertInstanceAccount:output_type -> akuity.argocd.v1.UpsertInstanceAccountResponse
+	81,  // 474: akuity.argocd.v1.ArgoCDService.UpdateInstanceAccountPassword:output_type -> akuity.argocd.v1.UpdateInstanceAccountPasswordResponse
+	83,  // 475: akuity.argocd.v1.ArgoCDService.RegenerateInstanceAccountPassword:output_type -> akuity.argocd.v1.RegenerateInstanceAccountPasswordResponse
+	85,  // 476: akuity.argocd.v1.ArgoCDService.DeleteInstanceAccount:output_type -> akuity.argocd.v1.DeleteInstanceAccountResponse
+	108, // 477: akuity.argocd.v1.ArgoCDService.ListInstanceClusters:output_type -> akuity.argocd.v1.ListInstanceClustersResponse
+	107, // 478: akuity.argocd.v1.ArgoCDService.WatchInstanceClusters:output_type -> akuity.argocd.v1.WatchInstanceClustersResponse
+	110, // 479: akuity.argocd.v1.ArgoCDService.CreateInstanceCluster:output_type -> akuity.argocd.v1.CreateInstanceClusterResponse
+	112, // 480: akuity.argocd.v1.ArgoCDService.GetClusterAPIServerCAData:output_type -> akuity.argocd.v1.GetClusterAPIServerCADataResponse
+	114, // 481: akuity.argocd.v1.ArgoCDService.GetInstanceCluster:output_type -> akuity.argocd.v1.GetInstanceClusterResponse
+	115, // 482: akuity.argocd.v1.ArgoCDService.GetInstanceClusterInfo:output_type -> akuity.argocd.v1.GetInstanceClusterInfoResponse
+	367, // 483: akuity.argocd.v1.ArgoCDService.GetInstanceClusterManifests:output_type -> google.api.HttpBody
+	120, // 484: akuity.argocd.v1.ArgoCDService.UpdateInstanceCluster:output_type -> akuity.argocd.v1.UpdateInstanceClusterResponse
+	119, // 485: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusterSupportAccess:output_type -> akuity.argocd.v1.UpdateInstanceClusterSupportAccessResponse
+	122, // 486: akuity.argocd.v1.ArgoCDService.UpdateInstanceClusters:output_type -> akuity.argocd.v1.UpdateInstanceClustersResponse
+	368, // 487: akuity.argocd.v1.ArgoCDService.UpdateInstanceClustersAgentVersion:output_type -> google.protobuf.Empty
+	129, // 488: akuity.argocd.v1.ArgoCDService.RotateInstanceClusterCredentials:output_type -> akuity.argocd.v1.RotateInstanceClusterCredentialsResponse
+	125, // 489: akuity.argocd.v1.ArgoCDService.RegenerateManifests:output_type -> akuity.argocd.v1.RegenerateManifestsResponse
+	127, // 490: akuity.argocd.v1.ArgoCDService.SetClusterMaintenanceMode:output_type -> akuity.argocd.v1.SetClusterMaintenanceModeResponse
+	131, // 491: akuity.argocd.v1.ArgoCDService.DeleteInstanceCluster:output_type -> akuity.argocd.v1.DeleteInstanceClusterResponse
+	219, // 492: akuity.argocd.v1.ArgoCDService.GetInstanceClusterCommand:output_type -> akuity.argocd.v1.GetInstanceClusterCommandResponse
+	87,  // 493: akuity.argocd.v1.ArgoCDService.GetAIAssistantUsageStats:output_type -> akuity.argocd.v1.GetAIAssistantUsageStatsResponse
+	96,  // 494: akuity.argocd.v1.ArgoCDService.GetSyncOperationsStats:output_type -> akuity.argocd.v1.GetSyncOperationsStatsResponse
+	312, // 495: akuity.argocd.v1.ArgoCDService.GetApplicationDeploymentStats:output_type -> akuity.argocd.v1.GetApplicationDeploymentStatsResponse
+	97,  // 496: akuity.argocd.v1.ArgoCDService.GetSyncOperationsEvents:output_type -> akuity.argocd.v1.GetSyncOperationsEventsResponse
+	213, // 497: akuity.argocd.v1.ArgoCDService.ApplyInstance:output_type -> akuity.argocd.v1.ApplyInstanceResponse
+	216, // 498: akuity.argocd.v1.ArgoCDService.ExportInstance:output_type -> akuity.argocd.v1.ExportInstanceResponse
+	217, // 499: akuity.argocd.v1.ArgoCDService.ExportInstanceStream:output_type -> akuity.argocd.v1.ExportInstanceStreamResponse
+	233, // 500: akuity.argocd.v1.ArgoCDService.ListInstanceAddonRepos:output_type -> akuity.argocd.v1.ListInstanceAddonReposResponse
+	235, // 501: akuity.argocd.v1.ArgoCDService.GetInstanceAddonRepo:output_type -> akuity.argocd.v1.GetInstanceAddonRepoResponse
+	237, // 502: akuity.argocd.v1.ArgoCDService.CreateInstanceAddonRepo:output_type -> akuity.argocd.v1.CreateInstanceAddonRepoResponse
+	241, // 503: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddonRepo:output_type -> akuity.argocd.v1.RefreshInstanceAddonRepoResponse
+	239, // 504: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddonRepo:output_type -> akuity.argocd.v1.DeleteInstanceAddonRepoResponse
+	251, // 505: akuity.argocd.v1.ArgoCDService.ListInstanceAddons:output_type -> akuity.argocd.v1.ListInstanceAddonsResponse
+	282, // 506: akuity.argocd.v1.ArgoCDService.ListInstanceAddonErrors:output_type -> akuity.argocd.v1.ListInstanceAddonErrorsResponse
+	246, // 507: akuity.argocd.v1.ArgoCDService.GetInstanceAddon:output_type -> akuity.argocd.v1.GetInstanceAddonResponse
+	248, // 508: akuity.argocd.v1.ArgoCDService.DeleteInstanceAddon:output_type -> akuity.argocd.v1.DeleteInstanceAddonResponse
+	259, // 509: akuity.argocd.v1.ArgoCDService.RefreshInstanceAddon:output_type -> akuity.argocd.v1.RefreshInstanceAddonResponse
+	253, // 510: akuity.argocd.v1.ArgoCDService.UpdateInstanceAddon:output_type -> akuity.argocd.v1.UpdateInstanceAddonResponse
+	255, // 511: akuity.argocd.v1.ArgoCDService.PatchInstanceAddon:output_type -> akuity.argocd.v1.PatchInstanceAddonResponse
+	257, // 512: akuity.argocd.v1.ArgoCDService.ClearAddonStatusSourceHistory:output_type -> akuity.argocd.v1.ClearAddonStatusSourceHistoryResponse
+	105, // 513: akuity.argocd.v1.ArgoCDService.WatchInstanceAddons:output_type -> akuity.argocd.v1.WatchInstanceAddonsResponse
+	106, // 514: akuity.argocd.v1.ArgoCDService.WatchInstanceAddonRepos:output_type -> akuity.argocd.v1.WatchInstanceAddonReposResponse
+	291, // 515: akuity.argocd.v1.ArgoCDService.AddonMarketplaceInstall:output_type -> akuity.argocd.v1.AddonMarketplaceInstallResponse
+	300, // 516: akuity.argocd.v1.ArgoCDService.ListAddonMarketplaceInstalls:output_type -> akuity.argocd.v1.ListAddonMarketplaceInstallsResponse
+	298, // 517: akuity.argocd.v1.ArgoCDService.WatchAddonMarketplaceInstalls:output_type -> akuity.argocd.v1.WatchAddonMarketplaceInstallsResponse
+	293, // 518: akuity.argocd.v1.ArgoCDService.UpdateAddonMarketplaceInstall:output_type -> akuity.argocd.v1.UpdateAddonMarketplaceInstallResponse
+	18,  // 519: akuity.argocd.v1.ArgoCDService.ListInstanceRepos:output_type -> akuity.argocd.v1.ListInstanceReposResponse
+	16,  // 520: akuity.argocd.v1.ArgoCDService.CreateInstanceRepo:output_type -> akuity.argocd.v1.CreateInstanceRepoResponse
+	295, // 521: akuity.argocd.v1.ArgoCDService.DeleteAddonMarketplaceInstall:output_type -> akuity.argocd.v1.DeleteAddonMarketplaceInstallResponse
+	24,  // 522: akuity.argocd.v1.ArgoCDService.ListInstanceManagedSecrets:output_type -> akuity.argocd.v1.ListInstanceManagedSecretsResponse
+	20,  // 523: akuity.argocd.v1.ArgoCDService.CreateManagedSecret:output_type -> akuity.argocd.v1.CreateManagedSecretResponse
+	22,  // 524: akuity.argocd.v1.ArgoCDService.DeleteManagedSecret:output_type -> akuity.argocd.v1.DeleteManagedSecretResponse
+	26,  // 525: akuity.argocd.v1.ArgoCDService.UpdateManagedSecret:output_type -> akuity.argocd.v1.UpdateManagedSecretResponse
+	28,  // 526: akuity.argocd.v1.ArgoCDService.PatchManagedSecret:output_type -> akuity.argocd.v1.PatchManagedSecretResponse
+	445, // [445:527] is the sub-list for method output_type
+	363, // [363:445] is the sub-list for method input_type
+	363, // [363:363] is the sub-list for extension type_name
+	363, // [363:363] is the sub-list for extension extendee
+	0,   // [0:363] is the sub-list for field type_name
 }
 
 func init() { file_argocd_v1_argocd_proto_init() }
@@ -30851,7 +31302,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[201].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ExportInstanceResponse); i {
+			switch v := v.(*ExportInstanceStreamRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30863,7 +31314,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[202].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceClusterCommandRequest); i {
+			switch v := v.(*ExportInstanceResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30875,7 +31326,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[203].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceClusterCommandResponse); i {
+			switch v := v.(*ExportInstanceStreamResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30887,7 +31338,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[204].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConfigManagementPlugin); i {
+			switch v := v.(*GetInstanceClusterCommandRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30899,7 +31350,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[205].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PluginSpec); i {
+			switch v := v.(*GetInstanceClusterCommandResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30911,7 +31362,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[206].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Command); i {
+			switch v := v.(*ConfigManagementPlugin); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30923,7 +31374,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[207].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Discover); i {
+			switch v := v.(*PluginSpec); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30935,7 +31386,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[208].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Find); i {
+			switch v := v.(*Command); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30947,7 +31398,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[209].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Parameters); i {
+			switch v := v.(*Discover); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30959,7 +31410,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[210].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Dynamic); i {
+			switch v := v.(*Find); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30971,7 +31422,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[211].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ParameterAnnouncement); i {
+			switch v := v.(*Parameters); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30983,7 +31434,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[212].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceConfigManagementPluginsRequest); i {
+			switch v := v.(*Dynamic); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -30995,7 +31446,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[213].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceConfigManagementPluginsResponse); i {
+			switch v := v.(*ParameterAnnouncement); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31007,7 +31458,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[214].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateInstanceConfigManagementPluginsRequest); i {
+			switch v := v.(*GetInstanceConfigManagementPluginsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31019,7 +31470,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[215].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateInstanceConfigManagementPluginsResponse); i {
+			switch v := v.(*GetInstanceConfigManagementPluginsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31031,7 +31482,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[216].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListInstanceAddonReposRequest); i {
+			switch v := v.(*UpdateInstanceConfigManagementPluginsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31043,7 +31494,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[217].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListInstanceAddonReposResponse); i {
+			switch v := v.(*UpdateInstanceConfigManagementPluginsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31055,7 +31506,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[218].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceAddonRepoRequest); i {
+			switch v := v.(*ListInstanceAddonReposRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31067,7 +31518,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[219].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceAddonRepoResponse); i {
+			switch v := v.(*ListInstanceAddonReposResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31079,7 +31530,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[220].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateInstanceAddonRepoRequest); i {
+			switch v := v.(*GetInstanceAddonRepoRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31091,7 +31542,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[221].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateInstanceAddonRepoResponse); i {
+			switch v := v.(*GetInstanceAddonRepoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31103,7 +31554,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[222].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteInstanceAddonRepoRequest); i {
+			switch v := v.(*CreateInstanceAddonRepoRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31115,7 +31566,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[223].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteInstanceAddonRepoResponse); i {
+			switch v := v.(*CreateInstanceAddonRepoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31127,7 +31578,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[224].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshInstanceAddonRepoRequest); i {
+			switch v := v.(*DeleteInstanceAddonRepoRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31139,7 +31590,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[225].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshInstanceAddonRepoResponse); i {
+			switch v := v.(*DeleteInstanceAddonRepoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31151,7 +31602,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[226].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonRepo); i {
+			switch v := v.(*RefreshInstanceAddonRepoRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31163,7 +31614,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[227].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RepoSpec); i {
+			switch v := v.(*RefreshInstanceAddonRepoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31175,7 +31626,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[228].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RepoStatus); i {
+			switch v := v.(*AddonRepo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31187,7 +31638,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[229].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceAddonRequest); i {
+			switch v := v.(*RepoSpec); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31199,7 +31650,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[230].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetInstanceAddonResponse); i {
+			switch v := v.(*RepoStatus); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31211,7 +31662,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[231].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteInstanceAddonRequest); i {
+			switch v := v.(*GetInstanceAddonRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31223,7 +31674,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[232].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteInstanceAddonResponse); i {
+			switch v := v.(*GetInstanceAddonResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31235,7 +31686,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[233].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonFilter); i {
+			switch v := v.(*DeleteInstanceAddonRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31247,7 +31698,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[234].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListInstanceAddonsRequest); i {
+			switch v := v.(*DeleteInstanceAddonResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31259,7 +31710,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[235].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListInstanceAddonsResponse); i {
+			switch v := v.(*AddonFilter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31271,7 +31722,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[236].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateInstanceAddonRequest); i {
+			switch v := v.(*ListInstanceAddonsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31283,7 +31734,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[237].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateInstanceAddonResponse); i {
+			switch v := v.(*ListInstanceAddonsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31295,7 +31746,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[238].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchInstanceAddonRequest); i {
+			switch v := v.(*UpdateInstanceAddonRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31307,7 +31758,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[239].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchInstanceAddonResponse); i {
+			switch v := v.(*UpdateInstanceAddonResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31319,7 +31770,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[240].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ClearAddonStatusSourceHistoryRequest); i {
+			switch v := v.(*PatchInstanceAddonRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31331,7 +31782,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[241].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ClearAddonStatusSourceHistoryResponse); i {
+			switch v := v.(*PatchInstanceAddonResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31343,7 +31794,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[242].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshInstanceAddonRequest); i {
+			switch v := v.(*ClearAddonStatusSourceHistoryRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31355,7 +31806,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[243].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshInstanceAddonResponse); i {
+			switch v := v.(*ClearAddonStatusSourceHistoryResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31367,7 +31818,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[244].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ManifestSource); i {
+			switch v := v.(*RefreshInstanceAddonRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31379,7 +31830,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[245].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*KustomizeSource); i {
+			switch v := v.(*RefreshInstanceAddonResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31391,7 +31842,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[246].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*KustomizeImage); i {
+			switch v := v.(*ManifestSource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31403,7 +31854,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[247].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*KustomizeHelmChart); i {
+			switch v := v.(*KustomizeSource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31415,7 +31866,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[248].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HelmSource); i {
+			switch v := v.(*KustomizeImage); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31427,7 +31878,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[249].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ClusterSelector); i {
+			switch v := v.(*KustomizeHelmChart); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31439,7 +31890,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[250].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Selector); i {
+			switch v := v.(*HelmSource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31451,7 +31902,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[251].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonSpec); i {
+			switch v := v.(*ClusterSelector); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31463,7 +31914,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[252].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PatchCustomization); i {
+			switch v := v.(*Selector); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31475,7 +31926,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[253].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HelmValues); i {
+			switch v := v.(*AddonSpec); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31487,7 +31938,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[254].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ChartDependency); i {
+			switch v := v.(*PatchCustomization); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31499,7 +31950,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[255].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AppCreationOptions); i {
+			switch v := v.(*HelmValues); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31511,7 +31962,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[256].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AppDeletionOptions); i {
+			switch v := v.(*ChartDependency); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31523,7 +31974,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[257].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AppSyncOptions); i {
+			switch v := v.(*AppCreationOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31535,7 +31986,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[258].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AppTemplate); i {
+			switch v := v.(*AppDeletionOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31547,7 +31998,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[259].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HelmOptions); i {
+			switch v := v.(*AppSyncOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31559,7 +32010,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[260].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*KustomizeOptions); i {
+			switch v := v.(*AppTemplate); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31571,7 +32022,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[261].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StatusSourceUpdate); i {
+			switch v := v.(*HelmOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31583,7 +32034,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[262].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SourceUpdateResult); i {
+			switch v := v.(*KustomizeOptions); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31595,7 +32046,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[263].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SourceInfo); i {
+			switch v := v.(*StatusSourceUpdate); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31607,7 +32058,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[264].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonStatus); i {
+			switch v := v.(*SourceUpdateResult); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31619,7 +32070,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[265].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListInstanceAddonErrorsRequest); i {
+			switch v := v.(*SourceInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31631,7 +32082,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[266].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListInstanceAddonErrorsResponse); i {
+			switch v := v.(*AddonStatus); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31643,7 +32094,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[267].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonErrorList); i {
+			switch v := v.(*ListInstanceAddonErrorsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31655,7 +32106,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[268].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonError); i {
+			switch v := v.(*ListInstanceAddonErrorsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31667,7 +32118,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[269].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonHealthStatus); i {
+			switch v := v.(*AddonErrorList); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31679,7 +32130,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[270].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonCondition); i {
+			switch v := v.(*AddonError); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31691,7 +32142,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[271].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ClusterAddonStatusOperation); i {
+			switch v := v.(*AddonHealthStatus); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31703,7 +32154,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[272].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StatusOperation); i {
+			switch v := v.(*AddonCondition); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31715,7 +32166,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[273].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Addon); i {
+			switch v := v.(*ClusterAddonStatusOperation); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31727,7 +32178,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[274].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonMarketplaceInstallRequest); i {
+			switch v := v.(*StatusOperation); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31739,7 +32190,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[275].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonMarketplaceInstallResponse); i {
+			switch v := v.(*Addon); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31751,7 +32202,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[276].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateAddonMarketplaceInstallRequest); i {
+			switch v := v.(*AddonMarketplaceInstallRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31763,7 +32214,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[277].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateAddonMarketplaceInstallResponse); i {
+			switch v := v.(*AddonMarketplaceInstallResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31775,7 +32226,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[278].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteAddonMarketplaceInstallRequest); i {
+			switch v := v.(*UpdateAddonMarketplaceInstallRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31787,7 +32238,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[279].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteAddonMarketplaceInstallResponse); i {
+			switch v := v.(*UpdateAddonMarketplaceInstallResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31799,7 +32250,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[280].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListAddonMarketplaceInstallsRequest); i {
+			switch v := v.(*DeleteAddonMarketplaceInstallRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31811,7 +32262,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[281].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WatchAddonMarketplaceInstallsRequest); i {
+			switch v := v.(*DeleteAddonMarketplaceInstallResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31823,7 +32274,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[282].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WatchAddonMarketplaceInstallsResponse); i {
+			switch v := v.(*ListAddonMarketplaceInstallsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31835,7 +32286,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[283].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonMarketplaceInstallFilter); i {
+			switch v := v.(*WatchAddonMarketplaceInstallsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31847,7 +32298,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[284].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListAddonMarketplaceInstallsResponse); i {
+			switch v := v.(*WatchAddonMarketplaceInstallsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31859,7 +32310,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[285].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonMarketplaceInstall); i {
+			switch v := v.(*AddonMarketplaceInstallFilter); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31871,7 +32322,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[286].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonMarketplaceInstallConfig); i {
+			switch v := v.(*ListAddonMarketplaceInstallsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31883,7 +32334,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[287].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonMarketplaceInstallOverrides); i {
+			switch v := v.(*AddonMarketplaceInstall); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31895,7 +32346,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[288].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*HelmChartInstallConfig); i {
+			switch v := v.(*AddonMarketplaceInstallConfig); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31907,7 +32358,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[289].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonMarketplaceStatus); i {
+			switch v := v.(*AddonMarketplaceInstallOverrides); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31919,7 +32370,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[290].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddonEvent); i {
+			switch v := v.(*HelmChartInstallConfig); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31931,7 +32382,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[291].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshInstanceRunbookRepoRequest); i {
+			switch v := v.(*AddonMarketplaceStatus); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31943,7 +32394,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[292].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshInstanceRunbookRepoResponse); i {
+			switch v := v.(*AddonEvent); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31955,7 +32406,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[293].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ApplicationDeploymentStatsEntry); i {
+			switch v := v.(*RefreshInstanceRunbookRepoRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31967,7 +32418,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[294].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SyncPhaseSummary); i {
+			switch v := v.(*RefreshInstanceRunbookRepoResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31979,7 +32430,7 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[295].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetApplicationDeploymentStatsRequest); i {
+			switch v := v.(*ApplicationDeploymentStatsEntry); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -31991,6 +32442,30 @@ func file_argocd_v1_argocd_proto_init() {
 			}
 		}
 		file_argocd_v1_argocd_proto_msgTypes[296].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SyncPhaseSummary); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_argocd_v1_argocd_proto_msgTypes[297].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetApplicationDeploymentStatsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_argocd_v1_argocd_proto_msgTypes[298].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetApplicationDeploymentStatsResponse); i {
 			case 0:
 				return &v.state
@@ -32002,7 +32477,7 @@ func file_argocd_v1_argocd_proto_init() {
 				return nil
 			}
 		}
-		file_argocd_v1_argocd_proto_msgTypes[308].Exporter = func(v interface{}, i int) interface{} {
+		file_argocd_v1_argocd_proto_msgTypes[310].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PatchInstanceSecretRequest_ValueField); i {
 			case 0:
 				return &v.state
@@ -32014,7 +32489,7 @@ func file_argocd_v1_argocd_proto_init() {
 				return nil
 			}
 		}
-		file_argocd_v1_argocd_proto_msgTypes[310].Exporter = func(v interface{}, i int) interface{} {
+		file_argocd_v1_argocd_proto_msgTypes[312].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PatchInstanceNotificationSecretRequest_ValueField); i {
 			case 0:
 				return &v.state
@@ -32026,7 +32501,7 @@ func file_argocd_v1_argocd_proto_init() {
 				return nil
 			}
 		}
-		file_argocd_v1_argocd_proto_msgTypes[312].Exporter = func(v interface{}, i int) interface{} {
+		file_argocd_v1_argocd_proto_msgTypes[314].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PatchInstanceImageUpdaterSecretRequest_ValueField); i {
 			case 0:
 				return &v.state
@@ -32038,7 +32513,7 @@ func file_argocd_v1_argocd_proto_init() {
 				return nil
 			}
 		}
-		file_argocd_v1_argocd_proto_msgTypes[314].Exporter = func(v interface{}, i int) interface{} {
+		file_argocd_v1_argocd_proto_msgTypes[316].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*PatchInstanceAppsetSecretRequest_ValueField); i {
 			case 0:
 				return &v.state
@@ -32095,34 +32570,50 @@ func file_argocd_v1_argocd_proto_init() {
 	file_argocd_v1_argocd_proto_msgTypes[188].OneofWrappers = []interface{}{}
 	file_argocd_v1_argocd_proto_msgTypes[195].OneofWrappers = []interface{}{}
 	file_argocd_v1_argocd_proto_msgTypes[196].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[202].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[216].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[226].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[233].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[234].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[244].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[250].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[251].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[254].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[258].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[263].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[203].OneofWrappers = []interface{}{
+		(*ExportInstanceStreamResponse_Argocd)(nil),
+		(*ExportInstanceStreamResponse_ArgocdConfigmap)(nil),
+		(*ExportInstanceStreamResponse_ArgocdRbacConfigmap)(nil),
+		(*ExportInstanceStreamResponse_NotificationsConfigmap)(nil),
+		(*ExportInstanceStreamResponse_ImageUpdaterConfigmap)(nil),
+		(*ExportInstanceStreamResponse_ImageUpdaterSshConfigmap)(nil),
+		(*ExportInstanceStreamResponse_Cluster)(nil),
+		(*ExportInstanceStreamResponse_ArgocdKnownHostsConfigmap)(nil),
+		(*ExportInstanceStreamResponse_ArgocdTlsCertsConfigmap)(nil),
+		(*ExportInstanceStreamResponse_ConfigManagementPlugin)(nil),
+		(*ExportInstanceStreamResponse_Application)(nil),
+		(*ExportInstanceStreamResponse_ApplicationSet)(nil),
+		(*ExportInstanceStreamResponse_AppProject)(nil),
+		(*ExportInstanceStreamResponse_ImageUpdater)(nil),
+	}
+	file_argocd_v1_argocd_proto_msgTypes[204].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[218].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[228].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[235].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[236].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[246].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[252].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[253].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[256].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[260].OneofWrappers = []interface{}{}
 	file_argocd_v1_argocd_proto_msgTypes[265].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[273].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[280].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[283].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[267].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[275].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[282].OneofWrappers = []interface{}{}
 	file_argocd_v1_argocd_proto_msgTypes[285].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[295].OneofWrappers = []interface{}{}
-	file_argocd_v1_argocd_proto_msgTypes[308].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[287].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[297].OneofWrappers = []interface{}{}
 	file_argocd_v1_argocd_proto_msgTypes[310].OneofWrappers = []interface{}{}
 	file_argocd_v1_argocd_proto_msgTypes[312].OneofWrappers = []interface{}{}
 	file_argocd_v1_argocd_proto_msgTypes[314].OneofWrappers = []interface{}{}
+	file_argocd_v1_argocd_proto_msgTypes[316].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_argocd_v1_argocd_proto_rawDesc,
 			NumEnums:      14,
-			NumMessages:   341,
+			NumMessages:   343,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

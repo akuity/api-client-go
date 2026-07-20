@@ -43,6 +43,8 @@ const (
 	KargoService_GetPromotionStats_FullMethodName              = "/akuity.kargo.v1.KargoService/GetPromotionStats"
 	KargoService_GetPromotionEvents_FullMethodName             = "/akuity.kargo.v1.KargoService/GetPromotionEvents"
 	KargoService_GetStageSpecificStats_FullMethodName          = "/akuity.kargo.v1.KargoService/GetStageSpecificStats"
+	KargoService_GetPromotionBreakdown_FullMethodName          = "/akuity.kargo.v1.KargoService/GetPromotionBreakdown"
+	KargoService_GetPromotionFailureReasons_FullMethodName     = "/akuity.kargo.v1.KargoService/GetPromotionFailureReasons"
 	KargoService_ApplyKargoInstance_FullMethodName             = "/akuity.kargo.v1.KargoService/ApplyKargoInstance"
 	KargoService_ExportKargoInstance_FullMethodName            = "/akuity.kargo.v1.KargoService/ExportKargoInstance"
 )
@@ -76,6 +78,8 @@ type KargoServiceClient interface {
 	GetPromotionStats(ctx context.Context, in *GetPromotionStatsRequest, opts ...grpc.CallOption) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(ctx context.Context, in *GetPromotionEventsRequest, opts ...grpc.CallOption) (*GetPromotionEventsResponse, error)
 	GetStageSpecificStats(ctx context.Context, in *GetStageSpecificStatsRequest, opts ...grpc.CallOption) (*GetStageSpecificStatsResponse, error)
+	GetPromotionBreakdown(ctx context.Context, in *GetPromotionBreakdownRequest, opts ...grpc.CallOption) (*GetPromotionBreakdownResponse, error)
+	GetPromotionFailureReasons(ctx context.Context, in *GetPromotionFailureReasonsRequest, opts ...grpc.CallOption) (*GetPromotionFailureReasonsResponse, error)
 	ApplyKargoInstance(ctx context.Context, in *ApplyKargoInstanceRequest, opts ...grpc.CallOption) (*ApplyKargoInstanceResponse, error)
 	ExportKargoInstance(ctx context.Context, in *ExportKargoInstanceRequest, opts ...grpc.CallOption) (*ExportKargoInstanceResponse, error)
 }
@@ -364,6 +368,24 @@ func (c *kargoServiceClient) GetStageSpecificStats(ctx context.Context, in *GetS
 	return out, nil
 }
 
+func (c *kargoServiceClient) GetPromotionBreakdown(ctx context.Context, in *GetPromotionBreakdownRequest, opts ...grpc.CallOption) (*GetPromotionBreakdownResponse, error) {
+	out := new(GetPromotionBreakdownResponse)
+	err := c.cc.Invoke(ctx, KargoService_GetPromotionBreakdown_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) GetPromotionFailureReasons(ctx context.Context, in *GetPromotionFailureReasonsRequest, opts ...grpc.CallOption) (*GetPromotionFailureReasonsResponse, error) {
+	out := new(GetPromotionFailureReasonsResponse)
+	err := c.cc.Invoke(ctx, KargoService_GetPromotionFailureReasons_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *kargoServiceClient) ApplyKargoInstance(ctx context.Context, in *ApplyKargoInstanceRequest, opts ...grpc.CallOption) (*ApplyKargoInstanceResponse, error) {
 	out := new(ApplyKargoInstanceResponse)
 	err := c.cc.Invoke(ctx, KargoService_ApplyKargoInstance_FullMethodName, in, out, opts...)
@@ -411,6 +433,8 @@ type KargoServiceServer interface {
 	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
 	GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error)
+	GetPromotionBreakdown(context.Context, *GetPromotionBreakdownRequest) (*GetPromotionBreakdownResponse, error)
+	GetPromotionFailureReasons(context.Context, *GetPromotionFailureReasonsRequest) (*GetPromotionFailureReasonsResponse, error)
 	ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error)
 	ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error)
 	mustEmbedUnimplementedKargoServiceServer()
@@ -488,6 +512,12 @@ func (UnimplementedKargoServiceServer) GetPromotionEvents(context.Context, *GetP
 }
 func (UnimplementedKargoServiceServer) GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStageSpecificStats not implemented")
+}
+func (UnimplementedKargoServiceServer) GetPromotionBreakdown(context.Context, *GetPromotionBreakdownRequest) (*GetPromotionBreakdownResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPromotionBreakdown not implemented")
+}
+func (UnimplementedKargoServiceServer) GetPromotionFailureReasons(context.Context, *GetPromotionFailureReasonsRequest) (*GetPromotionFailureReasonsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPromotionFailureReasons not implemented")
 }
 func (UnimplementedKargoServiceServer) ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ApplyKargoInstance not implemented")
@@ -931,6 +961,42 @@ func _KargoService_GetStageSpecificStats_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KargoService_GetPromotionBreakdown_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPromotionBreakdownRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetPromotionBreakdown(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetPromotionBreakdown_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetPromotionBreakdown(ctx, req.(*GetPromotionBreakdownRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_GetPromotionFailureReasons_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPromotionFailureReasonsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetPromotionFailureReasons(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetPromotionFailureReasons_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetPromotionFailureReasons(ctx, req.(*GetPromotionFailureReasonsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _KargoService_ApplyKargoInstance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ApplyKargoInstanceRequest)
 	if err := dec(in); err != nil {
@@ -1053,6 +1119,14 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStageSpecificStats",
 			Handler:    _KargoService_GetStageSpecificStats_Handler,
+		},
+		{
+			MethodName: "GetPromotionBreakdown",
+			Handler:    _KargoService_GetPromotionBreakdown_Handler,
+		},
+		{
+			MethodName: "GetPromotionFailureReasons",
+			Handler:    _KargoService_GetPromotionFailureReasons_Handler,
 		},
 		{
 			MethodName: "ApplyKargoInstance",

@@ -38,6 +38,8 @@ type KargoServiceGatewayClient interface {
 	GetPromotionStats(context.Context, *GetPromotionStatsRequest) (*GetPromotionStatsResponse, error)
 	GetPromotionEvents(context.Context, *GetPromotionEventsRequest) (*GetPromotionEventsResponse, error)
 	GetStageSpecificStats(context.Context, *GetStageSpecificStatsRequest) (*GetStageSpecificStatsResponse, error)
+	GetPromotionBreakdown(context.Context, *GetPromotionBreakdownRequest) (*GetPromotionBreakdownResponse, error)
+	GetPromotionFailureReasons(context.Context, *GetPromotionFailureReasonsRequest) (*GetPromotionFailureReasonsResponse, error)
 	ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error)
 	ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error)
 }
@@ -359,6 +361,20 @@ func (c *kargoServiceGatewayClient) GetStageSpecificStats(ctx context.Context, r
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[GetStageSpecificStatsResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetPromotionBreakdown(ctx context.Context, req *GetPromotionBreakdownRequest) (*GetPromotionBreakdownResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/promotions-breakdown")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetPromotionBreakdownResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetPromotionFailureReasons(ctx context.Context, req *GetPromotionFailureReasonsRequest) (*GetPromotionFailureReasonsResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/kargo/instances/promotions-failure-reasons")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[GetPromotionFailureReasonsResponse](ctx, gwReq)
 }
 
 func (c *kargoServiceGatewayClient) ApplyKargoInstance(ctx context.Context, req *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error) {
