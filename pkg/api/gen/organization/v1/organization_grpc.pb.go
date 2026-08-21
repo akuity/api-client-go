@@ -175,6 +175,7 @@ const (
 	OrganizationService_UninstallMCPServer_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UninstallMCPServer"
 	OrganizationService_ListManagedMCPServers_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListManagedMCPServers"
 	OrganizationService_DiscoverMCPServerTools_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DiscoverMCPServerTools"
+	OrganizationService_BeginMCPServerOAuth_FullMethodName                    = "/akuity.organization.v1.OrganizationService/BeginMCPServerOAuth"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -201,6 +202,8 @@ type OrganizationServiceClient interface {
 	CreateOrganizationAPIKey(ctx context.Context, in *CreateOrganizationAPIKeyRequest, opts ...grpc.CallOption) (*CreateOrganizationAPIKeyResponse, error)
 	ListWorkspaceAPIKeys(ctx context.Context, in *ListWorkspaceAPIKeysRequest, opts ...grpc.CallOption) (*ListWorkspaceAPIKeysResponse, error)
 	CreateWorkspaceAPIKey(ctx context.Context, in *CreateWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*CreateWorkspaceAPIKeyResponse, error)
+	// Lists an organization's audit log: who changed what, and when.
+	// Newest first; page with filters.limit (default 10, max 1000) and filters.offset.
 	GetAuditLogs(ctx context.Context, in *GetAuditLogsRequest, opts ...grpc.CallOption) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(ctx context.Context, in *ListAuditLogsArchivesRequest, opts ...grpc.CallOption) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -359,6 +362,7 @@ type OrganizationServiceClient interface {
 	UninstallMCPServer(ctx context.Context, in *UninstallMCPServerRequest, opts ...grpc.CallOption) (*UninstallMCPServerResponse, error)
 	ListManagedMCPServers(ctx context.Context, in *ListManagedMCPServersRequest, opts ...grpc.CallOption) (*ListManagedMCPServersResponse, error)
 	DiscoverMCPServerTools(ctx context.Context, in *DiscoverMCPServerToolsRequest, opts ...grpc.CallOption) (*DiscoverMCPServerToolsResponse, error)
+	BeginMCPServerOAuth(ctx context.Context, in *BeginMCPServerOAuthRequest, opts ...grpc.CallOption) (*BeginMCPServerOAuthResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -1948,6 +1952,15 @@ func (c *organizationServiceClient) DiscoverMCPServerTools(ctx context.Context, 
 	return out, nil
 }
 
+func (c *organizationServiceClient) BeginMCPServerOAuth(ctx context.Context, in *BeginMCPServerOAuthRequest, opts ...grpc.CallOption) (*BeginMCPServerOAuthResponse, error) {
+	out := new(BeginMCPServerOAuthResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_BeginMCPServerOAuth_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility
@@ -1972,6 +1985,8 @@ type OrganizationServiceServer interface {
 	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
 	ListWorkspaceAPIKeys(context.Context, *ListWorkspaceAPIKeysRequest) (*ListWorkspaceAPIKeysResponse, error)
 	CreateWorkspaceAPIKey(context.Context, *CreateWorkspaceAPIKeyRequest) (*CreateWorkspaceAPIKeyResponse, error)
+	// Lists an organization's audit log: who changed what, and when.
+	// Newest first; page with filters.limit (default 10, max 1000) and filters.offset.
 	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -2130,6 +2145,7 @@ type OrganizationServiceServer interface {
 	UninstallMCPServer(context.Context, *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error)
 	ListManagedMCPServers(context.Context, *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error)
 	DiscoverMCPServerTools(context.Context, *DiscoverMCPServerToolsRequest) (*DiscoverMCPServerToolsResponse, error)
+	BeginMCPServerOAuth(context.Context, *BeginMCPServerOAuthRequest) (*BeginMCPServerOAuthResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -2601,6 +2617,9 @@ func (UnimplementedOrganizationServiceServer) ListManagedMCPServers(context.Cont
 }
 func (UnimplementedOrganizationServiceServer) DiscoverMCPServerTools(context.Context, *DiscoverMCPServerToolsRequest) (*DiscoverMCPServerToolsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DiscoverMCPServerTools not implemented")
+}
+func (UnimplementedOrganizationServiceServer) BeginMCPServerOAuth(context.Context, *BeginMCPServerOAuthRequest) (*BeginMCPServerOAuthResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BeginMCPServerOAuth not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 
@@ -5429,6 +5448,24 @@ func _OrganizationService_DiscoverMCPServerTools_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_BeginMCPServerOAuth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BeginMCPServerOAuthRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).BeginMCPServerOAuth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_BeginMCPServerOAuth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).BeginMCPServerOAuth(ctx, req.(*BeginMCPServerOAuthRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -6023,6 +6060,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DiscoverMCPServerTools",
 			Handler:    _OrganizationService_DiscoverMCPServerTools_Handler,
+		},
+		{
+			MethodName: "BeginMCPServerOAuth",
+			Handler:    _OrganizationService_BeginMCPServerOAuth_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

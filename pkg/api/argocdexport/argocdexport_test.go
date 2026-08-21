@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	argocdv1 "github.com/akuity/api-client-go/pkg/api/gen/argocd/v1"
@@ -220,4 +221,62 @@ func Test_ExportInstance_FallbackPropagatesUnaryError(t *testing.T) {
 	require.ErrorIs(t, err, unaryErr)
 	require.Nil(t, res)
 	require.True(t, c.unaryCalled)
+}
+
+// Test_StreamResponseFieldParity is the drift guard between the unary and streaming
+// response shapes: every ExportInstanceResponse field must have a same-numbered
+// google.protobuf.Struct variant in the ExportInstanceStreamResponse `resource`
+// oneof, and vice versa. A developer adding a resource to the unary response
+// cannot pass CI without adding the streaming variant.
+func Test_StreamResponseFieldParity(t *testing.T) {
+	unary := (&argocdv1.ExportInstanceResponse{}).ProtoReflect().Descriptor()
+	stream := (&argocdv1.ExportInstanceStreamResponse{}).ProtoReflect().Descriptor()
+	oneof := stream.Oneofs().ByName("resource")
+	require.NotNil(t, oneof)
+
+	const structType = protoreflect.FullName("google.protobuf.Struct")
+
+	for i := 0; i < unary.Fields().Len(); i++ {
+		fd := unary.Fields().Get(i)
+		require.Equal(t, protoreflect.MessageKind, fd.Kind(), "unary field %s must be a Struct", fd.Name())
+		require.Equal(t, structType, fd.Message().FullName(), "unary field %s must be a Struct", fd.Name())
+		variant := stream.Fields().ByNumber(fd.Number())
+		require.NotNil(t, variant,
+			"unary field %s (#%d) has no stream oneof variant — add it to ExportInstanceStreamResponse and a case to AppendStreamResponse",
+			fd.Name(), fd.Number())
+		require.NotNil(t, variant.ContainingOneof(), "stream field %s must live in the resource oneof", variant.Name())
+		require.Equal(t, protoreflect.Name("resource"), variant.ContainingOneof().Name())
+		require.Equal(t, structType, variant.Message().FullName())
+	}
+	for i := 0; i < oneof.Fields().Len(); i++ {
+		fd := oneof.Fields().Get(i)
+		require.NotNil(t, unary.Fields().ByNumber(fd.Number()),
+			"stream variant %s (#%d) has no matching unary field", fd.Name(), fd.Number())
+	}
+	require.Equal(t, unary.Fields().Len(), oneof.Fields().Len())
+}
+
+// Test_AppendStreamResponse_CoversEveryVariant is the fold drift guard: every oneof
+// variant, set via reflection, must populate the same-numbered unary field. A
+// developer adding a variant but forgetting the AppendStreamResponse case fails here.
+func Test_AppendStreamResponse_CoversEveryVariant(t *testing.T) {
+	desc := (&argocdv1.ExportInstanceStreamResponse{}).ProtoReflect().Descriptor()
+	oneof := desc.Oneofs().ByName("resource")
+	require.NotNil(t, oneof)
+
+	for i := 0; i < oneof.Fields().Len(); i++ {
+		fd := oneof.Fields().Get(i)
+		t.Run(string(fd.Name()), func(t *testing.T) {
+			msg := &argocdv1.ExportInstanceStreamResponse{}
+			msg.ProtoReflect().Set(fd, protoreflect.ValueOfMessage(mkStruct(t, "sentinel").ProtoReflect()))
+
+			res := &argocdv1.ExportInstanceResponse{}
+			AppendStreamResponse(res, msg)
+
+			unaryFd := res.ProtoReflect().Descriptor().Fields().ByNumber(fd.Number())
+			require.NotNil(t, unaryFd, "no unary field #%d — field parity is broken", fd.Number())
+			require.True(t, res.ProtoReflect().Has(unaryFd),
+				"AppendStreamResponse dropped variant %s — add its case to the switch", fd.Name())
+		})
+	}
 }

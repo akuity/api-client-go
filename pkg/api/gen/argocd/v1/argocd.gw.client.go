@@ -16,6 +16,8 @@ import (
 type ArgoCDServiceGatewayClient interface {
 	// Deprecated: use akuity.system.v1.SystemService.ListArgoCDVersions.
 	ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error)
+	// Lists the Argo CD instances in an organization.
+	// Each instance includes its ID, name, hostname, version, cluster count, and health and reconciliation status.
 	ListInstances(context.Context, *ListInstancesRequest) (*ListInstancesResponse, error)
 	WatchInstances(context.Context, *WatchInstancesRequest) (<-chan *WatchInstancesResponse, <-chan error, error)
 	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
@@ -62,6 +64,7 @@ type ArgoCDServiceGatewayClient interface {
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusterSupportAccess(context.Context, *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
+	UpdateInstancesMCP(context.Context, *UpdateInstancesMCPRequest) (*UpdateInstancesMCPResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
@@ -80,7 +83,7 @@ type ArgoCDServiceGatewayClient interface {
 	// same set of resources, one resource per message, so neither the server nor
 	// the wire has to hold the entire export in memory at once. This is the
 	// preferred API for large instances; ExportInstance is kept for backward
-	// compatibility. See https://github.com/akuityio/akuity-platform/issues/3754
+	// compatibility.
 	ExportInstanceStream(context.Context, *ExportInstanceStreamRequest) (<-chan *ExportInstanceStreamResponse, <-chan error, error)
 	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
@@ -616,6 +619,13 @@ func (c *argoCDServiceGatewayClient) UpdateInstanceClusters(ctx context.Context,
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateInstanceClustersResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstancesMCP(ctx context.Context, req *UpdateInstancesMCPRequest) (*UpdateInstancesMCPResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/argocd/instances/mcp-access")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstancesMCPResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) UpdateInstanceClustersAgentVersion(ctx context.Context, req *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error) {

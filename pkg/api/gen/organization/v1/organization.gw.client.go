@@ -33,6 +33,8 @@ type OrganizationServiceGatewayClient interface {
 	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
 	ListWorkspaceAPIKeys(context.Context, *ListWorkspaceAPIKeysRequest) (*ListWorkspaceAPIKeysResponse, error)
 	CreateWorkspaceAPIKey(context.Context, *CreateWorkspaceAPIKeyRequest) (*CreateWorkspaceAPIKeyResponse, error)
+	// Lists an organization's audit log: who changed what, and when.
+	// Newest first; page with filters.limit (default 10, max 1000) and filters.offset.
 	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -191,6 +193,7 @@ type OrganizationServiceGatewayClient interface {
 	UninstallMCPServer(context.Context, *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error)
 	ListManagedMCPServers(context.Context, *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error)
 	DiscoverMCPServerTools(context.Context, *DiscoverMCPServerToolsRequest) (*DiscoverMCPServerToolsResponse, error)
+	BeginMCPServerOAuth(context.Context, *BeginMCPServerOAuthRequest) (*BeginMCPServerOAuthResponse, error)
 }
 
 func NewOrganizationServiceGatewayClient(c gateway.Client) OrganizationServiceGatewayClient {
@@ -3430,4 +3433,12 @@ func (c *organizationServiceGatewayClient) DiscoverMCPServerTools(ctx context.Co
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[DiscoverMCPServerToolsResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) BeginMCPServerOAuth(ctx context.Context, req *BeginMCPServerOAuthRequest) (*BeginMCPServerOAuthResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/mcp-servers/{id}/oauth/begin")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[BeginMCPServerOAuthResponse](ctx, gwReq)
 }

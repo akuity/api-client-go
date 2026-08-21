@@ -7,18 +7,21 @@ import (
 )
 
 const (
-	platformMetadataKey     = "x-platform"
-	apiKeyIDMetadataKey     = "x-akuity-api-key-id"
-	apiKeySecretMetadataKey = "x-akuity-api-key-secret"
-	userTokenMetadataKey    = "x-akuity-user-token"
-	argocdTokenMetadataKey  = "x-argocd-token"
-	kargoTokenMetadataKey   = "x-kargo-token"
-	requestIDMetadataKey    = "x-request-id"
-	requestURLMetadataKey   = "x-request-url"
-	refreshTokenMetadataKey = "x-refresh-token"
-	trustedPlatformHeader   = "x-trusted-platform-header"
+	platformMetadataKey      = "x-platform"
+	apiKeyIDMetadataKey      = "x-akuity-api-key-id"
+	apiKeySecretMetadataKey  = "x-akuity-api-key-secret"
+	userTokenMetadataKey     = "x-akuity-user-token"
+	argocdTokenMetadataKey   = "x-argocd-token"
+	kargoTokenMetadataKey    = "x-kargo-token"
+	requestIDMetadataKey     = "x-request-id"
+	requestURLMetadataKey    = "x-request-url"
+	refreshTokenMetadataKey  = "x-refresh-token"
+	trustedPlatformHeader    = "x-trusted-platform-header"
+	requestOriginMetadataKey = "x-akuity-request-origin"
 
 	UserTokenHeader = userTokenMetadataKey
+
+	RequestOriginMCP = "mcp"
 )
 
 var allowedHeaders = map[string]bool{
@@ -123,6 +126,18 @@ func GetKargoToken(md metadata.MD) (string, bool) {
 
 func SetKargoToken(md metadata.MD, token string) {
 	md.Set(kargoTokenMetadataKey, token)
+}
+
+func SetRequestOrigin(md metadata.MD, origin string) {
+	md.Set(requestOriginMetadataKey, origin)
+}
+
+func GetRequestOrigin(md metadata.MD) (string, bool) {
+	v := md.Get(requestOriginMetadataKey)
+	if len(v) == 0 {
+		return "", false
+	}
+	return v[0], true
 }
 
 func GetRequestID(md metadata.MD) (string, bool) {

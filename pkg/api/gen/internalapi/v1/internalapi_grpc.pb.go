@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	InternalApiService_ListUserOrganizations_FullMethodName = "/akuity.internalapi.v1.InternalApiService/ListUserOrganizations"
+	InternalApiService_Ping_FullMethodName                  = "/akuity.internalapi.v1.InternalApiService/Ping"
 )
 
 // InternalApiServiceClient is the client API for InternalApiService service.
@@ -27,6 +28,10 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type InternalApiServiceClient interface {
 	ListUserOrganizations(ctx context.Context, in *ListUserOrganizationsRequest, opts ...grpc.CallOption) (*ListUserOrganizationsResponse, error)
+	// Ping is used to heartbeat a remote region's internal API. Unlike grpc.health.v1.Health,
+	// its method path is namespaced under this service so it is covered by the same
+	// ingress routing rule as the rest of the internal API.
+	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 }
 
 type internalApiServiceClient struct {
@@ -46,11 +51,24 @@ func (c *internalApiServiceClient) ListUserOrganizations(ctx context.Context, in
 	return out, nil
 }
 
+func (c *internalApiServiceClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+	out := new(PingResponse)
+	err := c.cc.Invoke(ctx, InternalApiService_Ping_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InternalApiServiceServer is the server API for InternalApiService service.
 // All implementations must embed UnimplementedInternalApiServiceServer
 // for forward compatibility
 type InternalApiServiceServer interface {
 	ListUserOrganizations(context.Context, *ListUserOrganizationsRequest) (*ListUserOrganizationsResponse, error)
+	// Ping is used to heartbeat a remote region's internal API. Unlike grpc.health.v1.Health,
+	// its method path is namespaced under this service so it is covered by the same
+	// ingress routing rule as the rest of the internal API.
+	Ping(context.Context, *PingRequest) (*PingResponse, error)
 	mustEmbedUnimplementedInternalApiServiceServer()
 }
 
@@ -60,6 +78,9 @@ type UnimplementedInternalApiServiceServer struct {
 
 func (UnimplementedInternalApiServiceServer) ListUserOrganizations(context.Context, *ListUserOrganizationsRequest) (*ListUserOrganizationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUserOrganizations not implemented")
+}
+func (UnimplementedInternalApiServiceServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
 func (UnimplementedInternalApiServiceServer) mustEmbedUnimplementedInternalApiServiceServer() {}
 
@@ -92,6 +113,24 @@ func _InternalApiService_ListUserOrganizations_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _InternalApiService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InternalApiServiceServer).Ping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: InternalApiService_Ping_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InternalApiServiceServer).Ping(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // InternalApiService_ServiceDesc is the grpc.ServiceDesc for InternalApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -102,6 +141,10 @@ var InternalApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUserOrganizations",
 			Handler:    _InternalApiService_ListUserOrganizations_Handler,
+		},
+		{
+			MethodName: "Ping",
+			Handler:    _InternalApiService_Ping_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

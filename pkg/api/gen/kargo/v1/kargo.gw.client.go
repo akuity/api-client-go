@@ -24,6 +24,7 @@ type KargoServiceGatewayClient interface {
 	CreateKargoInstanceAgent(context.Context, *CreateKargoInstanceAgentRequest) (*CreateKargoInstanceAgentResponse, error)
 	UpdateKargoInstanceAgent(context.Context, *UpdateKargoInstanceAgentRequest) (*UpdateKargoInstanceAgentResponse, error)
 	UpdateKargoInstanceAgents(context.Context, *UpdateKargoInstanceAgentsRequest) (*UpdateKargoInstanceAgentsResponse, error)
+	UpdateKargoInstancesMCP(context.Context, *UpdateKargoInstancesMCPRequest) (*UpdateKargoInstancesMCPResponse, error)
 	GetKargoInstanceAgent(context.Context, *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -42,6 +43,12 @@ type KargoServiceGatewayClient interface {
 	GetPromotionFailureReasons(context.Context, *GetPromotionFailureReasonsRequest) (*GetPromotionFailureReasonsResponse, error)
 	ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error)
 	ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error)
+	// ExportKargoInstanceStream is the streaming variant of ExportKargoInstance.
+	// It emits the same set of resources, one resource per message, so neither
+	// the server nor the wire has to hold the entire export in memory at once.
+	// This is the preferred API for large instances; ExportKargoInstance is kept
+	// for backward compatibility.
+	ExportKargoInstanceStream(context.Context, *ExportKargoInstanceStreamRequest) (<-chan *ExportKargoInstanceStreamResponse, <-chan error, error)
 }
 
 func NewKargoServiceGatewayClient(c gateway.Client) KargoServiceGatewayClient {
@@ -252,6 +259,13 @@ func (c *kargoServiceGatewayClient) UpdateKargoInstanceAgents(ctx context.Contex
 	return gateway.DoRequest[UpdateKargoInstanceAgentsResponse](ctx, gwReq)
 }
 
+func (c *kargoServiceGatewayClient) UpdateKargoInstancesMCP(ctx context.Context, req *UpdateKargoInstancesMCPRequest) (*UpdateKargoInstancesMCPResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/kargo/instances/mcp-access")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateKargoInstancesMCPResponse](ctx, gwReq)
+}
+
 func (c *kargoServiceGatewayClient) GetKargoInstanceAgent(ctx context.Context, req *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{instance_id}/agents/{id}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -392,4 +406,12 @@ func (c *kargoServiceGatewayClient) ExportKargoInstance(ctx context.Context, req
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
 	return gateway.DoRequest[ExportKargoInstanceResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) ExportKargoInstanceStream(ctx context.Context, req *ExportKargoInstanceStreamRequest) (<-chan *ExportKargoInstanceStreamResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/workspaces/{workspace_id}/kargo/instances/{id}/export")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	return gateway.DoStreamingRequest[ExportKargoInstanceStreamResponse](ctx, c.gwc, gwReq)
 }

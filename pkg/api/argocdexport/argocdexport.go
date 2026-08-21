@@ -1,8 +1,7 @@
 // Package argocdexport holds helpers shared by the ArgoCD export API server and
 // its clients (the akuity CLI and the Terraform provider) for translating between
 // the streamed, one-resource-per-message ExportInstanceStreamResponse and the
-// aggregated ExportInstanceResponse. See
-// https://github.com/akuityio/akuity-platform/issues/3754.
+// aggregated ExportInstanceResponse.
 package argocdexport
 
 import (
@@ -57,7 +56,7 @@ func AppendStreamResponse(res *argocdv1.ExportInstanceResponse, msg *argocdv1.Ex
 // TODO(export-stream): the unary method, the fallback in ExportInstance, and
 // streamEndpointUnsupported exist only for servers that predate the streaming
 // endpoint. Delete them once the minimum supported server version serves
-// streaming (https://github.com/akuityio/akuity-platform/issues/3754).
+// streaming.
 type ExportClient interface {
 	ExportInstance(context.Context, *argocdv1.ExportInstanceRequest) (*argocdv1.ExportInstanceResponse, error)
 	ExportInstanceStream(context.Context, *argocdv1.ExportInstanceStreamRequest) (<-chan *argocdv1.ExportInstanceStreamResponse, <-chan error, error)
@@ -65,15 +64,14 @@ type ExportClient interface {
 
 // ExportInstance calls the streaming export RPC and reassembles the chunks into
 // a single ExportInstanceResponse, giving callers (the CLI export/diff commands,
-// the Terraform provider) the unary response shape without its message-size
-// ceiling (20MB on the server's internal gateway-to-gRPC hop, see
-// https://github.com/akuityio/akuity-platform/issues/3639). It accepts the unary
-// request type so callers keep building the request they always did.
+// the Terraform provider) the unary response shape without the unary RPC's
+// message-size ceiling. It accepts the unary request type so callers keep
+// building the request they always did.
 //
 // If the initial call fails in a way that suggests the server predates the
 // streaming endpoint (see streamEndpointUnsupported), it falls back to the unary
 // RPC. An error after the stream is established is returned as-is — never
-// retried as a unary call that would only die on the 20MB ceiling.
+// retried as a unary call that would only die on the message-size ceiling.
 func ExportInstance(ctx context.Context, c ExportClient, req *argocdv1.ExportInstanceRequest) (*argocdv1.ExportInstanceResponse, error) {
 	respCh, errCh, err := c.ExportInstanceStream(ctx, &argocdv1.ExportInstanceStreamRequest{
 		OrganizationId: req.GetOrganizationId(),

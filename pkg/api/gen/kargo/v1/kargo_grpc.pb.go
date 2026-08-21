@@ -31,6 +31,7 @@ const (
 	KargoService_CreateKargoInstanceAgent_FullMethodName       = "/akuity.kargo.v1.KargoService/CreateKargoInstanceAgent"
 	KargoService_UpdateKargoInstanceAgent_FullMethodName       = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgent"
 	KargoService_UpdateKargoInstanceAgents_FullMethodName      = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgents"
+	KargoService_UpdateKargoInstancesMCP_FullMethodName        = "/akuity.kargo.v1.KargoService/UpdateKargoInstancesMCP"
 	KargoService_GetKargoInstanceAgent_FullMethodName          = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgent"
 	KargoService_GetKargoInstanceAgentManifests_FullMethodName = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgentManifests"
 	KargoService_GetInstanceAgentCommand_FullMethodName        = "/akuity.kargo.v1.KargoService/GetInstanceAgentCommand"
@@ -47,6 +48,7 @@ const (
 	KargoService_GetPromotionFailureReasons_FullMethodName     = "/akuity.kargo.v1.KargoService/GetPromotionFailureReasons"
 	KargoService_ApplyKargoInstance_FullMethodName             = "/akuity.kargo.v1.KargoService/ApplyKargoInstance"
 	KargoService_ExportKargoInstance_FullMethodName            = "/akuity.kargo.v1.KargoService/ExportKargoInstance"
+	KargoService_ExportKargoInstanceStream_FullMethodName      = "/akuity.kargo.v1.KargoService/ExportKargoInstanceStream"
 )
 
 // KargoServiceClient is the client API for KargoService service.
@@ -64,6 +66,7 @@ type KargoServiceClient interface {
 	CreateKargoInstanceAgent(ctx context.Context, in *CreateKargoInstanceAgentRequest, opts ...grpc.CallOption) (*CreateKargoInstanceAgentResponse, error)
 	UpdateKargoInstanceAgent(ctx context.Context, in *UpdateKargoInstanceAgentRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceAgentResponse, error)
 	UpdateKargoInstanceAgents(ctx context.Context, in *UpdateKargoInstanceAgentsRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceAgentsResponse, error)
+	UpdateKargoInstancesMCP(ctx context.Context, in *UpdateKargoInstancesMCPRequest, opts ...grpc.CallOption) (*UpdateKargoInstancesMCPResponse, error)
 	GetKargoInstanceAgent(ctx context.Context, in *GetKargoInstanceAgentRequest, opts ...grpc.CallOption) (*GetKargoInstanceAgentResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -82,6 +85,12 @@ type KargoServiceClient interface {
 	GetPromotionFailureReasons(ctx context.Context, in *GetPromotionFailureReasonsRequest, opts ...grpc.CallOption) (*GetPromotionFailureReasonsResponse, error)
 	ApplyKargoInstance(ctx context.Context, in *ApplyKargoInstanceRequest, opts ...grpc.CallOption) (*ApplyKargoInstanceResponse, error)
 	ExportKargoInstance(ctx context.Context, in *ExportKargoInstanceRequest, opts ...grpc.CallOption) (*ExportKargoInstanceResponse, error)
+	// ExportKargoInstanceStream is the streaming variant of ExportKargoInstance.
+	// It emits the same set of resources, one resource per message, so neither
+	// the server nor the wire has to hold the entire export in memory at once.
+	// This is the preferred API for large instances; ExportKargoInstance is kept
+	// for backward compatibility.
+	ExportKargoInstanceStream(ctx context.Context, in *ExportKargoInstanceStreamRequest, opts ...grpc.CallOption) (KargoService_ExportKargoInstanceStreamClient, error)
 }
 
 type kargoServiceClient struct {
@@ -231,6 +240,15 @@ func (c *kargoServiceClient) UpdateKargoInstanceAgent(ctx context.Context, in *U
 func (c *kargoServiceClient) UpdateKargoInstanceAgents(ctx context.Context, in *UpdateKargoInstanceAgentsRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceAgentsResponse, error) {
 	out := new(UpdateKargoInstanceAgentsResponse)
 	err := c.cc.Invoke(ctx, KargoService_UpdateKargoInstanceAgents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) UpdateKargoInstancesMCP(ctx context.Context, in *UpdateKargoInstancesMCPRequest, opts ...grpc.CallOption) (*UpdateKargoInstancesMCPResponse, error) {
+	out := new(UpdateKargoInstancesMCPResponse)
+	err := c.cc.Invoke(ctx, KargoService_UpdateKargoInstancesMCP_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -404,6 +422,38 @@ func (c *kargoServiceClient) ExportKargoInstance(ctx context.Context, in *Export
 	return out, nil
 }
 
+func (c *kargoServiceClient) ExportKargoInstanceStream(ctx context.Context, in *ExportKargoInstanceStreamRequest, opts ...grpc.CallOption) (KargoService_ExportKargoInstanceStreamClient, error) {
+	stream, err := c.cc.NewStream(ctx, &KargoService_ServiceDesc.Streams[3], KargoService_ExportKargoInstanceStream_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &kargoServiceExportKargoInstanceStreamClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type KargoService_ExportKargoInstanceStreamClient interface {
+	Recv() (*ExportKargoInstanceStreamResponse, error)
+	grpc.ClientStream
+}
+
+type kargoServiceExportKargoInstanceStreamClient struct {
+	grpc.ClientStream
+}
+
+func (x *kargoServiceExportKargoInstanceStreamClient) Recv() (*ExportKargoInstanceStreamResponse, error) {
+	m := new(ExportKargoInstanceStreamResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // KargoServiceServer is the server API for KargoService service.
 // All implementations must embed UnimplementedKargoServiceServer
 // for forward compatibility
@@ -419,6 +469,7 @@ type KargoServiceServer interface {
 	CreateKargoInstanceAgent(context.Context, *CreateKargoInstanceAgentRequest) (*CreateKargoInstanceAgentResponse, error)
 	UpdateKargoInstanceAgent(context.Context, *UpdateKargoInstanceAgentRequest) (*UpdateKargoInstanceAgentResponse, error)
 	UpdateKargoInstanceAgents(context.Context, *UpdateKargoInstanceAgentsRequest) (*UpdateKargoInstanceAgentsResponse, error)
+	UpdateKargoInstancesMCP(context.Context, *UpdateKargoInstancesMCPRequest) (*UpdateKargoInstancesMCPResponse, error)
 	GetKargoInstanceAgent(context.Context, *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -437,6 +488,12 @@ type KargoServiceServer interface {
 	GetPromotionFailureReasons(context.Context, *GetPromotionFailureReasonsRequest) (*GetPromotionFailureReasonsResponse, error)
 	ApplyKargoInstance(context.Context, *ApplyKargoInstanceRequest) (*ApplyKargoInstanceResponse, error)
 	ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error)
+	// ExportKargoInstanceStream is the streaming variant of ExportKargoInstance.
+	// It emits the same set of resources, one resource per message, so neither
+	// the server nor the wire has to hold the entire export in memory at once.
+	// This is the preferred API for large instances; ExportKargoInstance is kept
+	// for backward compatibility.
+	ExportKargoInstanceStream(*ExportKargoInstanceStreamRequest, KargoService_ExportKargoInstanceStreamServer) error
 	mustEmbedUnimplementedKargoServiceServer()
 }
 
@@ -476,6 +533,9 @@ func (UnimplementedKargoServiceServer) UpdateKargoInstanceAgent(context.Context,
 }
 func (UnimplementedKargoServiceServer) UpdateKargoInstanceAgents(context.Context, *UpdateKargoInstanceAgentsRequest) (*UpdateKargoInstanceAgentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateKargoInstanceAgents not implemented")
+}
+func (UnimplementedKargoServiceServer) UpdateKargoInstancesMCP(context.Context, *UpdateKargoInstancesMCPRequest) (*UpdateKargoInstancesMCPResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateKargoInstancesMCP not implemented")
 }
 func (UnimplementedKargoServiceServer) GetKargoInstanceAgent(context.Context, *GetKargoInstanceAgentRequest) (*GetKargoInstanceAgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetKargoInstanceAgent not implemented")
@@ -524,6 +584,9 @@ func (UnimplementedKargoServiceServer) ApplyKargoInstance(context.Context, *Appl
 }
 func (UnimplementedKargoServiceServer) ExportKargoInstance(context.Context, *ExportKargoInstanceRequest) (*ExportKargoInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExportKargoInstance not implemented")
+}
+func (UnimplementedKargoServiceServer) ExportKargoInstanceStream(*ExportKargoInstanceStreamRequest, KargoService_ExportKargoInstanceStreamServer) error {
+	return status.Errorf(codes.Unimplemented, "method ExportKargoInstanceStream not implemented")
 }
 func (UnimplementedKargoServiceServer) mustEmbedUnimplementedKargoServiceServer() {}
 
@@ -738,6 +801,24 @@ func _KargoService_UpdateKargoInstanceAgents_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KargoServiceServer).UpdateKargoInstanceAgents(ctx, req.(*UpdateKargoInstanceAgentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_UpdateKargoInstancesMCP_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateKargoInstancesMCPRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).UpdateKargoInstancesMCP(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_UpdateKargoInstancesMCP_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).UpdateKargoInstancesMCP(ctx, req.(*UpdateKargoInstancesMCPRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1033,6 +1114,27 @@ func _KargoService_ExportKargoInstance_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _KargoService_ExportKargoInstanceStream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ExportKargoInstanceStreamRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(KargoServiceServer).ExportKargoInstanceStream(m, &kargoServiceExportKargoInstanceStreamServer{stream})
+}
+
+type KargoService_ExportKargoInstanceStreamServer interface {
+	Send(*ExportKargoInstanceStreamResponse) error
+	grpc.ServerStream
+}
+
+type kargoServiceExportKargoInstanceStreamServer struct {
+	grpc.ServerStream
+}
+
+func (x *kargoServiceExportKargoInstanceStreamServer) Send(m *ExportKargoInstanceStreamResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // KargoService_ServiceDesc is the grpc.ServiceDesc for KargoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1075,6 +1177,10 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateKargoInstanceAgents",
 			Handler:    _KargoService_UpdateKargoInstanceAgents_Handler,
+		},
+		{
+			MethodName: "UpdateKargoInstancesMCP",
+			Handler:    _KargoService_UpdateKargoInstancesMCP_Handler,
 		},
 		{
 			MethodName: "GetKargoInstanceAgent",
@@ -1151,6 +1257,11 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "GetKargoInstanceAgentManifests",
 			Handler:       _KargoService_GetKargoInstanceAgentManifests_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "ExportKargoInstanceStream",
+			Handler:       _KargoService_ExportKargoInstanceStream_Handler,
 			ServerStreams: true,
 		},
 	},

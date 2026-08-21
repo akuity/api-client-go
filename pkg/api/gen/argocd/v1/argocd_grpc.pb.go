@@ -63,6 +63,7 @@ const (
 	ArgoCDService_UpdateInstanceCluster_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCluster"
 	ArgoCDService_UpdateInstanceClusterSupportAccess_FullMethodName    = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusterSupportAccess"
 	ArgoCDService_UpdateInstanceClusters_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusters"
+	ArgoCDService_UpdateInstancesMCP_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/UpdateInstancesMCP"
 	ArgoCDService_UpdateInstanceClustersAgentVersion_FullMethodName    = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClustersAgentVersion"
 	ArgoCDService_RotateInstanceClusterCredentials_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/RotateInstanceClusterCredentials"
 	ArgoCDService_RegenerateManifests_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/RegenerateManifests"
@@ -112,6 +113,8 @@ type ArgoCDServiceClient interface {
 	// Deprecated: Do not use.
 	// Deprecated: use akuity.system.v1.SystemService.ListArgoCDVersions.
 	ListInstanceVersions(ctx context.Context, in *ListInstanceVersionsRequest, opts ...grpc.CallOption) (*ListInstanceVersionsResponse, error)
+	// Lists the Argo CD instances in an organization.
+	// Each instance includes its ID, name, hostname, version, cluster count, and health and reconciliation status.
 	ListInstances(ctx context.Context, in *ListInstancesRequest, opts ...grpc.CallOption) (*ListInstancesResponse, error)
 	WatchInstances(ctx context.Context, in *WatchInstancesRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstancesClient, error)
 	CreateInstance(ctx context.Context, in *CreateInstanceRequest, opts ...grpc.CallOption) (*CreateInstanceResponse, error)
@@ -158,6 +161,7 @@ type ArgoCDServiceClient interface {
 	UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusterSupportAccess(ctx context.Context, in *UpdateInstanceClusterSupportAccessRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error)
+	UpdateInstancesMCP(ctx context.Context, in *UpdateInstancesMCPRequest, opts ...grpc.CallOption) (*UpdateInstancesMCPResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceClustersAgentVersion(ctx context.Context, in *UpdateInstanceClustersAgentVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -176,7 +180,7 @@ type ArgoCDServiceClient interface {
 	// same set of resources, one resource per message, so neither the server nor
 	// the wire has to hold the entire export in memory at once. This is the
 	// preferred API for large instances; ExportInstance is kept for backward
-	// compatibility. See https://github.com/akuityio/akuity-platform/issues/3754
+	// compatibility.
 	ExportInstanceStream(ctx context.Context, in *ExportInstanceStreamRequest, opts ...grpc.CallOption) (ArgoCDService_ExportInstanceStreamClient, error)
 	ListInstanceAddonRepos(ctx context.Context, in *ListInstanceAddonReposRequest, opts ...grpc.CallOption) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(ctx context.Context, in *GetInstanceAddonRepoRequest, opts ...grpc.CallOption) (*GetInstanceAddonRepoResponse, error)
@@ -676,6 +680,15 @@ func (c *argoCDServiceClient) UpdateInstanceClusters(ctx context.Context, in *Up
 	return out, nil
 }
 
+func (c *argoCDServiceClient) UpdateInstancesMCP(ctx context.Context, in *UpdateInstancesMCPRequest, opts ...grpc.CallOption) (*UpdateInstancesMCPResponse, error) {
+	out := new(UpdateInstancesMCPResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstancesMCP_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) UpdateInstanceClustersAgentVersion(ctx context.Context, in *UpdateInstanceClustersAgentVersionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceClustersAgentVersion_FullMethodName, in, out, opts...)
@@ -1135,6 +1148,8 @@ type ArgoCDServiceServer interface {
 	// Deprecated: Do not use.
 	// Deprecated: use akuity.system.v1.SystemService.ListArgoCDVersions.
 	ListInstanceVersions(context.Context, *ListInstanceVersionsRequest) (*ListInstanceVersionsResponse, error)
+	// Lists the Argo CD instances in an organization.
+	// Each instance includes its ID, name, hostname, version, cluster count, and health and reconciliation status.
 	ListInstances(context.Context, *ListInstancesRequest) (*ListInstancesResponse, error)
 	WatchInstances(*WatchInstancesRequest, ArgoCDService_WatchInstancesServer) error
 	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
@@ -1181,6 +1196,7 @@ type ArgoCDServiceServer interface {
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
 	UpdateInstanceClusterSupportAccess(context.Context, *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
+	UpdateInstancesMCP(context.Context, *UpdateInstancesMCPRequest) (*UpdateInstancesMCPResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error)
@@ -1199,7 +1215,7 @@ type ArgoCDServiceServer interface {
 	// same set of resources, one resource per message, so neither the server nor
 	// the wire has to hold the entire export in memory at once. This is the
 	// preferred API for large instances; ExportInstance is kept for backward
-	// compatibility. See https://github.com/akuityio/akuity-platform/issues/3754
+	// compatibility.
 	ExportInstanceStream(*ExportInstanceStreamRequest, ArgoCDService_ExportInstanceStreamServer) error
 	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
@@ -1373,6 +1389,9 @@ func (UnimplementedArgoCDServiceServer) UpdateInstanceClusterSupportAccess(conte
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClusters not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstancesMCP(context.Context, *UpdateInstancesMCPRequest) (*UpdateInstancesMCPResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstancesMCP not implemented")
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceClustersAgentVersion(context.Context, *UpdateInstanceClustersAgentVersionRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClustersAgentVersion not implemented")
@@ -2272,6 +2291,24 @@ func _ArgoCDService_UpdateInstanceClusters_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_UpdateInstancesMCP_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstancesMCPRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstancesMCP(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateInstancesMCP_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstancesMCP(ctx, req.(*UpdateInstancesMCPRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_UpdateInstanceClustersAgentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateInstanceClustersAgentVersionRequest)
 	if err := dec(in); err != nil {
@@ -3166,6 +3203,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateInstanceClusters",
 			Handler:    _ArgoCDService_UpdateInstanceClusters_Handler,
+		},
+		{
+			MethodName: "UpdateInstancesMCP",
+			Handler:    _ArgoCDService_UpdateInstancesMCP_Handler,
 		},
 		{
 			MethodName: "UpdateInstanceClustersAgentVersion",
