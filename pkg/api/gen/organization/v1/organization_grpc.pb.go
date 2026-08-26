@@ -202,8 +202,8 @@ type OrganizationServiceClient interface {
 	CreateOrganizationAPIKey(ctx context.Context, in *CreateOrganizationAPIKeyRequest, opts ...grpc.CallOption) (*CreateOrganizationAPIKeyResponse, error)
 	ListWorkspaceAPIKeys(ctx context.Context, in *ListWorkspaceAPIKeysRequest, opts ...grpc.CallOption) (*ListWorkspaceAPIKeysResponse, error)
 	CreateWorkspaceAPIKey(ctx context.Context, in *CreateWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*CreateWorkspaceAPIKeyResponse, error)
-	// Lists an organization's audit log: who changed what, and when.
-	// Newest first; page with filters.limit (default 10, max 1000) and filters.offset.
+	// Lists audit logs for the organization whose ID is passed in `id`: who changed what, and when.
+	// Results are newest first; paginate with filters.limit (default 10, max 1000) and filters.offset.
 	GetAuditLogs(ctx context.Context, in *GetAuditLogsRequest, opts ...grpc.CallOption) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(ctx context.Context, in *ListAuditLogsArchivesRequest, opts ...grpc.CallOption) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1985,8 +1985,8 @@ type OrganizationServiceServer interface {
 	CreateOrganizationAPIKey(context.Context, *CreateOrganizationAPIKeyRequest) (*CreateOrganizationAPIKeyResponse, error)
 	ListWorkspaceAPIKeys(context.Context, *ListWorkspaceAPIKeysRequest) (*ListWorkspaceAPIKeysResponse, error)
 	CreateWorkspaceAPIKey(context.Context, *CreateWorkspaceAPIKeyRequest) (*CreateWorkspaceAPIKeyResponse, error)
-	// Lists an organization's audit log: who changed what, and when.
-	// Newest first; page with filters.limit (default 10, max 1000) and filters.offset.
+	// Lists audit logs for the organization whose ID is passed in `id`: who changed what, and when.
+	// Results are newest first; paginate with filters.limit (default 10, max 1000) and filters.offset.
 	GetAuditLogs(context.Context, *GetAuditLogsRequest) (*GetAuditLogsResponse, error)
 	ListAuditLogsArchives(context.Context, *ListAuditLogsArchivesRequest) (*ListAuditLogsArchivesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
