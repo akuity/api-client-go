@@ -4,6 +4,8 @@ import (
 	"strings"
 
 	"google.golang.org/grpc/metadata"
+
+	publichttp "github.com/akuity/api-client-go/pkg/utils/http"
 )
 
 const (
@@ -15,9 +17,15 @@ const (
 	kargoTokenMetadataKey    = "x-kargo-token"
 	requestIDMetadataKey     = "x-request-id"
 	requestURLMetadataKey    = "x-request-url"
+	requestMethodMetadataKey = "x-request-method"
 	refreshTokenMetadataKey  = "x-refresh-token"
 	trustedPlatformHeader    = "x-trusted-platform-header"
 	requestOriginMetadataKey = "x-akuity-request-origin"
+	forwardedForMetadataKey  = "x-forwarded-for"
+	// clientIPMetadataKey carries the caller address resolved at the HTTP
+	// boundary. It is server-owned: see serverOwnedKeys for why no gateway may
+	// let a client supply it.
+	clientIPMetadataKey = "x-akuity-client-ip"
 
 	UserTokenHeader = userTokenMetadataKey
 
@@ -31,6 +39,26 @@ var allowedHeaders = map[string]bool{
 	argocdTokenMetadataKey:  true,
 	requestIDMetadataKey:    true,
 	kargoTokenMetadataKey:   true,
+}
+
+// serverOwnedKeys are the metadata keys a gateway annotator derives from the
+// request itself, so a client must never be able to supply them. grpc-gateway's
+// default header matcher forwards any `Grpc-Metadata-<key>` header into
+// metadata, and metadata.Join orders those ahead of the annotator's values, so
+// md.Get would return the client's. The portal is covered by the allow-list
+// above; gateways that need the permissive default must drop these explicitly
+// (see gateway.MatchIncomingDroppingServerOwned).
+var serverOwnedKeys = map[string]bool{
+	requestURLMetadataKey:    true,
+	requestMethodMetadataKey: true,
+	clientIPMetadataKey:      true,
+	trustedPlatformHeader:    true,
+}
+
+// IsServerOwned reports whether the key is one the server derives from the
+// request and a client may therefore not set.
+func IsServerOwned(key string) bool {
+	return serverOwnedKeys[strings.ToLower(key)]
 }
 
 type Platform string
@@ -164,18 +192,42 @@ func GetRequestURL(md metadata.MD) (string, bool) {
 	return v[0], true
 }
 
-func GetClientIP(md metadata.MD) (string, bool) {
-	// if trusted platform header is set use that first
-	if len(md.Get(trustedPlatformHeader)) > 0 && md.Get(trustedPlatformHeader)[0] != "" {
-		return md.Get(trustedPlatformHeader)[0], true
-	}
+func SetRequestMethod(md metadata.MD, method string) {
+	md.Set(requestMethodMetadataKey, method)
+}
 
-	if len(md.Get("x-forwarded-for")) == 0 {
+func GetRequestMethod(md metadata.MD) (string, bool) {
+	v := md.Get(requestMethodMetadataKey)
+	if len(v) == 0 {
 		return "", false
 	}
-	forwardedFor := md.Get("x-forwarded-for")[0]
-	if forwardedFor != "" {
-		return strings.TrimSpace(strings.Split(forwardedFor, ",")[0]), true
+	return v[0], true
+}
+
+// SetClientIP records an address already resolved from the inbound request.
+// Callers that hold the *http.Request should use this rather than leaving the
+// derivation to GetClientIP: grpc-gateway appends its own RemoteAddr to the
+// x-forwarded-for it forwards, which on this deployment is the reverse proxy's
+// pod address, so the chain in metadata has one more hop than the request had.
+func SetClientIP(md metadata.MD, clientIP string) {
+	md.Set(clientIPMetadataKey, clientIP)
+}
+
+// GetClientIP returns the caller's address: the one resolved at the HTTP
+// boundary when it was recorded, and otherwise derived from the forwarded
+// metadata. edge may be nil when the deployment declares no edge ranges; see
+// ResolveClientIP for what that costs.
+func GetClientIP(md metadata.MD, edge publichttp.EdgeChecker) string {
+	if resolved := first(md, clientIPMetadataKey); resolved != "" {
+		return resolved
 	}
-	return "", false
+	return publichttp.ResolveClientIP(first(md, trustedPlatformHeader), first(md, forwardedForMetadataKey), edge)
+}
+
+func first(md metadata.MD, key string) string {
+	v := md.Get(key)
+	if len(v) == 0 {
+		return ""
+	}
+	return v[0]
 }

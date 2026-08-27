@@ -7,6 +7,19 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+func TestRequestMethodRoundTrip(t *testing.T) {
+	md := metadata.MD{}
+
+	method, ok := GetRequestMethod(md)
+	assert.False(t, ok)
+	assert.Empty(t, method)
+
+	SetRequestMethod(md, "GET")
+	method, ok = GetRequestMethod(md)
+	assert.True(t, ok)
+	assert.Equal(t, "GET", method)
+}
+
 func TestRequestOriginRoundTrip(t *testing.T) {
 	md := metadata.MD{}
 

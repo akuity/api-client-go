@@ -22,9 +22,11 @@ const (
 	APIKeyService_GetAPIKey_FullMethodName                       = "/akuity.apikey.v1.APIKeyService/GetAPIKey"
 	APIKeyService_DeleteAPIKey_FullMethodName                    = "/akuity.apikey.v1.APIKeyService/DeleteAPIKey"
 	APIKeyService_RegenerateAPIKeySecret_FullMethodName          = "/akuity.apikey.v1.APIKeyService/RegenerateAPIKeySecret"
+	APIKeyService_UpdateAPIKey_FullMethodName                    = "/akuity.apikey.v1.APIKeyService/UpdateAPIKey"
 	APIKeyService_GetWorkspaceAPIKey_FullMethodName              = "/akuity.apikey.v1.APIKeyService/GetWorkspaceAPIKey"
 	APIKeyService_DeleteWorkspaceAPIKey_FullMethodName           = "/akuity.apikey.v1.APIKeyService/DeleteWorkspaceAPIKey"
 	APIKeyService_RegenerateWorkspaceAPIKeySecret_FullMethodName = "/akuity.apikey.v1.APIKeyService/RegenerateWorkspaceAPIKeySecret"
+	APIKeyService_UpdateWorkspaceAPIKey_FullMethodName           = "/akuity.apikey.v1.APIKeyService/UpdateWorkspaceAPIKey"
 )
 
 // APIKeyServiceClient is the client API for APIKeyService service.
@@ -34,9 +36,11 @@ type APIKeyServiceClient interface {
 	GetAPIKey(ctx context.Context, in *GetAPIKeyRequest, opts ...grpc.CallOption) (*GetAPIKeyResponse, error)
 	DeleteAPIKey(ctx context.Context, in *DeleteAPIKeyRequest, opts ...grpc.CallOption) (*DeleteAPIKeyResponse, error)
 	RegenerateAPIKeySecret(ctx context.Context, in *RegenerateAPIKeySecretRequest, opts ...grpc.CallOption) (*RegenerateAPIKeySecretResponse, error)
+	UpdateAPIKey(ctx context.Context, in *UpdateAPIKeyRequest, opts ...grpc.CallOption) (*UpdateAPIKeyResponse, error)
 	GetWorkspaceAPIKey(ctx context.Context, in *GetWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*GetWorkspaceAPIKeyResponse, error)
 	DeleteWorkspaceAPIKey(ctx context.Context, in *DeleteWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*DeleteWorkspaceAPIKeyResponse, error)
 	RegenerateWorkspaceAPIKeySecret(ctx context.Context, in *RegenerateWorkspaceAPIKeySecretRequest, opts ...grpc.CallOption) (*RegenerateWorkspaceAPIKeySecretResponse, error)
+	UpdateWorkspaceAPIKey(ctx context.Context, in *UpdateWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*UpdateWorkspaceAPIKeyResponse, error)
 }
 
 type aPIKeyServiceClient struct {
@@ -74,6 +78,15 @@ func (c *aPIKeyServiceClient) RegenerateAPIKeySecret(ctx context.Context, in *Re
 	return out, nil
 }
 
+func (c *aPIKeyServiceClient) UpdateAPIKey(ctx context.Context, in *UpdateAPIKeyRequest, opts ...grpc.CallOption) (*UpdateAPIKeyResponse, error) {
+	out := new(UpdateAPIKeyResponse)
+	err := c.cc.Invoke(ctx, APIKeyService_UpdateAPIKey_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *aPIKeyServiceClient) GetWorkspaceAPIKey(ctx context.Context, in *GetWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*GetWorkspaceAPIKeyResponse, error) {
 	out := new(GetWorkspaceAPIKeyResponse)
 	err := c.cc.Invoke(ctx, APIKeyService_GetWorkspaceAPIKey_FullMethodName, in, out, opts...)
@@ -101,6 +114,15 @@ func (c *aPIKeyServiceClient) RegenerateWorkspaceAPIKeySecret(ctx context.Contex
 	return out, nil
 }
 
+func (c *aPIKeyServiceClient) UpdateWorkspaceAPIKey(ctx context.Context, in *UpdateWorkspaceAPIKeyRequest, opts ...grpc.CallOption) (*UpdateWorkspaceAPIKeyResponse, error) {
+	out := new(UpdateWorkspaceAPIKeyResponse)
+	err := c.cc.Invoke(ctx, APIKeyService_UpdateWorkspaceAPIKey_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // APIKeyServiceServer is the server API for APIKeyService service.
 // All implementations must embed UnimplementedAPIKeyServiceServer
 // for forward compatibility
@@ -108,9 +130,11 @@ type APIKeyServiceServer interface {
 	GetAPIKey(context.Context, *GetAPIKeyRequest) (*GetAPIKeyResponse, error)
 	DeleteAPIKey(context.Context, *DeleteAPIKeyRequest) (*DeleteAPIKeyResponse, error)
 	RegenerateAPIKeySecret(context.Context, *RegenerateAPIKeySecretRequest) (*RegenerateAPIKeySecretResponse, error)
+	UpdateAPIKey(context.Context, *UpdateAPIKeyRequest) (*UpdateAPIKeyResponse, error)
 	GetWorkspaceAPIKey(context.Context, *GetWorkspaceAPIKeyRequest) (*GetWorkspaceAPIKeyResponse, error)
 	DeleteWorkspaceAPIKey(context.Context, *DeleteWorkspaceAPIKeyRequest) (*DeleteWorkspaceAPIKeyResponse, error)
 	RegenerateWorkspaceAPIKeySecret(context.Context, *RegenerateWorkspaceAPIKeySecretRequest) (*RegenerateWorkspaceAPIKeySecretResponse, error)
+	UpdateWorkspaceAPIKey(context.Context, *UpdateWorkspaceAPIKeyRequest) (*UpdateWorkspaceAPIKeyResponse, error)
 	mustEmbedUnimplementedAPIKeyServiceServer()
 }
 
@@ -127,6 +151,9 @@ func (UnimplementedAPIKeyServiceServer) DeleteAPIKey(context.Context, *DeleteAPI
 func (UnimplementedAPIKeyServiceServer) RegenerateAPIKeySecret(context.Context, *RegenerateAPIKeySecretRequest) (*RegenerateAPIKeySecretResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegenerateAPIKeySecret not implemented")
 }
+func (UnimplementedAPIKeyServiceServer) UpdateAPIKey(context.Context, *UpdateAPIKeyRequest) (*UpdateAPIKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAPIKey not implemented")
+}
 func (UnimplementedAPIKeyServiceServer) GetWorkspaceAPIKey(context.Context, *GetWorkspaceAPIKeyRequest) (*GetWorkspaceAPIKeyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWorkspaceAPIKey not implemented")
 }
@@ -135,6 +162,9 @@ func (UnimplementedAPIKeyServiceServer) DeleteWorkspaceAPIKey(context.Context, *
 }
 func (UnimplementedAPIKeyServiceServer) RegenerateWorkspaceAPIKeySecret(context.Context, *RegenerateWorkspaceAPIKeySecretRequest) (*RegenerateWorkspaceAPIKeySecretResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegenerateWorkspaceAPIKeySecret not implemented")
+}
+func (UnimplementedAPIKeyServiceServer) UpdateWorkspaceAPIKey(context.Context, *UpdateWorkspaceAPIKeyRequest) (*UpdateWorkspaceAPIKeyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkspaceAPIKey not implemented")
 }
 func (UnimplementedAPIKeyServiceServer) mustEmbedUnimplementedAPIKeyServiceServer() {}
 
@@ -203,6 +233,24 @@ func _APIKeyService_RegenerateAPIKeySecret_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _APIKeyService_UpdateAPIKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAPIKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIKeyServiceServer).UpdateAPIKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: APIKeyService_UpdateAPIKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIKeyServiceServer).UpdateAPIKey(ctx, req.(*UpdateAPIKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _APIKeyService_GetWorkspaceAPIKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetWorkspaceAPIKeyRequest)
 	if err := dec(in); err != nil {
@@ -257,6 +305,24 @@ func _APIKeyService_RegenerateWorkspaceAPIKeySecret_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _APIKeyService_UpdateWorkspaceAPIKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkspaceAPIKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIKeyServiceServer).UpdateWorkspaceAPIKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: APIKeyService_UpdateWorkspaceAPIKey_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIKeyServiceServer).UpdateWorkspaceAPIKey(ctx, req.(*UpdateWorkspaceAPIKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // APIKeyService_ServiceDesc is the grpc.ServiceDesc for APIKeyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -277,6 +343,10 @@ var APIKeyService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _APIKeyService_RegenerateAPIKeySecret_Handler,
 		},
 		{
+			MethodName: "UpdateAPIKey",
+			Handler:    _APIKeyService_UpdateAPIKey_Handler,
+		},
+		{
 			MethodName: "GetWorkspaceAPIKey",
 			Handler:    _APIKeyService_GetWorkspaceAPIKey_Handler,
 		},
@@ -287,6 +357,10 @@ var APIKeyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegenerateWorkspaceAPIKeySecret",
 			Handler:    _APIKeyService_RegenerateWorkspaceAPIKeySecret_Handler,
+		},
+		{
+			MethodName: "UpdateWorkspaceAPIKey",
+			Handler:    _APIKeyService_UpdateWorkspaceAPIKey_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -14,9 +14,11 @@ type APIKeyServiceGatewayClient interface {
 	GetAPIKey(context.Context, *GetAPIKeyRequest) (*GetAPIKeyResponse, error)
 	DeleteAPIKey(context.Context, *DeleteAPIKeyRequest) (*DeleteAPIKeyResponse, error)
 	RegenerateAPIKeySecret(context.Context, *RegenerateAPIKeySecretRequest) (*RegenerateAPIKeySecretResponse, error)
+	UpdateAPIKey(context.Context, *UpdateAPIKeyRequest) (*UpdateAPIKeyResponse, error)
 	GetWorkspaceAPIKey(context.Context, *GetWorkspaceAPIKeyRequest) (*GetWorkspaceAPIKeyResponse, error)
 	DeleteWorkspaceAPIKey(context.Context, *DeleteWorkspaceAPIKeyRequest) (*DeleteWorkspaceAPIKeyResponse, error)
 	RegenerateWorkspaceAPIKeySecret(context.Context, *RegenerateWorkspaceAPIKeySecretRequest) (*RegenerateWorkspaceAPIKeySecretResponse, error)
+	UpdateWorkspaceAPIKey(context.Context, *UpdateWorkspaceAPIKeyRequest) (*UpdateWorkspaceAPIKeyResponse, error)
 }
 
 func NewAPIKeyServiceGatewayClient(c gateway.Client) APIKeyServiceGatewayClient {
@@ -49,6 +51,13 @@ func (c *aPIKeyServiceGatewayClient) RegenerateAPIKeySecret(ctx context.Context,
 	return gateway.DoRequest[RegenerateAPIKeySecretResponse](ctx, gwReq)
 }
 
+func (c *aPIKeyServiceGatewayClient) UpdateAPIKey(ctx context.Context, req *UpdateAPIKeyRequest) (*UpdateAPIKeyResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/apikeys/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateAPIKeyResponse](ctx, gwReq)
+}
+
 func (c *aPIKeyServiceGatewayClient) GetWorkspaceAPIKey(ctx context.Context, req *GetWorkspaceAPIKeyRequest) (*GetWorkspaceAPIKeyResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{organization_id}/workspaces/{workspace_id}/apikeys/{id}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -73,4 +82,13 @@ func (c *aPIKeyServiceGatewayClient) RegenerateWorkspaceAPIKeySecret(ctx context
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RegenerateWorkspaceAPIKeySecretResponse](ctx, gwReq)
+}
+
+func (c *aPIKeyServiceGatewayClient) UpdateWorkspaceAPIKey(ctx context.Context, req *UpdateWorkspaceAPIKeyRequest) (*UpdateWorkspaceAPIKeyResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/organizations/{organization_id}/workspaces/{workspace_id}/apikeys/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateWorkspaceAPIKeyResponse](ctx, gwReq)
 }
