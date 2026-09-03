@@ -8,6 +8,7 @@ package systemv1
 
 import (
 	context "context"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -36,6 +37,7 @@ const (
 	SystemService_GetKargoAgentSizeSpec_FullMethodName          = "/akuity.system.v1.SystemService/GetKargoAgentSizeSpec"
 	SystemService_ListArgoCDImageUpadterVersions_FullMethodName = "/akuity.system.v1.SystemService/ListArgoCDImageUpadterVersions"
 	SystemService_ListArgoCDToolVersions_FullMethodName         = "/akuity.system.v1.SystemService/ListArgoCDToolVersions"
+	SystemService_GetTelemetry_FullMethodName                   = "/akuity.system.v1.SystemService/GetTelemetry"
 )
 
 // SystemServiceClient is the client API for SystemService service.
@@ -80,6 +82,9 @@ type SystemServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDImageUpadterVersions(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListArgoCDImageUpadterVersionsResponse, error)
 	ListArgoCDToolVersions(ctx context.Context, in *ListArgoCDToolVersionsRequest, opts ...grpc.CallOption) (*ListArgoCDToolVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetTelemetry(ctx context.Context, in *GetTelemetryRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error)
 }
 
 type systemServiceClient struct {
@@ -236,6 +241,15 @@ func (c *systemServiceClient) ListArgoCDToolVersions(ctx context.Context, in *Li
 	return out, nil
 }
 
+func (c *systemServiceClient) GetTelemetry(ctx context.Context, in *GetTelemetryRequest, opts ...grpc.CallOption) (*httpbody.HttpBody, error) {
+	out := new(httpbody.HttpBody)
+	err := c.cc.Invoke(ctx, SystemService_GetTelemetry_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemServiceServer is the server API for SystemService service.
 // All implementations must embed UnimplementedSystemServiceServer
 // for forward compatibility
@@ -278,6 +292,9 @@ type SystemServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error)
 	ListArgoCDToolVersions(context.Context, *ListArgoCDToolVersionsRequest) (*ListArgoCDToolVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetTelemetry(context.Context, *GetTelemetryRequest) (*httpbody.HttpBody, error)
 	mustEmbedUnimplementedSystemServiceServer()
 }
 
@@ -332,6 +349,9 @@ func (UnimplementedSystemServiceServer) ListArgoCDImageUpadterVersions(context.C
 }
 func (UnimplementedSystemServiceServer) ListArgoCDToolVersions(context.Context, *ListArgoCDToolVersionsRequest) (*ListArgoCDToolVersionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArgoCDToolVersions not implemented")
+}
+func (UnimplementedSystemServiceServer) GetTelemetry(context.Context, *GetTelemetryRequest) (*httpbody.HttpBody, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTelemetry not implemented")
 }
 func (UnimplementedSystemServiceServer) mustEmbedUnimplementedSystemServiceServer() {}
 
@@ -634,6 +654,24 @@ func _SystemService_ListArgoCDToolVersions_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemService_GetTelemetry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTelemetryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemServiceServer).GetTelemetry(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemService_GetTelemetry_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemServiceServer).GetTelemetry(ctx, req.(*GetTelemetryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemService_ServiceDesc is the grpc.ServiceDesc for SystemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -704,6 +742,10 @@ var SystemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListArgoCDToolVersions",
 			Handler:    _SystemService_ListArgoCDToolVersions_Handler,
+		},
+		{
+			MethodName: "GetTelemetry",
+			Handler:    _SystemService_GetTelemetry_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

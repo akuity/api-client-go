@@ -7,6 +7,7 @@ import (
 	context "context"
 	fmt "fmt"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
+	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	url "net/url"
 )
@@ -49,6 +50,9 @@ type SystemServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	ListArgoCDImageUpadterVersions(context.Context, *emptypb.Empty) (*ListArgoCDImageUpadterVersionsResponse, error)
 	ListArgoCDToolVersions(context.Context, *ListArgoCDToolVersionsRequest) (*ListArgoCDToolVersionsResponse, error)
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetTelemetry(context.Context, *GetTelemetryRequest) (*httpbody.HttpBody, error)
 }
 
 func NewSystemServiceGatewayClient(c gateway.Client) SystemServiceGatewayClient {
@@ -142,4 +146,9 @@ func (c *systemServiceGatewayClient) ListArgoCDToolVersions(ctx context.Context,
 	q.Add("version", fmt.Sprintf("%v", req.Version))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListArgoCDToolVersionsResponse](ctx, gwReq)
+}
+
+func (c *systemServiceGatewayClient) GetTelemetry(ctx context.Context, req *GetTelemetryRequest) (*httpbody.HttpBody, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/system/telemetry")
+	return gateway.DoRequest[httpbody.HttpBody](ctx, gwReq)
 }

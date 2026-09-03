@@ -189,6 +189,13 @@ type OrganizationServiceGatewayClient interface {
 	InstallMCPServer(context.Context, *InstallMCPServerRequest) (*InstallMCPServerResponse, error)
 	GetMCPServer(context.Context, *GetMCPServerRequest) (*GetMCPServerResponse, error)
 	ListMCPServers(context.Context, *ListMCPServersRequest) (*ListMCPServersResponse, error)
+	// ListMCPTools returns the complete catalog of tools the Akuity MCP
+	// endpoints serve, each with the guardrail level it requires. Use it to see
+	// what each guardrail_level setting would let agents call. The catalog is
+	// never filtered: every level and every caller sees the same list, as do
+	// agents, because the guardrail level is enforced when a tool is called,
+	// not when tools are listed.
+	ListMCPTools(context.Context, *ListMCPToolsRequest) (*ListMCPToolsResponse, error)
 	UpdateMCPServer(context.Context, *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error)
 	UninstallMCPServer(context.Context, *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error)
 	ListManagedMCPServers(context.Context, *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error)
@@ -1033,6 +1040,73 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 			q.Add("filters.organization.objectNamespace", fmt.Sprintf("%v", v))
 		}
 	}
+	for _, v := range req.Filters.Origin {
+		q.Add("filters.origin", fmt.Sprintf("%v", v))
+	}
+	if req.Filters.ArgocdResource != nil {
+		for _, v := range req.Filters.ArgocdResource.ObjectName {
+			q.Add("filters.argocdResource.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectKind {
+			q.Add("filters.argocdResource.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectGroup {
+			q.Add("filters.argocdResource.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentName {
+			q.Add("filters.argocdResource.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentParentName {
+			q.Add("filters.argocdResource.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentApplicationName {
+			q.Add("filters.argocdResource.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdResource.Enabled != nil {
+			q.Add("filters.argocdResource.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdResource.Enabled))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentKargoProjectName {
+			q.Add("filters.argocdResource.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdResource.IncludeChildObjects != nil {
+			q.Add("filters.argocdResource.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdResource.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectNamespace {
+			q.Add("filters.argocdResource.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
+	if req.Filters.KargoResource != nil {
+		for _, v := range req.Filters.KargoResource.ObjectName {
+			q.Add("filters.kargoResource.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectKind {
+			q.Add("filters.kargoResource.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectGroup {
+			q.Add("filters.kargoResource.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentName {
+			q.Add("filters.kargoResource.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentParentName {
+			q.Add("filters.kargoResource.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentApplicationName {
+			q.Add("filters.kargoResource.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoResource.Enabled != nil {
+			q.Add("filters.kargoResource.enabled", fmt.Sprintf("%v", *req.Filters.KargoResource.Enabled))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentKargoProjectName {
+			q.Add("filters.kargoResource.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoResource.IncludeChildObjects != nil {
+			q.Add("filters.kargoResource.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoResource.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectNamespace {
+			q.Add("filters.kargoResource.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
@@ -1720,6 +1794,73 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		}
 		for _, v := range req.Filters.Organization.ObjectNamespace {
 			q.Add("filters.organization.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
+	for _, v := range req.Filters.Origin {
+		q.Add("filters.origin", fmt.Sprintf("%v", v))
+	}
+	if req.Filters.ArgocdResource != nil {
+		for _, v := range req.Filters.ArgocdResource.ObjectName {
+			q.Add("filters.argocdResource.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectKind {
+			q.Add("filters.argocdResource.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectGroup {
+			q.Add("filters.argocdResource.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentName {
+			q.Add("filters.argocdResource.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentParentName {
+			q.Add("filters.argocdResource.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentApplicationName {
+			q.Add("filters.argocdResource.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdResource.Enabled != nil {
+			q.Add("filters.argocdResource.enabled", fmt.Sprintf("%v", *req.Filters.ArgocdResource.Enabled))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectParentKargoProjectName {
+			q.Add("filters.argocdResource.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ArgocdResource.IncludeChildObjects != nil {
+			q.Add("filters.argocdResource.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ArgocdResource.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.ArgocdResource.ObjectNamespace {
+			q.Add("filters.argocdResource.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
+	if req.Filters.KargoResource != nil {
+		for _, v := range req.Filters.KargoResource.ObjectName {
+			q.Add("filters.kargoResource.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectKind {
+			q.Add("filters.kargoResource.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectGroup {
+			q.Add("filters.kargoResource.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentName {
+			q.Add("filters.kargoResource.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentParentName {
+			q.Add("filters.kargoResource.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentApplicationName {
+			q.Add("filters.kargoResource.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoResource.Enabled != nil {
+			q.Add("filters.kargoResource.enabled", fmt.Sprintf("%v", *req.Filters.KargoResource.Enabled))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectParentKargoProjectName {
+			q.Add("filters.kargoResource.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.KargoResource.IncludeChildObjects != nil {
+			q.Add("filters.kargoResource.includeChildObjects", fmt.Sprintf("%v", *req.Filters.KargoResource.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.KargoResource.ObjectNamespace {
+			q.Add("filters.kargoResource.objectNamespace", fmt.Sprintf("%v", v))
 		}
 	}
 	gwReq.SetQueryParamsFromValues(q)
@@ -3404,6 +3545,12 @@ func (c *organizationServiceGatewayClient) ListMCPServers(ctx context.Context, r
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListMCPServersResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) ListMCPTools(ctx context.Context, req *ListMCPToolsRequest) (*ListMCPToolsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/mcp/tools")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	return gateway.DoRequest[ListMCPToolsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) UpdateMCPServer(ctx context.Context, req *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error) {

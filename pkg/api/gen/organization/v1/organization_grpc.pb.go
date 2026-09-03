@@ -171,6 +171,7 @@ const (
 	OrganizationService_InstallMCPServer_FullMethodName                       = "/akuity.organization.v1.OrganizationService/InstallMCPServer"
 	OrganizationService_GetMCPServer_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetMCPServer"
 	OrganizationService_ListMCPServers_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListMCPServers"
+	OrganizationService_ListMCPTools_FullMethodName                           = "/akuity.organization.v1.OrganizationService/ListMCPTools"
 	OrganizationService_UpdateMCPServer_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateMCPServer"
 	OrganizationService_UninstallMCPServer_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UninstallMCPServer"
 	OrganizationService_ListManagedMCPServers_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListManagedMCPServers"
@@ -358,6 +359,13 @@ type OrganizationServiceClient interface {
 	InstallMCPServer(ctx context.Context, in *InstallMCPServerRequest, opts ...grpc.CallOption) (*InstallMCPServerResponse, error)
 	GetMCPServer(ctx context.Context, in *GetMCPServerRequest, opts ...grpc.CallOption) (*GetMCPServerResponse, error)
 	ListMCPServers(ctx context.Context, in *ListMCPServersRequest, opts ...grpc.CallOption) (*ListMCPServersResponse, error)
+	// ListMCPTools returns the complete catalog of tools the Akuity MCP
+	// endpoints serve, each with the guardrail level it requires. Use it to see
+	// what each guardrail_level setting would let agents call. The catalog is
+	// never filtered: every level and every caller sees the same list, as do
+	// agents, because the guardrail level is enforced when a tool is called,
+	// not when tools are listed.
+	ListMCPTools(ctx context.Context, in *ListMCPToolsRequest, opts ...grpc.CallOption) (*ListMCPToolsResponse, error)
 	UpdateMCPServer(ctx context.Context, in *UpdateMCPServerRequest, opts ...grpc.CallOption) (*UpdateMCPServerResponse, error)
 	UninstallMCPServer(ctx context.Context, in *UninstallMCPServerRequest, opts ...grpc.CallOption) (*UninstallMCPServerResponse, error)
 	ListManagedMCPServers(ctx context.Context, in *ListManagedMCPServersRequest, opts ...grpc.CallOption) (*ListManagedMCPServersResponse, error)
@@ -1916,6 +1924,15 @@ func (c *organizationServiceClient) ListMCPServers(ctx context.Context, in *List
 	return out, nil
 }
 
+func (c *organizationServiceClient) ListMCPTools(ctx context.Context, in *ListMCPToolsRequest, opts ...grpc.CallOption) (*ListMCPToolsResponse, error) {
+	out := new(ListMCPToolsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_ListMCPTools_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) UpdateMCPServer(ctx context.Context, in *UpdateMCPServerRequest, opts ...grpc.CallOption) (*UpdateMCPServerResponse, error) {
 	out := new(UpdateMCPServerResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_UpdateMCPServer_FullMethodName, in, out, opts...)
@@ -2141,6 +2158,13 @@ type OrganizationServiceServer interface {
 	InstallMCPServer(context.Context, *InstallMCPServerRequest) (*InstallMCPServerResponse, error)
 	GetMCPServer(context.Context, *GetMCPServerRequest) (*GetMCPServerResponse, error)
 	ListMCPServers(context.Context, *ListMCPServersRequest) (*ListMCPServersResponse, error)
+	// ListMCPTools returns the complete catalog of tools the Akuity MCP
+	// endpoints serve, each with the guardrail level it requires. Use it to see
+	// what each guardrail_level setting would let agents call. The catalog is
+	// never filtered: every level and every caller sees the same list, as do
+	// agents, because the guardrail level is enforced when a tool is called,
+	// not when tools are listed.
+	ListMCPTools(context.Context, *ListMCPToolsRequest) (*ListMCPToolsResponse, error)
 	UpdateMCPServer(context.Context, *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error)
 	UninstallMCPServer(context.Context, *UninstallMCPServerRequest) (*UninstallMCPServerResponse, error)
 	ListManagedMCPServers(context.Context, *ListManagedMCPServersRequest) (*ListManagedMCPServersResponse, error)
@@ -2605,6 +2629,9 @@ func (UnimplementedOrganizationServiceServer) GetMCPServer(context.Context, *Get
 }
 func (UnimplementedOrganizationServiceServer) ListMCPServers(context.Context, *ListMCPServersRequest) (*ListMCPServersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListMCPServers not implemented")
+}
+func (UnimplementedOrganizationServiceServer) ListMCPTools(context.Context, *ListMCPToolsRequest) (*ListMCPToolsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMCPTools not implemented")
 }
 func (UnimplementedOrganizationServiceServer) UpdateMCPServer(context.Context, *UpdateMCPServerRequest) (*UpdateMCPServerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateMCPServer not implemented")
@@ -5376,6 +5403,24 @@ func _OrganizationService_ListMCPServers_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_ListMCPTools_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMCPToolsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).ListMCPTools(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_ListMCPTools_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).ListMCPTools(ctx, req.(*ListMCPToolsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_UpdateMCPServer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateMCPServerRequest)
 	if err := dec(in); err != nil {
@@ -6044,6 +6089,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListMCPServers",
 			Handler:    _OrganizationService_ListMCPServers_Handler,
+		},
+		{
+			MethodName: "ListMCPTools",
+			Handler:    _OrganizationService_ListMCPTools_Handler,
 		},
 		{
 			MethodName: "UpdateMCPServer",

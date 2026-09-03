@@ -42,6 +42,8 @@ func chunks(t *testing.T) []*argocdv1.ExportInstanceStreamResponse {
 		{Resource: &argocdv1.ExportInstanceStreamResponse_ApplicationSet{ApplicationSet: mkStruct(t, "appset-1")}},
 		{Resource: &argocdv1.ExportInstanceStreamResponse_AppProject{AppProject: mkStruct(t, "proj-1")}},
 		{Resource: &argocdv1.ExportInstanceStreamResponse_ImageUpdater{ImageUpdater: mkStruct(t, "iu-1")}},
+		{Resource: &argocdv1.ExportInstanceStreamResponse_ManagedSecret{ManagedSecret: mkStruct(t, "managed-secret-1")}},
+		{Resource: &argocdv1.ExportInstanceStreamResponse_ManagedSecret{ManagedSecret: mkStruct(t, "managed-secret-2")}},
 	}
 }
 
@@ -70,6 +72,7 @@ func assertReassembled(t *testing.T, res *argocdv1.ExportInstanceResponse) {
 	require.Equal(t, []string{"appset-1"}, names(res.ApplicationSets))
 	require.Equal(t, []string{"proj-1"}, names(res.AppProjects))
 	require.Equal(t, []string{"iu-1"}, names(res.ImageUpdaters))
+	require.Equal(t, []string{"managed-secret-1", "managed-secret-2"}, names(res.ManagedSecrets))
 }
 
 func names(structs []*structpb.Struct) []string {

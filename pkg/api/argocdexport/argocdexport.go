@@ -47,6 +47,8 @@ func AppendStreamResponse(res *argocdv1.ExportInstanceResponse, msg *argocdv1.Ex
 		res.AppProjects = append(res.AppProjects, r.AppProject)
 	case *argocdv1.ExportInstanceStreamResponse_ImageUpdater:
 		res.ImageUpdaters = append(res.ImageUpdaters, r.ImageUpdater)
+	case *argocdv1.ExportInstanceStreamResponse_ManagedSecret:
+		res.ManagedSecrets = append(res.ManagedSecrets, r.ManagedSecret)
 	}
 }
 
