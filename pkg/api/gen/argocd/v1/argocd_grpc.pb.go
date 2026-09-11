@@ -27,6 +27,7 @@ const (
 	ArgoCDService_CreateInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/CreateInstance"
 	ArgoCDService_GetInstance_FullMethodName                           = "/akuity.argocd.v1.ArgoCDService/GetInstance"
 	ArgoCDService_GetInstanceCSS_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/GetInstanceCSS"
+	ArgoCDService_GetInstanceUIExtensions_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetInstanceUIExtensions"
 	ArgoCDService_GetInstanceNotificationSettings_FullMethodName       = "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationSettings"
 	ArgoCDService_GetInstanceNotificationCatalog_FullMethodName        = "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationCatalog"
 	ArgoCDService_GetInstanceImageUpdaterSettings_FullMethodName       = "/akuity.argocd.v1.ArgoCDService/GetInstanceImageUpdaterSettings"
@@ -41,6 +42,7 @@ const (
 	ArgoCDService_UpdateInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/UpdateInstance"
 	ArgoCDService_UpdateInstanceWorkspace_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceWorkspace"
 	ArgoCDService_UpdateInstanceCSS_FullMethodName                     = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCSS"
+	ArgoCDService_UpdateInstanceUIExtensions_FullMethodName            = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceUIExtensions"
 	ArgoCDService_UpdateInstanceNotificationConfig_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceNotificationConfig"
 	ArgoCDService_UpdateInstanceImageUpdaterConfig_FullMethodName      = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceImageUpdaterConfig"
 	ArgoCDService_UpdateInstanceImageUpdaterSSHConfig_FullMethodName   = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceImageUpdaterSSHConfig"
@@ -120,6 +122,7 @@ type ArgoCDServiceClient interface {
 	CreateInstance(ctx context.Context, in *CreateInstanceRequest, opts ...grpc.CallOption) (*CreateInstanceResponse, error)
 	GetInstance(ctx context.Context, in *GetInstanceRequest, opts ...grpc.CallOption) (*GetInstanceResponse, error)
 	GetInstanceCSS(ctx context.Context, in *GetInstanceCSSRequest, opts ...grpc.CallOption) (*GetInstanceCSSResponse, error)
+	GetInstanceUIExtensions(ctx context.Context, in *GetInstanceUIExtensionsRequest, opts ...grpc.CallOption) (*GetInstanceUIExtensionsResponse, error)
 	GetInstanceNotificationSettings(ctx context.Context, in *GetInstanceNotificationSettingsRequest, opts ...grpc.CallOption) (*GetInstanceNotificationSettingsResponse, error)
 	GetInstanceNotificationCatalog(ctx context.Context, in *GetInstanceNotificationCatalogRequest, opts ...grpc.CallOption) (*GetInstanceNotificationCatalogResponse, error)
 	GetInstanceImageUpdaterSettings(ctx context.Context, in *GetInstanceImageUpdaterSettingsRequest, opts ...grpc.CallOption) (*GetInstanceImageUpdaterSettingsResponse, error)
@@ -134,6 +137,7 @@ type ArgoCDServiceClient interface {
 	UpdateInstance(ctx context.Context, in *UpdateInstanceRequest, opts ...grpc.CallOption) (*UpdateInstanceResponse, error)
 	UpdateInstanceWorkspace(ctx context.Context, in *UpdateInstanceWorkspaceRequest, opts ...grpc.CallOption) (*UpdateInstanceWorkspaceResponse, error)
 	UpdateInstanceCSS(ctx context.Context, in *UpdateInstanceCSSRequest, opts ...grpc.CallOption) (*UpdateInstanceCSSResponse, error)
+	UpdateInstanceUIExtensions(ctx context.Context, in *UpdateInstanceUIExtensionsRequest, opts ...grpc.CallOption) (*UpdateInstanceUIExtensionsResponse, error)
 	UpdateInstanceNotificationConfig(ctx context.Context, in *UpdateInstanceNotificationConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceNotificationConfigResponse, error)
 	UpdateInstanceImageUpdaterConfig(ctx context.Context, in *UpdateInstanceImageUpdaterConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceImageUpdaterConfigResponse, error)
 	UpdateInstanceImageUpdaterSSHConfig(ctx context.Context, in *UpdateInstanceImageUpdaterSSHConfigRequest, opts ...grpc.CallOption) (*UpdateInstanceImageUpdaterSSHConfigResponse, error)
@@ -310,6 +314,15 @@ func (c *argoCDServiceClient) GetInstanceCSS(ctx context.Context, in *GetInstanc
 	return out, nil
 }
 
+func (c *argoCDServiceClient) GetInstanceUIExtensions(ctx context.Context, in *GetInstanceUIExtensionsRequest, opts ...grpc.CallOption) (*GetInstanceUIExtensionsResponse, error) {
+	out := new(GetInstanceUIExtensionsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceUIExtensions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) GetInstanceNotificationSettings(ctx context.Context, in *GetInstanceNotificationSettingsRequest, opts ...grpc.CallOption) (*GetInstanceNotificationSettingsResponse, error) {
 	out := new(GetInstanceNotificationSettingsResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceNotificationSettings_FullMethodName, in, out, opts...)
@@ -430,6 +443,15 @@ func (c *argoCDServiceClient) UpdateInstanceWorkspace(ctx context.Context, in *U
 func (c *argoCDServiceClient) UpdateInstanceCSS(ctx context.Context, in *UpdateInstanceCSSRequest, opts ...grpc.CallOption) (*UpdateInstanceCSSResponse, error) {
 	out := new(UpdateInstanceCSSResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceCSS_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceUIExtensions(ctx context.Context, in *UpdateInstanceUIExtensionsRequest, opts ...grpc.CallOption) (*UpdateInstanceUIExtensionsResponse, error) {
+	out := new(UpdateInstanceUIExtensionsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceUIExtensions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1155,6 +1177,7 @@ type ArgoCDServiceServer interface {
 	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
 	GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error)
 	GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error)
+	GetInstanceUIExtensions(context.Context, *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error)
 	GetInstanceNotificationSettings(context.Context, *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error)
 	GetInstanceNotificationCatalog(context.Context, *GetInstanceNotificationCatalogRequest) (*GetInstanceNotificationCatalogResponse, error)
 	GetInstanceImageUpdaterSettings(context.Context, *GetInstanceImageUpdaterSettingsRequest) (*GetInstanceImageUpdaterSettingsResponse, error)
@@ -1169,6 +1192,7 @@ type ArgoCDServiceServer interface {
 	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
 	UpdateInstanceWorkspace(context.Context, *UpdateInstanceWorkspaceRequest) (*UpdateInstanceWorkspaceResponse, error)
 	UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error)
+	UpdateInstanceUIExtensions(context.Context, *UpdateInstanceUIExtensionsRequest) (*UpdateInstanceUIExtensionsResponse, error)
 	UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error)
 	UpdateInstanceImageUpdaterConfig(context.Context, *UpdateInstanceImageUpdaterConfigRequest) (*UpdateInstanceImageUpdaterConfigResponse, error)
 	UpdateInstanceImageUpdaterSSHConfig(context.Context, *UpdateInstanceImageUpdaterSSHConfigRequest) (*UpdateInstanceImageUpdaterSSHConfigResponse, error)
@@ -1282,6 +1306,9 @@ func (UnimplementedArgoCDServiceServer) GetInstance(context.Context, *GetInstanc
 func (UnimplementedArgoCDServiceServer) GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceCSS not implemented")
 }
+func (UnimplementedArgoCDServiceServer) GetInstanceUIExtensions(context.Context, *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceUIExtensions not implemented")
+}
 func (UnimplementedArgoCDServiceServer) GetInstanceNotificationSettings(context.Context, *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceNotificationSettings not implemented")
 }
@@ -1323,6 +1350,9 @@ func (UnimplementedArgoCDServiceServer) UpdateInstanceWorkspace(context.Context,
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCSS not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceUIExtensions(context.Context, *UpdateInstanceUIExtensionsRequest) (*UpdateInstanceUIExtensionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceUIExtensions not implemented")
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceNotificationConfig not implemented")
@@ -1637,6 +1667,24 @@ func _ArgoCDService_GetInstanceCSS_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_GetInstanceUIExtensions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceUIExtensionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceUIExtensions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetInstanceUIExtensions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceUIExtensions(ctx, req.(*GetInstanceUIExtensionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_GetInstanceNotificationSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetInstanceNotificationSettingsRequest)
 	if err := dec(in); err != nil {
@@ -1885,6 +1933,24 @@ func _ArgoCDService_UpdateInstanceCSS_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).UpdateInstanceCSS(ctx, req.(*UpdateInstanceCSSRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceUIExtensions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceUIExtensionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceUIExtensions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateInstanceUIExtensions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceUIExtensions(ctx, req.(*UpdateInstanceUIExtensionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3069,6 +3135,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_GetInstanceCSS_Handler,
 		},
 		{
+			MethodName: "GetInstanceUIExtensions",
+			Handler:    _ArgoCDService_GetInstanceUIExtensions_Handler,
+		},
+		{
 			MethodName: "GetInstanceNotificationSettings",
 			Handler:    _ArgoCDService_GetInstanceNotificationSettings_Handler,
 		},
@@ -3123,6 +3193,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateInstanceCSS",
 			Handler:    _ArgoCDService_UpdateInstanceCSS_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceUIExtensions",
+			Handler:    _ArgoCDService_UpdateInstanceUIExtensions_Handler,
 		},
 		{
 			MethodName: "UpdateInstanceNotificationConfig",

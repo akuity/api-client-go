@@ -23,6 +23,7 @@ type ArgoCDServiceGatewayClient interface {
 	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
 	GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error)
 	GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error)
+	GetInstanceUIExtensions(context.Context, *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error)
 	GetInstanceNotificationSettings(context.Context, *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error)
 	GetInstanceNotificationCatalog(context.Context, *GetInstanceNotificationCatalogRequest) (*GetInstanceNotificationCatalogResponse, error)
 	GetInstanceImageUpdaterSettings(context.Context, *GetInstanceImageUpdaterSettingsRequest) (*GetInstanceImageUpdaterSettingsResponse, error)
@@ -37,6 +38,7 @@ type ArgoCDServiceGatewayClient interface {
 	UpdateInstance(context.Context, *UpdateInstanceRequest) (*UpdateInstanceResponse, error)
 	UpdateInstanceWorkspace(context.Context, *UpdateInstanceWorkspaceRequest) (*UpdateInstanceWorkspaceResponse, error)
 	UpdateInstanceCSS(context.Context, *UpdateInstanceCSSRequest) (*UpdateInstanceCSSResponse, error)
+	UpdateInstanceUIExtensions(context.Context, *UpdateInstanceUIExtensionsRequest) (*UpdateInstanceUIExtensionsResponse, error)
 	UpdateInstanceNotificationConfig(context.Context, *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error)
 	UpdateInstanceImageUpdaterConfig(context.Context, *UpdateInstanceImageUpdaterConfigRequest) (*UpdateInstanceImageUpdaterConfigResponse, error)
 	UpdateInstanceImageUpdaterSSHConfig(context.Context, *UpdateInstanceImageUpdaterSSHConfigRequest) (*UpdateInstanceImageUpdaterSSHConfigResponse, error)
@@ -191,6 +193,16 @@ func (c *argoCDServiceGatewayClient) GetInstanceCSS(ctx context.Context, req *Ge
 	return gateway.DoRequest[GetInstanceCSSResponse](ctx, gwReq)
 }
 
+func (c *argoCDServiceGatewayClient) GetInstanceUIExtensions(ctx context.Context, req *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/ui-extensions")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetInstanceUIExtensionsResponse](ctx, gwReq)
+}
+
 func (c *argoCDServiceGatewayClient) GetInstanceNotificationSettings(ctx context.Context, req *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/notifications")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
@@ -313,6 +325,14 @@ func (c *argoCDServiceGatewayClient) UpdateInstanceCSS(ctx context.Context, req 
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateInstanceCSSResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstanceUIExtensions(ctx context.Context, req *UpdateInstanceUIExtensionsRequest) (*UpdateInstanceUIExtensionsResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/ui-extensions")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstanceUIExtensionsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) UpdateInstanceNotificationConfig(ctx context.Context, req *UpdateInstanceNotificationConfigRequest) (*UpdateInstanceNotificationConfigResponse, error) {

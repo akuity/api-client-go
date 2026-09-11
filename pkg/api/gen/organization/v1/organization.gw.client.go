@@ -3093,6 +3093,12 @@ func (c *organizationServiceGatewayClient) ListKubernetesTimelineEvents(ctx cont
 	for _, v := range req.ApplicationNames {
 		q.Add("applicationNames", fmt.Sprintf("%v", v))
 	}
+	if req.Limit != nil {
+		q.Add("limit", fmt.Sprintf("%v", *req.Limit))
+	}
+	if req.Offset != nil {
+		q.Add("offset", fmt.Sprintf("%v", *req.Offset))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ListKubernetesTimelineEventsResponse](ctx, gwReq)
 }
@@ -3382,6 +3388,15 @@ func (c *organizationServiceGatewayClient) GetAIConversation(ctx context.Context
 	}
 	if req.KargoInstanceId != nil {
 		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
+	}
+	if req.MessageLimit != nil {
+		q.Add("messageLimit", fmt.Sprintf("%v", *req.MessageLimit))
+	}
+	if req.MessageOffset != nil {
+		q.Add("messageOffset", fmt.Sprintf("%v", *req.MessageOffset))
+	}
+	if req.IncludeStepArguments != nil {
+		q.Add("includeStepArguments", fmt.Sprintf("%v", *req.IncludeStepArguments))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAIConversationResponse](ctx, gwReq)
