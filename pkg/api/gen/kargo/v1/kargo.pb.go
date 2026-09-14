@@ -5289,7 +5289,8 @@ type KargoAgentState struct {
 	Status *v11.AgentAggregatedHealthResponse `protobuf:"bytes,4,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	// Pod identities of agent replicas observed on the cluster.
 	AgentIds []string `protobuf:"bytes,5,rep,name=agent_ids,json=agentIds,proto3" json:"agent_ids,omitempty"`
-	// Highest spec generation the agent has successfully applied.
+	// Spec generation stamped into the agent manifest most recently applied by
+	// the user.
 	LastUserAppliedGeneration uint64 `protobuf:"varint,6,opt,name=last_user_applied_generation,json=lastUserAppliedGeneration,proto3" json:"last_user_applied_generation,omitempty"`
 	// Whether the agent is up-to-date, in-progress, or delayed.
 	UpdateStatus *v12.AgentUpdateStatus `protobuf:"varint,7,opt,name=update_status,json=updateStatus,proto3,enum=akuity.types.status.reconciliation.v1.AgentUpdateStatus,oneof" json:"update_status,omitempty"`

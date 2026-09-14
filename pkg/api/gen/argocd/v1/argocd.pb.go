@@ -13852,7 +13852,8 @@ type AgentState struct {
 	Status *v12.AgentAggregatedHealthResponse `protobuf:"bytes,4,opt,name=status,proto3,oneof" json:"status,omitempty"`
 	// Pod identities of the agent replicas observed on the cluster.
 	AgentIds []string `protobuf:"bytes,5,rep,name=agent_ids,json=agentIds,proto3" json:"agent_ids,omitempty"`
-	// Highest spec generation the agent has successfully applied.
+	// Spec generation stamped into the agent manifest most recently applied by
+	// the user.
 	LastUserAppliedGeneration uint64 `protobuf:"varint,6,opt,name=last_user_applied_generation,json=lastUserAppliedGeneration,proto3" json:"last_user_applied_generation,omitempty"`
 	// Observed resource requests/limits on the cluster.
 	AgentResources *AgentResources `protobuf:"bytes,7,opt,name=agent_resources,json=agentResources,proto3,oneof" json:"agent_resources,omitempty"`
