@@ -97,7 +97,6 @@ type WebhookEventPayload struct {
 	OrganizationId string                 `protobuf:"bytes,3,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`                                         // The organization ID.
 	EventId        string                 `protobuf:"bytes,4,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`                                                              // The event ID.
 	// Types that are assignable to Metadata:
-	//
 	//	*WebhookEventPayload_PingEvent
 	//	*WebhookEventPayload_UsageEvent
 	//	*WebhookEventPayload_AuditEvent

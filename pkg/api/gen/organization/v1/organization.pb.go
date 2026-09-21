@@ -7852,7 +7852,6 @@ type GetSSOConfigurationResponse struct {
 
 	AutoAddMember bool `protobuf:"varint,1,opt,name=auto_add_member,json=autoAddMember,proto3" json:"auto_add_member,omitempty"`
 	// Types that are assignable to Options:
-	//
 	//	*GetSSOConfigurationResponse_AzureAd
 	//	*GetSSOConfigurationResponse_Okta
 	//	*GetSSOConfigurationResponse_GoogleWorkspace
@@ -8000,7 +7999,6 @@ type EnsureSSOConfigurationRequest struct {
 	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	AutoAddMember bool   `protobuf:"varint,2,opt,name=auto_add_member,json=autoAddMember,proto3" json:"auto_add_member,omitempty"`
 	// Types that are assignable to Options:
-	//
 	//	*EnsureSSOConfigurationRequest_AzureAd
 	//	*EnsureSSOConfigurationRequest_Okta
 	//	*EnsureSSOConfigurationRequest_GoogleWorkspace
@@ -8154,7 +8152,6 @@ type EnsureSSOConfigurationResponse struct {
 
 	AutoAddMember bool `protobuf:"varint,1,opt,name=auto_add_member,json=autoAddMember,proto3" json:"auto_add_member,omitempty"`
 	// Types that are assignable to Options:
-	//
 	//	*EnsureSSOConfigurationResponse_AzureAd
 	//	*EnsureSSOConfigurationResponse_Okta
 	//	*EnsureSSOConfigurationResponse_GoogleWorkspace
@@ -8683,7 +8680,6 @@ type OIDCSSOOptions struct {
 	Domain        string   `protobuf:"bytes,3,opt,name=domain,proto3" json:"domain,omitempty"`
 	DomainAliases []string `protobuf:"bytes,4,rep,name=domain_aliases,json=domainAliases,proto3" json:"domain_aliases,omitempty"`
 	// Types that are assignable to Channel:
-	//
 	//	*OIDCSSOOptions_Back
 	//	*OIDCSSOOptions_Front
 	Channel isOIDCSSOOptions_Channel `protobuf_oneof:"channel"`
@@ -8996,7 +8992,6 @@ type SAMLSSOOptions struct {
 	Domain        string   `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
 	DomainAliases []string `protobuf:"bytes,2,rep,name=domain_aliases,json=domainAliases,proto3" json:"domain_aliases,omitempty"`
 	// Types that are assignable to Options:
-	//
 	//	*SAMLSSOOptions_ConnectionDetails
 	//	*SAMLSSOOptions_MetadataXml
 	Options isSAMLSSOOptions_Options `protobuf_oneof:"options"`
@@ -12374,7 +12369,6 @@ type WorkspaceMember struct {
 	Id   string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Role WorkspaceMemberRole `protobuf:"varint,2,opt,name=role,proto3,enum=akuity.organization.v1.WorkspaceMemberRole" json:"role,omitempty"`
 	// Types that are assignable to Member:
-	//
 	//	*WorkspaceMember_User
 	//	*WorkspaceMember_Team
 	Member isWorkspaceMember_Member `protobuf_oneof:"member"`
@@ -12470,7 +12464,6 @@ type WorkspaceMemberRef struct {
 
 	Role WorkspaceMemberRole `protobuf:"varint,1,opt,name=role,proto3,enum=akuity.organization.v1.WorkspaceMemberRole" json:"role,omitempty"`
 	// Types that are assignable to Member:
-	//
 	//	*WorkspaceMemberRef_UserId
 	//	*WorkspaceMemberRef_UserEmail
 	//	*WorkspaceMemberRef_TeamName
@@ -21431,7 +21424,6 @@ type CreateNotificationConfigRequest struct {
 	OrganizationId string `protobuf:"bytes,1,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
 	Name           string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// Types that are assignable to Payload:
-	//
 	//	*CreateNotificationConfigRequest_Webhook
 	//	*CreateNotificationConfigRequest_Email
 	//	*CreateNotificationConfigRequest_Web
@@ -21805,7 +21797,6 @@ type UpdateNotificationConfigRequest struct {
 	OrganizationId string `protobuf:"bytes,1,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
 	Id             string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	// Types that are assignable to Payload:
-	//
 	//	*UpdateNotificationConfigRequest_Webhook
 	//	*UpdateNotificationConfigRequest_Email
 	//	*UpdateNotificationConfigRequest_Web
@@ -22798,7 +22789,6 @@ type NotificationDeliverySummary struct {
 	InitialDeliveryTime *timestamppb.Timestamp     `protobuf:"bytes,5,opt,name=initial_delivery_time,json=initialDeliveryTime,proto3" json:"initial_delivery_time,omitempty"`
 	RetryCount          uint64                     `protobuf:"varint,6,opt,name=retry_count,json=retryCount,proto3" json:"retry_count,omitempty"`
 	// Types that are assignable to Metadata:
-	//
 	//	*NotificationDeliverySummary_Webhook
 	//	*NotificationDeliverySummary_Email
 	Metadata    isNotificationDeliverySummary_Metadata `protobuf_oneof:"metadata"`
@@ -22935,7 +22925,6 @@ type NotificationDelivery struct {
 	InitialDeliveryTime *timestamppb.Timestamp     `protobuf:"bytes,5,opt,name=initial_delivery_time,json=initialDeliveryTime,proto3" json:"initial_delivery_time,omitempty"`
 	RetryCount          uint64                     `protobuf:"varint,6,opt,name=retry_count,json=retryCount,proto3" json:"retry_count,omitempty"`
 	// Types that are assignable to Metadata:
-	//
 	//	*NotificationDelivery_Webhook
 	//	*NotificationDelivery_Email
 	Metadata    isNotificationDelivery_Metadata `protobuf_oneof:"metadata"`
@@ -23166,7 +23155,6 @@ type NotificationDeliveryDetail struct {
 	InitialDeliveryTime *timestamppb.Timestamp     `protobuf:"bytes,5,opt,name=initial_delivery_time,json=initialDeliveryTime,proto3" json:"initial_delivery_time,omitempty"`
 	RetryCount          uint64                     `protobuf:"varint,6,opt,name=retry_count,json=retryCount,proto3" json:"retry_count,omitempty"`
 	// Types that are assignable to Detail:
-	//
 	//	*NotificationDeliveryDetail_Webhook
 	//	*NotificationDeliveryDetail_Email
 	Detail      isNotificationDeliveryDetail_Detail `protobuf_oneof:"detail"`
@@ -23298,7 +23286,6 @@ type NotificationConfig struct {
 
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Types that are assignable to Config:
-	//
 	//	*NotificationConfig_Webhook
 	//	*NotificationConfig_Email
 	//	*NotificationConfig_Web

@@ -15534,7 +15534,6 @@ type ExportInstanceStreamResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Resource:
-	//
 	//	*ExportInstanceStreamResponse_Argocd
 	//	*ExportInstanceStreamResponse_ArgocdConfigmap
 	//	*ExportInstanceStreamResponse_ArgocdRbacConfigmap

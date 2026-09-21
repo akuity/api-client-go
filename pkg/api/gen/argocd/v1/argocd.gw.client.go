@@ -118,14 +118,14 @@ type ArgoCDServiceGatewayClient interface {
 	// returning secret data as part of the API, this method has different semantics than other PATCH
 	// type functionality you'd expect. This behavior for the different types of data is as follows:
 	//
-	//   - managed_secret_data: Merges provided data with existing data. If a key exists in both the
-	//     existing secret and the provided data, the value from the provided data will overwrite the
-	//     existing value. If a key exists in the existing secret but not in the provided data, it will
-	//     remain unchanged. Deleting a secret key can be done by passing an empty string as the value
-	//     for that key.
-	//   - managed_secret (non-data fields): Replaces existing non-data fields with the provided fields.
-	//     Fields not provided in the request will be cleared. For example, if the existing secret has
-	//     labels and the request does not include labels, the existing labels will be removed.
+	// - managed_secret_data: Merges provided data with existing data. If a key exists in both the
+	//   existing secret and the provided data, the value from the provided data will overwrite the
+	//   existing value. If a key exists in the existing secret but not in the provided data, it will
+	//   remain unchanged. Deleting a secret key can be done by passing an empty string as the value
+	//   for that key.
+	// - managed_secret (non-data fields): Replaces existing non-data fields with the provided fields.
+	//   Fields not provided in the request will be cleared. For example, if the existing secret has
+	//   labels and the request does not include labels, the existing labels will be removed.
 	PatchManagedSecret(context.Context, *PatchManagedSecretRequest) (*PatchManagedSecretResponse, error)
 }
 

@@ -7501,7 +7501,6 @@ type ExportKargoInstanceStreamResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Resource:
-	//
 	//	*ExportKargoInstanceStreamResponse_Kargo
 	//	*ExportKargoInstanceStreamResponse_Agent
 	//	*ExportKargoInstanceStreamResponse_KargoConfigmap
