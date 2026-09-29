@@ -9,19 +9,22 @@ import (
 )
 
 const (
-	platformMetadataKey      = "x-platform"
-	apiKeyIDMetadataKey      = "x-akuity-api-key-id"
-	apiKeySecretMetadataKey  = "x-akuity-api-key-secret"
-	userTokenMetadataKey     = "x-akuity-user-token"
-	argocdTokenMetadataKey   = "x-argocd-token"
-	kargoTokenMetadataKey    = "x-kargo-token"
-	requestIDMetadataKey     = "x-request-id"
-	requestURLMetadataKey    = "x-request-url"
-	requestMethodMetadataKey = "x-request-method"
-	refreshTokenMetadataKey  = "x-refresh-token"
-	trustedPlatformHeader    = "x-trusted-platform-header"
-	requestOriginMetadataKey = "x-akuity-request-origin"
-	forwardedForMetadataKey  = "x-forwarded-for"
+	platformMetadataKey     = "x-platform"
+	apiKeyIDMetadataKey     = "x-akuity-api-key-id"
+	apiKeySecretMetadataKey = "x-akuity-api-key-secret"
+	userTokenMetadataKey    = "x-akuity-user-token"
+	// serviceAccountTokenMetadataKey carries the short-lived credential a
+	// service account receives from the OIDC token exchange.
+	serviceAccountTokenMetadataKey = "x-akuity-service-account-token"
+	argocdTokenMetadataKey         = "x-argocd-token"
+	kargoTokenMetadataKey          = "x-kargo-token"
+	requestIDMetadataKey           = "x-request-id"
+	requestURLMetadataKey          = "x-request-url"
+	requestMethodMetadataKey       = "x-request-method"
+	refreshTokenMetadataKey        = "x-refresh-token"
+	trustedPlatformHeader          = "x-trusted-platform-header"
+	requestOriginMetadataKey       = "x-akuity-request-origin"
+	forwardedForMetadataKey        = "x-forwarded-for"
 	// clientIPMetadataKey carries the caller address resolved at the HTTP
 	// boundary. It is server-owned: see serverOwnedKeys for why no gateway may
 	// let a client supply it.
@@ -33,12 +36,13 @@ const (
 )
 
 var allowedHeaders = map[string]bool{
-	apiKeyIDMetadataKey:     true,
-	apiKeySecretMetadataKey: true,
-	userTokenMetadataKey:    true,
-	argocdTokenMetadataKey:  true,
-	requestIDMetadataKey:    true,
-	kargoTokenMetadataKey:   true,
+	apiKeyIDMetadataKey:            true,
+	apiKeySecretMetadataKey:        true,
+	userTokenMetadataKey:           true,
+	serviceAccountTokenMetadataKey: true,
+	argocdTokenMetadataKey:         true,
+	requestIDMetadataKey:           true,
+	kargoTokenMetadataKey:          true,
 }
 
 // serverOwnedKeys are the metadata keys a gateway annotator derives from the
@@ -130,6 +134,18 @@ func GetUserToken(md metadata.MD) (string, bool) {
 
 func SetUserToken(md metadata.MD, token string) {
 	md.Set(userTokenMetadataKey, token)
+}
+
+func GetServiceAccountToken(md metadata.MD) (string, bool) {
+	v := md.Get(serviceAccountTokenMetadataKey)
+	if len(v) == 0 {
+		return "", false
+	}
+	return v[0], true
+}
+
+func SetServiceAccountToken(md metadata.MD, token string) {
+	md.Set(serviceAccountTokenMetadataKey, token)
 }
 
 func GetArgoCDToken(md metadata.MD) (string, bool) {

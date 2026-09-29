@@ -1107,6 +1107,73 @@ func (c *organizationServiceGatewayClient) GetAuditLogs(ctx context.Context, req
 			q.Add("filters.kargoResource.objectNamespace", fmt.Sprintf("%v", v))
 		}
 	}
+	if req.Filters.OidcIssuers != nil {
+		for _, v := range req.Filters.OidcIssuers.ObjectName {
+			q.Add("filters.oidcIssuers.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectKind {
+			q.Add("filters.oidcIssuers.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectGroup {
+			q.Add("filters.oidcIssuers.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentName {
+			q.Add("filters.oidcIssuers.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentParentName {
+			q.Add("filters.oidcIssuers.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentApplicationName {
+			q.Add("filters.oidcIssuers.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OidcIssuers.Enabled != nil {
+			q.Add("filters.oidcIssuers.enabled", fmt.Sprintf("%v", *req.Filters.OidcIssuers.Enabled))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentKargoProjectName {
+			q.Add("filters.oidcIssuers.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OidcIssuers.IncludeChildObjects != nil {
+			q.Add("filters.oidcIssuers.includeChildObjects", fmt.Sprintf("%v", *req.Filters.OidcIssuers.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectNamespace {
+			q.Add("filters.oidcIssuers.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
+	if req.Filters.ServiceAccounts != nil {
+		for _, v := range req.Filters.ServiceAccounts.ObjectName {
+			q.Add("filters.serviceAccounts.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectKind {
+			q.Add("filters.serviceAccounts.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectGroup {
+			q.Add("filters.serviceAccounts.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentName {
+			q.Add("filters.serviceAccounts.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentParentName {
+			q.Add("filters.serviceAccounts.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentApplicationName {
+			q.Add("filters.serviceAccounts.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ServiceAccounts.Enabled != nil {
+			q.Add("filters.serviceAccounts.enabled", fmt.Sprintf("%v", *req.Filters.ServiceAccounts.Enabled))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentKargoProjectName {
+			q.Add("filters.serviceAccounts.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ServiceAccounts.IncludeChildObjects != nil {
+			q.Add("filters.serviceAccounts.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ServiceAccounts.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectNamespace {
+			q.Add("filters.serviceAccounts.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
+	for _, v := range req.Filters.ActorIp {
+		q.Add("filters.actorIp", fmt.Sprintf("%v", v))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetAuditLogsResponse](ctx, gwReq)
 }
@@ -1862,6 +1929,73 @@ func (c *organizationServiceGatewayClient) GetAuditLogsInCSV(ctx context.Context
 		for _, v := range req.Filters.KargoResource.ObjectNamespace {
 			q.Add("filters.kargoResource.objectNamespace", fmt.Sprintf("%v", v))
 		}
+	}
+	if req.Filters.OidcIssuers != nil {
+		for _, v := range req.Filters.OidcIssuers.ObjectName {
+			q.Add("filters.oidcIssuers.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectKind {
+			q.Add("filters.oidcIssuers.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectGroup {
+			q.Add("filters.oidcIssuers.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentName {
+			q.Add("filters.oidcIssuers.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentParentName {
+			q.Add("filters.oidcIssuers.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentApplicationName {
+			q.Add("filters.oidcIssuers.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OidcIssuers.Enabled != nil {
+			q.Add("filters.oidcIssuers.enabled", fmt.Sprintf("%v", *req.Filters.OidcIssuers.Enabled))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectParentKargoProjectName {
+			q.Add("filters.oidcIssuers.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.OidcIssuers.IncludeChildObjects != nil {
+			q.Add("filters.oidcIssuers.includeChildObjects", fmt.Sprintf("%v", *req.Filters.OidcIssuers.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.OidcIssuers.ObjectNamespace {
+			q.Add("filters.oidcIssuers.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
+	if req.Filters.ServiceAccounts != nil {
+		for _, v := range req.Filters.ServiceAccounts.ObjectName {
+			q.Add("filters.serviceAccounts.objectName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectKind {
+			q.Add("filters.serviceAccounts.objectKind", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectGroup {
+			q.Add("filters.serviceAccounts.objectGroup", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentName {
+			q.Add("filters.serviceAccounts.objectParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentParentName {
+			q.Add("filters.serviceAccounts.objectParentParentName", fmt.Sprintf("%v", v))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentApplicationName {
+			q.Add("filters.serviceAccounts.objectParentApplicationName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ServiceAccounts.Enabled != nil {
+			q.Add("filters.serviceAccounts.enabled", fmt.Sprintf("%v", *req.Filters.ServiceAccounts.Enabled))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectParentKargoProjectName {
+			q.Add("filters.serviceAccounts.objectParentKargoProjectName", fmt.Sprintf("%v", v))
+		}
+		if req.Filters.ServiceAccounts.IncludeChildObjects != nil {
+			q.Add("filters.serviceAccounts.includeChildObjects", fmt.Sprintf("%v", *req.Filters.ServiceAccounts.IncludeChildObjects))
+		}
+		for _, v := range req.Filters.ServiceAccounts.ObjectNamespace {
+			q.Add("filters.serviceAccounts.objectNamespace", fmt.Sprintf("%v", v))
+		}
+	}
+	for _, v := range req.Filters.ActorIp {
+		q.Add("filters.actorIp", fmt.Sprintf("%v", v))
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)

@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -54,4 +55,16 @@ func TestRequestOriginIsNotForwardedByGateway(t *testing.T) {
 		_, ok := MatchIncomingMetadata(header)
 		assert.False(t, ok, "header %q must not be forwarded into gRPC metadata", header)
 	}
+}
+
+func TestServiceAccountTokenMetadata(t *testing.T) {
+	md := metadata.MD{}
+	_, ok := GetServiceAccountToken(md)
+	require.False(t, ok)
+	SetServiceAccountToken(md, "tok")
+	got, ok := GetServiceAccountToken(md)
+	require.True(t, ok)
+	require.Equal(t, "tok", got)
+	_, allowed := MatchIncomingMetadata("x-akuity-service-account-token")
+	require.True(t, allowed)
 }
