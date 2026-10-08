@@ -49,6 +49,7 @@ func (c *authServiceGatewayClient) GetOIDCProviderDetails(ctx context.Context, r
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/oidc/provider-details")
 	q := url.Values{}
 	q.Add("discoveryUrl", fmt.Sprintf("%v", req.DiscoveryUrl))
+	q.Add("organizationId", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetOIDCProviderDetailsResponse](ctx, gwReq)
 }
