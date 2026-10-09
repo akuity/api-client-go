@@ -3421,19 +3421,10 @@ func (c *organizationServiceGatewayClient) GetAIModels(ctx context.Context, req 
 }
 
 func (c *organizationServiceGatewayClient) GetAIProviderModels(ctx context.Context, req *GetAIProviderModelsRequest) (*GetAIProviderModelsResponse, error) {
-	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/ai/provider-models/{provider}")
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/ai/provider-models/{provider}")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("provider", fmt.Sprintf("%v", req.Provider))
-	q := url.Values{}
-	if req.InstanceId != nil {
-		q.Add("instanceId", fmt.Sprintf("%v", *req.InstanceId))
-	}
-	if req.KargoInstanceId != nil {
-		q.Add("kargoInstanceId", fmt.Sprintf("%v", *req.KargoInstanceId))
-	}
-	q.Add("apiBase", fmt.Sprintf("%v", req.ApiBase))
-	q.Add("apiKey", fmt.Sprintf("%v", req.ApiKey))
-	gwReq.SetQueryParamsFromValues(q)
+	gwReq.SetBody(req)
 	return gateway.DoRequest[GetAIProviderModelsResponse](ctx, gwReq)
 }
 
