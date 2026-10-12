@@ -163,6 +163,7 @@ const (
 	OrganizationService_CreateAIMessage_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
 	OrganizationService_SetAIToolApprovalStatus_FullMethodName                = "/akuity.organization.v1.OrganizationService/SetAIToolApprovalStatus"
 	OrganizationService_ListUsersMFAStatus_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListUsersMFAStatus"
+	OrganizationService_GetUserMFAFactors_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetUserMFAFactors"
 	OrganizationService_RequestMFAReset_FullMethodName                        = "/akuity.organization.v1.OrganizationService/RequestMFAReset"
 	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
 	OrganizationService_ListAITools_FullMethodName                            = "/akuity.organization.v1.OrganizationService/ListAITools"
@@ -351,6 +352,7 @@ type OrganizationServiceClient interface {
 	CreateAIMessage(ctx context.Context, in *CreateAIMessageRequest, opts ...grpc.CallOption) (*CreateAIMessageResponse, error)
 	SetAIToolApprovalStatus(ctx context.Context, in *SetAIToolApprovalStatusRequest, opts ...grpc.CallOption) (*SetAIToolApprovalStatusResponse, error)
 	ListUsersMFAStatus(ctx context.Context, in *ListUsersMFAStatusRequest, opts ...grpc.CallOption) (*ListUsersMFAStatusResponse, error)
+	GetUserMFAFactors(ctx context.Context, in *GetUserMFAFactorsRequest, opts ...grpc.CallOption) (*GetUserMFAFactorsResponse, error)
 	RequestMFAReset(ctx context.Context, in *RequestMFAResetRequest, opts ...grpc.CallOption) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(ctx context.Context, in *ListAIConversationSuggestionsRequest, opts ...grpc.CallOption) (*ListAIConversationSuggestionsResponse, error)
 	ListAITools(ctx context.Context, in *ListAIToolsRequest, opts ...grpc.CallOption) (*ListAIToolsResponse, error)
@@ -1852,6 +1854,15 @@ func (c *organizationServiceClient) ListUsersMFAStatus(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *organizationServiceClient) GetUserMFAFactors(ctx context.Context, in *GetUserMFAFactorsRequest, opts ...grpc.CallOption) (*GetUserMFAFactorsResponse, error) {
+	out := new(GetUserMFAFactorsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_GetUserMFAFactors_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationServiceClient) RequestMFAReset(ctx context.Context, in *RequestMFAResetRequest, opts ...grpc.CallOption) (*RequestMFAResetResponse, error) {
 	out := new(RequestMFAResetResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_RequestMFAReset_FullMethodName, in, out, opts...)
@@ -2150,6 +2161,7 @@ type OrganizationServiceServer interface {
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 	SetAIToolApprovalStatus(context.Context, *SetAIToolApprovalStatusRequest) (*SetAIToolApprovalStatusResponse, error)
 	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
+	GetUserMFAFactors(context.Context, *GetUserMFAFactorsRequest) (*GetUserMFAFactorsResponse, error)
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	ListAITools(context.Context, *ListAIToolsRequest) (*ListAIToolsResponse, error)
@@ -2605,6 +2617,9 @@ func (UnimplementedOrganizationServiceServer) SetAIToolApprovalStatus(context.Co
 }
 func (UnimplementedOrganizationServiceServer) ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsersMFAStatus not implemented")
+}
+func (UnimplementedOrganizationServiceServer) GetUserMFAFactors(context.Context, *GetUserMFAFactorsRequest) (*GetUserMFAFactorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserMFAFactors not implemented")
 }
 func (UnimplementedOrganizationServiceServer) RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RequestMFAReset not implemented")
@@ -5259,6 +5274,24 @@ func _OrganizationService_ListUsersMFAStatus_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_GetUserMFAFactors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserMFAFactorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).GetUserMFAFactors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_GetUserMFAFactors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).GetUserMFAFactors(ctx, req.(*GetUserMFAFactorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationService_RequestMFAReset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestMFAResetRequest)
 	if err := dec(in); err != nil {
@@ -6057,6 +6090,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListUsersMFAStatus",
 			Handler:    _OrganizationService_ListUsersMFAStatus_Handler,
+		},
+		{
+			MethodName: "GetUserMFAFactors",
+			Handler:    _OrganizationService_GetUserMFAFactors_Handler,
 		},
 		{
 			MethodName: "RequestMFAReset",

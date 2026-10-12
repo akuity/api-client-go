@@ -29,6 +29,9 @@ const (
 	UserService_GetNotificationSettings_FullMethodName    = "/akuity.user.v1.UserService/GetNotificationSettings"
 	UserService_UpdateNotificationSettings_FullMethodName = "/akuity.user.v1.UserService/UpdateNotificationSettings"
 	UserService_ResetPassword_FullMethodName              = "/akuity.user.v1.UserService/ResetPassword"
+	UserService_ListMyMFAFactors_FullMethodName           = "/akuity.user.v1.UserService/ListMyMFAFactors"
+	UserService_CreateMFAEnrollmentTicket_FullMethodName  = "/akuity.user.v1.UserService/CreateMFAEnrollmentTicket"
+	UserService_RemoveMyMFAFactor_FullMethodName          = "/akuity.user.v1.UserService/RemoveMyMFAFactor"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -45,6 +48,9 @@ type UserServiceClient interface {
 	GetNotificationSettings(ctx context.Context, in *GetNotificationSettingsRequest, opts ...grpc.CallOption) (*GetNotificationSettingsResponse, error)
 	UpdateNotificationSettings(ctx context.Context, in *UpdateNotificationSettingsRequest, opts ...grpc.CallOption) (*UpdateNotificationSettingsResponse, error)
 	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*ResetPasswordResponse, error)
+	ListMyMFAFactors(ctx context.Context, in *ListMyMFAFactorsRequest, opts ...grpc.CallOption) (*ListMyMFAFactorsResponse, error)
+	CreateMFAEnrollmentTicket(ctx context.Context, in *CreateMFAEnrollmentTicketRequest, opts ...grpc.CallOption) (*CreateMFAEnrollmentTicketResponse, error)
+	RemoveMyMFAFactor(ctx context.Context, in *RemoveMyMFAFactorRequest, opts ...grpc.CallOption) (*RemoveMyMFAFactorResponse, error)
 }
 
 type userServiceClient struct {
@@ -168,6 +174,33 @@ func (c *userServiceClient) ResetPassword(ctx context.Context, in *ResetPassword
 	return out, nil
 }
 
+func (c *userServiceClient) ListMyMFAFactors(ctx context.Context, in *ListMyMFAFactorsRequest, opts ...grpc.CallOption) (*ListMyMFAFactorsResponse, error) {
+	out := new(ListMyMFAFactorsResponse)
+	err := c.cc.Invoke(ctx, UserService_ListMyMFAFactors_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CreateMFAEnrollmentTicket(ctx context.Context, in *CreateMFAEnrollmentTicketRequest, opts ...grpc.CallOption) (*CreateMFAEnrollmentTicketResponse, error) {
+	out := new(CreateMFAEnrollmentTicketResponse)
+	err := c.cc.Invoke(ctx, UserService_CreateMFAEnrollmentTicket_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) RemoveMyMFAFactor(ctx context.Context, in *RemoveMyMFAFactorRequest, opts ...grpc.CallOption) (*RemoveMyMFAFactorResponse, error) {
+	out := new(RemoveMyMFAFactorResponse)
+	err := c.cc.Invoke(ctx, UserService_RemoveMyMFAFactor_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -182,6 +215,9 @@ type UserServiceServer interface {
 	GetNotificationSettings(context.Context, *GetNotificationSettingsRequest) (*GetNotificationSettingsResponse, error)
 	UpdateNotificationSettings(context.Context, *UpdateNotificationSettingsRequest) (*UpdateNotificationSettingsResponse, error)
 	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
+	ListMyMFAFactors(context.Context, *ListMyMFAFactorsRequest) (*ListMyMFAFactorsResponse, error)
+	CreateMFAEnrollmentTicket(context.Context, *CreateMFAEnrollmentTicketRequest) (*CreateMFAEnrollmentTicketResponse, error)
+	RemoveMyMFAFactor(context.Context, *RemoveMyMFAFactorRequest) (*RemoveMyMFAFactorResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -218,6 +254,15 @@ func (UnimplementedUserServiceServer) UpdateNotificationSettings(context.Context
 }
 func (UnimplementedUserServiceServer) ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+}
+func (UnimplementedUserServiceServer) ListMyMFAFactors(context.Context, *ListMyMFAFactorsRequest) (*ListMyMFAFactorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMyMFAFactors not implemented")
+}
+func (UnimplementedUserServiceServer) CreateMFAEnrollmentTicket(context.Context, *CreateMFAEnrollmentTicketRequest) (*CreateMFAEnrollmentTicketResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMFAEnrollmentTicket not implemented")
+}
+func (UnimplementedUserServiceServer) RemoveMyMFAFactor(context.Context, *RemoveMyMFAFactorRequest) (*RemoveMyMFAFactorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveMyMFAFactor not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -415,6 +460,60 @@ func _UserService_ResetPassword_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_ListMyMFAFactors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMyMFAFactorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ListMyMFAFactors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_ListMyMFAFactors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ListMyMFAFactors(ctx, req.(*ListMyMFAFactorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CreateMFAEnrollmentTicket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMFAEnrollmentTicketRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CreateMFAEnrollmentTicket(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_CreateMFAEnrollmentTicket_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CreateMFAEnrollmentTicket(ctx, req.(*CreateMFAEnrollmentTicketRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_RemoveMyMFAFactor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveMyMFAFactorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).RemoveMyMFAFactor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_RemoveMyMFAFactor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).RemoveMyMFAFactor(ctx, req.(*RemoveMyMFAFactorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -457,6 +556,18 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetPassword",
 			Handler:    _UserService_ResetPassword_Handler,
+		},
+		{
+			MethodName: "ListMyMFAFactors",
+			Handler:    _UserService_ListMyMFAFactors_Handler,
+		},
+		{
+			MethodName: "CreateMFAEnrollmentTicket",
+			Handler:    _UserService_CreateMFAEnrollmentTicket_Handler,
+		},
+		{
+			MethodName: "RemoveMyMFAFactor",
+			Handler:    _UserService_RemoveMyMFAFactor_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

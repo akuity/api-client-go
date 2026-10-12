@@ -22,6 +22,9 @@ type UserServiceGatewayClient interface {
 	GetNotificationSettings(context.Context, *GetNotificationSettingsRequest) (*GetNotificationSettingsResponse, error)
 	UpdateNotificationSettings(context.Context, *UpdateNotificationSettingsRequest) (*UpdateNotificationSettingsResponse, error)
 	ResetPassword(context.Context, *ResetPasswordRequest) (*ResetPasswordResponse, error)
+	ListMyMFAFactors(context.Context, *ListMyMFAFactorsRequest) (*ListMyMFAFactorsResponse, error)
+	CreateMFAEnrollmentTicket(context.Context, *CreateMFAEnrollmentTicketRequest) (*CreateMFAEnrollmentTicketResponse, error)
+	RemoveMyMFAFactor(context.Context, *RemoveMyMFAFactorRequest) (*RemoveMyMFAFactorResponse, error)
 }
 
 func NewUserServiceGatewayClient(c gateway.Client) UserServiceGatewayClient {
@@ -96,4 +99,22 @@ func (c *userServiceGatewayClient) ResetPassword(ctx context.Context, req *Reset
 	gwReq := c.gwc.NewRequest("POST", "/api/v1/users/me/reset-password")
 	gwReq.SetBody(req)
 	return gateway.DoRequest[ResetPasswordResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) ListMyMFAFactors(ctx context.Context, req *ListMyMFAFactorsRequest) (*ListMyMFAFactorsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/users/me/mfa-factors")
+	return gateway.DoRequest[ListMyMFAFactorsResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) CreateMFAEnrollmentTicket(ctx context.Context, req *CreateMFAEnrollmentTicketRequest) (*CreateMFAEnrollmentTicketResponse, error) {
+	gwReq := c.gwc.NewRequest("POST", "/api/v1/users/me/mfa-factors/enrollment-ticket")
+	gwReq.SetBody(req)
+	return gateway.DoRequest[CreateMFAEnrollmentTicketResponse](ctx, gwReq)
+}
+
+func (c *userServiceGatewayClient) RemoveMyMFAFactor(ctx context.Context, req *RemoveMyMFAFactorRequest) (*RemoveMyMFAFactorResponse, error) {
+	gwReq := c.gwc.NewRequest("DELETE", "/api/v1/users/me/mfa-factors/{id}")
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[RemoveMyMFAFactorResponse](ctx, gwReq)
 }

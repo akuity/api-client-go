@@ -181,6 +181,7 @@ type OrganizationServiceGatewayClient interface {
 	CreateAIMessage(context.Context, *CreateAIMessageRequest) (*CreateAIMessageResponse, error)
 	SetAIToolApprovalStatus(context.Context, *SetAIToolApprovalStatusRequest) (*SetAIToolApprovalStatusResponse, error)
 	ListUsersMFAStatus(context.Context, *ListUsersMFAStatusRequest) (*ListUsersMFAStatusResponse, error)
+	GetUserMFAFactors(context.Context, *GetUserMFAFactorsRequest) (*GetUserMFAFactorsResponse, error)
 	RequestMFAReset(context.Context, *RequestMFAResetRequest) (*RequestMFAResetResponse, error)
 	ListAIConversationSuggestions(context.Context, *ListAIConversationSuggestionsRequest) (*ListAIConversationSuggestionsResponse, error)
 	ListAITools(context.Context, *ListAIToolsRequest) (*ListAIToolsResponse, error)
@@ -3619,6 +3620,13 @@ func (c *organizationServiceGatewayClient) ListUsersMFAStatus(ctx context.Contex
 	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{organization_id}/users-mfa-status")
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	return gateway.DoRequest[ListUsersMFAStatusResponse](ctx, gwReq)
+}
+
+func (c *organizationServiceGatewayClient) GetUserMFAFactors(ctx context.Context, req *GetUserMFAFactorsRequest) (*GetUserMFAFactorsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/organizations/{organization_id}/users/{email}/mfa/factors")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("email", fmt.Sprintf("%v", req.Email))
+	return gateway.DoRequest[GetUserMFAFactorsResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) RequestMFAReset(ctx context.Context, req *RequestMFAResetRequest) (*RequestMFAResetResponse, error) {
