@@ -24,7 +24,9 @@ const (
 	ExtensionService_GetSyncOperationsStatsForApplication_FullMethodName        = "/akuity.extension.v1.ExtensionService/GetSyncOperationsStatsForApplication"
 	ExtensionService_GetApplicationDeploymentStatsForApplication_FullMethodName = "/akuity.extension.v1.ExtensionService/GetApplicationDeploymentStatsForApplication"
 	ExtensionService_GetSyncOperationsEventsForApplication_FullMethodName       = "/akuity.extension.v1.ExtensionService/GetSyncOperationsEventsForApplication"
+	ExtensionService_GetArgoCDUISettings_FullMethodName                         = "/akuity.extension.v1.ExtensionService/GetArgoCDUISettings"
 	ExtensionService_GetExtensionSettings_FullMethodName                        = "/akuity.extension.v1.ExtensionService/GetExtensionSettings"
+	ExtensionService_GetKargoUISettings_FullMethodName                          = "/akuity.extension.v1.ExtensionService/GetKargoUISettings"
 	ExtensionService_GetKargoAnalysisLogs_FullMethodName                        = "/akuity.extension.v1.ExtensionService/GetKargoAnalysisLogs"
 	ExtensionService_ListAuditRecordForKargoProjects_FullMethodName             = "/akuity.extension.v1.ExtensionService/ListAuditRecordForKargoProjects"
 	ExtensionService_ListFreightHistory_FullMethodName                          = "/akuity.extension.v1.ExtensionService/ListFreightHistory"
@@ -38,7 +40,14 @@ type ExtensionServiceClient interface {
 	GetSyncOperationsStatsForApplication(ctx context.Context, in *GetSyncOperationsStatsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetApplicationDeploymentStatsForApplication(ctx context.Context, in *GetApplicationDeploymentStatsForApplicationRequest, opts ...grpc.CallOption) (*GetApplicationDeploymentStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(ctx context.Context, in *GetSyncOperationsEventsForApplicationRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsForApplicationResponse, error)
+	// GetArgoCDUISettings returns the settings the Argo CD UI extensions boot
+	// with. Requires the caller's Argo CD session for the instance on the host.
+	GetArgoCDUISettings(ctx context.Context, in *GetArgoCDUISettingsRequest, opts ...grpc.CallOption) (*GetArgoCDUISettingsResponse, error)
+	// GetExtensionSettings is called by the Kargo server, not the UI.
 	GetExtensionSettings(ctx context.Context, in *GetExtensionSettingsRequest, opts ...grpc.CallOption) (*GetExtensionSettingsResponse, error)
+	// GetKargoUISettings returns the settings the Kargo UI extensions boot
+	// with. Requires the caller's Kargo token for the instance on the host.
+	GetKargoUISettings(ctx context.Context, in *GetKargoUISettingsRequest, opts ...grpc.CallOption) (*GetKargoUISettingsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -91,9 +100,27 @@ func (c *extensionServiceClient) GetSyncOperationsEventsForApplication(ctx conte
 	return out, nil
 }
 
+func (c *extensionServiceClient) GetArgoCDUISettings(ctx context.Context, in *GetArgoCDUISettingsRequest, opts ...grpc.CallOption) (*GetArgoCDUISettingsResponse, error) {
+	out := new(GetArgoCDUISettingsResponse)
+	err := c.cc.Invoke(ctx, ExtensionService_GetArgoCDUISettings_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *extensionServiceClient) GetExtensionSettings(ctx context.Context, in *GetExtensionSettingsRequest, opts ...grpc.CallOption) (*GetExtensionSettingsResponse, error) {
 	out := new(GetExtensionSettingsResponse)
 	err := c.cc.Invoke(ctx, ExtensionService_GetExtensionSettings_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *extensionServiceClient) GetKargoUISettings(ctx context.Context, in *GetKargoUISettingsRequest, opts ...grpc.CallOption) (*GetKargoUISettingsResponse, error) {
+	out := new(GetKargoUISettingsResponse)
+	err := c.cc.Invoke(ctx, ExtensionService_GetKargoUISettings_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -158,7 +185,14 @@ type ExtensionServiceServer interface {
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetApplicationDeploymentStatsForApplication(context.Context, *GetApplicationDeploymentStatsForApplicationRequest) (*GetApplicationDeploymentStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
+	// GetArgoCDUISettings returns the settings the Argo CD UI extensions boot
+	// with. Requires the caller's Argo CD session for the instance on the host.
+	GetArgoCDUISettings(context.Context, *GetArgoCDUISettingsRequest) (*GetArgoCDUISettingsResponse, error)
+	// GetExtensionSettings is called by the Kargo server, not the UI.
 	GetExtensionSettings(context.Context, *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error)
+	// GetKargoUISettings returns the settings the Kargo UI extensions boot
+	// with. Requires the caller's Kargo token for the instance on the host.
+	GetKargoUISettings(context.Context, *GetKargoUISettingsRequest) (*GetKargoUISettingsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -184,8 +218,14 @@ func (UnimplementedExtensionServiceServer) GetApplicationDeploymentStatsForAppli
 func (UnimplementedExtensionServiceServer) GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsEventsForApplication not implemented")
 }
+func (UnimplementedExtensionServiceServer) GetArgoCDUISettings(context.Context, *GetArgoCDUISettingsRequest) (*GetArgoCDUISettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetArgoCDUISettings not implemented")
+}
 func (UnimplementedExtensionServiceServer) GetExtensionSettings(context.Context, *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetExtensionSettings not implemented")
+}
+func (UnimplementedExtensionServiceServer) GetKargoUISettings(context.Context, *GetKargoUISettingsRequest) (*GetKargoUISettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKargoUISettings not implemented")
 }
 func (UnimplementedExtensionServiceServer) GetKargoAnalysisLogs(*GetKargoAnalysisLogsRequest, ExtensionService_GetKargoAnalysisLogsServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetKargoAnalysisLogs not implemented")
@@ -281,6 +321,24 @@ func _ExtensionService_GetSyncOperationsEventsForApplication_Handler(srv interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ExtensionService_GetArgoCDUISettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetArgoCDUISettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExtensionServiceServer).GetArgoCDUISettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExtensionService_GetArgoCDUISettings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExtensionServiceServer).GetArgoCDUISettings(ctx, req.(*GetArgoCDUISettingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ExtensionService_GetExtensionSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetExtensionSettingsRequest)
 	if err := dec(in); err != nil {
@@ -295,6 +353,24 @@ func _ExtensionService_GetExtensionSettings_Handler(srv interface{}, ctx context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ExtensionServiceServer).GetExtensionSettings(ctx, req.(*GetExtensionSettingsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ExtensionService_GetKargoUISettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKargoUISettingsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ExtensionServiceServer).GetKargoUISettings(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ExtensionService_GetKargoUISettings_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ExtensionServiceServer).GetKargoUISettings(ctx, req.(*GetKargoUISettingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -380,8 +456,16 @@ var ExtensionService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ExtensionService_GetSyncOperationsEventsForApplication_Handler,
 		},
 		{
+			MethodName: "GetArgoCDUISettings",
+			Handler:    _ExtensionService_GetArgoCDUISettings_Handler,
+		},
+		{
 			MethodName: "GetExtensionSettings",
 			Handler:    _ExtensionService_GetExtensionSettings_Handler,
+		},
+		{
+			MethodName: "GetKargoUISettings",
+			Handler:    _ExtensionService_GetKargoUISettings_Handler,
 		},
 		{
 			MethodName: "ListAuditRecordForKargoProjects",

@@ -16,7 +16,14 @@ type ExtensionServiceGatewayClient interface {
 	GetSyncOperationsStatsForApplication(context.Context, *GetSyncOperationsStatsForApplicationRequest) (*GetSyncOperationsStatsForApplicationResponse, error)
 	GetApplicationDeploymentStatsForApplication(context.Context, *GetApplicationDeploymentStatsForApplicationRequest) (*GetApplicationDeploymentStatsForApplicationResponse, error)
 	GetSyncOperationsEventsForApplication(context.Context, *GetSyncOperationsEventsForApplicationRequest) (*GetSyncOperationsEventsForApplicationResponse, error)
+	// GetArgoCDUISettings returns the settings the Argo CD UI extensions boot
+	// with. Requires the caller's Argo CD session for the instance on the host.
+	GetArgoCDUISettings(context.Context, *GetArgoCDUISettingsRequest) (*GetArgoCDUISettingsResponse, error)
+	// GetExtensionSettings is called by the Kargo server, not the UI.
 	GetExtensionSettings(context.Context, *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error)
+	// GetKargoUISettings returns the settings the Kargo UI extensions boot
+	// with. Requires the caller's Kargo token for the instance on the host.
+	GetKargoUISettings(context.Context, *GetKargoUISettingsRequest) (*GetKargoUISettingsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
@@ -59,9 +66,19 @@ func (c *extensionServiceGatewayClient) GetSyncOperationsEventsForApplication(ct
 	return gateway.DoRequest[GetSyncOperationsEventsForApplicationResponse](ctx, gwReq)
 }
 
+func (c *extensionServiceGatewayClient) GetArgoCDUISettings(ctx context.Context, req *GetArgoCDUISettingsRequest) (*GetArgoCDUISettingsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/argocd/extensions/ui-settings")
+	return gateway.DoRequest[GetArgoCDUISettingsResponse](ctx, gwReq)
+}
+
 func (c *extensionServiceGatewayClient) GetExtensionSettings(ctx context.Context, req *GetExtensionSettingsRequest) (*GetExtensionSettingsResponse, error) {
 	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/kargo/extensions/settings")
 	return gateway.DoRequest[GetExtensionSettingsResponse](ctx, gwReq)
+}
+
+func (c *extensionServiceGatewayClient) GetKargoUISettings(ctx context.Context, req *GetKargoUISettingsRequest) (*GetKargoUISettingsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/ext-api/v1/kargo/extensions/ui-settings")
+	return gateway.DoRequest[GetKargoUISettingsResponse](ctx, gwReq)
 }
 
 func (c *extensionServiceGatewayClient) GetKargoAnalysisLogs(ctx context.Context, req *GetKargoAnalysisLogsRequest) (<-chan *httpbody.HttpBody, <-chan error, error) {
