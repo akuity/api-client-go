@@ -27,6 +27,8 @@ const (
 	ArgoCDService_CreateInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/CreateInstance"
 	ArgoCDService_GetInstance_FullMethodName                           = "/akuity.argocd.v1.ArgoCDService/GetInstance"
 	ArgoCDService_GetInstanceCSS_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/GetInstanceCSS"
+	ArgoCDService_GetInstanceAdmissionPolicies_FullMethodName          = "/akuity.argocd.v1.ArgoCDService/GetInstanceAdmissionPolicies"
+	ArgoCDService_UpdateInstanceAdmissionPolicies_FullMethodName       = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceAdmissionPolicies"
 	ArgoCDService_GetInstanceUIExtensions_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetInstanceUIExtensions"
 	ArgoCDService_GetInstanceNotificationSettings_FullMethodName       = "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationSettings"
 	ArgoCDService_GetInstanceNotificationCatalog_FullMethodName        = "/akuity.argocd.v1.ArgoCDService/GetInstanceNotificationCatalog"
@@ -122,6 +124,11 @@ type ArgoCDServiceClient interface {
 	CreateInstance(ctx context.Context, in *CreateInstanceRequest, opts ...grpc.CallOption) (*CreateInstanceResponse, error)
 	GetInstance(ctx context.Context, in *GetInstanceRequest, opts ...grpc.CallOption) (*GetInstanceResponse, error)
 	GetInstanceCSS(ctx context.Context, in *GetInstanceCSSRequest, opts ...grpc.CallOption) (*GetInstanceCSSResponse, error)
+	GetInstanceAdmissionPolicies(ctx context.Context, in *GetInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*GetInstanceAdmissionPoliciesResponse, error)
+	// UpdateInstanceAdmissionPolicies replaces the instance's admission policies.
+	// The platform renders them into the instance control plane; policies no
+	// longer listed are removed from it.
+	UpdateInstanceAdmissionPolicies(ctx context.Context, in *UpdateInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*UpdateInstanceAdmissionPoliciesResponse, error)
 	GetInstanceUIExtensions(ctx context.Context, in *GetInstanceUIExtensionsRequest, opts ...grpc.CallOption) (*GetInstanceUIExtensionsResponse, error)
 	GetInstanceNotificationSettings(ctx context.Context, in *GetInstanceNotificationSettingsRequest, opts ...grpc.CallOption) (*GetInstanceNotificationSettingsResponse, error)
 	GetInstanceNotificationCatalog(ctx context.Context, in *GetInstanceNotificationCatalogRequest, opts ...grpc.CallOption) (*GetInstanceNotificationCatalogResponse, error)
@@ -308,6 +315,24 @@ func (c *argoCDServiceClient) GetInstance(ctx context.Context, in *GetInstanceRe
 func (c *argoCDServiceClient) GetInstanceCSS(ctx context.Context, in *GetInstanceCSSRequest, opts ...grpc.CallOption) (*GetInstanceCSSResponse, error) {
 	out := new(GetInstanceCSSResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceCSS_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) GetInstanceAdmissionPolicies(ctx context.Context, in *GetInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*GetInstanceAdmissionPoliciesResponse, error) {
+	out := new(GetInstanceAdmissionPoliciesResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceAdmissionPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceAdmissionPolicies(ctx context.Context, in *UpdateInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*UpdateInstanceAdmissionPoliciesResponse, error) {
+	out := new(UpdateInstanceAdmissionPoliciesResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceAdmissionPolicies_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1177,6 +1202,11 @@ type ArgoCDServiceServer interface {
 	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
 	GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error)
 	GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error)
+	GetInstanceAdmissionPolicies(context.Context, *GetInstanceAdmissionPoliciesRequest) (*GetInstanceAdmissionPoliciesResponse, error)
+	// UpdateInstanceAdmissionPolicies replaces the instance's admission policies.
+	// The platform renders them into the instance control plane; policies no
+	// longer listed are removed from it.
+	UpdateInstanceAdmissionPolicies(context.Context, *UpdateInstanceAdmissionPoliciesRequest) (*UpdateInstanceAdmissionPoliciesResponse, error)
 	GetInstanceUIExtensions(context.Context, *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error)
 	GetInstanceNotificationSettings(context.Context, *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error)
 	GetInstanceNotificationCatalog(context.Context, *GetInstanceNotificationCatalogRequest) (*GetInstanceNotificationCatalogResponse, error)
@@ -1305,6 +1335,12 @@ func (UnimplementedArgoCDServiceServer) GetInstance(context.Context, *GetInstanc
 }
 func (UnimplementedArgoCDServiceServer) GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceCSS not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceAdmissionPolicies(context.Context, *GetInstanceAdmissionPoliciesRequest) (*GetInstanceAdmissionPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceAdmissionPolicies not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceAdmissionPolicies(context.Context, *UpdateInstanceAdmissionPoliciesRequest) (*UpdateInstanceAdmissionPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceAdmissionPolicies not implemented")
 }
 func (UnimplementedArgoCDServiceServer) GetInstanceUIExtensions(context.Context, *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceUIExtensions not implemented")
@@ -1663,6 +1699,42 @@ func _ArgoCDService_GetInstanceCSS_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).GetInstanceCSS(ctx, req.(*GetInstanceCSSRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_GetInstanceAdmissionPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceAdmissionPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceAdmissionPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetInstanceAdmissionPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceAdmissionPolicies(ctx, req.(*GetInstanceAdmissionPoliciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceAdmissionPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceAdmissionPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceAdmissionPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateInstanceAdmissionPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceAdmissionPolicies(ctx, req.(*UpdateInstanceAdmissionPoliciesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3133,6 +3205,14 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetInstanceCSS",
 			Handler:    _ArgoCDService_GetInstanceCSS_Handler,
+		},
+		{
+			MethodName: "GetInstanceAdmissionPolicies",
+			Handler:    _ArgoCDService_GetInstanceAdmissionPolicies_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceAdmissionPolicies",
+			Handler:    _ArgoCDService_UpdateInstanceAdmissionPolicies_Handler,
 		},
 		{
 			MethodName: "GetInstanceUIExtensions",

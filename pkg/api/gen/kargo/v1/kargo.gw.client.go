@@ -17,6 +17,11 @@ type KargoServiceGatewayClient interface {
 	WatchKargoInstances(context.Context, *WatchKargoInstancesRequest) (<-chan *WatchKargoInstancesResponse, <-chan error, error)
 	CreateKargoInstance(context.Context, *CreateKargoInstanceRequest) (*CreateKargoInstanceResponse, error)
 	PatchKargoInstance(context.Context, *PatchKargoInstanceRequest) (*PatchKargoInstanceResponse, error)
+	GetKargoInstanceAdmissionPolicies(context.Context, *GetKargoInstanceAdmissionPoliciesRequest) (*GetKargoInstanceAdmissionPoliciesResponse, error)
+	// UpdateKargoInstanceAdmissionPolicies replaces the instance's admission
+	// policies. The platform renders them into the instance control plane;
+	// policies no longer listed are removed from it.
+	UpdateKargoInstanceAdmissionPolicies(context.Context, *UpdateKargoInstanceAdmissionPoliciesRequest) (*UpdateKargoInstanceAdmissionPoliciesResponse, error)
 	UpdateKargoInstanceWorkspace(context.Context, *UpdateKargoInstanceWorkspaceRequest) (*UpdateKargoInstanceWorkspaceResponse, error)
 	GetKargoInstance(context.Context, *GetKargoInstanceRequest) (*GetKargoInstanceResponse, error)
 	ListKargoInstanceAgents(context.Context, *ListKargoInstanceAgentsRequest) (*ListKargoInstanceAgentsResponse, error)
@@ -95,6 +100,24 @@ func (c *kargoServiceGatewayClient) PatchKargoInstance(ctx context.Context, req 
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req.Patch)
 	return gateway.DoRequest[PatchKargoInstanceResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) GetKargoInstanceAdmissionPolicies(ctx context.Context, req *GetKargoInstanceAdmissionPoliciesRequest) (*GetKargoInstanceAdmissionPoliciesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/kargo/instances/{id}/admission-policies")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetKargoInstanceAdmissionPoliciesResponse](ctx, gwReq)
+}
+
+func (c *kargoServiceGatewayClient) UpdateKargoInstanceAdmissionPolicies(ctx context.Context, req *UpdateKargoInstanceAdmissionPoliciesRequest) (*UpdateKargoInstanceAdmissionPoliciesResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/kargo/instances/{id}/admission-policies")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateKargoInstanceAdmissionPoliciesResponse](ctx, gwReq)
 }
 
 func (c *kargoServiceGatewayClient) UpdateKargoInstanceWorkspace(ctx context.Context, req *UpdateKargoInstanceWorkspaceRequest) (*UpdateKargoInstanceWorkspaceResponse, error) {

@@ -20,35 +20,37 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	KargoService_ListKargoInstances_FullMethodName             = "/akuity.kargo.v1.KargoService/ListKargoInstances"
-	KargoService_WatchKargoInstances_FullMethodName            = "/akuity.kargo.v1.KargoService/WatchKargoInstances"
-	KargoService_CreateKargoInstance_FullMethodName            = "/akuity.kargo.v1.KargoService/CreateKargoInstance"
-	KargoService_PatchKargoInstance_FullMethodName             = "/akuity.kargo.v1.KargoService/PatchKargoInstance"
-	KargoService_UpdateKargoInstanceWorkspace_FullMethodName   = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceWorkspace"
-	KargoService_GetKargoInstance_FullMethodName               = "/akuity.kargo.v1.KargoService/GetKargoInstance"
-	KargoService_ListKargoInstanceAgents_FullMethodName        = "/akuity.kargo.v1.KargoService/ListKargoInstanceAgents"
-	KargoService_WatchKargoInstanceAgents_FullMethodName       = "/akuity.kargo.v1.KargoService/WatchKargoInstanceAgents"
-	KargoService_CreateKargoInstanceAgent_FullMethodName       = "/akuity.kargo.v1.KargoService/CreateKargoInstanceAgent"
-	KargoService_UpdateKargoInstanceAgent_FullMethodName       = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgent"
-	KargoService_UpdateKargoInstanceAgents_FullMethodName      = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgents"
-	KargoService_UpdateKargoInstancesMCP_FullMethodName        = "/akuity.kargo.v1.KargoService/UpdateKargoInstancesMCP"
-	KargoService_GetKargoInstanceAgent_FullMethodName          = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgent"
-	KargoService_GetKargoInstanceAgentManifests_FullMethodName = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgentManifests"
-	KargoService_GetInstanceAgentCommand_FullMethodName        = "/akuity.kargo.v1.KargoService/GetInstanceAgentCommand"
-	KargoService_DeleteInstance_FullMethodName                 = "/akuity.kargo.v1.KargoService/DeleteInstance"
-	KargoService_DeleteInstanceAgent_FullMethodName            = "/akuity.kargo.v1.KargoService/DeleteInstanceAgent"
-	KargoService_RotateInstanceAgentCredentials_FullMethodName = "/akuity.kargo.v1.KargoService/RotateInstanceAgentCredentials"
-	KargoService_RegenerateManifests_FullMethodName            = "/akuity.kargo.v1.KargoService/RegenerateManifests"
-	KargoService_SetAgentMaintenanceMode_FullMethodName        = "/akuity.kargo.v1.KargoService/SetAgentMaintenanceMode"
-	KargoService_UpdateInstanceAgentVersion_FullMethodName     = "/akuity.kargo.v1.KargoService/UpdateInstanceAgentVersion"
-	KargoService_GetPromotionStats_FullMethodName              = "/akuity.kargo.v1.KargoService/GetPromotionStats"
-	KargoService_GetPromotionEvents_FullMethodName             = "/akuity.kargo.v1.KargoService/GetPromotionEvents"
-	KargoService_GetStageSpecificStats_FullMethodName          = "/akuity.kargo.v1.KargoService/GetStageSpecificStats"
-	KargoService_GetPromotionBreakdown_FullMethodName          = "/akuity.kargo.v1.KargoService/GetPromotionBreakdown"
-	KargoService_GetPromotionFailureReasons_FullMethodName     = "/akuity.kargo.v1.KargoService/GetPromotionFailureReasons"
-	KargoService_ApplyKargoInstance_FullMethodName             = "/akuity.kargo.v1.KargoService/ApplyKargoInstance"
-	KargoService_ExportKargoInstance_FullMethodName            = "/akuity.kargo.v1.KargoService/ExportKargoInstance"
-	KargoService_ExportKargoInstanceStream_FullMethodName      = "/akuity.kargo.v1.KargoService/ExportKargoInstanceStream"
+	KargoService_ListKargoInstances_FullMethodName                   = "/akuity.kargo.v1.KargoService/ListKargoInstances"
+	KargoService_WatchKargoInstances_FullMethodName                  = "/akuity.kargo.v1.KargoService/WatchKargoInstances"
+	KargoService_CreateKargoInstance_FullMethodName                  = "/akuity.kargo.v1.KargoService/CreateKargoInstance"
+	KargoService_PatchKargoInstance_FullMethodName                   = "/akuity.kargo.v1.KargoService/PatchKargoInstance"
+	KargoService_GetKargoInstanceAdmissionPolicies_FullMethodName    = "/akuity.kargo.v1.KargoService/GetKargoInstanceAdmissionPolicies"
+	KargoService_UpdateKargoInstanceAdmissionPolicies_FullMethodName = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAdmissionPolicies"
+	KargoService_UpdateKargoInstanceWorkspace_FullMethodName         = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceWorkspace"
+	KargoService_GetKargoInstance_FullMethodName                     = "/akuity.kargo.v1.KargoService/GetKargoInstance"
+	KargoService_ListKargoInstanceAgents_FullMethodName              = "/akuity.kargo.v1.KargoService/ListKargoInstanceAgents"
+	KargoService_WatchKargoInstanceAgents_FullMethodName             = "/akuity.kargo.v1.KargoService/WatchKargoInstanceAgents"
+	KargoService_CreateKargoInstanceAgent_FullMethodName             = "/akuity.kargo.v1.KargoService/CreateKargoInstanceAgent"
+	KargoService_UpdateKargoInstanceAgent_FullMethodName             = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgent"
+	KargoService_UpdateKargoInstanceAgents_FullMethodName            = "/akuity.kargo.v1.KargoService/UpdateKargoInstanceAgents"
+	KargoService_UpdateKargoInstancesMCP_FullMethodName              = "/akuity.kargo.v1.KargoService/UpdateKargoInstancesMCP"
+	KargoService_GetKargoInstanceAgent_FullMethodName                = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgent"
+	KargoService_GetKargoInstanceAgentManifests_FullMethodName       = "/akuity.kargo.v1.KargoService/GetKargoInstanceAgentManifests"
+	KargoService_GetInstanceAgentCommand_FullMethodName              = "/akuity.kargo.v1.KargoService/GetInstanceAgentCommand"
+	KargoService_DeleteInstance_FullMethodName                       = "/akuity.kargo.v1.KargoService/DeleteInstance"
+	KargoService_DeleteInstanceAgent_FullMethodName                  = "/akuity.kargo.v1.KargoService/DeleteInstanceAgent"
+	KargoService_RotateInstanceAgentCredentials_FullMethodName       = "/akuity.kargo.v1.KargoService/RotateInstanceAgentCredentials"
+	KargoService_RegenerateManifests_FullMethodName                  = "/akuity.kargo.v1.KargoService/RegenerateManifests"
+	KargoService_SetAgentMaintenanceMode_FullMethodName              = "/akuity.kargo.v1.KargoService/SetAgentMaintenanceMode"
+	KargoService_UpdateInstanceAgentVersion_FullMethodName           = "/akuity.kargo.v1.KargoService/UpdateInstanceAgentVersion"
+	KargoService_GetPromotionStats_FullMethodName                    = "/akuity.kargo.v1.KargoService/GetPromotionStats"
+	KargoService_GetPromotionEvents_FullMethodName                   = "/akuity.kargo.v1.KargoService/GetPromotionEvents"
+	KargoService_GetStageSpecificStats_FullMethodName                = "/akuity.kargo.v1.KargoService/GetStageSpecificStats"
+	KargoService_GetPromotionBreakdown_FullMethodName                = "/akuity.kargo.v1.KargoService/GetPromotionBreakdown"
+	KargoService_GetPromotionFailureReasons_FullMethodName           = "/akuity.kargo.v1.KargoService/GetPromotionFailureReasons"
+	KargoService_ApplyKargoInstance_FullMethodName                   = "/akuity.kargo.v1.KargoService/ApplyKargoInstance"
+	KargoService_ExportKargoInstance_FullMethodName                  = "/akuity.kargo.v1.KargoService/ExportKargoInstance"
+	KargoService_ExportKargoInstanceStream_FullMethodName            = "/akuity.kargo.v1.KargoService/ExportKargoInstanceStream"
 )
 
 // KargoServiceClient is the client API for KargoService service.
@@ -59,6 +61,11 @@ type KargoServiceClient interface {
 	WatchKargoInstances(ctx context.Context, in *WatchKargoInstancesRequest, opts ...grpc.CallOption) (KargoService_WatchKargoInstancesClient, error)
 	CreateKargoInstance(ctx context.Context, in *CreateKargoInstanceRequest, opts ...grpc.CallOption) (*CreateKargoInstanceResponse, error)
 	PatchKargoInstance(ctx context.Context, in *PatchKargoInstanceRequest, opts ...grpc.CallOption) (*PatchKargoInstanceResponse, error)
+	GetKargoInstanceAdmissionPolicies(ctx context.Context, in *GetKargoInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*GetKargoInstanceAdmissionPoliciesResponse, error)
+	// UpdateKargoInstanceAdmissionPolicies replaces the instance's admission
+	// policies. The platform renders them into the instance control plane;
+	// policies no longer listed are removed from it.
+	UpdateKargoInstanceAdmissionPolicies(ctx context.Context, in *UpdateKargoInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceAdmissionPoliciesResponse, error)
 	UpdateKargoInstanceWorkspace(ctx context.Context, in *UpdateKargoInstanceWorkspaceRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceWorkspaceResponse, error)
 	GetKargoInstance(ctx context.Context, in *GetKargoInstanceRequest, opts ...grpc.CallOption) (*GetKargoInstanceResponse, error)
 	ListKargoInstanceAgents(ctx context.Context, in *ListKargoInstanceAgentsRequest, opts ...grpc.CallOption) (*ListKargoInstanceAgentsResponse, error)
@@ -154,6 +161,24 @@ func (c *kargoServiceClient) CreateKargoInstance(ctx context.Context, in *Create
 func (c *kargoServiceClient) PatchKargoInstance(ctx context.Context, in *PatchKargoInstanceRequest, opts ...grpc.CallOption) (*PatchKargoInstanceResponse, error) {
 	out := new(PatchKargoInstanceResponse)
 	err := c.cc.Invoke(ctx, KargoService_PatchKargoInstance_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) GetKargoInstanceAdmissionPolicies(ctx context.Context, in *GetKargoInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*GetKargoInstanceAdmissionPoliciesResponse, error) {
+	out := new(GetKargoInstanceAdmissionPoliciesResponse)
+	err := c.cc.Invoke(ctx, KargoService_GetKargoInstanceAdmissionPolicies_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *kargoServiceClient) UpdateKargoInstanceAdmissionPolicies(ctx context.Context, in *UpdateKargoInstanceAdmissionPoliciesRequest, opts ...grpc.CallOption) (*UpdateKargoInstanceAdmissionPoliciesResponse, error) {
+	out := new(UpdateKargoInstanceAdmissionPoliciesResponse)
+	err := c.cc.Invoke(ctx, KargoService_UpdateKargoInstanceAdmissionPolicies_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -462,6 +487,11 @@ type KargoServiceServer interface {
 	WatchKargoInstances(*WatchKargoInstancesRequest, KargoService_WatchKargoInstancesServer) error
 	CreateKargoInstance(context.Context, *CreateKargoInstanceRequest) (*CreateKargoInstanceResponse, error)
 	PatchKargoInstance(context.Context, *PatchKargoInstanceRequest) (*PatchKargoInstanceResponse, error)
+	GetKargoInstanceAdmissionPolicies(context.Context, *GetKargoInstanceAdmissionPoliciesRequest) (*GetKargoInstanceAdmissionPoliciesResponse, error)
+	// UpdateKargoInstanceAdmissionPolicies replaces the instance's admission
+	// policies. The platform renders them into the instance control plane;
+	// policies no longer listed are removed from it.
+	UpdateKargoInstanceAdmissionPolicies(context.Context, *UpdateKargoInstanceAdmissionPoliciesRequest) (*UpdateKargoInstanceAdmissionPoliciesResponse, error)
 	UpdateKargoInstanceWorkspace(context.Context, *UpdateKargoInstanceWorkspaceRequest) (*UpdateKargoInstanceWorkspaceResponse, error)
 	GetKargoInstance(context.Context, *GetKargoInstanceRequest) (*GetKargoInstanceResponse, error)
 	ListKargoInstanceAgents(context.Context, *ListKargoInstanceAgentsRequest) (*ListKargoInstanceAgentsResponse, error)
@@ -512,6 +542,12 @@ func (UnimplementedKargoServiceServer) CreateKargoInstance(context.Context, *Cre
 }
 func (UnimplementedKargoServiceServer) PatchKargoInstance(context.Context, *PatchKargoInstanceRequest) (*PatchKargoInstanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PatchKargoInstance not implemented")
+}
+func (UnimplementedKargoServiceServer) GetKargoInstanceAdmissionPolicies(context.Context, *GetKargoInstanceAdmissionPoliciesRequest) (*GetKargoInstanceAdmissionPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetKargoInstanceAdmissionPolicies not implemented")
+}
+func (UnimplementedKargoServiceServer) UpdateKargoInstanceAdmissionPolicies(context.Context, *UpdateKargoInstanceAdmissionPoliciesRequest) (*UpdateKargoInstanceAdmissionPoliciesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateKargoInstanceAdmissionPolicies not implemented")
 }
 func (UnimplementedKargoServiceServer) UpdateKargoInstanceWorkspace(context.Context, *UpdateKargoInstanceWorkspaceRequest) (*UpdateKargoInstanceWorkspaceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateKargoInstanceWorkspace not implemented")
@@ -672,6 +708,42 @@ func _KargoService_PatchKargoInstance_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(KargoServiceServer).PatchKargoInstance(ctx, req.(*PatchKargoInstanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_GetKargoInstanceAdmissionPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetKargoInstanceAdmissionPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).GetKargoInstanceAdmissionPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_GetKargoInstanceAdmissionPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).GetKargoInstanceAdmissionPolicies(ctx, req.(*GetKargoInstanceAdmissionPoliciesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _KargoService_UpdateKargoInstanceAdmissionPolicies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateKargoInstanceAdmissionPoliciesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).UpdateKargoInstanceAdmissionPolicies(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_UpdateKargoInstanceAdmissionPolicies_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).UpdateKargoInstanceAdmissionPolicies(ctx, req.(*UpdateKargoInstanceAdmissionPoliciesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1153,6 +1225,14 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PatchKargoInstance",
 			Handler:    _KargoService_PatchKargoInstance_Handler,
+		},
+		{
+			MethodName: "GetKargoInstanceAdmissionPolicies",
+			Handler:    _KargoService_GetKargoInstanceAdmissionPolicies_Handler,
+		},
+		{
+			MethodName: "UpdateKargoInstanceAdmissionPolicies",
+			Handler:    _KargoService_UpdateKargoInstanceAdmissionPolicies_Handler,
 		},
 		{
 			MethodName: "UpdateKargoInstanceWorkspace",

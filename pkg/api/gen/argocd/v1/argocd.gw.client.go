@@ -23,6 +23,11 @@ type ArgoCDServiceGatewayClient interface {
 	CreateInstance(context.Context, *CreateInstanceRequest) (*CreateInstanceResponse, error)
 	GetInstance(context.Context, *GetInstanceRequest) (*GetInstanceResponse, error)
 	GetInstanceCSS(context.Context, *GetInstanceCSSRequest) (*GetInstanceCSSResponse, error)
+	GetInstanceAdmissionPolicies(context.Context, *GetInstanceAdmissionPoliciesRequest) (*GetInstanceAdmissionPoliciesResponse, error)
+	// UpdateInstanceAdmissionPolicies replaces the instance's admission policies.
+	// The platform renders them into the instance control plane; policies no
+	// longer listed are removed from it.
+	UpdateInstanceAdmissionPolicies(context.Context, *UpdateInstanceAdmissionPoliciesRequest) (*UpdateInstanceAdmissionPoliciesResponse, error)
 	GetInstanceUIExtensions(context.Context, *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error)
 	GetInstanceNotificationSettings(context.Context, *GetInstanceNotificationSettingsRequest) (*GetInstanceNotificationSettingsResponse, error)
 	GetInstanceNotificationCatalog(context.Context, *GetInstanceNotificationCatalogRequest) (*GetInstanceNotificationCatalogResponse, error)
@@ -191,6 +196,24 @@ func (c *argoCDServiceGatewayClient) GetInstanceCSS(ctx context.Context, req *Ge
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceCSSResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceAdmissionPolicies(ctx context.Context, req *GetInstanceAdmissionPoliciesRequest) (*GetInstanceAdmissionPoliciesResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/admission-policies")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetInstanceAdmissionPoliciesResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstanceAdmissionPolicies(ctx context.Context, req *UpdateInstanceAdmissionPoliciesRequest) (*UpdateInstanceAdmissionPoliciesResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/argocd/instances/{id}/admission-policies")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstanceAdmissionPoliciesResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) GetInstanceUIExtensions(ctx context.Context, req *GetInstanceUIExtensionsRequest) (*GetInstanceUIExtensionsResponse, error) {

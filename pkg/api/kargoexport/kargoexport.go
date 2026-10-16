@@ -58,6 +58,10 @@ func AppendStreamResponse(res *kargov1.ExportKargoInstanceResponse, msg *kargov1
 		res.CustomPromotionSteps = append(res.CustomPromotionSteps, r.CustomPromotionStep)
 	case *kargov1.ExportKargoInstanceStreamResponse_ClusterConfig:
 		res.ClusterConfigs = append(res.ClusterConfigs, r.ClusterConfig)
+	case *kargov1.ExportKargoInstanceStreamResponse_ValidatingAdmissionPolicy:
+		res.ValidatingAdmissionPolicies = append(res.ValidatingAdmissionPolicies, r.ValidatingAdmissionPolicy)
+	case *kargov1.ExportKargoInstanceStreamResponse_ValidatingAdmissionPolicyBinding:
+		res.ValidatingAdmissionPolicyBindings = append(res.ValidatingAdmissionPolicyBindings, r.ValidatingAdmissionPolicyBinding)
 	}
 }
 
