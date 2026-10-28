@@ -72,6 +72,9 @@ type ArgoCDServiceGatewayClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetInstanceClusterManifests(context.Context, *GetInstanceClusterManifestsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
+	// Partially update a cluster with a JSON merge patch (RFC 7386) over the cluster as
+	// GetInstanceCluster returns it; fields the patch omits keep their current values.
+	PatchInstanceCluster(context.Context, *PatchInstanceClusterRequest) (*PatchInstanceClusterResponse, error)
 	UpdateInstanceClusterSupportAccess(context.Context, *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
 	UpdateInstancesMCP(context.Context, *UpdateInstancesMCPRequest) (*UpdateInstancesMCPResponse, error)
@@ -689,6 +692,15 @@ func (c *argoCDServiceGatewayClient) UpdateInstanceCluster(ctx context.Context, 
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[UpdateInstanceClusterResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) PatchInstanceCluster(ctx context.Context, req *PatchInstanceClusterRequest) (*PatchInstanceClusterResponse, error) {
+	gwReq := c.gwc.NewRequest("PATCH", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/clusters/{id}")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
+	gwReq.SetBody(req.Patch)
+	return gateway.DoRequest[PatchInstanceClusterResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) UpdateInstanceClusterSupportAccess(ctx context.Context, req *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error) {

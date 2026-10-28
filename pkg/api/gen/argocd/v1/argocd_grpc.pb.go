@@ -68,6 +68,7 @@ const (
 	ArgoCDService_GetInstanceClusterInfo_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterInfo"
 	ArgoCDService_GetInstanceClusterManifests_FullMethodName           = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterManifests"
 	ArgoCDService_UpdateInstanceCluster_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceCluster"
+	ArgoCDService_PatchInstanceCluster_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/PatchInstanceCluster"
 	ArgoCDService_UpdateInstanceClusterSupportAccess_FullMethodName    = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusterSupportAccess"
 	ArgoCDService_UpdateInstanceClusters_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceClusters"
 	ArgoCDService_UpdateInstancesMCP_FullMethodName                    = "/akuity.argocd.v1.ArgoCDService/UpdateInstancesMCP"
@@ -177,6 +178,9 @@ type ArgoCDServiceClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetInstanceClusterManifests(ctx context.Context, in *GetInstanceClusterManifestsRequest, opts ...grpc.CallOption) (ArgoCDService_GetInstanceClusterManifestsClient, error)
 	UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error)
+	// Partially update a cluster with a JSON merge patch (RFC 7386) over the cluster as
+	// GetInstanceCluster returns it; fields the patch omits keep their current values.
+	PatchInstanceCluster(ctx context.Context, in *PatchInstanceClusterRequest, opts ...grpc.CallOption) (*PatchInstanceClusterResponse, error)
 	UpdateInstanceClusterSupportAccess(ctx context.Context, in *UpdateInstanceClusterSupportAccessRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(ctx context.Context, in *UpdateInstanceClustersRequest, opts ...grpc.CallOption) (*UpdateInstanceClustersResponse, error)
 	UpdateInstancesMCP(ctx context.Context, in *UpdateInstancesMCPRequest, opts ...grpc.CallOption) (*UpdateInstancesMCPResponse, error)
@@ -751,6 +755,15 @@ func (x *argoCDServiceGetInstanceClusterManifestsClient) Recv() (*httpbody.HttpB
 func (c *argoCDServiceClient) UpdateInstanceCluster(ctx context.Context, in *UpdateInstanceClusterRequest, opts ...grpc.CallOption) (*UpdateInstanceClusterResponse, error) {
 	out := new(UpdateInstanceClusterResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceCluster_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) PatchInstanceCluster(ctx context.Context, in *PatchInstanceClusterRequest, opts ...grpc.CallOption) (*PatchInstanceClusterResponse, error) {
+	out := new(PatchInstanceClusterResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_PatchInstanceCluster_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1339,6 +1352,9 @@ type ArgoCDServiceServer interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	GetInstanceClusterManifests(*GetInstanceClusterManifestsRequest, ArgoCDService_GetInstanceClusterManifestsServer) error
 	UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error)
+	// Partially update a cluster with a JSON merge patch (RFC 7386) over the cluster as
+	// GetInstanceCluster returns it; fields the patch omits keep their current values.
+	PatchInstanceCluster(context.Context, *PatchInstanceClusterRequest) (*PatchInstanceClusterResponse, error)
 	UpdateInstanceClusterSupportAccess(context.Context, *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error)
 	UpdateInstanceClusters(context.Context, *UpdateInstanceClustersRequest) (*UpdateInstanceClustersResponse, error)
 	UpdateInstancesMCP(context.Context, *UpdateInstancesMCPRequest) (*UpdateInstancesMCPResponse, error)
@@ -1569,6 +1585,9 @@ func (UnimplementedArgoCDServiceServer) GetInstanceClusterManifests(*GetInstance
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceCluster(context.Context, *UpdateInstanceClusterRequest) (*UpdateInstanceClusterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceCluster not implemented")
+}
+func (UnimplementedArgoCDServiceServer) PatchInstanceCluster(context.Context, *PatchInstanceClusterRequest) (*PatchInstanceClusterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatchInstanceCluster not implemented")
 }
 func (UnimplementedArgoCDServiceServer) UpdateInstanceClusterSupportAccess(context.Context, *UpdateInstanceClusterSupportAccessRequest) (*UpdateInstanceClusterSupportAccessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceClusterSupportAccess not implemented")
@@ -2551,6 +2570,24 @@ func _ArgoCDService_UpdateInstanceCluster_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArgoCDServiceServer).UpdateInstanceCluster(ctx, req.(*UpdateInstanceClusterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_PatchInstanceCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PatchInstanceClusterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).PatchInstanceCluster(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_PatchInstanceCluster_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).PatchInstanceCluster(ctx, req.(*PatchInstanceClusterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3558,6 +3595,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateInstanceCluster",
 			Handler:    _ArgoCDService_UpdateInstanceCluster_Handler,
+		},
+		{
+			MethodName: "PatchInstanceCluster",
+			Handler:    _ArgoCDService_PatchInstanceCluster_Handler,
 		},
 		{
 			MethodName: "UpdateInstanceClusterSupportAccess",
