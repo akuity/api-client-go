@@ -6,6 +6,7 @@ package argocdv1
 import (
 	context "context"
 	fmt "fmt"
+	v1 "github.com/akuity/api-client-go/pkg/api/gen/types/logs/v1"
 	gateway "github.com/akuity/grpc-gateway-client/pkg/grpc/gateway"
 	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -51,6 +52,8 @@ type ArgoCDServiceGatewayClient interface {
 	UpdateInstanceConfigManagementPlugins(context.Context, *UpdateInstanceConfigManagementPluginsRequest) (*UpdateInstanceConfigManagementPluginsResponse, error)
 	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
 	RefreshInstanceRunbookRepo(context.Context, *RefreshInstanceRunbookRepoRequest) (*RefreshInstanceRunbookRepoResponse, error)
+	GetInstanceRunbooks(context.Context, *GetInstanceRunbooksRequest) (*GetInstanceRunbooksResponse, error)
+	UpdateInstanceRunbooks(context.Context, *UpdateInstanceRunbooksRequest) (*UpdateInstanceRunbooksResponse, error)
 	ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error)
 	UpdateInstanceAccountPassword(context.Context, *UpdateInstanceAccountPasswordRequest) (*UpdateInstanceAccountPasswordResponse, error)
@@ -92,6 +95,29 @@ type ArgoCDServiceGatewayClient interface {
 	// preferred API for large instances; ExportInstance is kept for backward
 	// compatibility.
 	ExportInstanceStream(context.Context, *ExportInstanceStreamRequest) (<-chan *ExportInstanceStreamResponse, <-chan error, error)
+	// GetInstanceComponentLogs streams live logs of one Argo CD control-plane
+	// component, the kubectl-logs equivalent for the instance's own workloads.
+	// Nothing is stored: the stream ends when the client disconnects, when
+	// until_time passes, or, with follow=false, when the tail is exhausted.
+	// A followed stream also ends, without a last=true message, when one of
+	// the component's pods goes away or restarts a container: reconnect to
+	// follow the pods running then.
+	// It ends with ResourceExhausted when a newer followed stream on the
+	// instance pushes it out, and with DeadlineExceeded once it has been open
+	// for the server's maximum age (one hour by default): reopen it to keep
+	// following.
+	// An instance hosted on another shard is served by that shard's own
+	// portal-server: the request is redirected there (HTTP 307). The redirect URL
+	// carries a short-lived token for the calling identity, so a browser session,
+	// whose cookie never reaches the shard, is authenticated there as well; a
+	// client that sends its credential in a header simply presents it again.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	GetInstanceComponentLogs(context.Context, *v1.GetInstanceComponentLogsRequest) (<-chan *v1.GetInstanceComponentLogsResponse, <-chan error, error)
+	// ListInstanceComponents lists the control-plane components of the instance
+	// that run right now, with their pods and containers, so a client can offer
+	// only what GetInstanceComponentLogs can serve.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	ListInstanceComponents(context.Context, *v1.ListInstanceComponentsRequest) (*v1.ListInstanceComponentsResponse, error)
 	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
 	CreateInstanceAddonRepo(context.Context, *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error)
@@ -412,6 +438,24 @@ func (c *argoCDServiceGatewayClient) RefreshInstanceRunbookRepo(ctx context.Cont
 	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
 	gwReq.SetBody(req)
 	return gateway.DoRequest[RefreshInstanceRunbookRepoResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceRunbooks(ctx context.Context, req *GetInstanceRunbooksRequest) (*GetInstanceRunbooksResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/runbooks")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[GetInstanceRunbooksResponse](ctx, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) UpdateInstanceRunbooks(ctx context.Context, req *UpdateInstanceRunbooksRequest) (*UpdateInstanceRunbooksResponse, error) {
+	gwReq := c.gwc.NewRequest("PUT", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/runbooks")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetBody(req)
+	return gateway.DoRequest[UpdateInstanceRunbooksResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) ListInstanceAccounts(ctx context.Context, req *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error) {
@@ -788,6 +832,56 @@ func (c *argoCDServiceGatewayClient) ExportInstanceStream(ctx context.Context, r
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[ExportInstanceStreamResponse](ctx, c.gwc, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) GetInstanceComponentLogs(ctx context.Context, req *v1.GetInstanceComponentLogsRequest) (<-chan *v1.GetInstanceComponentLogsResponse, <-chan error, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/stream/orgs/{organization_id}/argocd/instances/{instance_id}/components/{component}/logs")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	gwReq.SetPathParam("component", fmt.Sprintf("%v", req.Component))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	if req.Container != nil {
+		q.Add("container", fmt.Sprintf("%v", *req.Container))
+	}
+	if req.SinceSeconds != nil {
+		q.Add("sinceSeconds", fmt.Sprintf("%v", *req.SinceSeconds))
+	}
+	if req.SinceTime != nil {
+		q.Add("sinceTime.seconds", fmt.Sprintf("%v", req.SinceTime.Seconds))
+		q.Add("sinceTime.nanos", fmt.Sprintf("%v", req.SinceTime.Nanos))
+	}
+	if req.TailLines != nil {
+		q.Add("tailLines", fmt.Sprintf("%v", *req.TailLines))
+	}
+	if req.Follow != nil {
+		q.Add("follow", fmt.Sprintf("%v", *req.Follow))
+	}
+	if req.UntilTime != nil {
+		q.Add("untilTime.seconds", fmt.Sprintf("%v", req.UntilTime.Seconds))
+		q.Add("untilTime.nanos", fmt.Sprintf("%v", req.UntilTime.Nanos))
+	}
+	if req.Previous != nil {
+		q.Add("previous", fmt.Sprintf("%v", *req.Previous))
+	}
+	if req.Filter != nil {
+		q.Add("filter", fmt.Sprintf("%v", *req.Filter))
+	}
+	if req.Pod != nil {
+		q.Add("pod", fmt.Sprintf("%v", *req.Pod))
+	}
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoStreamingRequest[v1.GetInstanceComponentLogsResponse](ctx, c.gwc, gwReq)
+}
+
+func (c *argoCDServiceGatewayClient) ListInstanceComponents(ctx context.Context, req *v1.ListInstanceComponentsRequest) (*v1.ListInstanceComponentsResponse, error) {
+	gwReq := c.gwc.NewRequest("GET", "/api/v1/orgs/{organization_id}/argocd/instances/{instance_id}/components")
+	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
+	gwReq.SetPathParam("instance_id", fmt.Sprintf("%v", req.InstanceId))
+	q := url.Values{}
+	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	gwReq.SetQueryParamsFromValues(q)
+	return gateway.DoRequest[v1.ListInstanceComponentsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) ListInstanceAddonRepos(ctx context.Context, req *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error) {

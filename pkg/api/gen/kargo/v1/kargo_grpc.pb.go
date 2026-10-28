@@ -8,6 +8,7 @@ package kargov1
 
 import (
 	context "context"
+	v1 "github.com/akuity/api-client-go/pkg/api/gen/types/logs/v1"
 	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -51,6 +52,8 @@ const (
 	KargoService_ApplyKargoInstance_FullMethodName                   = "/akuity.kargo.v1.KargoService/ApplyKargoInstance"
 	KargoService_ExportKargoInstance_FullMethodName                  = "/akuity.kargo.v1.KargoService/ExportKargoInstance"
 	KargoService_ExportKargoInstanceStream_FullMethodName            = "/akuity.kargo.v1.KargoService/ExportKargoInstanceStream"
+	KargoService_GetKargoInstanceComponentLogs_FullMethodName        = "/akuity.kargo.v1.KargoService/GetKargoInstanceComponentLogs"
+	KargoService_ListKargoInstanceComponents_FullMethodName          = "/akuity.kargo.v1.KargoService/ListKargoInstanceComponents"
 )
 
 // KargoServiceClient is the client API for KargoService service.
@@ -98,6 +101,34 @@ type KargoServiceClient interface {
 	// This is the preferred API for large instances; ExportKargoInstance is kept
 	// for backward compatibility.
 	ExportKargoInstanceStream(ctx context.Context, in *ExportKargoInstanceStreamRequest, opts ...grpc.CallOption) (KargoService_ExportKargoInstanceStreamClient, error)
+	// GetKargoInstanceComponentLogs streams live logs of one Kargo control-plane
+	// component, the kubectl-logs equivalent for the instance's own workloads.
+	// Components a Kargo version does not ship are reported as not deployed.
+	// Nothing is stored: the stream ends when the client disconnects, when
+	// until_time passes, or, with follow=false, when the tail is exhausted.
+	// A followed stream also ends, without a last=true message, when one of
+	// the component's pods goes away or restarts a container: reconnect to
+	// follow the pods running then.
+	// It ends with ResourceExhausted when a newer followed stream on the
+	// instance pushes it out, and with DeadlineExceeded once it has been open
+	// for the server's maximum age (one hour by default): reopen it to keep
+	// following.
+	// An instance hosted on another shard is served by that shard's own
+	// portal-server: the request is redirected there (HTTP 307). The redirect URL
+	// carries a short-lived token for the calling identity, so a browser session,
+	// whose cookie never reaches the shard, is authenticated there as well; a
+	// client that sends its credential in a header simply presents it again.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoInstanceComponentLogs(ctx context.Context, in *v1.GetInstanceComponentLogsRequest, opts ...grpc.CallOption) (KargoService_GetKargoInstanceComponentLogsClient, error)
+	// ListKargoInstanceComponents lists the control-plane components of the
+	// instance that run right now, with their pods and containers, so a client
+	// can offer only what GetKargoInstanceComponentLogs can serve.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKargoInstanceComponents(ctx context.Context, in *v1.ListInstanceComponentsRequest, opts ...grpc.CallOption) (*v1.ListInstanceComponentsResponse, error)
 }
 
 type kargoServiceClient struct {
@@ -479,6 +510,47 @@ func (x *kargoServiceExportKargoInstanceStreamClient) Recv() (*ExportKargoInstan
 	return m, nil
 }
 
+func (c *kargoServiceClient) GetKargoInstanceComponentLogs(ctx context.Context, in *v1.GetInstanceComponentLogsRequest, opts ...grpc.CallOption) (KargoService_GetKargoInstanceComponentLogsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &KargoService_ServiceDesc.Streams[4], KargoService_GetKargoInstanceComponentLogs_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &kargoServiceGetKargoInstanceComponentLogsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type KargoService_GetKargoInstanceComponentLogsClient interface {
+	Recv() (*v1.GetInstanceComponentLogsResponse, error)
+	grpc.ClientStream
+}
+
+type kargoServiceGetKargoInstanceComponentLogsClient struct {
+	grpc.ClientStream
+}
+
+func (x *kargoServiceGetKargoInstanceComponentLogsClient) Recv() (*v1.GetInstanceComponentLogsResponse, error) {
+	m := new(v1.GetInstanceComponentLogsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *kargoServiceClient) ListKargoInstanceComponents(ctx context.Context, in *v1.ListInstanceComponentsRequest, opts ...grpc.CallOption) (*v1.ListInstanceComponentsResponse, error) {
+	out := new(v1.ListInstanceComponentsResponse)
+	err := c.cc.Invoke(ctx, KargoService_ListKargoInstanceComponents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // KargoServiceServer is the server API for KargoService service.
 // All implementations must embed UnimplementedKargoServiceServer
 // for forward compatibility
@@ -524,6 +596,34 @@ type KargoServiceServer interface {
 	// This is the preferred API for large instances; ExportKargoInstance is kept
 	// for backward compatibility.
 	ExportKargoInstanceStream(*ExportKargoInstanceStreamRequest, KargoService_ExportKargoInstanceStreamServer) error
+	// GetKargoInstanceComponentLogs streams live logs of one Kargo control-plane
+	// component, the kubectl-logs equivalent for the instance's own workloads.
+	// Components a Kargo version does not ship are reported as not deployed.
+	// Nothing is stored: the stream ends when the client disconnects, when
+	// until_time passes, or, with follow=false, when the tail is exhausted.
+	// A followed stream also ends, without a last=true message, when one of
+	// the component's pods goes away or restarts a container: reconnect to
+	// follow the pods running then.
+	// It ends with ResourceExhausted when a newer followed stream on the
+	// instance pushes it out, and with DeadlineExceeded once it has been open
+	// for the server's maximum age (one hour by default): reopen it to keep
+	// following.
+	// An instance hosted on another shard is served by that shard's own
+	// portal-server: the request is redirected there (HTTP 307). The redirect URL
+	// carries a short-lived token for the calling identity, so a browser session,
+	// whose cookie never reaches the shard, is authenticated there as well; a
+	// client that sends its credential in a header simply presents it again.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	GetKargoInstanceComponentLogs(*v1.GetInstanceComponentLogsRequest, KargoService_GetKargoInstanceComponentLogsServer) error
+	// ListKargoInstanceComponents lists the control-plane components of the
+	// instance that run right now, with their pods and containers, so a client
+	// can offer only what GetKargoInstanceComponentLogs can serve.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	ListKargoInstanceComponents(context.Context, *v1.ListInstanceComponentsRequest) (*v1.ListInstanceComponentsResponse, error)
 	mustEmbedUnimplementedKargoServiceServer()
 }
 
@@ -623,6 +723,12 @@ func (UnimplementedKargoServiceServer) ExportKargoInstance(context.Context, *Exp
 }
 func (UnimplementedKargoServiceServer) ExportKargoInstanceStream(*ExportKargoInstanceStreamRequest, KargoService_ExportKargoInstanceStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method ExportKargoInstanceStream not implemented")
+}
+func (UnimplementedKargoServiceServer) GetKargoInstanceComponentLogs(*v1.GetInstanceComponentLogsRequest, KargoService_GetKargoInstanceComponentLogsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetKargoInstanceComponentLogs not implemented")
+}
+func (UnimplementedKargoServiceServer) ListKargoInstanceComponents(context.Context, *v1.ListInstanceComponentsRequest) (*v1.ListInstanceComponentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListKargoInstanceComponents not implemented")
 }
 func (UnimplementedKargoServiceServer) mustEmbedUnimplementedKargoServiceServer() {}
 
@@ -1207,6 +1313,45 @@ func (x *kargoServiceExportKargoInstanceStreamServer) Send(m *ExportKargoInstanc
 	return x.ServerStream.SendMsg(m)
 }
 
+func _KargoService_GetKargoInstanceComponentLogs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(v1.GetInstanceComponentLogsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(KargoServiceServer).GetKargoInstanceComponentLogs(m, &kargoServiceGetKargoInstanceComponentLogsServer{stream})
+}
+
+type KargoService_GetKargoInstanceComponentLogsServer interface {
+	Send(*v1.GetInstanceComponentLogsResponse) error
+	grpc.ServerStream
+}
+
+type kargoServiceGetKargoInstanceComponentLogsServer struct {
+	grpc.ServerStream
+}
+
+func (x *kargoServiceGetKargoInstanceComponentLogsServer) Send(m *v1.GetInstanceComponentLogsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _KargoService_ListKargoInstanceComponents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1.ListInstanceComponentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(KargoServiceServer).ListKargoInstanceComponents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: KargoService_ListKargoInstanceComponents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(KargoServiceServer).ListKargoInstanceComponents(ctx, req.(*v1.ListInstanceComponentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // KargoService_ServiceDesc is the grpc.ServiceDesc for KargoService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1322,6 +1467,10 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ExportKargoInstance",
 			Handler:    _KargoService_ExportKargoInstance_Handler,
 		},
+		{
+			MethodName: "ListKargoInstanceComponents",
+			Handler:    _KargoService_ListKargoInstanceComponents_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
@@ -1342,6 +1491,11 @@ var KargoService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ExportKargoInstanceStream",
 			Handler:       _KargoService_ExportKargoInstanceStream_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetKargoInstanceComponentLogs",
+			Handler:       _KargoService_GetKargoInstanceComponentLogs_Handler,
 			ServerStreams: true,
 		},
 	},

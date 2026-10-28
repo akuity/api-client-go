@@ -8,6 +8,7 @@ package argocdv1
 
 import (
 	context "context"
+	v1 "github.com/akuity/api-client-go/pkg/api/gen/types/logs/v1"
 	httpbody "google.golang.org/genproto/googleapis/api/httpbody"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -52,6 +53,8 @@ const (
 	ArgoCDService_UpdateInstanceConfigManagementPlugins_FullMethodName = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceConfigManagementPlugins"
 	ArgoCDService_DeleteInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/DeleteInstance"
 	ArgoCDService_RefreshInstanceRunbookRepo_FullMethodName            = "/akuity.argocd.v1.ArgoCDService/RefreshInstanceRunbookRepo"
+	ArgoCDService_GetInstanceRunbooks_FullMethodName                   = "/akuity.argocd.v1.ArgoCDService/GetInstanceRunbooks"
+	ArgoCDService_UpdateInstanceRunbooks_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceRunbooks"
 	ArgoCDService_ListInstanceAccounts_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/ListInstanceAccounts"
 	ArgoCDService_UpsertInstanceAccount_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/UpsertInstanceAccount"
 	ArgoCDService_UpdateInstanceAccountPassword_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/UpdateInstanceAccountPassword"
@@ -81,6 +84,8 @@ const (
 	ArgoCDService_ApplyInstance_FullMethodName                         = "/akuity.argocd.v1.ArgoCDService/ApplyInstance"
 	ArgoCDService_ExportInstance_FullMethodName                        = "/akuity.argocd.v1.ArgoCDService/ExportInstance"
 	ArgoCDService_ExportInstanceStream_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/ExportInstanceStream"
+	ArgoCDService_GetInstanceComponentLogs_FullMethodName              = "/akuity.argocd.v1.ArgoCDService/GetInstanceComponentLogs"
+	ArgoCDService_ListInstanceComponents_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/ListInstanceComponents"
 	ArgoCDService_ListInstanceAddonRepos_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/ListInstanceAddonRepos"
 	ArgoCDService_GetInstanceAddonRepo_FullMethodName                  = "/akuity.argocd.v1.ArgoCDService/GetInstanceAddonRepo"
 	ArgoCDService_CreateInstanceAddonRepo_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/CreateInstanceAddonRepo"
@@ -152,6 +157,8 @@ type ArgoCDServiceClient interface {
 	UpdateInstanceConfigManagementPlugins(ctx context.Context, in *UpdateInstanceConfigManagementPluginsRequest, opts ...grpc.CallOption) (*UpdateInstanceConfigManagementPluginsResponse, error)
 	DeleteInstance(ctx context.Context, in *DeleteInstanceRequest, opts ...grpc.CallOption) (*DeleteInstanceResponse, error)
 	RefreshInstanceRunbookRepo(ctx context.Context, in *RefreshInstanceRunbookRepoRequest, opts ...grpc.CallOption) (*RefreshInstanceRunbookRepoResponse, error)
+	GetInstanceRunbooks(ctx context.Context, in *GetInstanceRunbooksRequest, opts ...grpc.CallOption) (*GetInstanceRunbooksResponse, error)
+	UpdateInstanceRunbooks(ctx context.Context, in *UpdateInstanceRunbooksRequest, opts ...grpc.CallOption) (*UpdateInstanceRunbooksResponse, error)
 	ListInstanceAccounts(ctx context.Context, in *ListInstanceAccountsRequest, opts ...grpc.CallOption) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(ctx context.Context, in *UpsertInstanceAccountRequest, opts ...grpc.CallOption) (*UpsertInstanceAccountResponse, error)
 	UpdateInstanceAccountPassword(ctx context.Context, in *UpdateInstanceAccountPasswordRequest, opts ...grpc.CallOption) (*UpdateInstanceAccountPasswordResponse, error)
@@ -193,6 +200,29 @@ type ArgoCDServiceClient interface {
 	// preferred API for large instances; ExportInstance is kept for backward
 	// compatibility.
 	ExportInstanceStream(ctx context.Context, in *ExportInstanceStreamRequest, opts ...grpc.CallOption) (ArgoCDService_ExportInstanceStreamClient, error)
+	// GetInstanceComponentLogs streams live logs of one Argo CD control-plane
+	// component, the kubectl-logs equivalent for the instance's own workloads.
+	// Nothing is stored: the stream ends when the client disconnects, when
+	// until_time passes, or, with follow=false, when the tail is exhausted.
+	// A followed stream also ends, without a last=true message, when one of
+	// the component's pods goes away or restarts a container: reconnect to
+	// follow the pods running then.
+	// It ends with ResourceExhausted when a newer followed stream on the
+	// instance pushes it out, and with DeadlineExceeded once it has been open
+	// for the server's maximum age (one hour by default): reopen it to keep
+	// following.
+	// An instance hosted on another shard is served by that shard's own
+	// portal-server: the request is redirected there (HTTP 307). The redirect URL
+	// carries a short-lived token for the calling identity, so a browser session,
+	// whose cookie never reaches the shard, is authenticated there as well; a
+	// client that sends its credential in a header simply presents it again.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	GetInstanceComponentLogs(ctx context.Context, in *v1.GetInstanceComponentLogsRequest, opts ...grpc.CallOption) (ArgoCDService_GetInstanceComponentLogsClient, error)
+	// ListInstanceComponents lists the control-plane components of the instance
+	// that run right now, with their pods and containers, so a client can offer
+	// only what GetInstanceComponentLogs can serve.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	ListInstanceComponents(ctx context.Context, in *v1.ListInstanceComponentsRequest, opts ...grpc.CallOption) (*v1.ListInstanceComponentsResponse, error)
 	ListInstanceAddonRepos(ctx context.Context, in *ListInstanceAddonReposRequest, opts ...grpc.CallOption) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(ctx context.Context, in *GetInstanceAddonRepoRequest, opts ...grpc.CallOption) (*GetInstanceAddonRepoResponse, error)
 	CreateInstanceAddonRepo(ctx context.Context, in *CreateInstanceAddonRepoRequest, opts ...grpc.CallOption) (*CreateInstanceAddonRepoResponse, error)
@@ -546,6 +576,24 @@ func (c *argoCDServiceClient) RefreshInstanceRunbookRepo(ctx context.Context, in
 	return out, nil
 }
 
+func (c *argoCDServiceClient) GetInstanceRunbooks(ctx context.Context, in *GetInstanceRunbooksRequest, opts ...grpc.CallOption) (*GetInstanceRunbooksResponse, error) {
+	out := new(GetInstanceRunbooksResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_GetInstanceRunbooks_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *argoCDServiceClient) UpdateInstanceRunbooks(ctx context.Context, in *UpdateInstanceRunbooksRequest, opts ...grpc.CallOption) (*UpdateInstanceRunbooksResponse, error) {
+	out := new(UpdateInstanceRunbooksResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_UpdateInstanceRunbooks_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) ListInstanceAccounts(ctx context.Context, in *ListInstanceAccountsRequest, opts ...grpc.CallOption) (*ListInstanceAccountsResponse, error) {
 	out := new(ListInstanceAccountsResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceAccounts_FullMethodName, in, out, opts...)
@@ -876,6 +924,47 @@ func (x *argoCDServiceExportInstanceStreamClient) Recv() (*ExportInstanceStreamR
 	return m, nil
 }
 
+func (c *argoCDServiceClient) GetInstanceComponentLogs(ctx context.Context, in *v1.GetInstanceComponentLogsRequest, opts ...grpc.CallOption) (ArgoCDService_GetInstanceComponentLogsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[4], ArgoCDService_GetInstanceComponentLogs_FullMethodName, opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &argoCDServiceGetInstanceComponentLogsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ArgoCDService_GetInstanceComponentLogsClient interface {
+	Recv() (*v1.GetInstanceComponentLogsResponse, error)
+	grpc.ClientStream
+}
+
+type argoCDServiceGetInstanceComponentLogsClient struct {
+	grpc.ClientStream
+}
+
+func (x *argoCDServiceGetInstanceComponentLogsClient) Recv() (*v1.GetInstanceComponentLogsResponse, error) {
+	m := new(v1.GetInstanceComponentLogsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *argoCDServiceClient) ListInstanceComponents(ctx context.Context, in *v1.ListInstanceComponentsRequest, opts ...grpc.CallOption) (*v1.ListInstanceComponentsResponse, error) {
+	out := new(v1.ListInstanceComponentsResponse)
+	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceComponents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *argoCDServiceClient) ListInstanceAddonRepos(ctx context.Context, in *ListInstanceAddonReposRequest, opts ...grpc.CallOption) (*ListInstanceAddonReposResponse, error) {
 	out := new(ListInstanceAddonReposResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_ListInstanceAddonRepos_FullMethodName, in, out, opts...)
@@ -994,7 +1083,7 @@ func (c *argoCDServiceClient) ClearAddonStatusSourceHistory(ctx context.Context,
 }
 
 func (c *argoCDServiceClient) WatchInstanceAddons(ctx context.Context, in *WatchInstanceAddonsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[4], ArgoCDService_WatchInstanceAddons_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[5], ArgoCDService_WatchInstanceAddons_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1026,7 +1115,7 @@ func (x *argoCDServiceWatchInstanceAddonsClient) Recv() (*WatchInstanceAddonsRes
 }
 
 func (c *argoCDServiceClient) WatchInstanceAddonRepos(ctx context.Context, in *WatchInstanceAddonReposRequest, opts ...grpc.CallOption) (ArgoCDService_WatchInstanceAddonReposClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[5], ArgoCDService_WatchInstanceAddonRepos_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[6], ArgoCDService_WatchInstanceAddonRepos_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1076,7 +1165,7 @@ func (c *argoCDServiceClient) ListAddonMarketplaceInstalls(ctx context.Context, 
 }
 
 func (c *argoCDServiceClient) WatchAddonMarketplaceInstalls(ctx context.Context, in *WatchAddonMarketplaceInstallsRequest, opts ...grpc.CallOption) (ArgoCDService_WatchAddonMarketplaceInstallsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[6], ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName, opts...)
+	stream, err := c.cc.NewStream(ctx, &ArgoCDService_ServiceDesc.Streams[7], ArgoCDService_WatchAddonMarketplaceInstalls_FullMethodName, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1230,6 +1319,8 @@ type ArgoCDServiceServer interface {
 	UpdateInstanceConfigManagementPlugins(context.Context, *UpdateInstanceConfigManagementPluginsRequest) (*UpdateInstanceConfigManagementPluginsResponse, error)
 	DeleteInstance(context.Context, *DeleteInstanceRequest) (*DeleteInstanceResponse, error)
 	RefreshInstanceRunbookRepo(context.Context, *RefreshInstanceRunbookRepoRequest) (*RefreshInstanceRunbookRepoResponse, error)
+	GetInstanceRunbooks(context.Context, *GetInstanceRunbooksRequest) (*GetInstanceRunbooksResponse, error)
+	UpdateInstanceRunbooks(context.Context, *UpdateInstanceRunbooksRequest) (*UpdateInstanceRunbooksResponse, error)
 	ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error)
 	UpsertInstanceAccount(context.Context, *UpsertInstanceAccountRequest) (*UpsertInstanceAccountResponse, error)
 	UpdateInstanceAccountPassword(context.Context, *UpdateInstanceAccountPasswordRequest) (*UpdateInstanceAccountPasswordResponse, error)
@@ -1271,6 +1362,29 @@ type ArgoCDServiceServer interface {
 	// preferred API for large instances; ExportInstance is kept for backward
 	// compatibility.
 	ExportInstanceStream(*ExportInstanceStreamRequest, ArgoCDService_ExportInstanceStreamServer) error
+	// GetInstanceComponentLogs streams live logs of one Argo CD control-plane
+	// component, the kubectl-logs equivalent for the instance's own workloads.
+	// Nothing is stored: the stream ends when the client disconnects, when
+	// until_time passes, or, with follow=false, when the tail is exhausted.
+	// A followed stream also ends, without a last=true message, when one of
+	// the component's pods goes away or restarts a container: reconnect to
+	// follow the pods running then.
+	// It ends with ResourceExhausted when a newer followed stream on the
+	// instance pushes it out, and with DeadlineExceeded once it has been open
+	// for the server's maximum age (one hour by default): reopen it to keep
+	// following.
+	// An instance hosted on another shard is served by that shard's own
+	// portal-server: the request is redirected there (HTTP 307). The redirect URL
+	// carries a short-lived token for the calling identity, so a browser session,
+	// whose cookie never reaches the shard, is authenticated there as well; a
+	// client that sends its credential in a header simply presents it again.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	GetInstanceComponentLogs(*v1.GetInstanceComponentLogsRequest, ArgoCDService_GetInstanceComponentLogsServer) error
+	// ListInstanceComponents lists the control-plane components of the instance
+	// that run right now, with their pods and containers, so a client can offer
+	// only what GetInstanceComponentLogs can serve.
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	ListInstanceComponents(context.Context, *v1.ListInstanceComponentsRequest) (*v1.ListInstanceComponentsResponse, error)
 	ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error)
 	GetInstanceAddonRepo(context.Context, *GetInstanceAddonRepoRequest) (*GetInstanceAddonRepoResponse, error)
 	CreateInstanceAddonRepo(context.Context, *CreateInstanceAddonRepoRequest) (*CreateInstanceAddonRepoResponse, error)
@@ -1411,6 +1525,12 @@ func (UnimplementedArgoCDServiceServer) DeleteInstance(context.Context, *DeleteI
 func (UnimplementedArgoCDServiceServer) RefreshInstanceRunbookRepo(context.Context, *RefreshInstanceRunbookRepoRequest) (*RefreshInstanceRunbookRepoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshInstanceRunbookRepo not implemented")
 }
+func (UnimplementedArgoCDServiceServer) GetInstanceRunbooks(context.Context, *GetInstanceRunbooksRequest) (*GetInstanceRunbooksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceRunbooks not implemented")
+}
+func (UnimplementedArgoCDServiceServer) UpdateInstanceRunbooks(context.Context, *UpdateInstanceRunbooksRequest) (*UpdateInstanceRunbooksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateInstanceRunbooks not implemented")
+}
 func (UnimplementedArgoCDServiceServer) ListInstanceAccounts(context.Context, *ListInstanceAccountsRequest) (*ListInstanceAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceAccounts not implemented")
 }
@@ -1497,6 +1617,12 @@ func (UnimplementedArgoCDServiceServer) ExportInstance(context.Context, *ExportI
 }
 func (UnimplementedArgoCDServiceServer) ExportInstanceStream(*ExportInstanceStreamRequest, ArgoCDService_ExportInstanceStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method ExportInstanceStream not implemented")
+}
+func (UnimplementedArgoCDServiceServer) GetInstanceComponentLogs(*v1.GetInstanceComponentLogsRequest, ArgoCDService_GetInstanceComponentLogsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetInstanceComponentLogs not implemented")
+}
+func (UnimplementedArgoCDServiceServer) ListInstanceComponents(context.Context, *v1.ListInstanceComponentsRequest) (*v1.ListInstanceComponentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceComponents not implemented")
 }
 func (UnimplementedArgoCDServiceServer) ListInstanceAddonRepos(context.Context, *ListInstanceAddonReposRequest) (*ListInstanceAddonReposResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListInstanceAddonRepos not implemented")
@@ -2153,6 +2279,42 @@ func _ArgoCDService_RefreshInstanceRunbookRepo_Handler(srv interface{}, ctx cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArgoCDService_GetInstanceRunbooks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInstanceRunbooksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).GetInstanceRunbooks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_GetInstanceRunbooks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).GetInstanceRunbooks(ctx, req.(*GetInstanceRunbooksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArgoCDService_UpdateInstanceRunbooks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateInstanceRunbooksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).UpdateInstanceRunbooks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_UpdateInstanceRunbooks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).UpdateInstanceRunbooks(ctx, req.(*UpdateInstanceRunbooksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ArgoCDService_ListInstanceAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListInstanceAccountsRequest)
 	if err := dec(in); err != nil {
@@ -2682,6 +2844,45 @@ type argoCDServiceExportInstanceStreamServer struct {
 
 func (x *argoCDServiceExportInstanceStreamServer) Send(m *ExportInstanceStreamResponse) error {
 	return x.ServerStream.SendMsg(m)
+}
+
+func _ArgoCDService_GetInstanceComponentLogs_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(v1.GetInstanceComponentLogsRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ArgoCDServiceServer).GetInstanceComponentLogs(m, &argoCDServiceGetInstanceComponentLogsServer{stream})
+}
+
+type ArgoCDService_GetInstanceComponentLogsServer interface {
+	Send(*v1.GetInstanceComponentLogsResponse) error
+	grpc.ServerStream
+}
+
+type argoCDServiceGetInstanceComponentLogsServer struct {
+	grpc.ServerStream
+}
+
+func (x *argoCDServiceGetInstanceComponentLogsServer) Send(m *v1.GetInstanceComponentLogsResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _ArgoCDService_ListInstanceComponents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v1.ListInstanceComponentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArgoCDServiceServer).ListInstanceComponents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArgoCDService_ListInstanceComponents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArgoCDServiceServer).ListInstanceComponents(ctx, req.(*v1.ListInstanceComponentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ArgoCDService_ListInstanceAddonRepos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -3307,6 +3508,14 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ArgoCDService_RefreshInstanceRunbookRepo_Handler,
 		},
 		{
+			MethodName: "GetInstanceRunbooks",
+			Handler:    _ArgoCDService_GetInstanceRunbooks_Handler,
+		},
+		{
+			MethodName: "UpdateInstanceRunbooks",
+			Handler:    _ArgoCDService_UpdateInstanceRunbooks_Handler,
+		},
+		{
 			MethodName: "ListInstanceAccounts",
 			Handler:    _ArgoCDService_ListInstanceAccounts_Handler,
 		},
@@ -3409,6 +3618,10 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExportInstance",
 			Handler:    _ArgoCDService_ExportInstance_Handler,
+		},
+		{
+			MethodName: "ListInstanceComponents",
+			Handler:    _ArgoCDService_ListInstanceComponents_Handler,
 		},
 		{
 			MethodName: "ListInstanceAddonRepos",
@@ -3526,6 +3739,11 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "ExportInstanceStream",
 			Handler:       _ArgoCDService_ExportInstanceStream_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "GetInstanceComponentLogs",
+			Handler:       _ArgoCDService_GetInstanceComponentLogs_Handler,
 			ServerStreams: true,
 		},
 		{

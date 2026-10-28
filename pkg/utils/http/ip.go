@@ -68,16 +68,9 @@ func rightmostForwardedFor(forwardedFor string) string {
 	if forwardedFor == "" {
 		return ""
 	}
-	_, rightmost, found := lastCut(forwardedFor, ",")
+	_, rightmost, found := strings.CutLast(forwardedFor, ",")
 	if !found {
 		return strings.TrimSpace(forwardedFor)
 	}
 	return strings.TrimSpace(rightmost)
-}
-
-func lastCut(s, sep string) (before, after string, found bool) {
-	if i := strings.LastIndex(s, sep); i >= 0 {
-		return s[:i], s[i+len(sep):], true
-	}
-	return s, "", false
 }

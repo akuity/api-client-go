@@ -1,6 +1,7 @@
 package metadata
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -67,4 +68,29 @@ func TestServiceAccountTokenMetadata(t *testing.T) {
 	require.Equal(t, "tok", got)
 	_, allowed := MatchIncomingMetadata("x-akuity-service-account-token")
 	require.True(t, allowed)
+}
+
+func TestRedirectHeaderRoundTrip(t *testing.T) {
+	_, ok := GetRedirect(metadata.MD{})
+	require.False(t, ok)
+	url, ok := GetRedirect(RedirectHeader("https://us1.example.com/api/v1/x"))
+	require.True(t, ok)
+	require.Equal(t, "https://us1.example.com/api/v1/x", url)
+	// Never copied to the client as a raw header: only the forwarder reads it.
+	_, exposed := MatchIncomingMetadata("x-akuity-redirect")
+	require.False(t, exposed)
+}
+
+// The portal gateway installs MatchIncomingMetadata as its header matcher, so
+// it alone keeps a client from supplying a server-owned key as a
+// Grpc-Metadata-* header. A forged x-request-url would defeat the shard
+// handoff token's binding to the request it was issued for.
+func TestServerOwnedKeysAreNotForwarded(t *testing.T) {
+	require.NotEmpty(t, serverOwnedKeys)
+	for key := range serverOwnedKeys {
+		for _, header := range []string{key, "Grpc-Metadata-" + key, strings.ToUpper(key)} {
+			_, ok := MatchIncomingMetadata(header)
+			assert.False(t, ok, "header %q must not be forwarded into gRPC metadata", header)
+		}
+	}
 }

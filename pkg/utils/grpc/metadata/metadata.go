@@ -1,6 +1,7 @@
 package metadata
 
 import (
+	"context"
 	"strings"
 
 	"google.golang.org/grpc/metadata"
@@ -25,10 +26,25 @@ const (
 	trustedPlatformHeader          = "x-trusted-platform-header"
 	requestOriginMetadataKey       = "x-akuity-request-origin"
 	forwardedForMetadataKey        = "x-forwarded-for"
+	// forwardedHostMetadataKey is the host grpc-gateway records from the
+	// request it serves. Server-owned, so it holds exactly that one value.
+	forwardedHostMetadataKey = "x-forwarded-host"
+	// forwardedPrefixMetadataKey carries the path prefix Traefik's stripPrefix
+	// middleware removed (X-Forwarded-Prefix), which tells apart instances that
+	// share a host under different basepaths. Server-owned.
+	forwardedPrefixMetadataKey = "x-forwarded-prefix"
 	// clientIPMetadataKey carries the caller address resolved at the HTTP
 	// boundary. It is server-owned: see serverOwnedKeys for why no gateway may
 	// let a client supply it.
 	clientIPMetadataKey = "x-akuity-client-ip"
+	// handoffTokenMetadataKey carries a shard handoff token the gateway read
+	// from the redirect URL (internal/services/shardhandoff). Server-owned: a
+	// client cannot supply it as a header, only as the URL parameter.
+	handoffTokenMetadataKey = "x-akuity-handoff-token"
+	// redirectMetadataKey is a response header a handler sets to answer an HTTP
+	// request with a 307 to the given URL instead of a body; the gateway's
+	// forwarder turns it into Location. It is never copied to the client as is.
+	redirectMetadataKey = "x-akuity-redirect"
 
 	UserTokenHeader = userTokenMetadataKey
 
@@ -53,10 +69,74 @@ var allowedHeaders = map[string]bool{
 // above; gateways that need the permissive default must drop these explicitly
 // (see gateway.MatchIncomingDroppingServerOwned).
 var serverOwnedKeys = map[string]bool{
-	requestURLMetadataKey:    true,
-	requestMethodMetadataKey: true,
-	clientIPMetadataKey:      true,
-	trustedPlatformHeader:    true,
+	requestURLMetadataKey:      true,
+	requestMethodMetadataKey:   true,
+	clientIPMetadataKey:        true,
+	trustedPlatformHeader:      true,
+	handoffTokenMetadataKey:    true,
+	forwardedHostMetadataKey:   true,
+	forwardedPrefixMetadataKey: true,
+}
+
+// GetForwardedHost returns the request host the gateway recorded. Anything
+// but exactly one value is refused rather than guessed at.
+func GetForwardedHost(md metadata.MD) (string, bool) {
+	v := md.Get(forwardedHostMetadataKey)
+	if len(v) != 1 || v[0] == "" {
+		return "", false
+	}
+	return v[0], true
+}
+
+// SetForwardedPrefix records the prefixes the edge stripped from the request
+// path (every X-Forwarded-Prefix value, so a repeated header stays visible to
+// GetForwardedPrefix). Only gateway annotators may call it.
+func SetForwardedPrefix(md metadata.MD, prefixes ...string) {
+	md.Delete(forwardedPrefixMetadataKey)
+	for _, p := range prefixes {
+		if p != "" {
+			md.Append(forwardedPrefixMetadataKey, p)
+		}
+	}
+}
+
+// GetForwardedPrefix returns the stripped request prefix, "" when the request
+// carried none. ok is false when it carried more than one.
+func GetForwardedPrefix(md metadata.MD) (prefix string, ok bool) {
+	v := md.Get(forwardedPrefixMetadataKey)
+	switch len(v) {
+	case 0:
+		return "", true
+	case 1:
+		return v[0], true
+	default:
+		return "", false
+	}
+}
+
+func SetHandoffToken(md metadata.MD, token string) {
+	md.Set(handoffTokenMetadataKey, token)
+}
+
+func GetHandoffToken(md metadata.MD) (string, bool) {
+	v := first(md, handoffTokenMetadataKey)
+	return v, v != ""
+}
+
+// RedirectHeader returns the response metadata that makes the HTTP gateway
+// answer with a 307 to url. Unary handlers pass it to grpc.SetHeader, stream
+// handlers to SendHeader, and return without a body.
+func RedirectHeader(url string) metadata.MD {
+	return metadata.Pairs(redirectMetadataKey, url)
+}
+
+// GetRedirect returns the redirect URL a handler set in its response headers.
+func GetRedirect(md metadata.MD) (string, bool) {
+	v := md.Get(redirectMetadataKey)
+	if len(v) == 0 || v[0] == "" {
+		return "", false
+	}
+	return v[0], true
 }
 
 // IsServerOwned reports whether the key is one the server derives from the
@@ -246,4 +326,15 @@ func first(md metadata.MD, key string) string {
 		return ""
 	}
 	return v[0]
+}
+
+// RequestURLFromContext returns the path and query the HTTP gateway recorded
+// for this request, or "" when it did not pass through the gateway.
+func RequestURLFromContext(ctx context.Context) string {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return ""
+	}
+	u, _ := GetRequestURL(md)
+	return u
 }
