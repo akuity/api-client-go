@@ -140,8 +140,6 @@ type OrganizationServiceGatewayClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesDeprecatedAPIsToCSV(context.Context, *ListKubernetesDeprecatedAPIsRequest) (<-chan *httpbody.HttpBody, <-chan error, error)
-	GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error)
-	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
 	ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error)
 	ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -3183,22 +3181,6 @@ func (c *organizationServiceGatewayClient) ListKubernetesDeprecatedAPIsToCSV(ctx
 	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[httpbody.HttpBody](ctx, c.gwc, gwReq)
-}
-
-func (c *organizationServiceGatewayClient) GetKubernetesAssistantSuggestion(ctx context.Context, req *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/assistant-suggestion")
-	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
-	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
-	gwReq.SetBody(req)
-	return gateway.DoRequest[GetKubernetesAssistantSuggestionResponse](ctx, gwReq)
-}
-
-func (c *organizationServiceGatewayClient) ResolveKubernetesAssistantConversation(ctx context.Context, req *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/k8s/resources/{resource_id}/resolve-assistant-conversation")
-	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
-	gwReq.SetPathParam("resource_id", fmt.Sprintf("%v", req.ResourceId))
-	gwReq.SetBody(req)
-	return gateway.DoRequest[ResolveKubernetesAssistantConversationResponse](ctx, gwReq)
 }
 
 func (c *organizationServiceGatewayClient) ListKubernetesTimelineEvents(ctx context.Context, req *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error) {

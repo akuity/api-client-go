@@ -20,164 +20,162 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	OrganizationService_ListAuthenticatedUserOrganizations_FullMethodName     = "/akuity.organization.v1.OrganizationService/ListAuthenticatedUserOrganizations"
-	OrganizationService_GetOrganization_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetOrganization"
-	OrganizationService_GetOrganizationPermissions_FullMethodName             = "/akuity.organization.v1.OrganizationService/GetOrganizationPermissions"
-	OrganizationService_CreateOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CreateOrganization"
-	OrganizationService_UpdateOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
-	OrganizationService_DeleteOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
-	OrganizationService_ListOrganizationMembers_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationMembers"
-	OrganizationService_ListOrganizationMembersAndInvitees_FullMethodName     = "/akuity.organization.v1.OrganizationService/ListOrganizationMembersAndInvitees"
-	OrganizationService_ListOrganizationInvitees_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees"
-	OrganizationService_GetUserRoleInOrganization_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization"
-	OrganizationService_InviteMembers_FullMethodName                          = "/akuity.organization.v1.OrganizationService/InviteMembers"
-	OrganizationService_UninviteOrganizationMember_FullMethodName             = "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember"
-	OrganizationService_RemoveOrganizationMember_FullMethodName               = "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember"
-	OrganizationService_UpdateOrganizationMemberRole_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole"
-	OrganizationService_JoinOrganization_FullMethodName                       = "/akuity.organization.v1.OrganizationService/JoinOrganization"
-	OrganizationService_RejectOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/RejectOrganization"
-	OrganizationService_ListOrganizationAPIKeys_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
-	OrganizationService_CreateOrganizationAPIKey_FullMethodName               = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
-	OrganizationService_ListWorkspaceAPIKeys_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListWorkspaceAPIKeys"
-	OrganizationService_CreateWorkspaceAPIKey_FullMethodName                  = "/akuity.organization.v1.OrganizationService/CreateWorkspaceAPIKey"
-	OrganizationService_GetAuditLogs_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
-	OrganizationService_ListAuditLogsArchives_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
-	OrganizationService_GetAuditLogsInCSV_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
-	OrganizationService_GetCustomerDetails_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
-	OrganizationService_UpdateBillingDetails_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
-	OrganizationService_BillingCheckout_FullMethodName                        = "/akuity.organization.v1.OrganizationService/BillingCheckout"
-	OrganizationService_UpdateSubscription_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
-	OrganizationService_ListAvailablePlans_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListAvailablePlans"
-	OrganizationService_GetAvailableAddons_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
-	OrganizationService_GetSSOConfiguration_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
-	OrganizationService_EnsureSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
-	OrganizationService_DeleteSSOConfiguration_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
-	OrganizationService_GetFeatureStatuses_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetFeatureStatuses"
-	OrganizationService_GetOIDCMap_FullMethodName                             = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
-	OrganizationService_UpdateOIDCMap_FullMethodName                          = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
-	OrganizationService_GetTeamOIDCMap_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetTeamOIDCMap"
-	OrganizationService_UpdateTeamOIDCMap_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateTeamOIDCMap"
-	OrganizationService_CreateCustomRole_FullMethodName                       = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
-	OrganizationService_UpdateCustomRole_FullMethodName                       = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
-	OrganizationService_GetCustomRole_FullMethodName                          = "/akuity.organization.v1.OrganizationService/GetCustomRole"
-	OrganizationService_ListCustomRoles_FullMethodName                        = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
-	OrganizationService_DeleteCustomRole_FullMethodName                       = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
-	OrganizationService_CreateWorkspaceCustomRole_FullMethodName              = "/akuity.organization.v1.OrganizationService/CreateWorkspaceCustomRole"
-	OrganizationService_UpdateWorkspaceCustomRole_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceCustomRole"
-	OrganizationService_GetWorkspaceCustomRole_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetWorkspaceCustomRole"
-	OrganizationService_ListWorkspaceCustomRoles_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListWorkspaceCustomRoles"
-	OrganizationService_DeleteWorkspaceCustomRole_FullMethodName              = "/akuity.organization.v1.OrganizationService/DeleteWorkspaceCustomRole"
-	OrganizationService_CreateTeam_FullMethodName                             = "/akuity.organization.v1.OrganizationService/CreateTeam"
-	OrganizationService_UpdateTeam_FullMethodName                             = "/akuity.organization.v1.OrganizationService/UpdateTeam"
-	OrganizationService_GetTeam_FullMethodName                                = "/akuity.organization.v1.OrganizationService/GetTeam"
-	OrganizationService_ListTeams_FullMethodName                              = "/akuity.organization.v1.OrganizationService/ListTeams"
-	OrganizationService_DeleteTeam_FullMethodName                             = "/akuity.organization.v1.OrganizationService/DeleteTeam"
-	OrganizationService_AddTeamMember_FullMethodName                          = "/akuity.organization.v1.OrganizationService/AddTeamMember"
-	OrganizationService_GetTeamMember_FullMethodName                          = "/akuity.organization.v1.OrganizationService/GetTeamMember"
-	OrganizationService_ListTeamMembers_FullMethodName                        = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
-	OrganizationService_RemoveTeamMember_FullMethodName                       = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
-	OrganizationService_UpdateArgocdInstancesQuota_FullMethodName             = "/akuity.organization.v1.OrganizationService/UpdateArgocdInstancesQuota"
-	OrganizationService_ListArgocdInstancesQuota_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListArgocdInstancesQuota"
-	OrganizationService_UpdateKargoInstancesQuota_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateKargoInstancesQuota"
-	OrganizationService_ListKargoInstancesQuota_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKargoInstancesQuota"
-	OrganizationService_ListPrivateLinkAccounts_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListPrivateLinkAccounts"
-	OrganizationService_AddPrivateLinkAccount_FullMethodName                  = "/akuity.organization.v1.OrganizationService/AddPrivateLinkAccount"
-	OrganizationService_RemovePrivateLinkAccount_FullMethodName               = "/akuity.organization.v1.OrganizationService/RemovePrivateLinkAccount"
-	OrganizationService_CreateWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
-	OrganizationService_ListWorkspaces_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
-	OrganizationService_GetWorkspace_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetWorkspace"
-	OrganizationService_UpdateWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateWorkspace"
-	OrganizationService_DeleteWorkspace_FullMethodName                        = "/akuity.organization.v1.OrganizationService/DeleteWorkspace"
-	OrganizationService_AddWorkspaceMember_FullMethodName                     = "/akuity.organization.v1.OrganizationService/AddWorkspaceMember"
-	OrganizationService_ListWorkspaceMembers_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListWorkspaceMembers"
-	OrganizationService_UpdateWorkspaceMembers_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMembers"
-	OrganizationService_GetWorkspaceMember_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
-	OrganizationService_UpdateWorkspaceMember_FullMethodName                  = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
-	OrganizationService_RemoveWorkspaceMember_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
-	OrganizationService_CancelSubscription_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CancelSubscription"
-	OrganizationService_ListKubernetesResourceTypes_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
-	OrganizationService_ListKubernetesResources_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
-	OrganizationService_ListKubernetesResourcesToCSV_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesResourcesToCSV"
-	OrganizationService_SpotlightSearchKubernetesResources_FullMethodName     = "/akuity.organization.v1.OrganizationService/SpotlightSearchKubernetesResources"
-	OrganizationService_GetKubernetesResourceDetail_FullMethodName            = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDetail"
-	OrganizationService_GetKubernetesContainer_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetKubernetesContainer"
-	OrganizationService_ListKubernetesNamespaces_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespaces"
-	OrganizationService_ListKubernetesImages_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListKubernetesImages"
-	OrganizationService_ListKubernetesImagesToCSV_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesImagesToCSV"
-	OrganizationService_GetKubernetesImageDetail_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetKubernetesImageDetail"
-	OrganizationService_GetKubernetesImagesCVESummary_FullMethodName          = "/akuity.organization.v1.OrganizationService/GetKubernetesImagesCVESummary"
-	OrganizationService_ListKubernetesContainers_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
-	OrganizationService_ListKubernetesContainersToCSV_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesContainersToCSV"
-	OrganizationService_ListKubernetesEnabledClusters_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
-	OrganizationService_GetKubernetesResourceDiff_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDiff"
-	OrganizationService_GetKubernetesManifest_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetKubernetesManifest"
-	OrganizationService_DeleteKubernetesResource_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteKubernetesResource"
-	OrganizationService_GetKubernetesLogs_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesLogs"
-	OrganizationService_GetKubernetesEvents_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetKubernetesEvents"
-	OrganizationService_ListKubernetesAuditLogs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListKubernetesAuditLogs"
-	OrganizationService_ListKubernetesNodes_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListKubernetesNodes"
-	OrganizationService_GetKubernetesNode_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetKubernetesNode"
-	OrganizationService_ListKubernetesNamespacesDetails_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespacesDetails"
-	OrganizationService_GetKubernetesNamespaceDetail_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetKubernetesNamespaceDetail"
-	OrganizationService_GetKubernetesClusterDetail_FullMethodName             = "/akuity.organization.v1.OrganizationService/GetKubernetesClusterDetail"
-	OrganizationService_GetKubernetesSummary_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetKubernetesSummary"
-	OrganizationService_GetClusterLocations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetClusterLocations"
-	OrganizationService_ListKubernetesPods_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
-	OrganizationService_GetKubernetesPod_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
-	OrganizationService_ListArgoCDApplications_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListArgoCDApplications"
-	OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIs"
-	OrganizationService_ListKubernetesDeprecatedAPIsToCSV_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIsToCSV"
-	OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName       = "/akuity.organization.v1.OrganizationService/GetKubernetesAssistantSuggestion"
-	OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName = "/akuity.organization.v1.OrganizationService/ResolveKubernetesAssistantConversation"
-	OrganizationService_ListKubernetesTimelineEvents_FullMethodName           = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineEvents"
-	OrganizationService_ListKubernetesTimelineResources_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineResources"
-	OrganizationService_GetKubeVisionUsage_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetKubeVisionUsage"
-	OrganizationService_GetKubeVisionUsageToCSV_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetKubeVisionUsageToCSV"
-	OrganizationService_ListNotificationConfigs_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
-	OrganizationService_GetNotificationConfig_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
-	OrganizationService_CreateNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
-	OrganizationService_UpdateNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateNotificationConfig"
-	OrganizationService_DeleteNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteNotificationConfig"
-	OrganizationService_ListNotificationDeliveryHistory_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListNotificationDeliveryHistory"
-	OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName   = "/akuity.organization.v1.OrganizationService/GetNotificationDeliveryHistoryDetail"
-	OrganizationService_PingNotificationConfig_FullMethodName                 = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
-	OrganizationService_RedeliverNotification_FullMethodName                  = "/akuity.organization.v1.OrganizationService/RedeliverNotification"
-	OrganizationService_ListOrganizationDomains_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListOrganizationDomains"
-	OrganizationService_DeleteOrganizationDomain_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteOrganizationDomain"
-	OrganizationService_VerifyOrganizationDomains_FullMethodName              = "/akuity.organization.v1.OrganizationService/VerifyOrganizationDomains"
-	OrganizationService_GetAIModels_FullMethodName                            = "/akuity.organization.v1.OrganizationService/GetAIModels"
-	OrganizationService_GetAIProviderModels_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetAIProviderModels"
-	OrganizationService_CreateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateAIConversation"
-	OrganizationService_CreateIncident_FullMethodName                         = "/akuity.organization.v1.OrganizationService/CreateIncident"
-	OrganizationService_ResolveIncidents_FullMethodName                       = "/akuity.organization.v1.OrganizationService/ResolveIncidents"
-	OrganizationService_UpdateAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateAIConversation"
-	OrganizationService_ShareAIConversation_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ShareAIConversation"
-	OrganizationService_UnshareAIConversation_FullMethodName                  = "/akuity.organization.v1.OrganizationService/UnshareAIConversation"
-	OrganizationService_SuspendAIConversation_FullMethodName                  = "/akuity.organization.v1.OrganizationService/SuspendAIConversation"
-	OrganizationService_DeleteAIConversation_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteAIConversation"
-	OrganizationService_DeleteAIConversations_FullMethodName                  = "/akuity.organization.v1.OrganizationService/DeleteAIConversations"
-	OrganizationService_UpdateScheduledTaskStatuses_FullMethodName            = "/akuity.organization.v1.OrganizationService/UpdateScheduledTaskStatuses"
-	OrganizationService_GetAIConversation_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetAIConversation"
-	OrganizationService_GetAIConversationStream_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetAIConversationStream"
-	OrganizationService_ListAIConversations_FullMethodName                    = "/akuity.organization.v1.OrganizationService/ListAIConversations"
-	OrganizationService_CreateAIMessage_FullMethodName                        = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
-	OrganizationService_SetAIToolApprovalStatus_FullMethodName                = "/akuity.organization.v1.OrganizationService/SetAIToolApprovalStatus"
-	OrganizationService_ListUsersMFAStatus_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ListUsersMFAStatus"
-	OrganizationService_GetUserMFAFactors_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetUserMFAFactors"
-	OrganizationService_RequestMFAReset_FullMethodName                        = "/akuity.organization.v1.OrganizationService/RequestMFAReset"
-	OrganizationService_ListAIConversationSuggestions_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
-	OrganizationService_ListAITools_FullMethodName                            = "/akuity.organization.v1.OrganizationService/ListAITools"
-	OrganizationService_UpdateAIMessageFeedback_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateAIMessageFeedback"
-	OrganizationService_UpdateAIConversationFeedback_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateAIConversationFeedback"
-	OrganizationService_InstallMCPServer_FullMethodName                       = "/akuity.organization.v1.OrganizationService/InstallMCPServer"
-	OrganizationService_GetMCPServer_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetMCPServer"
-	OrganizationService_ListMCPServers_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListMCPServers"
-	OrganizationService_ListMCPTools_FullMethodName                           = "/akuity.organization.v1.OrganizationService/ListMCPTools"
-	OrganizationService_UpdateMCPServer_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateMCPServer"
-	OrganizationService_UninstallMCPServer_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UninstallMCPServer"
-	OrganizationService_ListManagedMCPServers_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListManagedMCPServers"
-	OrganizationService_DiscoverMCPServerTools_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DiscoverMCPServerTools"
-	OrganizationService_BeginMCPServerOAuth_FullMethodName                    = "/akuity.organization.v1.OrganizationService/BeginMCPServerOAuth"
+	OrganizationService_ListAuthenticatedUserOrganizations_FullMethodName   = "/akuity.organization.v1.OrganizationService/ListAuthenticatedUserOrganizations"
+	OrganizationService_GetOrganization_FullMethodName                      = "/akuity.organization.v1.OrganizationService/GetOrganization"
+	OrganizationService_GetOrganizationPermissions_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetOrganizationPermissions"
+	OrganizationService_CreateOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CreateOrganization"
+	OrganizationService_UpdateOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateOrganization"
+	OrganizationService_DeleteOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/DeleteOrganization"
+	OrganizationService_ListOrganizationMembers_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListOrganizationMembers"
+	OrganizationService_ListOrganizationMembersAndInvitees_FullMethodName   = "/akuity.organization.v1.OrganizationService/ListOrganizationMembersAndInvitees"
+	OrganizationService_ListOrganizationInvitees_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListOrganizationInvitees"
+	OrganizationService_GetUserRoleInOrganization_FullMethodName            = "/akuity.organization.v1.OrganizationService/GetUserRoleInOrganization"
+	OrganizationService_InviteMembers_FullMethodName                        = "/akuity.organization.v1.OrganizationService/InviteMembers"
+	OrganizationService_UninviteOrganizationMember_FullMethodName           = "/akuity.organization.v1.OrganizationService/UninviteOrganizationMember"
+	OrganizationService_RemoveOrganizationMember_FullMethodName             = "/akuity.organization.v1.OrganizationService/RemoveOrganizationMember"
+	OrganizationService_UpdateOrganizationMemberRole_FullMethodName         = "/akuity.organization.v1.OrganizationService/UpdateOrganizationMemberRole"
+	OrganizationService_JoinOrganization_FullMethodName                     = "/akuity.organization.v1.OrganizationService/JoinOrganization"
+	OrganizationService_RejectOrganization_FullMethodName                   = "/akuity.organization.v1.OrganizationService/RejectOrganization"
+	OrganizationService_ListOrganizationAPIKeys_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListOrganizationAPIKeys"
+	OrganizationService_CreateOrganizationAPIKey_FullMethodName             = "/akuity.organization.v1.OrganizationService/CreateOrganizationAPIKey"
+	OrganizationService_ListWorkspaceAPIKeys_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListWorkspaceAPIKeys"
+	OrganizationService_CreateWorkspaceAPIKey_FullMethodName                = "/akuity.organization.v1.OrganizationService/CreateWorkspaceAPIKey"
+	OrganizationService_GetAuditLogs_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetAuditLogs"
+	OrganizationService_ListAuditLogsArchives_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListAuditLogsArchives"
+	OrganizationService_GetAuditLogsInCSV_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetAuditLogsInCSV"
+	OrganizationService_GetCustomerDetails_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetCustomerDetails"
+	OrganizationService_UpdateBillingDetails_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateBillingDetails"
+	OrganizationService_BillingCheckout_FullMethodName                      = "/akuity.organization.v1.OrganizationService/BillingCheckout"
+	OrganizationService_UpdateSubscription_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UpdateSubscription"
+	OrganizationService_ListAvailablePlans_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListAvailablePlans"
+	OrganizationService_GetAvailableAddons_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetAvailableAddons"
+	OrganizationService_GetSSOConfiguration_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetSSOConfiguration"
+	OrganizationService_EnsureSSOConfiguration_FullMethodName               = "/akuity.organization.v1.OrganizationService/EnsureSSOConfiguration"
+	OrganizationService_DeleteSSOConfiguration_FullMethodName               = "/akuity.organization.v1.OrganizationService/DeleteSSOConfiguration"
+	OrganizationService_GetFeatureStatuses_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetFeatureStatuses"
+	OrganizationService_GetOIDCMap_FullMethodName                           = "/akuity.organization.v1.OrganizationService/GetOIDCMap"
+	OrganizationService_UpdateOIDCMap_FullMethodName                        = "/akuity.organization.v1.OrganizationService/UpdateOIDCMap"
+	OrganizationService_GetTeamOIDCMap_FullMethodName                       = "/akuity.organization.v1.OrganizationService/GetTeamOIDCMap"
+	OrganizationService_UpdateTeamOIDCMap_FullMethodName                    = "/akuity.organization.v1.OrganizationService/UpdateTeamOIDCMap"
+	OrganizationService_CreateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/CreateCustomRole"
+	OrganizationService_UpdateCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/UpdateCustomRole"
+	OrganizationService_GetCustomRole_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetCustomRole"
+	OrganizationService_ListCustomRoles_FullMethodName                      = "/akuity.organization.v1.OrganizationService/ListCustomRoles"
+	OrganizationService_DeleteCustomRole_FullMethodName                     = "/akuity.organization.v1.OrganizationService/DeleteCustomRole"
+	OrganizationService_CreateWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/CreateWorkspaceCustomRole"
+	OrganizationService_UpdateWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceCustomRole"
+	OrganizationService_GetWorkspaceCustomRole_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetWorkspaceCustomRole"
+	OrganizationService_ListWorkspaceCustomRoles_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListWorkspaceCustomRoles"
+	OrganizationService_DeleteWorkspaceCustomRole_FullMethodName            = "/akuity.organization.v1.OrganizationService/DeleteWorkspaceCustomRole"
+	OrganizationService_CreateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/CreateTeam"
+	OrganizationService_UpdateTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/UpdateTeam"
+	OrganizationService_GetTeam_FullMethodName                              = "/akuity.organization.v1.OrganizationService/GetTeam"
+	OrganizationService_ListTeams_FullMethodName                            = "/akuity.organization.v1.OrganizationService/ListTeams"
+	OrganizationService_DeleteTeam_FullMethodName                           = "/akuity.organization.v1.OrganizationService/DeleteTeam"
+	OrganizationService_AddTeamMember_FullMethodName                        = "/akuity.organization.v1.OrganizationService/AddTeamMember"
+	OrganizationService_GetTeamMember_FullMethodName                        = "/akuity.organization.v1.OrganizationService/GetTeamMember"
+	OrganizationService_ListTeamMembers_FullMethodName                      = "/akuity.organization.v1.OrganizationService/ListTeamMembers"
+	OrganizationService_RemoveTeamMember_FullMethodName                     = "/akuity.organization.v1.OrganizationService/RemoveTeamMember"
+	OrganizationService_UpdateArgocdInstancesQuota_FullMethodName           = "/akuity.organization.v1.OrganizationService/UpdateArgocdInstancesQuota"
+	OrganizationService_ListArgocdInstancesQuota_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListArgocdInstancesQuota"
+	OrganizationService_UpdateKargoInstancesQuota_FullMethodName            = "/akuity.organization.v1.OrganizationService/UpdateKargoInstancesQuota"
+	OrganizationService_ListKargoInstancesQuota_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKargoInstancesQuota"
+	OrganizationService_ListPrivateLinkAccounts_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListPrivateLinkAccounts"
+	OrganizationService_AddPrivateLinkAccount_FullMethodName                = "/akuity.organization.v1.OrganizationService/AddPrivateLinkAccount"
+	OrganizationService_RemovePrivateLinkAccount_FullMethodName             = "/akuity.organization.v1.OrganizationService/RemovePrivateLinkAccount"
+	OrganizationService_CreateWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/CreateWorkspace"
+	OrganizationService_ListWorkspaces_FullMethodName                       = "/akuity.organization.v1.OrganizationService/ListWorkspaces"
+	OrganizationService_GetWorkspace_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetWorkspace"
+	OrganizationService_UpdateWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateWorkspace"
+	OrganizationService_DeleteWorkspace_FullMethodName                      = "/akuity.organization.v1.OrganizationService/DeleteWorkspace"
+	OrganizationService_AddWorkspaceMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/AddWorkspaceMember"
+	OrganizationService_ListWorkspaceMembers_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListWorkspaceMembers"
+	OrganizationService_UpdateWorkspaceMembers_FullMethodName               = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMembers"
+	OrganizationService_GetWorkspaceMember_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetWorkspaceMember"
+	OrganizationService_UpdateWorkspaceMember_FullMethodName                = "/akuity.organization.v1.OrganizationService/UpdateWorkspaceMember"
+	OrganizationService_RemoveWorkspaceMember_FullMethodName                = "/akuity.organization.v1.OrganizationService/RemoveWorkspaceMember"
+	OrganizationService_CancelSubscription_FullMethodName                   = "/akuity.organization.v1.OrganizationService/CancelSubscription"
+	OrganizationService_ListKubernetesResourceTypes_FullMethodName          = "/akuity.organization.v1.OrganizationService/ListKubernetesResourceTypes"
+	OrganizationService_ListKubernetesResources_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesResources"
+	OrganizationService_ListKubernetesResourcesToCSV_FullMethodName         = "/akuity.organization.v1.OrganizationService/ListKubernetesResourcesToCSV"
+	OrganizationService_SpotlightSearchKubernetesResources_FullMethodName   = "/akuity.organization.v1.OrganizationService/SpotlightSearchKubernetesResources"
+	OrganizationService_GetKubernetesResourceDetail_FullMethodName          = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDetail"
+	OrganizationService_GetKubernetesContainer_FullMethodName               = "/akuity.organization.v1.OrganizationService/GetKubernetesContainer"
+	OrganizationService_ListKubernetesNamespaces_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespaces"
+	OrganizationService_ListKubernetesImages_FullMethodName                 = "/akuity.organization.v1.OrganizationService/ListKubernetesImages"
+	OrganizationService_ListKubernetesImagesToCSV_FullMethodName            = "/akuity.organization.v1.OrganizationService/ListKubernetesImagesToCSV"
+	OrganizationService_GetKubernetesImageDetail_FullMethodName             = "/akuity.organization.v1.OrganizationService/GetKubernetesImageDetail"
+	OrganizationService_GetKubernetesImagesCVESummary_FullMethodName        = "/akuity.organization.v1.OrganizationService/GetKubernetesImagesCVESummary"
+	OrganizationService_ListKubernetesContainers_FullMethodName             = "/akuity.organization.v1.OrganizationService/ListKubernetesContainers"
+	OrganizationService_ListKubernetesContainersToCSV_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesContainersToCSV"
+	OrganizationService_ListKubernetesEnabledClusters_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListKubernetesEnabledClusters"
+	OrganizationService_GetKubernetesResourceDiff_FullMethodName            = "/akuity.organization.v1.OrganizationService/GetKubernetesResourceDiff"
+	OrganizationService_GetKubernetesManifest_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetKubernetesManifest"
+	OrganizationService_DeleteKubernetesResource_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteKubernetesResource"
+	OrganizationService_GetKubernetesLogs_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetKubernetesLogs"
+	OrganizationService_GetKubernetesEvents_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetKubernetesEvents"
+	OrganizationService_ListKubernetesAuditLogs_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListKubernetesAuditLogs"
+	OrganizationService_ListKubernetesNodes_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListKubernetesNodes"
+	OrganizationService_GetKubernetesNode_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetKubernetesNode"
+	OrganizationService_ListKubernetesNamespacesDetails_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListKubernetesNamespacesDetails"
+	OrganizationService_GetKubernetesNamespaceDetail_FullMethodName         = "/akuity.organization.v1.OrganizationService/GetKubernetesNamespaceDetail"
+	OrganizationService_GetKubernetesClusterDetail_FullMethodName           = "/akuity.organization.v1.OrganizationService/GetKubernetesClusterDetail"
+	OrganizationService_GetKubernetesSummary_FullMethodName                 = "/akuity.organization.v1.OrganizationService/GetKubernetesSummary"
+	OrganizationService_GetClusterLocations_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetClusterLocations"
+	OrganizationService_ListKubernetesPods_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListKubernetesPods"
+	OrganizationService_GetKubernetesPod_FullMethodName                     = "/akuity.organization.v1.OrganizationService/GetKubernetesPod"
+	OrganizationService_ListArgoCDApplications_FullMethodName               = "/akuity.organization.v1.OrganizationService/ListArgoCDApplications"
+	OrganizationService_ListKubernetesDeprecatedAPIs_FullMethodName         = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIs"
+	OrganizationService_ListKubernetesDeprecatedAPIsToCSV_FullMethodName    = "/akuity.organization.v1.OrganizationService/ListKubernetesDeprecatedAPIsToCSV"
+	OrganizationService_ListKubernetesTimelineEvents_FullMethodName         = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineEvents"
+	OrganizationService_ListKubernetesTimelineResources_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListKubernetesTimelineResources"
+	OrganizationService_GetKubeVisionUsage_FullMethodName                   = "/akuity.organization.v1.OrganizationService/GetKubeVisionUsage"
+	OrganizationService_GetKubeVisionUsageToCSV_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetKubeVisionUsageToCSV"
+	OrganizationService_ListNotificationConfigs_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListNotificationConfigs"
+	OrganizationService_GetNotificationConfig_FullMethodName                = "/akuity.organization.v1.OrganizationService/GetNotificationConfig"
+	OrganizationService_CreateNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/CreateNotificationConfig"
+	OrganizationService_UpdateNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/UpdateNotificationConfig"
+	OrganizationService_DeleteNotificationConfig_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteNotificationConfig"
+	OrganizationService_ListNotificationDeliveryHistory_FullMethodName      = "/akuity.organization.v1.OrganizationService/ListNotificationDeliveryHistory"
+	OrganizationService_GetNotificationDeliveryHistoryDetail_FullMethodName = "/akuity.organization.v1.OrganizationService/GetNotificationDeliveryHistoryDetail"
+	OrganizationService_PingNotificationConfig_FullMethodName               = "/akuity.organization.v1.OrganizationService/PingNotificationConfig"
+	OrganizationService_RedeliverNotification_FullMethodName                = "/akuity.organization.v1.OrganizationService/RedeliverNotification"
+	OrganizationService_ListOrganizationDomains_FullMethodName              = "/akuity.organization.v1.OrganizationService/ListOrganizationDomains"
+	OrganizationService_DeleteOrganizationDomain_FullMethodName             = "/akuity.organization.v1.OrganizationService/DeleteOrganizationDomain"
+	OrganizationService_VerifyOrganizationDomains_FullMethodName            = "/akuity.organization.v1.OrganizationService/VerifyOrganizationDomains"
+	OrganizationService_GetAIModels_FullMethodName                          = "/akuity.organization.v1.OrganizationService/GetAIModels"
+	OrganizationService_GetAIProviderModels_FullMethodName                  = "/akuity.organization.v1.OrganizationService/GetAIProviderModels"
+	OrganizationService_CreateAIConversation_FullMethodName                 = "/akuity.organization.v1.OrganizationService/CreateAIConversation"
+	OrganizationService_CreateIncident_FullMethodName                       = "/akuity.organization.v1.OrganizationService/CreateIncident"
+	OrganizationService_ResolveIncidents_FullMethodName                     = "/akuity.organization.v1.OrganizationService/ResolveIncidents"
+	OrganizationService_UpdateAIConversation_FullMethodName                 = "/akuity.organization.v1.OrganizationService/UpdateAIConversation"
+	OrganizationService_ShareAIConversation_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ShareAIConversation"
+	OrganizationService_UnshareAIConversation_FullMethodName                = "/akuity.organization.v1.OrganizationService/UnshareAIConversation"
+	OrganizationService_SuspendAIConversation_FullMethodName                = "/akuity.organization.v1.OrganizationService/SuspendAIConversation"
+	OrganizationService_DeleteAIConversation_FullMethodName                 = "/akuity.organization.v1.OrganizationService/DeleteAIConversation"
+	OrganizationService_DeleteAIConversations_FullMethodName                = "/akuity.organization.v1.OrganizationService/DeleteAIConversations"
+	OrganizationService_UpdateScheduledTaskStatuses_FullMethodName          = "/akuity.organization.v1.OrganizationService/UpdateScheduledTaskStatuses"
+	OrganizationService_GetAIConversation_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetAIConversation"
+	OrganizationService_GetAIConversationStream_FullMethodName              = "/akuity.organization.v1.OrganizationService/GetAIConversationStream"
+	OrganizationService_ListAIConversations_FullMethodName                  = "/akuity.organization.v1.OrganizationService/ListAIConversations"
+	OrganizationService_CreateAIMessage_FullMethodName                      = "/akuity.organization.v1.OrganizationService/CreateAIMessage"
+	OrganizationService_SetAIToolApprovalStatus_FullMethodName              = "/akuity.organization.v1.OrganizationService/SetAIToolApprovalStatus"
+	OrganizationService_ListUsersMFAStatus_FullMethodName                   = "/akuity.organization.v1.OrganizationService/ListUsersMFAStatus"
+	OrganizationService_GetUserMFAFactors_FullMethodName                    = "/akuity.organization.v1.OrganizationService/GetUserMFAFactors"
+	OrganizationService_RequestMFAReset_FullMethodName                      = "/akuity.organization.v1.OrganizationService/RequestMFAReset"
+	OrganizationService_ListAIConversationSuggestions_FullMethodName        = "/akuity.organization.v1.OrganizationService/ListAIConversationSuggestions"
+	OrganizationService_ListAITools_FullMethodName                          = "/akuity.organization.v1.OrganizationService/ListAITools"
+	OrganizationService_UpdateAIMessageFeedback_FullMethodName              = "/akuity.organization.v1.OrganizationService/UpdateAIMessageFeedback"
+	OrganizationService_UpdateAIConversationFeedback_FullMethodName         = "/akuity.organization.v1.OrganizationService/UpdateAIConversationFeedback"
+	OrganizationService_InstallMCPServer_FullMethodName                     = "/akuity.organization.v1.OrganizationService/InstallMCPServer"
+	OrganizationService_GetMCPServer_FullMethodName                         = "/akuity.organization.v1.OrganizationService/GetMCPServer"
+	OrganizationService_ListMCPServers_FullMethodName                       = "/akuity.organization.v1.OrganizationService/ListMCPServers"
+	OrganizationService_ListMCPTools_FullMethodName                         = "/akuity.organization.v1.OrganizationService/ListMCPTools"
+	OrganizationService_UpdateMCPServer_FullMethodName                      = "/akuity.organization.v1.OrganizationService/UpdateMCPServer"
+	OrganizationService_UninstallMCPServer_FullMethodName                   = "/akuity.organization.v1.OrganizationService/UninstallMCPServer"
+	OrganizationService_ListManagedMCPServers_FullMethodName                = "/akuity.organization.v1.OrganizationService/ListManagedMCPServers"
+	OrganizationService_DiscoverMCPServerTools_FullMethodName               = "/akuity.organization.v1.OrganizationService/DiscoverMCPServerTools"
+	OrganizationService_BeginMCPServerOAuth_FullMethodName                  = "/akuity.organization.v1.OrganizationService/BeginMCPServerOAuth"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -311,8 +309,6 @@ type OrganizationServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesDeprecatedAPIsToCSV(ctx context.Context, in *ListKubernetesDeprecatedAPIsRequest, opts ...grpc.CallOption) (OrganizationService_ListKubernetesDeprecatedAPIsToCSVClient, error)
-	GetKubernetesAssistantSuggestion(ctx context.Context, in *GetKubernetesAssistantSuggestionRequest, opts ...grpc.CallOption) (*GetKubernetesAssistantSuggestionResponse, error)
-	ResolveKubernetesAssistantConversation(ctx context.Context, in *ResolveKubernetesAssistantConversationRequest, opts ...grpc.CallOption) (*ResolveKubernetesAssistantConversationResponse, error)
 	ListKubernetesTimelineEvents(ctx context.Context, in *ListKubernetesTimelineEventsRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineEventsResponse, error)
 	ListKubernetesTimelineResources(ctx context.Context, in *ListKubernetesTimelineResourcesRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineResourcesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -1484,24 +1480,6 @@ func (x *organizationServiceListKubernetesDeprecatedAPIsToCSVClient) Recv() (*ht
 	return m, nil
 }
 
-func (c *organizationServiceClient) GetKubernetesAssistantSuggestion(ctx context.Context, in *GetKubernetesAssistantSuggestionRequest, opts ...grpc.CallOption) (*GetKubernetesAssistantSuggestionResponse, error) {
-	out := new(GetKubernetesAssistantSuggestionResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *organizationServiceClient) ResolveKubernetesAssistantConversation(ctx context.Context, in *ResolveKubernetesAssistantConversationRequest, opts ...grpc.CallOption) (*ResolveKubernetesAssistantConversationResponse, error) {
-	out := new(ResolveKubernetesAssistantConversationResponse)
-	err := c.cc.Invoke(ctx, OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *organizationServiceClient) ListKubernetesTimelineEvents(ctx context.Context, in *ListKubernetesTimelineEventsRequest, opts ...grpc.CallOption) (*ListKubernetesTimelineEventsResponse, error) {
 	out := new(ListKubernetesTimelineEventsResponse)
 	err := c.cc.Invoke(ctx, OrganizationService_ListKubernetesTimelineEvents_FullMethodName, in, out, opts...)
@@ -2120,8 +2098,6 @@ type OrganizationServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_STANDARD_NAME
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ListKubernetesDeprecatedAPIsToCSV(*ListKubernetesDeprecatedAPIsRequest, OrganizationService_ListKubernetesDeprecatedAPIsToCSVServer) error
-	GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error)
-	ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error)
 	ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error)
 	ListKubernetesTimelineResources(context.Context, *ListKubernetesTimelineResourcesRequest) (*ListKubernetesTimelineResourcesResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -2509,12 +2485,6 @@ func (UnimplementedOrganizationServiceServer) ListKubernetesDeprecatedAPIs(conte
 }
 func (UnimplementedOrganizationServiceServer) ListKubernetesDeprecatedAPIsToCSV(*ListKubernetesDeprecatedAPIsRequest, OrganizationService_ListKubernetesDeprecatedAPIsToCSVServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListKubernetesDeprecatedAPIsToCSV not implemented")
-}
-func (UnimplementedOrganizationServiceServer) GetKubernetesAssistantSuggestion(context.Context, *GetKubernetesAssistantSuggestionRequest) (*GetKubernetesAssistantSuggestionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetKubernetesAssistantSuggestion not implemented")
-}
-func (UnimplementedOrganizationServiceServer) ResolveKubernetesAssistantConversation(context.Context, *ResolveKubernetesAssistantConversationRequest) (*ResolveKubernetesAssistantConversationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResolveKubernetesAssistantConversation not implemented")
 }
 func (UnimplementedOrganizationServiceServer) ListKubernetesTimelineEvents(context.Context, *ListKubernetesTimelineEventsRequest) (*ListKubernetesTimelineEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListKubernetesTimelineEvents not implemented")
@@ -4620,42 +4590,6 @@ func (x *organizationServiceListKubernetesDeprecatedAPIsToCSVServer) Send(m *htt
 	return x.ServerStream.SendMsg(m)
 }
 
-func _OrganizationService_GetKubernetesAssistantSuggestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetKubernetesAssistantSuggestionRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).GetKubernetesAssistantSuggestion(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_GetKubernetesAssistantSuggestion_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).GetKubernetesAssistantSuggestion(ctx, req.(*GetKubernetesAssistantSuggestionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrganizationService_ResolveKubernetesAssistantConversation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResolveKubernetesAssistantConversationRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrganizationServiceServer).ResolveKubernetesAssistantConversation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OrganizationService_ResolveKubernetesAssistantConversation_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrganizationServiceServer).ResolveKubernetesAssistantConversation(ctx, req.(*ResolveKubernetesAssistantConversationRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _OrganizationService_ListKubernetesTimelineEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListKubernetesTimelineEventsRequest)
 	if err := dec(in); err != nil {
@@ -5954,14 +5888,6 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListKubernetesDeprecatedAPIs",
 			Handler:    _OrganizationService_ListKubernetesDeprecatedAPIs_Handler,
-		},
-		{
-			MethodName: "GetKubernetesAssistantSuggestion",
-			Handler:    _OrganizationService_GetKubernetesAssistantSuggestion_Handler,
-		},
-		{
-			MethodName: "ResolveKubernetesAssistantConversation",
-			Handler:    _OrganizationService_ResolveKubernetesAssistantConversation_Handler,
 		},
 		{
 			MethodName: "ListKubernetesTimelineEvents",

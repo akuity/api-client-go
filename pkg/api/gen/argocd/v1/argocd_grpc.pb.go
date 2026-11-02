@@ -78,7 +78,6 @@ const (
 	ArgoCDService_SetClusterMaintenanceMode_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/SetClusterMaintenanceMode"
 	ArgoCDService_DeleteInstanceCluster_FullMethodName                 = "/akuity.argocd.v1.ArgoCDService/DeleteInstanceCluster"
 	ArgoCDService_GetInstanceClusterCommand_FullMethodName             = "/akuity.argocd.v1.ArgoCDService/GetInstanceClusterCommand"
-	ArgoCDService_GetAIAssistantUsageStats_FullMethodName              = "/akuity.argocd.v1.ArgoCDService/GetAIAssistantUsageStats"
 	ArgoCDService_GetSyncOperationsStats_FullMethodName                = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsStats"
 	ArgoCDService_GetApplicationDeploymentStats_FullMethodName         = "/akuity.argocd.v1.ArgoCDService/GetApplicationDeploymentStats"
 	ArgoCDService_GetSyncOperationsEvents_FullMethodName               = "/akuity.argocd.v1.ArgoCDService/GetSyncOperationsEvents"
@@ -192,7 +191,6 @@ type ArgoCDServiceClient interface {
 	SetClusterMaintenanceMode(ctx context.Context, in *SetClusterMaintenanceModeRequest, opts ...grpc.CallOption) (*SetClusterMaintenanceModeResponse, error)
 	DeleteInstanceCluster(ctx context.Context, in *DeleteInstanceClusterRequest, opts ...grpc.CallOption) (*DeleteInstanceClusterResponse, error)
 	GetInstanceClusterCommand(ctx context.Context, in *GetInstanceClusterCommandRequest, opts ...grpc.CallOption) (*GetInstanceClusterCommandResponse, error)
-	GetAIAssistantUsageStats(ctx context.Context, in *GetAIAssistantUsageStatsRequest, opts ...grpc.CallOption) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error)
 	GetApplicationDeploymentStats(ctx context.Context, in *GetApplicationDeploymentStatsRequest, opts ...grpc.CallOption) (*GetApplicationDeploymentStatsResponse, error)
 	GetSyncOperationsEvents(ctx context.Context, in *GetSyncOperationsEventsRequest, opts ...grpc.CallOption) (*GetSyncOperationsEventsResponse, error)
@@ -851,15 +849,6 @@ func (c *argoCDServiceClient) GetInstanceClusterCommand(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *argoCDServiceClient) GetAIAssistantUsageStats(ctx context.Context, in *GetAIAssistantUsageStatsRequest, opts ...grpc.CallOption) (*GetAIAssistantUsageStatsResponse, error) {
-	out := new(GetAIAssistantUsageStatsResponse)
-	err := c.cc.Invoke(ctx, ArgoCDService_GetAIAssistantUsageStats_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *argoCDServiceClient) GetSyncOperationsStats(ctx context.Context, in *GetSyncOperationsStatsRequest, opts ...grpc.CallOption) (*GetSyncOperationsStatsResponse, error) {
 	out := new(GetSyncOperationsStatsResponse)
 	err := c.cc.Invoke(ctx, ArgoCDService_GetSyncOperationsStats_FullMethodName, in, out, opts...)
@@ -1366,7 +1355,6 @@ type ArgoCDServiceServer interface {
 	SetClusterMaintenanceMode(context.Context, *SetClusterMaintenanceModeRequest) (*SetClusterMaintenanceModeResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
-	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 	GetApplicationDeploymentStats(context.Context, *GetApplicationDeploymentStatsRequest) (*GetApplicationDeploymentStatsResponse, error)
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
@@ -1615,9 +1603,6 @@ func (UnimplementedArgoCDServiceServer) DeleteInstanceCluster(context.Context, *
 }
 func (UnimplementedArgoCDServiceServer) GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetInstanceClusterCommand not implemented")
-}
-func (UnimplementedArgoCDServiceServer) GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAIAssistantUsageStats not implemented")
 }
 func (UnimplementedArgoCDServiceServer) GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSyncOperationsStats not implemented")
@@ -2754,24 +2739,6 @@ func _ArgoCDService_GetInstanceClusterCommand_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ArgoCDService_GetAIAssistantUsageStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAIAssistantUsageStatsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ArgoCDServiceServer).GetAIAssistantUsageStats(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ArgoCDService_GetAIAssistantUsageStats_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArgoCDServiceServer).GetAIAssistantUsageStats(ctx, req.(*GetAIAssistantUsageStatsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _ArgoCDService_GetSyncOperationsStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSyncOperationsStatsRequest)
 	if err := dec(in); err != nil {
@@ -3635,10 +3602,6 @@ var ArgoCDService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetInstanceClusterCommand",
 			Handler:    _ArgoCDService_GetInstanceClusterCommand_Handler,
-		},
-		{
-			MethodName: "GetAIAssistantUsageStats",
-			Handler:    _ArgoCDService_GetAIAssistantUsageStats_Handler,
 		},
 		{
 			MethodName: "GetSyncOperationsStats",
