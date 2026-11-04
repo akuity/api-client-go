@@ -86,7 +86,6 @@ type ArgoCDServiceGatewayClient interface {
 	SetClusterMaintenanceMode(context.Context, *SetClusterMaintenanceModeRequest) (*SetClusterMaintenanceModeResponse, error)
 	DeleteInstanceCluster(context.Context, *DeleteInstanceClusterRequest) (*DeleteInstanceClusterResponse, error)
 	GetInstanceClusterCommand(context.Context, *GetInstanceClusterCommandRequest) (*GetInstanceClusterCommandResponse, error)
-	GetAIAssistantUsageStats(context.Context, *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error)
 	GetSyncOperationsStats(context.Context, *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error)
 	GetApplicationDeploymentStats(context.Context, *GetApplicationDeploymentStatsRequest) (*GetApplicationDeploymentStatsResponse, error)
 	GetSyncOperationsEvents(context.Context, *GetSyncOperationsEventsRequest) (*GetSyncOperationsEventsResponse, error)
@@ -786,13 +785,6 @@ func (c *argoCDServiceGatewayClient) GetInstanceClusterCommand(ctx context.Conte
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[GetInstanceClusterCommandResponse](ctx, gwReq)
-}
-
-func (c *argoCDServiceGatewayClient) GetAIAssistantUsageStats(ctx context.Context, req *GetAIAssistantUsageStatsRequest) (*GetAIAssistantUsageStatsResponse, error) {
-	gwReq := c.gwc.NewRequest("POST", "/api/v1/orgs/{organization_id}/argocd/instances/ai-assistant-usage-stats")
-	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
-	gwReq.SetBody(req)
-	return gateway.DoRequest[GetAIAssistantUsageStatsResponse](ctx, gwReq)
 }
 
 func (c *argoCDServiceGatewayClient) GetSyncOperationsStats(ctx context.Context, req *GetSyncOperationsStatsRequest) (*GetSyncOperationsStatsResponse, error) {
