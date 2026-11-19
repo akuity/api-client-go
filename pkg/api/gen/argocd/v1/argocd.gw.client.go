@@ -823,6 +823,10 @@ func (c *argoCDServiceGatewayClient) ExportInstance(ctx context.Context, req *Ex
 	q := url.Values{}
 	q.Add("idType", req.IdType.String())
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	q.Add("onlyListedResources", fmt.Sprintf("%v", req.OnlyListedResources))
+	for _, v := range req.Resources {
+		q.Add("resources", fmt.Sprintf("%v", v))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ExportInstanceResponse](ctx, gwReq)
 }
@@ -834,6 +838,10 @@ func (c *argoCDServiceGatewayClient) ExportInstanceStream(ctx context.Context, r
 	q := url.Values{}
 	q.Add("idType", req.IdType.String())
 	q.Add("workspaceId", fmt.Sprintf("%v", req.WorkspaceId))
+	q.Add("onlyListedResources", fmt.Sprintf("%v", req.OnlyListedResources))
+	for _, v := range req.Resources {
+		q.Add("resources", fmt.Sprintf("%v", v))
+	}
 	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[ExportInstanceStreamResponse](ctx, c.gwc, gwReq)
 }

@@ -457,6 +457,12 @@ func (c *kargoServiceGatewayClient) ExportKargoInstance(ctx context.Context, req
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	q := url.Values{}
+	q.Add("onlyListedResources", fmt.Sprintf("%v", req.OnlyListedResources))
+	for _, v := range req.Resources {
+		q.Add("resources", fmt.Sprintf("%v", v))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoRequest[ExportKargoInstanceResponse](ctx, gwReq)
 }
 
@@ -465,6 +471,12 @@ func (c *kargoServiceGatewayClient) ExportKargoInstanceStream(ctx context.Contex
 	gwReq.SetPathParam("organization_id", fmt.Sprintf("%v", req.OrganizationId))
 	gwReq.SetPathParam("id", fmt.Sprintf("%v", req.Id))
 	gwReq.SetPathParam("workspace_id", fmt.Sprintf("%v", req.WorkspaceId))
+	q := url.Values{}
+	q.Add("onlyListedResources", fmt.Sprintf("%v", req.OnlyListedResources))
+	for _, v := range req.Resources {
+		q.Add("resources", fmt.Sprintf("%v", v))
+	}
+	gwReq.SetQueryParamsFromValues(q)
 	return gateway.DoStreamingRequest[ExportKargoInstanceStreamResponse](ctx, c.gwc, gwReq)
 }
 

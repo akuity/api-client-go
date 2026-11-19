@@ -5122,6 +5122,10 @@ func local_request_KargoService_ApplyKargoInstance_0(ctx context.Context, marsha
 
 }
 
+var (
+	filter_KargoService_ExportKargoInstance_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "workspace_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
+)
+
 func request_KargoService_ExportKargoInstance_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ExportKargoInstanceRequest
 	var metadata runtime.ServerMetadata
@@ -5161,6 +5165,13 @@ func request_KargoService_ExportKargoInstance_0(ctx context.Context, marshaler r
 	protoReq.Id, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_ExportKargoInstance_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	msg, err := client.ExportKargoInstance(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -5209,10 +5220,21 @@ func local_request_KargoService_ExportKargoInstance_0(ctx context.Context, marsh
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_ExportKargoInstance_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
 	msg, err := server.ExportKargoInstance(ctx, &protoReq)
 	return msg, metadata, err
 
 }
+
+var (
+	filter_KargoService_ExportKargoInstanceStream_0 = &utilities.DoubleArray{Encoding: map[string]int{"organization_id": 0, "workspace_id": 1, "id": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
+)
 
 func request_KargoService_ExportKargoInstanceStream_0(ctx context.Context, marshaler runtime.Marshaler, client KargoServiceClient, req *http.Request, pathParams map[string]string) (KargoService_ExportKargoInstanceStreamClient, runtime.ServerMetadata, error) {
 	var protoReq ExportKargoInstanceStreamRequest
@@ -5253,6 +5275,13 @@ func request_KargoService_ExportKargoInstanceStream_0(ctx context.Context, marsh
 	protoReq.Id, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_KargoService_ExportKargoInstanceStream_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
 	stream, err := client.ExportKargoInstanceStream(ctx, &protoReq)

@@ -13,6 +13,31 @@ import (
 	argocdv1 "github.com/akuity/api-client-go/pkg/api/gen/argocd/v1"
 )
 
+// ToStreamRequest and FromStreamRequest convert between the unary and streaming
+// export requests, which carry the same fields. Test_RequestRoundTrip fails when
+// a new field is not copied.
+func ToStreamRequest(req *argocdv1.ExportInstanceRequest) *argocdv1.ExportInstanceStreamRequest {
+	return &argocdv1.ExportInstanceStreamRequest{
+		OrganizationId:      req.GetOrganizationId(),
+		IdType:              req.GetIdType(),
+		Id:                  req.GetId(),
+		WorkspaceId:         req.GetWorkspaceId(),
+		OnlyListedResources: req.GetOnlyListedResources(),
+		Resources:           req.GetResources(),
+	}
+}
+
+func FromStreamRequest(req *argocdv1.ExportInstanceStreamRequest) *argocdv1.ExportInstanceRequest {
+	return &argocdv1.ExportInstanceRequest{
+		OrganizationId:      req.GetOrganizationId(),
+		IdType:              req.GetIdType(),
+		Id:                  req.GetId(),
+		WorkspaceId:         req.GetWorkspaceId(),
+		OnlyListedResources: req.GetOnlyListedResources(),
+		Resources:           req.GetResources(),
+	}
+}
+
 // AppendStreamResponse folds one ExportInstanceStreamResponse into res: singular
 // fields are assigned, repeated fields appended, and a message with no resource
 // set is a no-op. The unary server builds its response with this same fold, so
@@ -79,12 +104,7 @@ type ExportClient interface {
 // RPC. An error after the stream is established is returned as-is — never
 // retried as a unary call that would only die on the message-size ceiling.
 func ExportInstance(ctx context.Context, c ExportClient, req *argocdv1.ExportInstanceRequest) (*argocdv1.ExportInstanceResponse, error) {
-	respCh, errCh, err := c.ExportInstanceStream(ctx, &argocdv1.ExportInstanceStreamRequest{
-		OrganizationId: req.GetOrganizationId(),
-		IdType:         req.GetIdType(),
-		Id:             req.GetId(),
-		WorkspaceId:    req.GetWorkspaceId(),
-	})
+	respCh, errCh, err := c.ExportInstanceStream(ctx, ToStreamRequest(req))
 	if err != nil {
 		if streamEndpointUnsupported(err) {
 			return c.ExportInstance(ctx, req)

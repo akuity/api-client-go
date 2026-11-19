@@ -13,6 +13,29 @@ import (
 	kargov1 "github.com/akuity/api-client-go/pkg/api/gen/kargo/v1"
 )
 
+// ToStreamRequest and FromStreamRequest convert between the unary and streaming
+// export requests, which carry the same fields. Test_RequestRoundTrip fails when
+// a new field is not copied.
+func ToStreamRequest(req *kargov1.ExportKargoInstanceRequest) *kargov1.ExportKargoInstanceStreamRequest {
+	return &kargov1.ExportKargoInstanceStreamRequest{
+		OrganizationId:      req.GetOrganizationId(),
+		Id:                  req.GetId(),
+		WorkspaceId:         req.GetWorkspaceId(),
+		OnlyListedResources: req.GetOnlyListedResources(),
+		Resources:           req.GetResources(),
+	}
+}
+
+func FromStreamRequest(req *kargov1.ExportKargoInstanceStreamRequest) *kargov1.ExportKargoInstanceRequest {
+	return &kargov1.ExportKargoInstanceRequest{
+		OrganizationId:      req.GetOrganizationId(),
+		Id:                  req.GetId(),
+		WorkspaceId:         req.GetWorkspaceId(),
+		OnlyListedResources: req.GetOnlyListedResources(),
+		Resources:           req.GetResources(),
+	}
+}
+
 // AppendStreamResponse folds one ExportKargoInstanceStreamResponse into res:
 // singular fields are assigned, repeated fields appended, and a message with no
 // resource set is a no-op. The unary server builds its response with this same
@@ -88,11 +111,7 @@ type ExportClient interface {
 // unary RPC. An error after the stream is established is returned as-is — never
 // retried as a unary call that would only die on the message-size ceiling.
 func ExportKargoInstance(ctx context.Context, c ExportClient, req *kargov1.ExportKargoInstanceRequest) (*kargov1.ExportKargoInstanceResponse, error) {
-	respCh, errCh, err := c.ExportKargoInstanceStream(ctx, &kargov1.ExportKargoInstanceStreamRequest{
-		OrganizationId: req.GetOrganizationId(),
-		Id:             req.GetId(),
-		WorkspaceId:    req.GetWorkspaceId(),
-	})
+	respCh, errCh, err := c.ExportKargoInstanceStream(ctx, ToStreamRequest(req))
 	if err != nil {
 		if streamEndpointUnsupported(err) {
 			return c.ExportKargoInstance(ctx, req)
