@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"k8s.io/apimachinery/pkg/api/validation/path"
+	"k8s.io/apimachinery/pkg/api/validate/content"
 )
 
 // Entry names one object in a filtered export.
@@ -29,7 +29,7 @@ func Parse(s string) (Entry, error) {
 	}
 	// client-go refuses these names before sending a request, which would fail the export.
 	for _, seg := range parts[2:] {
-		if msgs := path.IsValidPathSegmentName(seg); len(msgs) > 0 {
+		if msgs := content.IsPathSegmentName(seg); len(msgs) > 0 {
 			return Entry{}, fmt.Errorf("invalid resources entry %q: %s", s, strings.Join(msgs, ", "))
 		}
 	}
